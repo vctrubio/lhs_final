@@ -18,6 +18,11 @@ export function extractImageUrls(entries: any[]): string[] {
 }
 // Fetching //
 export async function fetchEntriesContentful(): Promise<{ properties: Property[], barrios: Barrio[] }> {
+    let count = 0;
+    count++;
+    console.log('calling fetchEntriesContentful: ', count)
+
+
     const entries = await client.getEntries();
 
     const barrios: Barrio[] = [];

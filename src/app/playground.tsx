@@ -10,7 +10,7 @@ export const TakeOne = () => {
     const [isVisible, setIsVisible] = useState(true);
     const [sortConfig, setSortConfig] = useState({
         field: 'precio' as keyof Property,
-        direction: 'asc'
+        direction: 'desc'
     });
 
     // state management for context //
