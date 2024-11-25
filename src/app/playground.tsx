@@ -14,10 +14,7 @@ export const TakeOne = () => {
     });
 
     // state management for context //
-    const { properties, loading, error } = usePropertyContext();
-
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    const { properties } = usePropertyContext();
 
     // sorting the properties //
     const sortedProperties = [...properties].sort((a, b) => {
