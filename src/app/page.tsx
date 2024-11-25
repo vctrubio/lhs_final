@@ -2,7 +2,7 @@ import React from 'react';
 import { TakeOne } from './playground';
 import { PropertyProvider, } from '#/backend/propertyProviderContext';
 
-const PropertyProviderWrapper = () => (
+export const PropertyProviderWrapper = () => (
   <div>
     <PropertyProvider>
       <TakeOne />
@@ -10,10 +10,12 @@ const PropertyProviderWrapper = () => (
   </div>
 )
 
+
+//I want a navbar, main div, footer ....
+
 export default function Home() {
   return (
     <div>
-      <PropertyProviderWrapper />
     </div>
   )
 }
