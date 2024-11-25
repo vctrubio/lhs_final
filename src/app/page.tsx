@@ -1,10 +1,13 @@
+import React from 'react';
 import { TakeOne } from './playground';
-import { fetchEntriesContentful } from "#/backend/apisConnections";
+import { PropertyProvider, } from '#/backend/propertyProviderContext';
 
-export default async function Home() {
-  const { properties } = await fetchEntriesContentful();
 
+// Demonstration of the context provider //
+export default function Home() {
   return (
-    <TakeOne properties={properties} />
+    <PropertyProvider>
+      <TakeOne />
+    </PropertyProvider>
   );
 }

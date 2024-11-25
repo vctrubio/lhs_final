@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { fetchEntriesContentful } from './apisConnections.js';
+import { fetchEntriesContentful } from './apisConnections.ts';
 
 const PropertyContext = createContext();
 

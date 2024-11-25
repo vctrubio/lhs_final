@@ -2,18 +2,28 @@
 import { useState } from 'react';
 import { Property } from "../../backend/types";
 import { FaSort, FaEye, FaEyeSlash, FaDollarSign, FaBed, FaMapMarkerAlt } from 'react-icons/fa';
+import { usePropertyContext } from '#/backend/propertyProviderContext';
 
-export const TakeOne = ({ properties }: { properties: Property[] }) => {
+export const TakeOne = () => {
+
+    // state management for react //
     const [isVisible, setIsVisible] = useState(true);
     const [sortConfig, setSortConfig] = useState({
         field: 'precio' as keyof Property,
         direction: 'asc'
     });
 
+    // state management for context //
+    const { properties, loading, error } = usePropertyContext();
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+
+    // sorting the properties //
     const sortedProperties = [...properties].sort((a, b) => {
         if (sortConfig.field === 'precio') {
-            return sortConfig.direction === 'asc' 
-                ? a.precio - b.precio 
+            return sortConfig.direction === 'asc'
+                ? a.precio - b.precio
                 : b.precio - a.precio;
         }
         if (sortConfig.field === 'barrioRef') {
@@ -42,10 +52,10 @@ export const TakeOne = ({ properties }: { properties: Property[] }) => {
             <nav className="fixed top-0 left-0 right-0 bg-white shadow-lg z-50 px-6 py-4">
                 <div className="flex items-center justify-between max-w-7xl mx-auto">
                     <div className="text-xl font-bold text-blue-600">PropertyFinder</div>
-                    
+
                     <div className="flex gap-4">
                         {/* Visibility Toggle */}
-                        <button 
+                        <button
                             className="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-all"
                             onClick={() => setIsVisible(!isVisible)}
                         >
@@ -55,10 +65,10 @@ export const TakeOne = ({ properties }: { properties: Property[] }) => {
 
                         {/* Sort Buttons */}
                         <div className="flex gap-2">
-                            <button 
+                            <button
                                 className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all
-                                    ${sortConfig.field === 'precio' 
-                                        ? 'bg-blue-500 text-white' 
+                                    ${sortConfig.field === 'precio'
+                                        ? 'bg-blue-500 text-white'
                                         : 'bg-gray-100 hover:bg-gray-200'}`}
                                 onClick={() => handleSort('precio')}
                             >
@@ -67,11 +77,11 @@ export const TakeOne = ({ properties }: { properties: Property[] }) => {
                                     ${sortConfig.field === 'precio' && sortConfig.direction === 'desc' ? 'rotate-180' : ''}`}
                                 />
                             </button>
-                            
-                            <button 
+
+                            <button
                                 className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all
-                                    ${sortConfig.field === 'charRef' 
-                                        ? 'bg-blue-500 text-white' 
+                                    ${sortConfig.field === 'charRef'
+                                        ? 'bg-blue-500 text-white'
                                         : 'bg-gray-100 hover:bg-gray-200'}`}
                                 onClick={() => handleSort('charRef')}
                             >
@@ -80,11 +90,11 @@ export const TakeOne = ({ properties }: { properties: Property[] }) => {
                                     ${sortConfig.field === 'charRef' && sortConfig.direction === 'desc' ? 'rotate-180' : ''}`}
                                 />
                             </button>
-                            
-                            <button 
+
+                            <button
                                 className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all
-                                    ${sortConfig.field === 'barrioRef' 
-                                        ? 'bg-blue-500 text-white' 
+                                    ${sortConfig.field === 'barrioRef'
+                                        ? 'bg-blue-500 text-white'
                                         : 'bg-gray-100 hover:bg-gray-200'}`}
                                 onClick={() => handleSort('barrioRef')}
                             >
@@ -103,7 +113,7 @@ export const TakeOne = ({ properties }: { properties: Property[] }) => {
                 {isVisible && (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {sortedProperties.map((property, index) => (
-                            <div key={index} 
+                            <div key={index}
                                 className="property-row bg-white p-6 rounded-lg shadow-md hover:shadow-lg 
                                     transition-all duration-300 transform hover:-translate-y-1">
                                 <h2 className="text-xl font-bold mb-2">{property.title}</h2>
