@@ -56,6 +56,7 @@ export const CardProperty = ({ property, cssStateHover }: { property: Property, 
                         <DescBox text={area} icon={IconRulerMeters} />
                         <DescBox text={String(bathrooms)} icon={IconBathTop} />
                         <DescBox text={String(bedrooms)} icon={IconBed} />
+                        <DescBox text={String(bedrooms)} icon={IconBed} /> 
                         <DescBox text={String(property.barrioRef?.name)} icon={IconLocation} fillWhite={false} />
                     </div>
                 </div>
