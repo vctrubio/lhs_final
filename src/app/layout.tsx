@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import "./globals.css";
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 export const metadata: Metadata = {
   title: "LHS Concept",
@@ -19,8 +20,10 @@ export default function RootLayout({
         className="flex flex-col p-2"
       >
         <NavBar />
-        <main className="">
-          {children}
+        <main>
+          <NuqsAdapter>
+            {children}
+          </NuqsAdapter>
         </main>
         <Footer />
       </body>

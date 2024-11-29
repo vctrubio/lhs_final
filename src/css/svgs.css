@@ -1,0 +1,10 @@
+
+.icon-white svg {
+    fill: white; /* Set the SVG icon color to white */
+}
+
+
+.desc-icon {
+    font-size: 18px;
+    color: #fff;
+}

@@ -2,22 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-@import '../css/cardProperty.css';
+@import '../css/property.css';
+@import '../css/svgs.css';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+  --color-green-dark: #15423B;
+  --color-green-dark-opec: #15423bb6;
+  --color-green-light: #6A9B89;
+  --color-blue: #285F98;
+  --color-blue-light: #285e9887;
+  --color-beigh-darkish: #CDC2A6;
+  --color-beigh-light-bg: #E1D8C6;
+  --color-beigh: #EAE4DC;
+  --color-danger: #C7253E;
+  --color-backup: #821131;
+  --color-info: #CD5C08;
+  --color-love: #F05A7E;
+  --color-price: #303030;
+
+  --background: var(--color-beigh-light-bg);
+  --foreground: #1e1d1b;
 }
 
+/* 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'New York', sans-serif;
+}
+
+#price-color {
+  color: var(--color-price)
 }

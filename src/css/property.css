@@ -1,0 +1,127 @@
+.property-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    gap: 2px;
+    margin: 0 auto;
+    min-height: 80vh;
+    transition: all 0.5s ease;
+    background-color: var(--color-beigh-light-bg);
+    position: relative;
+    z-index: 2;
+    gap: 18px;
+}
+
+.property-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-family: 'Times New Roman', Times, serif;
+    padding: 0px 8px;
+    align-items: center;
+
+    h1 {
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    h2 {
+        font-size: 18px;
+        font-weight: 400;
+        opacity: 0.6;
+    }
+
+}
+
+/* Property Card with fade-in, fade-out, and slide effect */
+.property {
+    min-width: 380px;
+    min-height: 320px;
+    /* max-height: 420px;
+    max-width: 580px; */
+    flex-grow: 1;
+    position: relative;
+    opacity: 1;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Image and property banner hover effect */
+.property-banner {
+    position: relative;
+    height: 90%;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.property-desc {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    justify-content: space-around;
+    padding: 18px 32px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 0 0 12px 12px;
+    color: white;
+    opacity: 0;
+    transition: transform 0.6s ease, opacity 0.3s ease;
+}
+
+.property-desc-box {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 28px;
+    font-weight: lighter;
+}
+
+.property-banner img {
+    transition: transform 0.4s ease;
+}
+
+/* Hover effect: subtle tilt and shadow */
+.property:hover {
+    transform: perspective(1000px) rotateX(3deg) rotateY(3deg);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.property-desc.highlight {
+    opacity: 1;
+}
+
+/* Property that will disappear */
+.property.fade-out {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+.property[css-state="on"] .property-desc {
+    opacity: 1;
+}
+
+.property-container[last-man-standing="on"] .property:hover {
+    transform: none;
+    transition: none;
+}
+
+.property:hover .property-desc {
+    opacity: 1;
+}
+
+.property-container .property {
+    transition: all 0.5s ease-in-out;
+}
+
+@keyframes fadeInSlide {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

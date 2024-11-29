@@ -47,7 +47,7 @@ export interface PropiedadCharacteristics {
     aseo: number;
     patio: number;
     balcones: number;
-    metrosCuadrados: number; //changed from metrosCuadradros :ojo
+    metrosCuadradros: number;
 }
 
 export interface PropiedadHabitacion {

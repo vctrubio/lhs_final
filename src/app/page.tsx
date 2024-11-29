@@ -1,8 +1,8 @@
 import React from 'react';
 import { TakeOne } from './playground';
 import { PropertyProvider, } from '#/backend/propertyProviderContext';
-import CardProperty from '@/components/CardProperty';
 import { fetchEntriesContentful } from '#/backend/apisConnections';
+import { CardPropertySearchFilter } from '@/components/CardPropertySearchFilter';
 
 export const PropertyProviderWrapper = () => (
   <div>
@@ -18,9 +18,7 @@ export const PropertyCardIteration = async () => {
 
   return (
     <div className="flex flex-wrap">
-      {properties.map((property) => (
-        <CardProperty key={property.url} propiedad={property} />
-      ))}
+      <CardPropertySearchFilter entries={properties} />
     </div>
   )
 }
