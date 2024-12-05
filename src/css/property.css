@@ -2,14 +2,13 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: start;
-    gap: 2px;
     margin: 0 auto;
     min-height: 80vh;
     transition: all 0.5s ease;
     background-color: var(--color-beigh-light-bg);
     position: relative;
     z-index: 2;
-    gap: 18px;
+    gap: 28px;
 }
 
 .property-title {

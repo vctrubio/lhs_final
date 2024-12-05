@@ -20,7 +20,7 @@ export default function RootLayout({
         className="flex flex-col p-2"
       >
         <NavBar />
-        <main className='py-4'>
+        <main className='py-4 sm:px-4'>
           <NuqsAdapter>
             {children}
           </NuqsAdapter>
