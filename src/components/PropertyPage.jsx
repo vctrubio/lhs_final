@@ -19,6 +19,7 @@ import {
     Car,
     Phone,
     Ruler,
+    DraftingCompass,
 } from "lucide-react";
 
 function AmenitiesSection({ amenities, reformado }) {
@@ -158,7 +159,7 @@ export default function PropiedadPage({ property }) {
                     </div>
 
                     {/* Property Stats */}
-                    <div className="grid grid-cols-3 gap-8 mb-12 px-4">
+                    <div className="grid grid-cols-4 gap-8 mb-12 px-4">
                         <div className="flex items-center">
                             <Bed className="w-6 h-6 text-[#B8860B] mr-3" />
                             <div>
@@ -178,6 +179,14 @@ export default function PropiedadPage({ property }) {
                             <div>
                                 <p className="text-sm text-gray-500">M²</p>
                                 <p className="text-lg font-semibold text-[#14213D]">{property.charRef.metrosCuadradros}</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center">
+                            <a href={property.plano_url} target="_blank" rel="noreferrer">
+                                <DraftingCompass className="w-6 h-6 text-[#B8860B] mr-3" />
+                            </a>
+                            <div>
+                                <p className="text-sm text-gray-500">Click Para Descargar Plano</p>
                             </div>
                         </div>
                     </div>
