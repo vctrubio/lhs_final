@@ -10,7 +10,6 @@ export function getBathrooms(property: Property) {
 
 export function getBedrooms(property: Property) {
     if (!property.charRef) return 0;
-    console.log('CHARREF CHECKCHECK: ', property.charRef, property.title)
     const { dormitoriosSuite = 0, dormitorios = 0 } = property.charRef;
     return dormitoriosSuite + dormitorios;
 }

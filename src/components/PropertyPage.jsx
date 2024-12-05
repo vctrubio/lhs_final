@@ -19,7 +19,6 @@ import {
     Car,
     Phone,
     Ruler,
-    DraftingCompass,
     BedDouble,
     Sun,
     Toilet,

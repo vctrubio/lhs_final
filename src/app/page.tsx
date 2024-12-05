@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { TakeOne } from './playground';
 import { PropertyProvider } from '#/backend/propertyProviderContext';
 import { fetchEntriesContentful } from '#/backend/apisConnections';
@@ -18,7 +18,7 @@ const getCachedProperties = unstable_cache(
   }
 );
 
-export const PropertyProviderWrapper = () => (
+const PropertyProviderWrapper = () => (
   <div>
     <PropertyProvider>
       <TakeOne />
@@ -26,21 +26,22 @@ export const PropertyProviderWrapper = () => (
   </div>
 );
 
-export const PropertyCardIteration = async () => {
+// Make this an async component instead of an export
+async function PropertyCardSection() {
   // const properties = await getCachedProperties();
-  const {properties} = await fetchEntriesContentful();
+  const { properties } = await fetchEntriesContentful();
 
   return (
     <div className="flex flex-wrap">
       <CardPropertySearchFilter entries={properties} />
     </div>
   );
-};
+}
 
-export default function Home() {
+export default async function Home() {
   return (
-    <div>
-      <PropertyCardIteration />
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <PropertyCardSection />
+    </Suspense>
   );
 }
