@@ -8,6 +8,12 @@ export function getBathrooms(property: Property) {
     return banos + aseo;
 }
 
+export function getBedrooms(property: Property) {
+    if (!property.charRef) return 0;
+    console.log('CHARREF CHECKCHECK: ', property.charRef, property.title)
+    const { dormitoriosSuite = 0, dormitorios = 0 } = property.charRef;
+    return dormitoriosSuite + dormitorios;
+}
 
 export function formatPrice(value: number): number {
     return parseFloat((value / 1_000_000).toFixed(4));

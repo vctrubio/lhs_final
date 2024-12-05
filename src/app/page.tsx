@@ -27,7 +27,8 @@ export const PropertyProviderWrapper = () => (
 );
 
 export const PropertyCardIteration = async () => {
-  const properties = await getCachedProperties();
+  // const properties = await getCachedProperties();
+  const {properties} = await fetchEntriesContentful();
 
   return (
     <div className="flex flex-wrap">

@@ -43,10 +43,11 @@ export interface Amentities {
 
 export interface PropiedadCharacteristics {
     tipoDePropiedad: string;
+    dormitoriosSuite: number;
     dormitorios: number;
     banos: number;
     aseo: number;
-    patio: number;
+    patio: number; //aka terraza
     balcones: number;
     metrosCuadradros: number;
 }

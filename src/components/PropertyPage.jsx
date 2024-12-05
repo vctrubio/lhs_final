@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Slider from "react-slick";
 import Image from "next/image";
-import { getBathrooms } from "@/utils/utils";
+import { getBathrooms, getBedrooms } from "@/utils/utils";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {
@@ -164,12 +164,13 @@ export default function PropiedadPage({ property }) {
                     </div>
 
                     {/* Property Stats */}
+                    {/* //todo - balcones */}
                     <div className="grid grid-cols-4 gap-8 mb-12 px-4">
                         <div className="flex items-center">
                             <Bed className="w-6 h-6 text-[#B8860B] mr-3" />
                             <div>
                                 <p className="text-sm text-gray-500">Dormitorios En Suite</p>
-                                <p className="text-lg font-semibold text-[#14213D]">{property.charRef.dormitorios}</p>
+                                <p className="text-lg font-semibold text-[#14213D]">{property.charRef.dormitoriosSuite}</p>
                             </div>
                         </div>
                         <div className="flex items-center">
@@ -184,14 +185,14 @@ export default function PropiedadPage({ property }) {
                             <Bath className="w-6 h-6 text-[#B8860B] mr-3" />
                             <div>
                                 <p className="text-sm text-gray-500">Baños</p>
-                                <p className="text-lg font-semibold text-[#14213D]">{getBathrooms(property)}</p>
+                                <p className="text-lg font-semibold text-[#14213D]">{property.charRef.banos}</p>
                             </div>
                         </div>
                         <div className="flex items-center">
                             <Bath className="w-6 h-6 text-[#B8860B] mr-3" />
                             <div>
                                 <p className="text-sm text-gray-500">Aseos</p>
-                                <p className="text-lg font-semibold text-[#14213D]">{getBathrooms(property)}</p>
+                                <p className="text-lg font-semibold text-[#14213D]">{property.charRef.aseo}</p>
                             </div>
                         </div>
 
@@ -200,7 +201,7 @@ export default function PropiedadPage({ property }) {
                             <Bath className="w-6 h-6 text-[#B8860B] mr-3" />
                             <div>
                                 <p className="text-sm text-gray-500">Terrazas</p>
-                                <p className="text-lg font-semibold text-[#14213D]">{getBathrooms(property)}</p>
+                                <p className="text-lg font-semibold text-[#14213D]">{property.charRef.patio}</p>
                             </div>
                         </div>
 
@@ -220,14 +221,15 @@ export default function PropiedadPage({ property }) {
                                 <p className="text-lg font-semibold text-[#14213D]">{property.charRef.metrosCuadradros}</p>
                             </div>
                         </div>
-                        <div className="flex items-center">
+
+                        {/* <div className="flex items-center">
                             <a href={property.plano_url} target="_blank" rel="noreferrer">
                                 <DraftingCompass className="w-6 h-6 text-[#B8860B] mr-3" />
                             </a>
                             <div>
                                 <p className="text-sm text-gray-500">Click Para Descargar Plano</p>
                             </div>
-                        </div>
+                        </div> */}
 
                     </div>
 

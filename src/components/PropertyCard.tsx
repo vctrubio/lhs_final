@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Property } from "#/backend/types";
 import { formatCurrency } from "@/utils/utils";
-import { getBathrooms } from "@/utils/utils";
+import { getBathrooms, getBedrooms } from "@/utils/utils";
 
 import {
     Ruler,
@@ -29,7 +29,7 @@ const DescBox: React.FC<DescBoxProps> = ({ text, icon: Icon }) => {
 export const CardProperty = ({ property, cssStateHover }: { property: Property, cssStateHover: boolean }) => {
     const coverPhoto = property.cover_url[0]
     const area = property.charRef.metrosCuadradros || 'N/A';
-    const bedrooms = property.charRef.dormitorios || 'N/A';
+    const bedrooms = getBedrooms(property) || 'N/A';
     const bathrooms = getBathrooms(property) || 'N/A';
 
     return (
