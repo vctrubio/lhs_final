@@ -3,7 +3,6 @@ import { fetchPropertyByID } from "#/backend/apisConnections";
 
 export default async function Page({ params }) {
     const resolvedParams = await params;
-
     const property = await fetchPropertyByID(resolvedParams.slug);
 
     if (!property) {
@@ -12,4 +11,3 @@ export default async function Page({ params }) {
 
     return <PropertyPage property={property} />
 }
-
