@@ -5,9 +5,11 @@ export interface Property {
     description: string;
     buyOrRent: boolean;
     reformado: boolean;
+
     precio: number;
     precioIbi: number;
     precioComunidad: number;
+
     plano_url: string;
     cover_url: string[];
     photos_url: string[];
@@ -16,8 +18,7 @@ export interface Property {
     amentitiesRef: Amentities;
     charRef: PropiedadCharacteristics;
     roomsRef: PropiedadHabitacion[];
-    updatedAt: string;
-    canva_id: string | null;
+    // updatedAt: string;
 }
 
 export interface Barrio {
