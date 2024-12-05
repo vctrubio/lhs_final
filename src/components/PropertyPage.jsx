@@ -13,6 +13,7 @@ import {
     Wind,
     Flame,
     Building2,
+    BarCode,
     Home,
     User,
     Package,
@@ -99,7 +100,7 @@ function PropertyStats({ property }) {
             singularLabel: "Balcón"
         },
         {
-            icon: Fence,
+            icon: BarCode,
             label: "Terraza M²",
             value: property.charRef.patio,
             singularLabel: "Terraza",
