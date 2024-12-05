@@ -36,8 +36,8 @@
 
 /* Property Card with fade-in, fade-out, and slide effect */
 .property {
-    min-width: 380px;
-    min-height: 320px;
+    min-width: 400px;
+    min-height: 390px;
     /* max-height: 420px;
     max-width: 580px; */
     flex-grow: 1;
@@ -71,9 +71,15 @@
 .property-desc-box {
     display: flex;
     align-items: center;
-    gap: 4px;
-    font-size: 28px;
-    font-weight: lighter;
+    gap: 0.5rem;
+    color: white;
+    font-size: 1.4rem;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.property-desc-box span {
+    display: flex;
+    align-items: center;
 }
 
 .property-banner img {

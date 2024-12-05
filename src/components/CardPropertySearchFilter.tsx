@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { CardProperty } from '@/components/CardProperty';
+import { CardProperty } from '@/components/PropertyCard';
 import { Property } from "#/backend/types";
 import { getBathrooms } from "@/utils/utils";
 import { useSharedQueryState } from "#/backend/nuqs";

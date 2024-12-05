@@ -5,11 +5,11 @@ import { formatCurrency } from "@/utils/utils";
 import { getBathrooms } from "@/utils/utils";
 
 import {
-    IconRulerMeters,
-    IconBed,
-    IconBathTop,
-    IconLocation
-} from '@/utils/svgs'
+    Ruler,
+    Bath,
+    Bed,
+    MapPin
+} from "lucide-react";
 
 interface DescBoxProps {
     text: string | number;
@@ -17,24 +17,21 @@ interface DescBoxProps {
     fillWhite?: boolean;
 }
 
-const DescBox: React.FC<DescBoxProps> = ({ text, icon: Icon, fillWhite = true }) => {
+const DescBox: React.FC<DescBoxProps> = ({ text, icon: Icon }) => {
     return (
         <div className="property-desc-box">
-            <span className={fillWhite ? 'icon-white' : ''}><Icon /></span>
+            <span className="text-white text-lg"><Icon /></span>
             <span>{text}</span>
         </div>
     );
 };
 
-
 export const CardProperty = ({ property, cssStateHover }: { property: Property, cssStateHover: boolean }) => {
-    // const coverPhoto = property ? property.cover_url[0] : '/images/placeholder.jpg';
     const coverPhoto = property.cover_url[0]
     const area = property.charRef.metrosCuadradros || 'N/A';
     const bedrooms = property.charRef.dormitorios || 'N/A';
     const bathrooms = getBathrooms(property) || 'N/A';
 
-    // console.log('checking property', property.charRef)
     return (
         <div className="property" css-state={cssStateHover ? 'on' : ''}>
             <Link href={`/propiedades/${property.url}`} title={property.title}>
@@ -53,14 +50,13 @@ export const CardProperty = ({ property, cssStateHover }: { property: Property, 
                         title={property.title}
                     />
                     <div className="property-desc">
-                        <DescBox text={area} icon={IconRulerMeters} />
-                        <DescBox text={String(bathrooms)} icon={IconBathTop} />
-                        <DescBox text={String(bedrooms)} icon={IconBed} />
-                        <DescBox text={String(bedrooms)} icon={IconBed} /> 
-                        <DescBox text={String(property.barrioRef?.name)} icon={IconLocation} fillWhite={false} />
+                        <DescBox text={area} icon={Ruler} />
+                        <DescBox text={String(bedrooms)} icon={Bed} />
+                        <DescBox text={String(bathrooms)} icon={Bath} />
+                        <DescBox text={String(property.barrioRef?.name)} icon={MapPin} />
                     </div>
                 </div>
             </Link>
-        </div >
+        </div>
     );
 };

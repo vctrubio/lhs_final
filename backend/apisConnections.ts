@@ -42,7 +42,7 @@ export async function fetchEntriesContentful(): Promise<{ properties: Property[]
 
 }
 export async function fetchPropertyByID(url: string): Promise<Property | null> {
-    console.log('calling fetchbyID')
+    console.log('calling fetchbyID, url: ', url)
 
     try {
         const entries = await client.getEntries();
