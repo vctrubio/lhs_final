@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Slider from "react-slick";
 import Image from "next/image";
+import { IconPrice } from "@/utils/svgs";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {
@@ -93,17 +94,17 @@ function PropertyStats({ property }) {
             singularLabel: "Aseo"
         },
         {
+            icon: Sun,
+            label: "Balcones",
+            value: property.charRef.balcones,
+            singularLabel: "Balcón"
+        },
+        {
             icon: Fence,
             label: "Terraza M²",
             value: property.charRef.patio,
             singularLabel: "Terraza",
             isTerraza: true
-        },
-        {
-            icon: Sun,
-            label: "Balcones",
-            value: property.charRef.balcones,
-            singularLabel: "Balcón"
         },
         {
             icon: Ruler,
@@ -242,9 +243,9 @@ export default function PropiedadPage({ property }) {
                     <div className="sticky top-8 bg-[#14213D] rounded-xl shadow-xl p-6">
                         {/* Price Section */}
                         <div className="mb-2">
-                            <span className="text-lg text-white">Precio</span>
-                            <div className="text-4xl font-serif text-white mt-2" style={{ letterSpacing: '1px' }}>
-                                €{property.precio.toLocaleString('de-DE')}
+                            <span className="text-xl text-white">Precio</span>
+                            <div className="text-4xl font-serif text-white flex" style={{ letterSpacing: '1px' }}>
+                                <IconPrice stroke="white" />{property.precio.toLocaleString('de-DE')}
                             </div>
 
                             <div className="space-y-2 pt-3">
