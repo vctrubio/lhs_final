@@ -269,15 +269,15 @@ export default function PropiedadPage({ property }) {
 
                         {/* Action Buttons */}
                         <div className="mt-8 space-y-3">
-                            <button className="w-full bg-[#14213D] text-white py-4 rounded-lg hover:bg-[#1a2b4d] transition-colors flex items-center justify-center gap-2 hover:bg-opacity-80">
+                            <button className="w-full bg-[#14213D] text-white py-4 rounded-lg hover:bg-[#1a2b4d] transition-colors flex items-center justify-center gap-2 hover:bg-opacity-80 border">
                                 <Phone className="w-5 h-5" />
                                 <span>Contactar</span>
                             </button>
-                            <button className="w-full bg-[#14213D] text-white py-4 rounded-lg hover:bg-[#1a2b4d] transition-colors flex items-center justify-center gap-2 hover:bg-opacity-80">
+                            <button className="w-full bg-[#14213D] text-white py-4 rounded-lg hover:bg-[#1a2b4d] transition-colors flex items-center justify-center gap-2 hover:bg-opacity-80 border">
                                 <Share2 className="w-5 h-5" />
                                 <span>Compatir</span>
                             </button>
-                            <button className="w-full bg-[#B8860B] text-white py-4 rounded-lg hover:bg-[#9a7209] transition-colors">
+                            <button className="w-full bg-[#B8860B] text-white py-4 rounded-lg hover:bg-[#9a7209] transition-colors" onClick={() => window.open(property.plano_url, '_blank')}>
                                 Descargar Plano
                             </button>
                         </div>
