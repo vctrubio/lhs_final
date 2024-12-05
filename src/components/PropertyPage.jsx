@@ -2,7 +2,6 @@
 import { useState } from "react";
 import Slider from "react-slick";
 import Image from "next/image";
-import { getBathrooms, getBedrooms } from "@/utils/utils";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {
@@ -20,17 +19,18 @@ import {
     Phone,
     Ruler,
     DraftingCompass,
+    BedDouble,
     Sun,
+    Toilet,
+    Fence,
 } from "lucide-react";
 
 function AmenitiesSection({ amenities, reformado }) {
-    // Handle reformado status separately
     const reformadoStatus = {
         icon: Home,
         label: reformado ? 'Reformado' : 'Para reformar',
     };
 
-    // Only process amenities if they exist
     const availableAmenities = amenities ? [
         { icon: Home, label: 'Amueblado', value: amenities.furnished },
         { icon: Wind, label: 'AC', value: amenities.ac },
@@ -41,9 +41,6 @@ function AmenitiesSection({ amenities, reformado }) {
         { icon: Building2, label: 'Ascensor', value: amenities.elevator },
         { icon: Car, label: 'Parking', value: amenities.parking },
     ].filter(amenity => amenity.value) : [];
-
-    console.log('amenities, ', amenities)
-    console.log('availableAmenities, ', availableAmenities)
 
     return (
         <div className="border-t pt-2">
@@ -65,6 +62,74 @@ function AmenitiesSection({ amenities, reformado }) {
                     </div>
                 ))}
             </div>
+        </div>
+    );
+}
+
+function PropertyStats({ property }) {
+    const stats = [
+        {
+            icon: BedDouble,
+            label: "Dormitorios En Suite",
+            value: property.charRef.dormitoriosSuite,
+            singularLabel: "Dormitorio En Suite"
+        },
+        {
+            icon: Bed,
+            label: "Dormitorios",
+            value: property.charRef.dormitorios,
+            singularLabel: "Dormitorio"
+        },
+        {
+            icon: Bath,
+            label: "Baños",
+            value: property.charRef.banos,
+            singularLabel: "Baño"
+        },
+        {
+            icon: Toilet,
+            label: "Aseos",
+            value: property.charRef.aseo,
+            singularLabel: "Aseo"
+        },
+        {
+            icon: Fence,
+            label: "Terraza M²",
+            value: property.charRef.patio,
+            singularLabel: "Terraza",
+            isTerraza: true
+        },
+        {
+            icon: Sun,
+            label: "Balcones",
+            value: property.charRef.balcones,
+            singularLabel: "Balcón"
+        },
+        {
+            icon: Ruler,
+            label: "M²",
+            value: property.charRef.metrosCuadradros,
+            singularLabel: "M²"
+        }
+    ];
+
+    return (
+        <div className="flex flex-wrap gap-8 mb-12 px-4">
+            {stats.filter(stat => stat.value > 0).map(({ icon: Icon, label, value, singularLabel, isTerraza }) => (
+                <div key={label} className="grid grid-rows-2 min-w-[100px] text-left">
+                    <p className="text-sm text-gray-500 mb-1">
+                        {value === 1 ? singularLabel : label}
+                    </p>
+                    <div className="flex justify-start gap-2 items-center">
+                        <Icon className="w-6 h-6 text-[#B8860B]" />
+                        {(!isTerraza || value > 1) && (
+                            <span className="text-lg font-semibold text-[#14213D]">
+                                {value}
+                            </span>
+                        )}
+                    </div>
+                </div>
+            ))}
         </div>
     );
 }
@@ -163,75 +228,7 @@ export default function PropiedadPage({ property }) {
                         <span>{property.barrioRef.name}</span>
                     </div>
 
-                    {/* Property Stats */}
-                    {/* //todo - balcones */}
-                    <div className="grid grid-cols-4 gap-8 mb-12 px-4">
-                        <div className="flex items-center">
-                            <Bed className="w-6 h-6 text-[#B8860B] mr-3" />
-                            <div>
-                                <p className="text-sm text-gray-500">Dormitorios En Suite</p>
-                                <p className="text-lg font-semibold text-[#14213D]">{property.charRef.dormitoriosSuite}</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center">
-                            <Bed className="w-6 h-6 text-[#B8860B] mr-3" />
-                            <div>
-                                <p className="text-sm text-gray-500">Dormitorios</p>
-                                <p className="text-lg font-semibold text-[#14213D]">{property.charRef.dormitorios}</p>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center">
-                            <Bath className="w-6 h-6 text-[#B8860B] mr-3" />
-                            <div>
-                                <p className="text-sm text-gray-500">Baños</p>
-                                <p className="text-lg font-semibold text-[#14213D]">{property.charRef.banos}</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center">
-                            <Bath className="w-6 h-6 text-[#B8860B] mr-3" />
-                            <div>
-                                <p className="text-sm text-gray-500">Aseos</p>
-                                <p className="text-lg font-semibold text-[#14213D]">{property.charRef.aseo}</p>
-                            </div>
-                        </div>
-
-
-                        <div className="flex items-center">
-                            <Bath className="w-6 h-6 text-[#B8860B] mr-3" />
-                            <div>
-                                <p className="text-sm text-gray-500">Terrazas</p>
-                                <p className="text-lg font-semibold text-[#14213D]">{property.charRef.patio}</p>
-                            </div>
-                        </div>
-
-                        {property.charRef.balcones > 0 && (
-                            <div className="flex items-center">
-                                <Sun className="w-6 h-6 text-[#B8860B] mr-3" />
-                                <div>
-                                    <p className="text-sm text-gray-500">Balcones</p>
-                                    <p className="text-lg font-semibold text-[#14213D]">{property.charRef.balcones}</p>
-                                </div>
-                            </div>
-                        )}
-                        <div className="flex items-center">
-                            <Ruler className="w-6 h-6 text-[#B8860B] mr-3" />
-                            <div>
-                                <p className="text-sm text-gray-500">M²</p>
-                                <p className="text-lg font-semibold text-[#14213D]">{property.charRef.metrosCuadradros}</p>
-                            </div>
-                        </div>
-
-                        {/* <div className="flex items-center">
-                            <a href={property.plano_url} target="_blank" rel="noreferrer">
-                                <DraftingCompass className="w-6 h-6 text-[#B8860B] mr-3" />
-                            </a>
-                            <div>
-                                <p className="text-sm text-gray-500">Click Para Descargar Plano</p>
-                            </div>
-                        </div> */}
-
-                    </div>
+                    <PropertyStats property={property} />
 
                     {/* Description */}
                     <div className="text-gray-600 leading-relaxed mb-12 px-2">
