@@ -1,12 +1,14 @@
 "use client";
-//discaerd later
 import { useState } from "react";
+import Slider from "react-slick";
+import Image from "next/image";
 import { getBathrooms } from "@/utils/utils";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import {
     Bed,
     Bath,
     MapPin,
-    // Heart,
     Share2,
     Wind,
     Flame,
@@ -63,55 +65,89 @@ function AmenitiesSection({ amenities, reformado }) {
 }
 
 export default function PropiedadPage({ property }) {
-    console.log('property check from Page', property);
+    const [nav1, setNav1] = useState(null);
+    const [nav2, setNav2] = useState(null);
 
-    const [activeImage, setActiveImage] = useState(0);
-    const images = property.photos_url.slice(0, 4);
+    // Settings for main slider
+    const mainSettings = {
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: true,
+        asNavFor: nav2,
+    };
+
+    // Settings for thumbnail slider
+    const thumbSettings = {
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        asNavFor: nav1,
+        centerMode: true,
+        focusOnSelect: true,
+        arrows: true,
+    };
 
     return (
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             {/* Image Gallery Section */}
             <div className="mb-12">
-                {/* Main Image */}
+                {/* Main Image Slider */}
                 <div className="relative rounded-t-lg">
-                    <div className="aspect-[16/9] relative">
-                        <img
-                            src={images[activeImage]}
-                            alt={property.title}
-                            className="absolute inset-0 w-full h-full object-contain"
-                        />
-                    </div>
-
-                </div>
-
-                {/* Thumbnails */}
-                <div className="rounded-b-lg p-4">
-                    <div className="grid grid-cols-4 gap-2">
-                        {images.map((image, index) => (
-                            <div
-                                key={index}
-                                className={`cursor-pointer overflow-hidden rounded-lg aspect-video ${activeImage === index
-                                    ? "ring-2 ring-[#B8860B] ring-offset-2"
-                                    : "opacity-70 hover:opacity-100"
-                                    }`}
-                                onClick={() => setActiveImage(index)}
-                            >
-                                <img
+                    <Slider
+                        {...mainSettings}
+                        ref={(slider1) => setNav1(slider1)}
+                        className="aspect-[16/9]"
+                    >
+                        {property.photos_url.map((image, index) => (
+                            <div key={index} className="relative aspect-[16/9]">
+                                <Image
                                     src={image}
-                                    alt={`Property view ${index + 1}`}
-                                    className="w-full h-full object-cover"
+                                    alt={`${property.title} - View ${index + 1}`}
+                                    fill
+                                    className="object-contain"
+                                    priority={index === 0}
                                 />
                             </div>
                         ))}
-                    </div>
+                    </Slider>
                 </div>
 
+                {/* Thumbnail Slider */}
+                <div className="rounded-b-lg p-4">
+                    <Slider
+                        {...thumbSettings}
+                        ref={(slider2) => setNav2(slider2)}
+                        className="thumbnail-slider"
+                    >
+                        {property.photos_url.map((image, index) => (
+                            <div
+                                key={index}
+                                className="px-1"
+                            >
+                                <div className="relative aspect-video rounded-lg overflow-hidden">
+                                    <Image
+                                        src={image}
+                                        alt={`Thumbnail ${index + 1}`}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                    </Slider>
+                </div>
             </div>
 
             {/* Property Details */}
             <div className="grid lg:grid-cols-3 gap-12">
                 {/* Left Column */}
                 <div className="lg:col-span-2">
+
                     <h1 className="font-serif text-4xl md:text-5xl text-[#14213D] mb-4 px-4">
                         {property.title}
                     </h1>
@@ -147,7 +183,6 @@ export default function PropiedadPage({ property }) {
                     </div>
 
                     {/* Description */}
-
                     <div className="text-gray-600 leading-relaxed mb-12 px-2">
                         {property.description}
                     </div>
