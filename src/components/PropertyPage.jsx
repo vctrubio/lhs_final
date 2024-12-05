@@ -115,7 +115,7 @@ function PropertyStats({ property }) {
     ];
 
     return (
-        <div className="flex flex-wrap gap-8 mb-12 px-4">
+        <div className="flex flex-wrap justify-between mb-12 px-4">
             {stats.filter(stat => stat.value > 0).map(({ icon: Icon, label, value, singularLabel, isTerraza }) => (
                 <div key={label} className="grid grid-rows-2 min-w-[100px] text-left">
                     <p className="text-sm text-gray-500 mb-1">
