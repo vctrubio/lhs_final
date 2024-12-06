@@ -23,8 +23,6 @@ body {
 
     background-color: var(--color-beigh-light-bg);
     box-shadow: 1px 0 0 0 black, 2px 0 0 0 black, 3px 0 0 0 black;
-
-    transition: transform 0.3s ease-in-out;
 }
 
 .nav-sidebar-head {
@@ -108,6 +106,10 @@ main {
 
 /* Desktop styles */
 @media (min-width: 769px) {
+    .nav-sidebar {
+        transition: transform 0.3s ease-in-out;
+    }
+    
     .nav-sidebar-toggle {
         display: none;
     }

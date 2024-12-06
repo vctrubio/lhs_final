@@ -8,7 +8,7 @@
     background-color: var(--color-beigh-light-bg);
     position: relative;
     z-index: 2;
-    gap: 28px;
+    gap: 16px 20px;
 }
 
 .property-title {
