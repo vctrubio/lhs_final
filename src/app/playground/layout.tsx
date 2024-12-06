@@ -1,18 +1,18 @@
 'use client'
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { useState } from "react";
+import { Logo } from "@/components/NavBar";
 
-function NavPlayground() {
+function NavPlayground(props: { children: React.ReactNode }) {
     const [isOpen, setIsOpen] = useState(false);
-
     return (
         <>
             <div className={`nav-playground ${isOpen ? 'open' : ''}`}>
                 <div className="nav-playground-head">
-                    Head Component
+                    <Logo />
                 </div>
                 <div className="nav-playground-body">
-                    Body Component
+                    {props.children}
                 </div>
                 <div className="nav-playground-footer">
                     Footer Component
@@ -32,7 +32,9 @@ function NavPlayground() {
 export default function PlaygroundLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
-            <NavPlayground />
+            <NavPlayground>
+                <div>Hello World</div>
+            </NavPlayground>
             <main>
                 {children}
             </main>
