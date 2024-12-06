@@ -1,3 +1,4 @@
+"use client";
 import { X, Twitter, Facebook, Linkedin, Link } from 'lucide-react';
 
 export default function ShareModal({ isOpen, onClose, title, url }) {

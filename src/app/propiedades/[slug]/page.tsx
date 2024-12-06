@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import { fetchPropertyByID } from '#/backend/apisConnections';
+import { fetchPropertyByID, fetchEntriesContentful } from '#/backend/apisConnections';
 import PropertyPage from '@/components/PropertyPage';
+import PropertyRecommendations from '@/components/PropertyRecommendations';
 import { cache } from 'react';
 
 type PageParams = {
@@ -80,7 +81,9 @@ export default async function Page({ params }: Props) {
     const { property } = await getPropertyData(resolvedParams);
 
     if (!property) {
-        return <div>Property not found -- return Page redirect</div>;
+        // Fetch some recommended properties
+        const { properties } = await fetchEntriesContentful();
+        return <PropertyRecommendations properties={properties} />;
     }
 
     return <PropertyPage property={property} />;
