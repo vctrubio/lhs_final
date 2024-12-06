@@ -35,10 +35,8 @@
 
 /* Property Card with fade-in, fade-out, and slide effect */
 .property {
-    min-width: 400px;
-    min-height: 390px;
-    /* max-height: 420px;
-    max-width: 580px; */
+    min-width: 420px;
+    min-height: 340px;
     flex-grow: 1;
     position: relative;
     opacity: 1;

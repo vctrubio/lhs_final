@@ -72,8 +72,8 @@ function SocialIcons() {
 }
 
 // Navigation Content Component
-function NavContent({ children, className = '', pt = 'p-4' }: { 
-    children: React.ReactNode; 
+function NavContent({ children, className = '', pt = 'p-4' }: {
+    children: React.ReactNode;
     className?: string;
     pt?: string;
 }) {
@@ -95,7 +95,12 @@ function NavContent({ children, className = '', pt = 'p-4' }: {
     );
 }
 
-// Main LeftNavBar Component
+// <LeftNavBar>
+// <div className="p-4">
+//   <h2>Filters will go here</h2>
+// </div>
+// </LeftNavBar>
+
 export default function LeftNavBar({ children }: LeftNavBarProps) {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -124,11 +129,11 @@ export default function LeftNavBar({ children }: LeftNavBarProps) {
                 {isOpen && (
                     <div className="lg:hidden">
                         {/* Backdrop */}
-                        <div 
+                        <div
                             className="fixed inset-0 bg-black bg-opacity-20 z-40"
                             onClick={() => setIsOpen(false)}
                         />
-                        
+
                         {/* Mobile Nav Content */}
                         <div className={`
                             fixed inset-0 z-50
