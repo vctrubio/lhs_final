@@ -6,7 +6,7 @@
 @import '../css/svgs.css';
 @import '../css/logo.css';
 @import '../css/playground.css';
-
+@import '../css/sidebar.css';
 :root {
 
   --color-green-original: #91CEB8;

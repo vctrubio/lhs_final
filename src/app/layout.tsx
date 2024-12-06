@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import LeftNavBar from '@/components/LeftNavBar';
 import Footer from "@/components/Footer";
-import "./globals.css";
+import "../css/globals.css";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import NavBar from "@/components/NavBar";
 
