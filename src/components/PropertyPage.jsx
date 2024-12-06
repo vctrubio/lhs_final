@@ -102,7 +102,7 @@ function PropertyStats({ property }) {
         },
         {
             icon: Fence, //tochange to terrace icon
-            label: "Terraza M²",
+            label: "Terrazas",
             value: property.charRef.patio,
             singularLabel: "Terraza",
             isTerraza: true

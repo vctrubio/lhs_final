@@ -1,0 +1,47 @@
+.nav-border {
+  position: relative;
+}
+
+.nav-border::after,
+.nav-border::before,
+.nav-border > div::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, #d4d4d8, #a1a1aa);
+  transform-origin: 100% 0%;
+}
+
+.nav-border::after {
+  animation: borderSlide 4s ease-in-out infinite;
+}
+
+.nav-border::before {
+  animation: borderSlide 4s ease-in-out infinite 1.3s;
+}
+
+.nav-border > div::after {
+  animation: borderSlide 4s ease-in-out infinite 2.6s;
+}
+
+@keyframes borderSlide {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  20% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  80% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(0);
+    opacity: 0;
+    transform-origin: 100% 100%;
+  }
+} 

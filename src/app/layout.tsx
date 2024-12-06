@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import NavBar from "@/components/NavBar";
+import LeftNavBar from '@/components/LeftNavBar';
 import Footer from "@/components/Footer";
 import "./globals.css";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
@@ -49,11 +49,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className="flex flex-col p-2"
-      >
-        <NavBar />
-        <main className='py-4 sm:px-4'>
+      <body className="flex min-h-screen">
+        <LeftNavBar>
+          <div className="p-4">
+            <h2>Filters will go here</h2>
+          </div>
+        </LeftNavBar>
+        <main className="flex-1 px-12 py-4">
           <NuqsAdapter>
             {children}
           </NuqsAdapter>
