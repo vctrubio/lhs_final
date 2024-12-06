@@ -139,7 +139,7 @@ export default function PropiedadPage({ property }) {
     const [nav1, setNav1] = useState(null);
     const [nav2, setNav2] = useState(null);
 
-    console.log('popo, ', property)
+    // console.log('popo, ', property)
     // Settings for main slider
     const mainSettings = {
         dots: false,
@@ -245,20 +245,20 @@ export default function PropiedadPage({ property }) {
                         <div className="mb-2">
                             <span className="text-xl text-white">Precio</span>
                             <div className="text-4xl font-serif text-white flex" style={{ letterSpacing: '1px' }}>
-                                <IconPrice stroke="white" />{property.precio.toLocaleString('de-DE')}
+                                <IconPrice stroke="white" />{property.precio.toLocaleString('es-ES')}
                             </div>
 
                             <div className="space-y-2 pt-3">
                                 {property.precioIbi > 0 && (
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="text-gray-500">+ IBI</span>
-                                        <span className="text-gray-600 font-medium">€{property.precioIbi.toLocaleString('de-DE')}/año</span>
+                                        <span className="text-gray-600 font-medium">€{property.precioIbi.toLocaleString('es-ES')}/año</span>
                                     </div>
                                 )}
                                 {property.precioComunidad > 0 && (
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="text-gray-500">+ Gastos de Comunidad</span>
-                                        <span className="text-gray-600 font-medium">€{property.precioComunidad.toLocaleString('de-DE')}/mes</span>
+                                        <span className="text-gray-600 font-medium">€{property.precioComunidad.toLocaleString('es-ES')}/mes</span>
                                     </div>
                                 )}
                             </div>

@@ -40,8 +40,10 @@ async function PropertyCardSection() {
 
 export default async function Home() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div></div>}>
       <PropertyCardSection />
     </Suspense>
   );
 }
+
+//do suspense fallback
