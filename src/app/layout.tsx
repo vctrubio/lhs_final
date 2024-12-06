@@ -3,7 +3,7 @@ import LeftNavBar from '@/components/LeftNavBar';
 import Footer from "@/components/Footer";
 import "../css/globals.css";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
-import NavBar from "@/components/NavBar";
+import SideBar from "@/components/SideBar";
 
 export const metadata: Metadata = {
   title: "LHS Concept",
@@ -52,7 +52,9 @@ export default function RootLayout({
       <body
         className="flex flex-col p-2"
       >
-        <NavBar />
+        <SideBar>
+          <div>Hello World</div>
+        </SideBar>
         <main className='py-4 sm:px-4'>
           <NuqsAdapter>
             {children}
