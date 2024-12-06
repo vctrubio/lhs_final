@@ -25,6 +25,7 @@ import {
     Toilet,
     Fence,
 } from "lucide-react";
+import ShareModal from './ShareModal';
 
 function AmenitiesSection({ amenities, reformado }) {
     const reformadoStatus = {
@@ -138,6 +139,7 @@ function PropertyStats({ property }) {
 export default function PropiedadPage({ property }) {
     const [nav1, setNav1] = useState(null);
     const [nav2, setNav2] = useState(null);
+    const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
     // console.log('popo, ', property)
     // Settings for main slider
@@ -269,13 +271,24 @@ export default function PropiedadPage({ property }) {
 
                         {/* Action Buttons */}
                         <div className="mt-8 space-y-3">
-                            <button className="w-full bg-[#14213D] text-white py-4 rounded-lg hover:bg-[#1a2b4d] transition-colors flex items-center justify-center gap-2 hover:bg-opacity-80 border">
+                            <button 
+                                onClick={() => {
+                                    const propertyUrl = `https://www.lhsconcept.com/propiedades/${property.url}`;
+                                    const message = `Hola, estoy interesado en esta propiedad: ${property.title}\n${propertyUrl}`;
+                                    const whatsappUrl = `https://wa.me/34616746971?text=${encodeURIComponent(message)}`;
+                                    window.open(whatsappUrl, '_blank');
+                                }}
+                                className="w-full bg-[#14213D] text-white py-4 rounded-lg hover:bg-[#1a2b4d] transition-colors flex items-center justify-center gap-2 hover:bg-opacity-80 border"
+                            >
                                 <Phone className="w-5 h-5" />
                                 <span>Contactar</span>
                             </button>
-                            <button className="w-full bg-[#14213D] text-white py-4 rounded-lg hover:bg-[#1a2b4d] transition-colors flex items-center justify-center gap-2 hover:bg-opacity-80 border">
+                            <button 
+                                onClick={() => setIsShareModalOpen(true)}
+                                className="w-full bg-[#14213D] text-white py-4 rounded-lg hover:bg-[#1a2b4d] transition-colors flex items-center justify-center gap-2 hover:bg-opacity-80 border"
+                            >
                                 <Share2 className="w-5 h-5" />
-                                <span>Compatir</span>
+                                <span>Compartir</span>
                             </button>
                             <button className="w-full bg-[#B8860B] text-white py-4 rounded-lg hover:bg-[#9a7209] transition-colors" onClick={() => window.open(property.plano_url, '_blank')}>
                                 Descargar Plano
@@ -284,6 +297,13 @@ export default function PropiedadPage({ property }) {
                     </div>
                 </div>
             </div>
+
+            <ShareModal 
+                isOpen={isShareModalOpen}
+                onClose={() => setIsShareModalOpen(false)}
+                title={property.title}
+                url={`https://www.lhsconcept.com/propiedades/${property.url}`}
+            />
         </main>
     );
 }
