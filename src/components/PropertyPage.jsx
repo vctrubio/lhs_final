@@ -100,7 +100,7 @@ function PropertyStats({ property }) {
             singularLabel: "Balcón"
         },
         {
-            icon: BarCode,
+            icon: Fence, //tochange to terrace icon
             label: "Terraza M²",
             value: property.charRef.patio,
             singularLabel: "Terraza",

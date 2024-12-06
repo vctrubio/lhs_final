@@ -82,8 +82,6 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
     const coverUrl = photos ? extractImageUrls(photos)[0] : null;
     const planoUrl = plano ? ImageToUrl(plano) : null;
 
-    type PhotoField = Asset<any>[]; // or Entry<any>[], depending on your use case.
-
     return {
         title: title,
         url: url,
@@ -101,7 +99,7 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
         roomsRef: entry.fields.habitacionesPaginas?.map((h: Entry<any>) => ({
             title: h.fields.title,
             description: h.fields.description,
-            photos: (h.fields.photos as PhotoField)?.map(photo => photo.fields.file?.url) ?? []
+            photos: (h.fields.photos as Asset<any>[])?.map(photo => photo.fields.file?.url) ?? []
         })) ?? null,
 
         photos_url: [
