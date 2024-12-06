@@ -58,7 +58,6 @@ export default function RootLayout({
             {children}
           </NuqsAdapter>
         </main>
-        <Footer />
       </body>
     </html>
   );
