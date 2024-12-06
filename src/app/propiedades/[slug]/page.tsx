@@ -3,8 +3,12 @@ import { fetchPropertyByID } from '#/backend/apisConnections';
 import PropertyPage from '@/components/PropertyPage';
 import { cache } from 'react';
 
+type PageParams = {
+    slug: string;
+}
+
 type Props = {
-    params: Promise<{ slug: string }> | { slug: string }
+    params: Promise<PageParams>;
 }
 
 const fetchProperty = cache(async (slug: string) => {
@@ -14,13 +18,13 @@ const fetchProperty = cache(async (slug: string) => {
     };
 });
 
-async function getPropertyData(params: Props['params']) {
-    const resolvedParams = await Promise.resolve(params);
-    return fetchProperty(resolvedParams.slug);
+async function getPropertyData(params: PageParams) {
+    return fetchProperty(params.slug);
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const { property, slug } = await getPropertyData(params);
+    const resolvedParams = await params;
+    const { property, slug } = await getPropertyData(resolvedParams);
 
     if (!property) {
         return {
@@ -72,7 +76,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-    const { property } = await getPropertyData(params);
+    const resolvedParams = await params;
+    const { property } = await getPropertyData(resolvedParams);
 
     if (!property) {
         return <div>Property not found -- return Page redirect</div>;
