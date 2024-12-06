@@ -1,15 +1,15 @@
 import Link from "next/link";
 
 
-
-
 export function Logo() {
     return (
         <div className="lhs-logo">
             <Link href="/" title="LHS Concept">
                 LHS
             </Link>
-            <div>PLACEHOLDER</div>
+            <div className="lhs-nav">
+                propiedades
+            </div>
         </div>
     )
 }
