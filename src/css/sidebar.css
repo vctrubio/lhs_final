@@ -1,15 +1,25 @@
+body {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
 .nav-sidebar {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
 
-    position: fixed;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
     z-index: 10;
     left: 0;
-    top: 0;
-    width: 400px;
-    height: 100vh;
+    width: 325px;
 
     background-color: var(--color-beigh-light-bg);
     box-shadow: 1px 0 0 0 black, 2px 0 0 0 black, 3px 0 0 0 black;
@@ -39,10 +49,22 @@
     border-top: 1px solid black;
 }
 
+/* Add scrolling to main content */
+main {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 /* Mobile styles */
 @media (max-width: 768px) {
+    body {
+        grid-template-columns: 1fr;
+        overflow: visible;
+    }
 
     .nav-sidebar {
+        position: fixed;
         width: 100%;
         transform: translateX(-100%);
         padding-left: 40px;

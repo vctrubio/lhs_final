@@ -7,6 +7,7 @@
 @import '../css/logo.css';
 @import '../css/playground.css';
 @import '../css/sidebar.css';
+
 :root {
 
   --color-green-original: #91CEB8;
@@ -40,6 +41,16 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: 'New York', sans-serif;
+}
+
+main {
+  padding: 12px 24px;
+}
+
+@media (max-width: 768px) {
+  main {
+    margin-left: 42px;
+  }
 }
 
 :focus {

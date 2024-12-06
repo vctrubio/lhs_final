@@ -49,13 +49,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className="flex flex-col p-2"
-      >
+      <body>
         <SideBar>
           <div>Hello World</div>
         </SideBar>
-        <main className='py-4 sm:px-4'>
+        <main>
           <NuqsAdapter>
             {children}
           </NuqsAdapter>
