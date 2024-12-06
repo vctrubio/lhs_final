@@ -7,7 +7,6 @@ type Props = {
     params: Promise<{ slug: string }> | { slug: string }
 }
 
-// Create a single cached fetch function
 const fetchProperty = cache(async (slug: string) => {
     return {
         slug,
@@ -15,7 +14,6 @@ const fetchProperty = cache(async (slug: string) => {
     };
 });
 
-// Helper function to resolve params
 async function getPropertyData(params: Props['params']) {
     const resolvedParams = await Promise.resolve(params);
     return fetchProperty(resolvedParams.slug);
@@ -24,24 +22,52 @@ async function getPropertyData(params: Props['params']) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { property, slug } = await getPropertyData(params);
 
+    if (!property) {
+        return {
+            title: 'Property Not Found | LHS Concept',
+            description: 'The requested property could not be found'
+        };
+    }
+
+    const propertyTitle = `${property.title} | LHS Concept`;
+    const propertyDescription = `€ ${property.precio.toLocaleString('es-ES')}, 📍 ${property.barrioRef.name}`
+
     return {
-        title: property ? `${property.title} | LHS` : 'LHS Concept',
-        description: property?.description &&
-            `€ ${property.precio.toLocaleString('es-ES')}, 📍 ${property.barrioRef.name}`,
+        title: propertyTitle,
+        description: propertyDescription,
         openGraph: {
-            title: property?.title && `${property.title} | LHS`,
-            description: property?.description &&
-                `€ ${property.precio.toLocaleString('es-ES')}, 📍 ${property.barrioRef.name}`,
+            title: propertyTitle,
+            description: propertyDescription,
             url: `https://www.lhsconcept.com/propiedades/${slug}`,
-            images: property?.photos_url ? [
+            images: property.photos_url ? [
                 {
                     url: property.photos_url[0],
                     width: 1200,
                     height: 630,
                     alt: property.title,
                 }
-            ] : []
-        }
+            ] : [],
+            type: 'website',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            site: '@lhsconcept',
+            creator: '@lhsconcept',
+            title: propertyTitle,
+            description: propertyDescription,
+            images: property.photos_url ? [property.photos_url[0]] : [],
+        },
+        alternates: {
+            canonical: `https://www.lhsconcept.com/propiedades/${slug}`,
+        },
+        robots: {
+            index: true,
+            follow: true,
+            googleBot: {
+                index: true,
+                follow: true,
+            },
+        },
     };
 }
 
