@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 
     const propertyTitle = `${property.title} | LHS Concept`;
-    const propertyDescription = `€ ${property.precio.toLocaleString('es-ES')}, 📍${property.barrioRef.name}`
+    const propertyDescription = `€${property.precio.toLocaleString('es-ES')} 📍${property.barrioRef.name}`
 
     return {
         title: propertyTitle,
