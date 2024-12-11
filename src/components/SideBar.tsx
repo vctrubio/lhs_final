@@ -5,25 +5,25 @@ import { Logo } from "@/components/NavBar";
 import { Slider } from "@mui/material"
 import { PropertyParams } from "#/backend/parsing";
 import { INuqs } from "#/backend/nuqsv2";
-
+import { IconPrice, IconBed, IconBath, IconSearch, IconPlano, IconLocation, IconRulerMeters, IconRepeatClassic } from '@/utils/svgs'; // Example icons
 
 function SidebarContent({ nuqs }: { nuqs: any }) {
     return (
-        <div>
+        <div className="border">
             {Object.keys(nuqs.sliders).map((key, index) => (
-                <div key={index}>
-                    <h2>{nuqs.sliders[key].title}</h2>
-                    <p>value0: {nuqs.sliders[key].values[0]}</p>
-                    <p>value1: {nuqs.sliders[key].values[1]}</p>
-                    <p>Min: {nuqs.sliders[key].paramMin}</p>
-                    <p>Max: {nuqs.sliders[key].paramMax}</p>
+                <div className="flex flex-col gap-2" key={index}>
+                    <div className="flex justify-between">
+                        <h2>{nuqs.sliders[key].params.title}</h2>
+                        {nuqs.sliders[key].params.icon}
+                    </div>
                     <Slider
                         value={nuqs.sliders[key].values}
                         onChange={(_, newValue) => nuqs.sliders[key].valueSet(newValue)}
-                        min={nuqs.sliders[key].paramMin}
-                        max={nuqs.sliders[key].paramMax}
-                        marks={[{ value: nuqs.sliders[key].paramMin, label: nuqs.sliders[key].paramMin }, { value: nuqs.sliders[key].paramMax, label: nuqs.sliders[key].paramMax }]}
+                        min={nuqs.sliders[key].params.min}
+                        max={nuqs.sliders[key].params.max}
+                        marks={[{ value: nuqs.sliders[key].params.min, label: nuqs.sliders[key].params.min }, { value: nuqs.sliders[key].params.max, label: nuqs.sliders[key].params.max }]}
                         disableSwap
+                        step={nuqs.sliders[key].params.title === 'Precio' ? 0.1 : 1}
                     />
                 </div>
             ))}
@@ -35,6 +35,10 @@ export default function SideBar({ propertyParams }: { propertyParams: PropertyPa
     const [isOpen, setIsOpen] = useState(false);
 
     const nuqs = INuqs(propertyParams);
+
+    const handleReset = () => {
+        nuqs.handleReset();
+    }
 
     return (
         <>

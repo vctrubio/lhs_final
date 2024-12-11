@@ -82,47 +82,53 @@ export function INuqs(propertyParams: PropertyParams) {
 
     }, [priceValue, bathroomValue, metersSquareValue]);
 
+    const handleReset = () => {
+        setPrecioMinimo(null);
+        setPrecioMaximo(null);
+        setBanosMinimo(null);
+        setBanosMaximo(null);
+        setDormitoriosMinimo(null);
+        setDormitoriosMaximo(null);
+        setMetrosCuadradosMinimo(null);
+        setMetrosCuadradosMaximo(null);
+
+        setPriceValue([propertyParams.prices.min, propertyParams.prices.max]);
+        setBathroomValue([propertyParams.bathrooms.min, propertyParams.bathrooms.max]);
+        setBedroomValue([propertyParams.bedrooms.min, propertyParams.bedrooms.max]);
+        setMetersSquareValue([propertyParams.metersSquare.min, propertyParams.metersSquare.max]);
+    }
+
     return {
+        handleReset,
         sliders: {
             price: {
                 values: priceValue,
                 valueSet: setPriceValue,
                 valueQueryMin: setPrecioMinimo,
                 valueQueryMax: setPrecioMaximo,
-                paramMin: propertyParams.prices.min,
-                paramMax: propertyParams.prices.max,
-                title: propertyParams.prices.title,
+                params: propertyParams.prices
             },
-
-            bathroom: {
-                values: bathroomValue,
-                valueSet: setBathroomValue,
-                valueQueryMin: setBanosMinimo,
-                valueQueryMax: setBanosMaximo,
-                paramMin: propertyParams.bathrooms.min,
-                paramMax: propertyParams.bathrooms.max,
-                title: propertyParams.bathrooms.title,
-            },
-
             bedroom: {
                 values: bedroomValue,
                 valueSet: setBedroomValue,
                 valueQueryMin: setDormitoriosMinimo,
                 valueQueryMax: setDormitoriosMaximo,
-                paramMin: propertyParams.bedrooms.min,
-                paramMax: propertyParams.bedrooms.max,
-                title: propertyParams.bedrooms.title,
+                params: propertyParams.bedrooms
             },
-
+            bathroom: {
+                values: bathroomValue,
+                valueSet: setBathroomValue,
+                valueQueryMin: setBanosMinimo,
+                valueQueryMax: setBanosMaximo,
+                params: propertyParams.bathrooms
+            },
             metersSquare: {
                 values: metersSquareValue,
                 valueSet: setMetersSquareValue,
                 valueQueryMin: setMetrosCuadradosMinimo,
                 valueQueryMax: setMetrosCuadradosMaximo,
-                paramMin: propertyParams.metersSquare.min,
-                paramMax: propertyParams.metersSquare.max,
-                title: propertyParams.metersSquare.title,
-            },
+                params: propertyParams.metersSquare
+            }
         }
     }
 }

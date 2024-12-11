@@ -2,10 +2,19 @@ import { getMetersSquare } from "@/utils/utils"
 import { getBedrooms } from "@/utils/utils"
 import { getBathrooms } from "@/utils/utils"
 import { Property } from "./types"
+import { formatPrice } from "@/utils/utils"
+import { IconPrice } from "@/utils/svgs"
+import {
+    Bed,
+    Bath,
+    Ruler,
+} from "lucide-react";
+
 interface PropertyParamsProps {
     title: string,
     min: number,
-    max: number
+    max: number,
+    icon: JSX.Element
 }
 
 export interface PropertyParams {
@@ -16,7 +25,7 @@ export interface PropertyParams {
 }
 
 export function getPropertiesParams(properties: Property[]): PropertyParams {
-    const prices = properties.map(property => property.precio)
+    const prices = properties.map(property => formatPrice(property.precio))
     const bathrooms = properties.map(property => getBathrooms(property))
     const bedrooms = properties.map(property => getBedrooms(property))
     const metersSquare = properties.map(property => getMetersSquare(property))
@@ -25,22 +34,26 @@ export function getPropertiesParams(properties: Property[]): PropertyParams {
         prices: {
             title: 'Precio',
             min: Math.min(...prices),
-            max: Math.max(...prices)
+            max: Math.max(...prices),
+            icon: <IconPrice />
         },
         bathrooms: {
-            title: 'Banos',
+            title: 'Baños',
             min: Math.min(...bathrooms),
-            max: Math.max(...bathrooms)
+            max: Math.max(...bathrooms),
+            icon: <Bath />
         },
         bedrooms: {
             title: 'Dormitorios',
             min: Math.min(...bedrooms),
-            max: Math.max(...bedrooms)
+            max: Math.max(...bedrooms),
+            icon: <Bed />
         },
         metersSquare: {
-            title: 'Metros Cuadrados',
+            title: 'M2',
             min: Math.min(...metersSquare),
-            max: Math.max(...metersSquare)
+            max: Math.max(...metersSquare),
+            icon: <Ruler />
         }
     }
 
