@@ -1,6 +1,6 @@
 import { Asset, createClient, Entry } from 'contentful';
 import { Property, Barrio } from './types';
-
+import { getPropertiesParams } from './parsing';
 // Client: Contentful
 const client = createClient({
     space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID as string,
@@ -16,12 +16,12 @@ export function ImageToUrl(entry: any): string {
 export function extractImageUrls(entries: any[]): string[] {
     return entries.map(entry => ImageToUrl(entry));
 }
+
 // Fetching //
+let count = 0;
 export async function fetchEntriesContentful(): Promise<{ properties: Property[], barrios: Barrio[] }> {
-    let count = 0;
     count++;
     console.log('calling fetchEntriesContentful: ', count)
-
 
     const entries = await client.getEntries();
 
@@ -38,9 +38,10 @@ export async function fetchEntriesContentful(): Promise<{ properties: Property[]
 
     });
 
+    getPropertiesParams(properties)
     return { properties, barrios }
-
 }
+
 export async function fetchPropertyByID(url: string): Promise<Property | null> {
     console.log('calling fetchbyID, url: ', url)
 

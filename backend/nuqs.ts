@@ -35,10 +35,10 @@ export const useSharedQueryState = () => {
 
     const [title, setTitle] = useQueryState('buscador', { defaultValue: '' });
 
-    const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
-    const amenitiesOptions = ['Atico', 'Garaje', 'Balcones', 'Portero'];
+    // const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+    // const amenitiesOptions = ['Atico', 'Garaje', 'Balcones', 'Portero'];
 
-    const [sortOption, setSortOption] = useQueryState('sort', { defaultValue: '' });    
+    const [sortOption, setSortOption] = useQueryState('sort', { defaultValue: '' });
 
     const [properties, setProperties] = useState<Property[]>([]);
 
@@ -248,8 +248,6 @@ export const useSharedQueryState = () => {
         metersSquareRange, metersSquareValue, setMetersSquareValue,
         selectedBarrios, setSelectedBarrios,
         barrios, includeBarrios,
-        selectedAmenities, setSelectedAmenities,
-        amenitiesOptions,
         precioMinimo, setPrecioMinimo,
         precioMaximo, setPrecioMaximo,
         banosMinimo, setBanosMinimo,

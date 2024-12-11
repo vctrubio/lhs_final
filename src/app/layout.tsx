@@ -5,6 +5,7 @@ import "../css/globals.css";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import SideBar from "@/components/SideBar";
 
+
 export const metadata: Metadata = {
   title: "LHS Concept",
   description: "Propiedades de Lujo en Madrid",
@@ -47,12 +48,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en">
       <body>
-        <SideBar>
-          <div>Hello World</div>
-        </SideBar>
+        <NuqsAdapter>
+          <SideBar />
+        </NuqsAdapter>
         <main>
           <NuqsAdapter>
             {children}
