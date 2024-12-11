@@ -81,7 +81,6 @@ export const useSharedQueryState = () => {
         setBedroomValue([bedroomRange[0], bedroomRange[1]]);
         setMetersSquareValue([metersSquareRange[0], metersSquareRange[1]]);
         setSelectedBarrios(barrios);
-        setSelectedAmenities([]);
     };
 
     useEffect(() => {

@@ -1,43 +1,48 @@
+import { getMetersSquare } from "@/utils/utils"
+import { getBedrooms } from "@/utils/utils"
+import { getBathrooms } from "@/utils/utils"
 import { Property } from "./types"
+interface PropertyParamsProps {
+    title: string,
+    min: number,
+    max: number
+}
 
-export function getPropertiesParams(properties: Property[]): any {
+export interface PropertyParams {
+    prices: PropertyParamsProps,
+    bathrooms: PropertyParamsProps,
+    bedrooms: PropertyParamsProps,
+    metersSquare: PropertyParamsProps
+}
+
+export function getPropertiesParams(properties: Property[]): PropertyParams {
     const prices = properties.map(property => property.precio)
-    const bathrooms = properties.map(property => property.charRef?.banos)
-    const bedrooms = properties.map(property => property.charRef?.dormitorios)
-    const metersSquare = properties.map(property => property.charRef?.metrosCuadradros)
- 
-    console.log('calling getPropertiesParams... listing price, bathrooms, bedrooms, metersSquare')
-    
-    const rtnPrice = {
-        min: Math.min(...prices),
-        max: Math.max(...prices)
-    }
-    
-    const rtnBathrooms = {
-        min: Math.min(...bathrooms),
-        max: Math.max(...bathrooms)
-    }
-    
-    const rtnBedrooms = {
-        min: Math.min(...bedrooms),
-        max: Math.max(...bedrooms)
-    }
-    
-    const rtnMetersSquare = {
-        min: Math.min(...metersSquare),
-        max: Math.max(...metersSquare)
+    const bathrooms = properties.map(property => getBathrooms(property))
+    const bedrooms = properties.map(property => getBedrooms(property))
+    const metersSquare = properties.map(property => getMetersSquare(property))
+
+    const propertyParams: PropertyParams = {
+        prices: {
+            title: 'Precio',
+            min: Math.min(...prices),
+            max: Math.max(...prices)
+        },
+        bathrooms: {
+            title: 'Banos',
+            min: Math.min(...bathrooms),
+            max: Math.max(...bathrooms)
+        },
+        bedrooms: {
+            title: 'Dormitorios',
+            min: Math.min(...bedrooms),
+            max: Math.max(...bedrooms)
+        },
+        metersSquare: {
+            title: 'Metros Cuadrados',
+            min: Math.min(...metersSquare),
+            max: Math.max(...metersSquare)
+        }
     }
 
-    console.log('prices: ', rtnPrice)
-    console.log('bathrooms: ', rtnBathrooms)
-    console.log('bedrooms: ', rtnBedrooms)
-    console.log('metersSquare: ', rtnMetersSquare)
-
-    return {
-       prices: rtnPrice,
-       bathrooms: rtnBathrooms,
-       bedrooms: rtnBedrooms,
-       metersSquare: rtnMetersSquare
-    }
- 
- }
+    return propertyParams
+}

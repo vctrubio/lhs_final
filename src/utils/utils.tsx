@@ -14,6 +14,12 @@ export function getBedrooms(property: Property) {
     return dormitoriosSuite + dormitorios;
 }
 
+export function getMetersSquare(property: Property) {
+    if (!property.charRef) return 0;
+    const { metrosCuadradros = 0 } = property.charRef;
+    return metrosCuadradros;
+}
+
 export function formatPrice(value: number): number {
     return parseFloat((value / 1_000_000).toFixed(4));
 }

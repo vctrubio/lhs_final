@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import "../css/globals.css";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import SideBar from "@/components/SideBar";
+import { fetchEntriesContentful } from "#/backend/apisConnections";
 
 
 export const metadata: Metadata = {
@@ -43,23 +44,25 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
 
-
+  const {properties, propertyParams} = await fetchEntriesContentful()
+  
   return (
     <html lang="en">
       <body>
         <NuqsAdapter>
-          <SideBar />
+          <SideBar propertyParams={propertyParams}/>
         </NuqsAdapter>
         <main>
-          <NuqsAdapter>
+          hellomate
+          {/* <NuqsAdapter>
             {children}
-          </NuqsAdapter>
+          </NuqsAdapter> */}
         </main>
       </body>
     </html>
