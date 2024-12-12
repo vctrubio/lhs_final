@@ -5,6 +5,52 @@ import { formatPrice } from '@/utils/utils';
 import { useQueryState } from 'nuqs'
 import { PropertyParams } from './parsing';
 
+export function NuqsManager() {
+    const [queryTitle] = useQueryState('title');
+    const [queryPriceMin] = useQueryState('precioMin');
+    const [queryPriceMax] = useQueryState('precioMax');
+    const [queryBathroomMin] = useQueryState('banosMin');
+    const [queryBathroomMax] = useQueryState('banosMax');
+    const [queryBedroomMin] = useQueryState('dormitoriosMin');
+    const [queryBedroomMax] = useQueryState('dormitoriosMax');
+    const [queryMetersSquareMin] = useQueryState('metrosMin');
+    const [queryMetersSquareMax] = useQueryState('metrosMax');
+
+    const [stateChanged, setStateChanged] = useState(false);
+
+    useEffect(() => {
+        setStateChanged(prev => !prev);
+    }, [queryTitle, queryPriceMin, queryPriceMax, queryBathroomMin,
+        queryBathroomMax, queryBedroomMin, queryBedroomMax,
+        queryMetersSquareMin, queryMetersSquareMax]);
+
+    return {
+        hasParams: [queryTitle, queryPriceMin, queryPriceMax, queryBathroomMin,
+            queryBathroomMax, queryBedroomMin, queryBedroomMax,
+            queryMetersSquareMin, queryMetersSquareMax]
+            .some(param => param !== null && param !== ''),
+        stateChanged,
+        params: {
+            title: queryTitle,
+            prices: {
+                min: queryPriceMin,
+                max: queryPriceMax
+            },
+            bathrooms: {
+                min: queryBathroomMin,
+                max: queryBathroomMax
+            },
+            bedrooms: {
+                min: queryBedroomMin,
+                max: queryBedroomMax
+            },
+            m2: {
+                min: queryMetersSquareMin,
+                max: queryMetersSquareMax
+            }
+        }
+    }
+}
 
 export function INuqs(propertyParams: PropertyParams) {
     const [priceValue, setPriceValue] = useState([0, 0]);
@@ -33,56 +79,68 @@ export function INuqs(propertyParams: PropertyParams) {
     }, []);
 
 
+
     useEffect(() => {
         //price
         if (priceValue[0] > propertyParams.prices.min) {
             setPrecioMinimo(priceValue[0].toString());
-        } else if (priceValue[0] === propertyParams.prices.min && precioMinimo) {
+        }
+        if (priceValue[0] === propertyParams.prices.min && precioMinimo) {
             setPrecioMinimo(null);
         }
-        else if (priceValue[1] < propertyParams.prices.max) {
+        if (priceValue[1] < propertyParams.prices.max) {
             setPrecioMaximo(priceValue[1].toString());
-        } else if (priceValue[1] === propertyParams.prices.max && precioMaximo) {
+        }
+        if (priceValue[1] === propertyParams.prices.max && precioMaximo) {
             setPrecioMaximo(null);
         }
 
         //bathroom
         if (bathroomValue[0] > propertyParams.bathrooms.min) {
             setBanosMinimo(bathroomValue[0].toString());
-        } else if (bathroomValue[0] === propertyParams.bathrooms.min && banosMinimo) {
+        }
+        if (bathroomValue[0] === propertyParams.bathrooms.min && banosMinimo) {
             setBanosMinimo(null);
         }
-        else if (bathroomValue[1] < propertyParams.bathrooms.max) {
+
+        if (bathroomValue[1] < propertyParams.bathrooms.max) {
             setBanosMaximo(bathroomValue[1].toString());
-        } else if (bathroomValue[1] === propertyParams.bathrooms.max && banosMaximo) {
+        }
+        if (bathroomValue[1] === propertyParams.bathrooms.max && banosMaximo) {
             setBanosMaximo(null);
         }
 
         //bedroom
         if (bedroomValue[0] > propertyParams.bedrooms.min) {
             setDormitoriosMinimo(bedroomValue[0].toString());
-        } else if (bedroomValue[0] === propertyParams.bedrooms.min && dormitoriosMinimo) {
+        }
+        if (bedroomValue[0] === propertyParams.bedrooms.min && dormitoriosMinimo) {
             setDormitoriosMinimo(null);
         }
-        else if (bedroomValue[1] < propertyParams.bedrooms.max) {
+
+        if (bedroomValue[1] < propertyParams.bedrooms.max) {
             setDormitoriosMaximo(bedroomValue[1].toString());
-        } else if (bedroomValue[1] === propertyParams.bedrooms.max && dormitoriosMaximo) {
+        }
+        if (bedroomValue[1] === propertyParams.bedrooms.max && dormitoriosMaximo) {
             setDormitoriosMaximo(null);
         }
 
         //metersSquare
         if (metersSquareValue[0] > propertyParams.metersSquare.min) {
             setMetrosCuadradosMinimo(metersSquareValue[0].toString());
-        } else if (metersSquareValue[0] === propertyParams.metersSquare.min && metrosCuadradosMinimo) {
+        }
+        if (metersSquareValue[0] === propertyParams.metersSquare.min && metrosCuadradosMinimo) {
             setMetrosCuadradosMinimo(null);
         }
-        else if (metersSquareValue[1] < propertyParams.metersSquare.max) {
+
+        if (metersSquareValue[1] < propertyParams.metersSquare.max) {
             setMetrosCuadradosMaximo(metersSquareValue[1].toString());
-        } else if (metersSquareValue[1] === propertyParams.metersSquare.max && metrosCuadradosMaximo) {
+        }
+        if (metersSquareValue[1] === propertyParams.metersSquare.max && metrosCuadradosMaximo) {
             setMetrosCuadradosMaximo(null);
         }
 
-    }, [priceValue, bathroomValue, metersSquareValue]);
+    }, [priceValue, bathroomValue, bedroomValue, metersSquareValue]);
 
     const handleReset = () => {
         setPrecioMinimo(null);
@@ -94,7 +152,7 @@ export function INuqs(propertyParams: PropertyParams) {
         setMetrosCuadradosMinimo(null);
         setMetrosCuadradosMaximo(null);
         setQueryTitle('');
-        
+
         setPriceValue([propertyParams.prices.min, propertyParams.prices.max]);
         setBathroomValue([propertyParams.bathrooms.min, propertyParams.bathrooms.max]);
         setBedroomValue([propertyParams.bedrooms.min, propertyParams.bedrooms.max]);
@@ -117,7 +175,7 @@ export function INuqs(propertyParams: PropertyParams) {
             value: queryTitle,
             setValue: setQueryTitle
         },
-        
+
         sliders: {
             price: {
                 values: priceValue,

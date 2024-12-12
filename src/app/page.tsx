@@ -5,7 +5,6 @@ import { fetchEntriesContentful } from '#/backend/apisConnections';
 import { CardPropertySearchFilter } from '@/components/CardPropertySearchFilter';
 import { unstable_cache } from 'next/cache';
 import { Property } from '#/backend/types';
-import { PropertyFilterProvider } from '#/backend/propertyFilterContext';
 // Cache the fetchEntriesContentful function
 const getCachedProperties = unstable_cache(
   async () => {
