@@ -5,28 +5,21 @@ import { Logo } from "@/components/NavBar";
 import { Slider } from "@mui/material"
 import { PropertyParams } from "#/backend/parsing";
 import { INuqs } from "#/backend/nuqsv2";
+import {IconRepeatClassic, IconSearch} from "@/utils/svgs"
 
+function SearchInput({ reset, queryParams, queryTitle, setQueryTitle }: { reset: () => void, queryParams: boolean, queryTitle: string, setQueryTitle: (value: string) => void }) {
 
-const SearchInput = () => {
+    const Icon = queryParams ? <IconRepeatClassic /> : <IconSearch />;
+
     return (
-        <div>
-            <input type="text" placeholder="Buscar" />
+        <div className='sidebar-search'>
+            <input type="text" placeholder="Buscador" value={queryTitle} onChange={(e) => setQueryTitle(e.target.value)} />
+            <div className="cursor-pointer w-12 h-12 flex items-center justify-center" onClick={reset}>{Icon}</div>
         </div>
     )
 }
 
-const Barrios = () => {
-    return (
-        <ul>
-            <li>Barrio 1</li>
-            <li>Barrio 2</li>
-            <li>Barrio 3</li>
-        </ul>
-    )
-}
-
 function SidebarContent({ nuqs }: { nuqs: any }) {
-
 
     return (
         <div className="sidebar-content">
@@ -58,10 +51,6 @@ export default function SideBar({ propertyParams }: { propertyParams: PropertyPa
 
     const nuqs = INuqs(propertyParams);
 
-    const handleReset = () => {
-        nuqs.handleReset();
-    }
-
     return (
         <>
             <div className={`nav-sidebar ${isOpen ? 'open' : ''}`}>
@@ -69,6 +58,7 @@ export default function SideBar({ propertyParams }: { propertyParams: PropertyPa
                     <Logo />
                 </div>
                 <div className="nav-sidebar-body">
+                    <SearchInput reset={nuqs.handleReset} queryParams={nuqs.hasQueryParams} queryTitle={nuqs.query.value} setQueryTitle={nuqs.query.setValue} />
                     <SidebarContent nuqs={nuqs} />
                 </div>
                 <div className="nav-sidebar-footer">

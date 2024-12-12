@@ -23,6 +23,8 @@ export function INuqs(propertyParams: PropertyParams) {
     const [metrosCuadradosMinimo, setMetrosCuadradosMinimo] = useQueryState('metrosMin', { defaultValue: '' });
     const [metrosCuadradosMaximo, setMetrosCuadradosMaximo] = useQueryState('metrosMax', { defaultValue: '' });
 
+    const [queryTitle, setQueryTitle] = useQueryState('title', { defaultValue: '' });
+
     useEffect(() => {
         setPriceValue([propertyParams.prices.min, propertyParams.prices.max]);
         setBathroomValue([propertyParams.bathrooms.min, propertyParams.bathrooms.max]);
@@ -91,15 +93,31 @@ export function INuqs(propertyParams: PropertyParams) {
         setDormitoriosMaximo(null);
         setMetrosCuadradosMinimo(null);
         setMetrosCuadradosMaximo(null);
-
+        setQueryTitle('');
+        
         setPriceValue([propertyParams.prices.min, propertyParams.prices.max]);
         setBathroomValue([propertyParams.bathrooms.min, propertyParams.bathrooms.max]);
         setBedroomValue([propertyParams.bedrooms.min, propertyParams.bedrooms.max]);
         setMetersSquareValue([propertyParams.metersSquare.min, propertyParams.metersSquare.max]);
     }
 
+    const hasQueryParams = [
+        precioMinimo, precioMaximo,
+        banosMinimo, banosMaximo,
+        dormitoriosMinimo, dormitoriosMaximo,
+        metrosCuadradosMinimo, metrosCuadradosMaximo,
+        queryTitle && queryTitle !== '' // Check if sortOption is not empty
+        // sortOption && sortOption !== '' // Check if sortOption is not empty
+    ].some(param => param !== null && param !== '');
+
     return {
         handleReset,
+        hasQueryParams,
+        query: {
+            value: queryTitle,
+            setValue: setQueryTitle
+        },
+        
         sliders: {
             price: {
                 values: priceValue,
