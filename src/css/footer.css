@@ -1,0 +1,11 @@
+.footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border: 1px solid white;
+    /* >*{
+        fill: var(--color-green-dark);
+        color: var(--color-green-dark);
+    } */
+}

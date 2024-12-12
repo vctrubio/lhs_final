@@ -1,10 +1,19 @@
 
-
+import {
+    IconWhatsapp,
+    IconMail,
+    IconFindUs,
+    IconInstagram,
+    IconShare,
+} from '@/utils/svgs';
 
 export default function Footer() {
     return (
-        <div className="border p-2">
-            <h1>Footer</h1>
+        <div className="footer">
+            <IconWhatsapp />
+            <IconMail />
+            <IconInstagram />
+            <IconFindUs />
         </div>
     )
 }

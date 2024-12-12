@@ -6,7 +6,7 @@ import { Slider } from "@mui/material"
 import { PropertyParams } from "#/backend/parsing";
 import { INuqs } from "#/backend/nuqsv2";
 import {IconRepeatClassic, IconSearch} from "@/utils/svgs"
-
+import Footer from "@/components/Footer"
 function SearchInput({ reset, queryParams, queryTitle, setQueryTitle }: { reset: () => void, queryParams: boolean, queryTitle: string, setQueryTitle: (value: string) => void }) {
 
     const Icon = queryParams ? <IconRepeatClassic /> : <IconSearch />;
@@ -54,7 +54,7 @@ export default function SideBar({ propertyParams }: { propertyParams: PropertyPa
     return (
         <>
             <div className={`nav-sidebar ${isOpen ? 'open' : ''}`}>
-                <div className="nav-sidebar-head border">
+                <div className="nav-sidebar-head">
                     <Logo />
                 </div>
                 <div className="nav-sidebar-body">
@@ -62,7 +62,7 @@ export default function SideBar({ propertyParams }: { propertyParams: PropertyPa
                     <SidebarContent nuqs={nuqs} />
                 </div>
                 <div className="nav-sidebar-footer">
-                    Footer Component
+                    <Footer />
                 </div>
             </div>
             <button
