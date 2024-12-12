@@ -4,7 +4,8 @@ import { PropertyProvider } from '#/backend/propertyProviderContext';
 import { fetchEntriesContentful } from '#/backend/apisConnections';
 import { CardPropertySearchFilter } from '@/components/CardPropertySearchFilter';
 import { unstable_cache } from 'next/cache';
-
+import { Property } from '#/backend/types';
+import { PropertyFilterProvider } from '#/backend/propertyFilterContext';
 // Cache the fetchEntriesContentful function
 const getCachedProperties = unstable_cache(
   async () => {
@@ -27,10 +28,8 @@ const PropertyProviderWrapper = () => (
 );
 
 // Make this an async component instead of an export
-async function PropertyCardSection() {
+export async function PropertyCardSection({ properties }: { properties: Property[] }) {
   // const properties = await getCachedProperties();
-  const { properties } = await fetchEntriesContentful();
-
   return (
     <div className="flex flex-wrap">
       <CardPropertySearchFilter entries={properties} />
@@ -38,10 +37,14 @@ async function PropertyCardSection() {
   );
 }
 
-export default async function Home() {
+export default async function Home({ properties }: { properties: Property[] }) {
+  if (!properties || properties.length === 0) {
+    return <div>No properties available....EERRROR..... TBD</div>;
+  }
+
   return (
     <Suspense fallback={<div></div>}>
-      <PropertyCardSection />
+      <PropertyCardSection properties={properties} />
     </Suspense>
   );
 }

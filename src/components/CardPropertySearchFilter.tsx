@@ -2,180 +2,146 @@
 import React, { useEffect, useState } from "react";
 import { CardProperty } from '@/components/PropertyCard';
 import { Property } from "#/backend/types";
-import { getBathrooms } from "@/utils/utils";
-import { useSharedQueryState } from "#/backend/nuqs";
+import { formatPrice, getBathrooms, getBedrooms, getMetersSquare } from "@/utils/utils";
+import { useQueryState, } from 'nuqs'
+
+function NuqsManager() {
+    const [queryTitle] = useQueryState('title');
+    const [queryPriceMin] = useQueryState('precioMin');
+    const [queryPriceMax] = useQueryState('precioMax');
+    const [queryBathroomMin] = useQueryState('banosMin');
+    const [queryBathroomMax] = useQueryState('banosMax');
+    const [queryBedroomMin] = useQueryState('dormitoriosMin');
+    const [queryBedroomMax] = useQueryState('dormitoriosMax');
+    const [queryMetersSquareMin] = useQueryState('metrosMin');
+    const [queryMetersSquareMax] = useQueryState('metrosMax');
+
+
+    return {
+        hasParams: [queryTitle, queryPriceMin, queryPriceMax, queryBathroomMin, queryBathroomMax, queryBedroomMin, queryBedroomMax, queryMetersSquareMin, queryMetersSquareMax].some(param => param !== null && param !== ''),
+
+        //use effect- but not really working
+        paramsStateChanged: [queryTitle, queryPriceMin, queryPriceMax, queryBathroomMin, queryBathroomMax, queryBedroomMin, queryBedroomMax, queryMetersSquareMin, queryMetersSquareMax].some((param, index, array) => {
+            if (index === 0) return param !== array[index];
+            return param !== null && param !== '';
+        }),
+        
+        params: {
+            title: queryTitle,
+            prices: {
+                min: queryPriceMin,
+                max: queryPriceMax
+            },
+            bathrooms: {
+                min: queryBathroomMin,
+                max: queryBathroomMax
+            },
+            bedrooms: {
+                min: queryBedroomMin,
+                max: queryBedroomMax
+            },
+            m2: {
+                min: queryMetersSquareMin,
+                max: queryMetersSquareMax
+            }
+        }
+    }
+}
+
+
 
 //for server side {params, searchParams} as props
 export const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
     const [filterProperties, setFilterProperties] = useState<Property[]>(entries);
-
-    const {
-        title,
-        banosMaximo,
-        banosMinimo,
-        dormitoriosMaximo,
-        dormitoriosMinimo,
-        metrosCuadradrosMaximo,
-        metrosCuadradrosMinimo,
-        precioMaximo,
-        precioMinimo,
-        includeBarrios,
-        flagReformado,
-        flagSinReformar,
-        sortOption, // Get sortOption from shared state
-    } = useSharedQueryState();
-
-    const [cssStateHover, setCssStateHover] = useState(false);
     const [cssUniqueBoy, setUniqueBoy] = useState(false);
+    const [cssStateHover, setCssStateHover] = useState(false);
+
+    const nuqs = NuqsManager();
 
     useEffect(() => {
-        const isAnyFilterActive = [
-            title,
-            banosMaximo,
-            banosMinimo,
-            dormitoriosMaximo,
-            dormitoriosMinimo,
-            metrosCuadradrosMaximo,
-            metrosCuadradrosMinimo,
-            precioMaximo,
-            precioMinimo,
-            includeBarrios,
-            flagReformado,
-            flagSinReformar
-        ].some(filter => {
-            if (typeof filter === 'boolean') {
-                return filter;
+        let updatedProperties = [...entries];
+
+        if (nuqs.hasParams) {
+            if (nuqs.params.title) {
+                console.log('testing:log-- title-- ', nuqs.params.title);
+                updatedProperties = updatedProperties.filter(property => {
+                    return property.title.toLowerCase().includes(nuqs.params.title!.toLowerCase())
+                });
             }
-            return filter !== undefined && filter !== '';
+            if (nuqs.params.prices.min) {
+                console.log('testing:log-- prices.min-- ', nuqs.params.prices.min);
+                updatedProperties = updatedProperties.filter(property => {
+                    const propertyPrice = formatPrice(property.precio);
+                    console.log('Property Price Min:', propertyPrice, 'of title: ' + property.title + ' vs Min Price:', parseFloat(nuqs.params.prices.min!));
+                    return propertyPrice >= parseFloat(nuqs.params.prices.min!);
+                });
+            }
+            if (nuqs.params.prices.max) {
+                console.log('testing:log-- prices.max-- ', nuqs.params.prices.max);
+                updatedProperties = updatedProperties.filter(property => {
+                    const propertyPrice = formatPrice(property.precio);
+                    console.log('Property Price:', propertyPrice, 'vs Max Price:', parseFloat(nuqs.params.prices.max!));
+                    return propertyPrice <= parseFloat(nuqs.params.prices.max!);
+                });
+            }
+
+            if (nuqs.params.bathrooms.min) {
+                console.log('testing:log-- bathrooms.min-- ', nuqs.params.bathrooms.min);
+                updatedProperties = updatedProperties.filter(property => {
+                    return getBathrooms(property) >= parseInt(nuqs.params.bathrooms.min!)
+                });
+            }
+            if (nuqs.params.bathrooms.max) {
+                console.log('testing:log-- bathrooms.max-- ', nuqs.params.bathrooms.max);
+                updatedProperties = updatedProperties.filter(property => {
+                    return getBathrooms(property) <= parseInt(nuqs.params.bathrooms.max!)
+                });
+            }
+
+            if (nuqs.params.bedrooms.min) {
+                console.log('testing:log-- bedrooms.min-- ', nuqs.params.bedrooms.min);
+                updatedProperties = updatedProperties.filter(property => {
+                    return getBedrooms(property) >= parseInt(nuqs.params.bedrooms.min!)
+                });
+            }
+            if (nuqs.params.bedrooms.max) {
+                console.log('testing:log-- bedrooms.max-- ', nuqs.params.bedrooms.max);
+                updatedProperties = updatedProperties.filter(property => {
+                    return getBedrooms(property) <= parseInt(nuqs.params.bedrooms.max!)
+                });
+            }
+
+            if (nuqs.params.m2.min) {
+                console.log('testing:log-- m2.min-- ', nuqs.params.m2.min);
+                updatedProperties = updatedProperties.filter(property => {
+                    return getMetersSquare(property) >= parseInt(nuqs.params.m2.min!)
+                });
+            }
+            if (nuqs.params.m2.max) {
+                console.log('testing:log-- m2.max-- ', nuqs.params.m2.max);
+                updatedProperties = updatedProperties.filter(property => {
+                    return getMetersSquare(property) <= parseInt(nuqs.params.m2.max!)
+                });
+            }
+        }
+
+        // setFilterProperties(updatedProperties);
+
+
+        if (filterProperties.length <= 1) {
+            setUniqueBoy(true);
+        }
+        else {
+            setUniqueBoy(false);
+        }
+
+        console.log('testing---runthrough---')
+        updatedProperties.forEach(property => {
+            console.log('Property Title:', property.title, 'Price:', property.precio);
         });
 
-        setCssStateHover(isAnyFilterActive);
-    }, [
-        title,
-        banosMaximo,
-        banosMinimo,
-        dormitoriosMaximo,
-        dormitoriosMinimo,
-        metrosCuadradrosMaximo,
-        metrosCuadradrosMinimo,
-        precioMaximo,
-        precioMinimo,
-        includeBarrios,
-        flagReformado,
-        flagSinReformar
-    ]);
 
-    useEffect(() => {
-        let updateProperty = [...entries];
-
-        if (title) {
-            updateProperty = updateProperty.filter(house =>
-                house.title.toLowerCase().includes(title.toLowerCase())
-            );
-        }
-
-        if (banosMinimo) {
-            updateProperty = updateProperty.filter(property => getBathrooms(property) >= parseInt(banosMinimo));
-        }
-
-        if (banosMaximo) {
-            updateProperty = updateProperty.filter(property => getBathrooms(property) <= parseInt(banosMaximo));
-        }
-
-        if (dormitoriosMinimo) {
-            updateProperty = updateProperty.filter(property => property.charRef.dormitorios >= parseInt(dormitoriosMinimo));
-        }
-
-        if (dormitoriosMaximo) {
-            updateProperty = updateProperty.filter(property => property.charRef.dormitorios <= parseInt(dormitoriosMaximo));
-        }
-
-        if (metrosCuadradrosMinimo) {
-            updateProperty = updateProperty.filter(property => property.charRef.metrosCuadradros >= parseInt(metrosCuadradrosMinimo));
-        }
-
-        if (metrosCuadradrosMaximo) {
-            updateProperty = updateProperty.filter(property => property.charRef.metrosCuadradros <= parseInt(metrosCuadradrosMaximo));
-        }
-
-        if (precioMinimo) {
-            updateProperty = updateProperty.filter(property => property.precio >= parseFloat(precioMinimo) * 1000000);
-        }
-
-        if (precioMaximo) {
-            updateProperty = updateProperty.filter(property => property.precio <= parseFloat(precioMaximo) * 1000000);
-        }
-
-        if (includeBarrios && includeBarrios.length > 0) {
-            updateProperty = updateProperty.filter(property => includeBarrios.includes(property.barrioRef?.name));
-        }
-
-        if (flagReformado) {
-            updateProperty = updateProperty.filter(property => property.reformado);
-        }
-
-        if (flagSinReformar) {
-            updateProperty = updateProperty.filter(property => !property.reformado);
-        }
-
-        // Apply sorting based on sortOption
-        const sortedProperties = [...updateProperty].sort((a, b) => {
-            switch (sortOption) {
-                case 'precioAsc':
-                    return a.precio - b.precio;
-                case 'precioDesc':
-                    return b.precio - a.precio;
-                case 'dormitoriosAsc':
-                    if (a.charRef.dormitorios === b.charRef.dormitorios) {
-                        return getBathrooms(a) - getBathrooms(b);
-                    }
-                    return a.charRef.dormitorios - b.charRef.dormitorios;
-                case 'dormitoriosDesc':
-                    if (a.charRef.dormitorios === b.charRef.dormitorios) {
-                        return getBathrooms(b) - getBathrooms(a);
-                    }
-                    return b.charRef.dormitorios - a.charRef.dormitorios;
-                case 'banosAsc':
-                    if (getBathrooms(a) === getBathrooms(b)) {
-                        return a.charRef.dormitorios - b.charRef.dormitorios;
-                    }
-                    return getBathrooms(a) - getBathrooms(b);
-                case 'banosDesc':
-                    if (getBathrooms(a) === getBathrooms(b)) {
-                        return b.charRef.dormitorios - a.charRef.dormitorios;
-                    }
-                    return getBathrooms(b) - getBathrooms(a);
-                case 'metrosAsc':
-                    return a.charRef.metrosCuadradros - b.charRef.metrosCuadradros;
-                case 'metrosDesc':
-                    return b.charRef.metrosCuadradros - a.charRef.metrosCuadradros;
-                case 'barrioAsc':
-                    return (a.barrioRef?.name || '').localeCompare(b.barrioRef?.name || '');
-                case 'barrioDesc':
-                    return (b.barrioRef?.name || '').localeCompare(a.barrioRef?.name || '');
-                default:
-                    return 0; // No sorting
-            }
-        });
-
-        setFilterProperties(sortedProperties);
-        setUniqueBoy(sortedProperties.length === 1);
-    }, [
-        title,
-        banosMaximo,
-        banosMinimo,
-        dormitoriosMaximo,
-        dormitoriosMinimo,
-        metrosCuadradrosMaximo,
-        metrosCuadradrosMinimo,
-        precioMaximo,
-        precioMinimo,
-        includeBarrios,
-        flagReformado,
-        flagSinReformar,
-        sortOption, // Add sortOption to dependencies
-        entries
-    ]);
+    }, [nuqs.params]); //bug:: atm double rendering
 
     return (
         <>
