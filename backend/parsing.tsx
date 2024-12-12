@@ -50,7 +50,7 @@ export function getPropertiesParams(properties: Property[]): PropertyParams {
             icon: <Bed />
         },
         metersSquare: {
-            title: 'M2',
+            title: 'M²',
             min: Math.min(...metersSquare),
             max: Math.max(...metersSquare),
             icon: <Ruler />

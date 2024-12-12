@@ -39,7 +39,7 @@ export function formatCurrency(value: number, rent: boolean = false): JSX.Elemen
     return (
         <div className='flex'>
             <span style={{ paddingTop: '6px', fontSize: '22px' }}>{formattedValue}</span>
-            <span style={{ paddingLeft: '6px', paddingBottom: '2px' }}><IconPrice /></span>
+            <span style={{ paddingBottom: '2px', transform: 'translateX(-6px)' }}><IconPrice /></span>
             <span className="italic">{rent ? '' : '/mes'}</span>
         </div>
     );

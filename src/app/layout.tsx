@@ -51,7 +51,7 @@ export default async function RootLayout({
 }>) {
 
   const {properties, propertyParams} = await fetchEntriesContentful()
-  
+
   return (
     <html lang="en">
       <body>
@@ -59,10 +59,9 @@ export default async function RootLayout({
           <SideBar propertyParams={propertyParams}/>
         </NuqsAdapter>
         <main>
-          hellomate
-          {/* <NuqsAdapter>
+          <NuqsAdapter>
             {children}
-          </NuqsAdapter> */}
+          </NuqsAdapter>
         </main>
       </body>
     </html>

@@ -1,3 +1,4 @@
+/*this should be in globals.css*/
 body {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -7,6 +8,15 @@ body {
     overflow: hidden;
 }
 
+/* Add scrolling to main content */
+main {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/*********/
+
 .nav-sidebar {
     display: flex;
     flex-direction: column;
@@ -14,12 +24,12 @@ body {
     text-align: center;
 
     position: sticky;
-    top: 0;
-    height: 100vh;
     overflow: hidden;
-    z-index: 10;
+    top: 0;
     left: 0;
-    width: 325px;
+    z-index: 10;
+    height: 100vh;
+    width: 365px;
 
     background-color: var(--color-beigh-light-bg);
     box-shadow: 1px 0 0 0 black, 2px 0 0 0 black, 3px 0 0 0 black;
@@ -46,12 +56,60 @@ body {
     border-top: 1px solid black;
 }
 
-/* Add scrolling to main content */
-main {
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+
+/*sidebar content*/
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    padding: 4px;
+
+    >* {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding-top: 6px;
+        padding-bottom: 22px;
+
+        border-radius: 10px;
+        border: 1px solid var(--color-green-dark-opec);
+        box-shadow: 0 4px 8px var(--color-green-dark-opec);
+    }
+
 }
+
+.sidebar-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 6px;
+    padding-left: 8px;
+
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.4rem;
+}
+
+.sidebar-content-slider {
+    width: 85%;
+    margin: 0 auto;
+    color: var(--color-green-dark);
+}
+
+.sidebar-content-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+
+    svg {
+        width: 68px;
+        height: 68px;
+    }
+}
+
+
 
 /* Mobile styles */
 @media (max-width: 768px) {
@@ -101,6 +159,10 @@ main {
         background-color: var(--color-beigh-light-bg-hover, #e5e5e5);
     }
 
+    .sidebar-content-slider {
+        width: 88%;
+    }
+
 }
 
 /* Desktop styles */
@@ -108,7 +170,7 @@ main {
     .nav-sidebar {
         transition: transform 0.3s ease-in-out;
     }
-    
+
     .nav-sidebar-toggle {
         display: none;
     }
