@@ -1,18 +1,15 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
-import Slider from "react-slick";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { IconPrice } from "@/utils/svgs";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import {
     Bed, Bath, MapPin, Share2, Wind, Flame, Building2,
     Home, User, Package, Car, Phone, Ruler, BedDouble,
     Sun, Toilet, Fence,
 } from "lucide-react";
 import ShareModal from './ShareModal';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 function AmenitiesSection({ amenities, reformado }) {
     const reformadoStatus = {
@@ -208,7 +205,6 @@ function CarouselComponent({ property }) {
     const containerRef = useRef(null);
     const [visibleCount, setVisibleCount] = useState(6);
 
-    // Calculate visible thumbnails
     useEffect(() => {
         const calculateVisibleCount = () => {
             if (!containerRef.current) return;
@@ -254,7 +250,6 @@ function CarouselComponent({ property }) {
         };
     }, [property.photos_url.length, visibleCount]);
 
-    // Handle thumbnail scrolling
     useEffect(() => {
         if (!thumbnailsRef.current) return;
 
@@ -288,6 +283,7 @@ function CarouselComponent({ property }) {
                 autoPlay={true}
                 autoPlaySpeed={6000}
                 onHoverPause={true}
+                //todo: add transition effects
                 renderArrowPrev={(clickHandler, hasPrev) => (
                     <button
                         onClick={clickHandler}
@@ -338,8 +334,8 @@ function CarouselComponent({ property }) {
                         key={index}
                         onClick={() => setCurrentIndex(index)}
                         className={`flex-shrink-0 w-20 h-14 relative rounded overflow-hidden transition-all duration-300 transform hover:scale-105
-                            ${currentIndex === index 
-                                ? 'ring-2 ring-[#B8860B] ring-offset-2 ring-offset-white shadow-lg' 
+                            ${currentIndex === index
+                                ? 'ring-2 ring-[#B8860B] ring-offset-2 ring-offset-white shadow-lg'
                                 : 'opacity-70 hover:opacity-100 hover:shadow-md'}`}
                     >
                         <Image
