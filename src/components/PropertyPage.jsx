@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Slider from "react-slick";
 import Image from "next/image";
 import { IconPrice } from "@/utils/svgs";
@@ -203,14 +203,91 @@ function PropertyDetails({ property }) {
 }
 
 function CarouselComponent({ property }) {
-    return (
-        <div className="relative w-full h-[600px] group mb-8">
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const thumbnailsRef = useRef(null);
+    const containerRef = useRef(null);
+    const [visibleCount, setVisibleCount] = useState(6);
+
+    // Calculate visible thumbnails
+    useEffect(() => {
+        const calculateVisibleCount = () => {
+            if (!containerRef.current) return;
+
+            requestAnimationFrame(() => {
+                const containerWidth = containerRef.current.offsetWidth;
+                const thumbnailWidth = 84; // thumbnail (80px) + margin (4px)
+                const gap = 8; // gap-2
+                const padding = 64; // px-8 (32px each side)
+
+                const availableWidth = containerWidth - padding;
+                const possibleCount = Math.floor(availableWidth / (thumbnailWidth + gap));
+
+                // Keep between 3 and 12 thumbnails
+                const newCount = Math.min(
+                    Math.max(3, possibleCount),
+                    Math.min(12, property.photos_url.length)
+                );
+
+                if (newCount !== visibleCount) {
+                    setVisibleCount(newCount);
+                }
+            });
+        };
+
+        calculateVisibleCount();
+
+        // Setup ResizeObserver for container size changes
+        const observer = new ResizeObserver(() => {
+            calculateVisibleCount();
+        });
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        // Add window resize listener
+        window.addEventListener('resize', calculateVisibleCount);
+        // Cleanup
+        return () => {
+            observer.disconnect();
+            window.removeEventListener('resize', calculateVisibleCount);
+        };
+    }, [property.photos_url.length, visibleCount]);
+
+    // Handle thumbnail scrolling
+    useEffect(() => {
+        if (!thumbnailsRef.current) return;
+
+        const thumbnailWidth = 84; // width + margin
+        const gap = 8;
+        const centerOffset = Math.floor(visibleCount / 2);
+        const scrollPosition = Math.max(0,
+            (currentIndex - centerOffset) * (thumbnailWidth + gap)
+        );
+
+        thumbnailsRef.current.scrollTo({
+            left: scrollPosition,
+            behavior: 'smooth'
+        });
+    }, [currentIndex, visibleCount]);
+
+    const MainCarousel = () => (
+        <div className="relative w-full h-[600px] group">
             <Carousel
                 showThumbs={false}
+                showStatus={false}
                 infiniteLoop={true}
                 useKeyboardArrows={true}
-                showStatus={false}
                 showIndicators={false}
+                selectedItem={currentIndex}
+                onChange={setCurrentIndex}
+                swipeable={true}
+                emulateTouch={true}
+                swipeScrollTolerance={5}
+                preventMovementUntilSwipeScrollTolerance={true}
+                autoPlay={true}
+                autoPlaySpeed={6000}
+                onHoverPause={true}
                 renderArrowPrev={(clickHandler, hasPrev) => (
                     <button
                         onClick={clickHandler}
@@ -239,20 +316,61 @@ function CarouselComponent({ property }) {
                             fill
                             alt={`Property Image ${index + 1}`}
                             className="max-w-full max-h-full object-contain"
+                            priority={index === 0}
                         />
                     </div>
                 ))}
             </Carousel>
         </div>
     );
+
+    const ThumbnailCarousel = () => (
+        <div ref={containerRef} className="relative px-8 py-2">
+            <div
+                ref={thumbnailsRef}
+                className="flex gap-2 overflow-x-hidden scroll-smooth mx-auto py-2"
+                style={{
+                    maxWidth: `${(visibleCount * 80) + ((visibleCount - 1) * 8)}px`,
+                    transition: 'max-width 0.3s ease-in-out'
+                }}
+            >
+                {property.photos_url.map((image, index) => (
+                    <button
+                        key={index}
+                        onClick={() => setCurrentIndex(index)}
+                        className={`flex-shrink-0 w-20 h-14 relative rounded overflow-hidden transition-all outline-none focus:outline-none
+                            ${currentIndex === index
+                                ? 'ring-2 ring-[#B8860B]'
+                                : 'opacity-70 hover:opacity-100'}`}
+                    >
+                        <Image
+                            src={image}
+                            fill
+                            alt={`Thumbnail ${index + 1}`}
+                            className="object-cover"
+                            sizes="80px"
+                            draggable={false}
+                        />
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
+
+    return (
+        <div className="relative w-full mb-8">
+            <MainCarousel />
+            <ThumbnailCarousel />
+        </div>
+    );
 }
+
 
 export default function PropiedadPage({ property }) {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* <PropertyImageGallery property={property} /> */}
             <CarouselComponent property={property} />
 
             <div className="flex flex-col xl:flex-row justify-around">
@@ -262,7 +380,6 @@ export default function PropiedadPage({ property }) {
                     setIsShareModalOpen={setIsShareModalOpen}
                 />
             </div>
-
 
             <ShareModal
                 isOpen={isShareModalOpen}

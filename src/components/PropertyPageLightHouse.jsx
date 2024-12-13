@@ -4,6 +4,8 @@ import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 
 
+//this is all depreciated....
+
 function PropertyImageGallery({ property }) {
     const [nav1, setNav1] = useState(null);
     const [nav2, setNav2] = useState(null);
