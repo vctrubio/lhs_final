@@ -11,6 +11,8 @@ import {
     Sun, Toilet, Fence,
 } from "lucide-react";
 import ShareModal from './ShareModal';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 function AmenitiesSection({ amenities, reformado }) {
     const reformadoStatus = {
@@ -119,87 +121,6 @@ function PropertyStats({ property }) {
     );
 }
 
-function PropertyImageGallery({ property }) {
-    const [nav1, setNav1] = useState(null);
-    const [nav2, setNav2] = useState(null);
-
-    const mainSettings = {
-        dots: false,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: true,
-        asNavFor: nav2,
-
-    };
-
-    const thumbSettings = {
-        dots: false,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        asNavFor: nav1,
-        centerMode: true,
-        focusOnSelect: true,
-        arrows: true,
-    };
-
-    return (
-        <div className="mb-6 sm:mb-8 lg:mb-12 border">
-
-            {/* Main Image Slider */}
-            <div className="relative rounded-t-lg w-full">
-                <Slider
-                    {...mainSettings}
-                    ref={(slider1) => setNav1(slider1)}
-                    className="w-full aspect-[16/9] border"
-                >
-                    {property.photos_url.map((image, index) => (
-                        <div key={index} className="relative w-full aspect-[16/9]">
-                            <Image
-                                src={image}
-                                alt={`${property.title} - View ${index + 1}`}
-                                fill
-                                className="object-contain"
-                                priority={index === 0}
-                            // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
-                            />
-                        </div>
-                    ))}
-                </Slider>
-            </div>
-
-            {/* Thumbnail Slider */}
-            <div className="rounded-b-lg p-2 sm:p-3 md:p-4">
-                <Slider
-                    {...thumbSettings}
-                    ref={(slider2) => setNav2(slider2)}
-                    className="thumbnail-slider"
-                >
-                    {property.photos_url.map((image, index) => (
-                        <div
-                            key={index}
-                            className="px-1 sm:px-2"
-                        >
-                            <div className="relative aspect-video rounded-lg overflow-hidden">
-                                <Image
-                                    src={image}
-                                    alt={`Thumbnail ${index + 1}`}
-                                    fill
-                                    className="object-cover"
-                                    sizes="(max-width: 768px) 25vw, (max-width: 1200px) 20vw, 15vw"
-                                />
-                            </div>
-                        </div>
-                    ))}
-                </Slider>
-            </div>
-        </div>
-    );
-}
-
 function PropertySidebar({ property, setIsShareModalOpen }) {
     return (
         <div className="lg:col-span-1" style={{ minWidth: '400px', maxWidth: '600px' }}>
@@ -281,30 +202,66 @@ function PropertyDetails({ property }) {
     );
 }
 
-// export default function PropiedadPage({ property }) {
-//     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-
-//     return (
-
-
-
-//     );
-// }
+function CarouselComponent({ property }) {
+    return (
+        <div className="relative w-full h-[600px] group mb-8">
+            <Carousel
+                showThumbs={false}
+                infiniteLoop={true}
+                useKeyboardArrows={true}
+                showStatus={false}
+                showIndicators={false}
+                renderArrowPrev={(clickHandler, hasPrev) => (
+                    <button
+                        onClick={clickHandler}
+                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/30 hover:bg-black/50 transition-all duration-200 rounded-r-lg opacity-0 group-hover:opacity-100"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="white" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                )}
+                renderArrowNext={(clickHandler, hasNext) => (
+                    <button
+                        onClick={clickHandler}
+                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/30 hover:bg-black/50 transition-all duration-200 rounded-l-lg opacity-0 group-hover:opacity-100"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="white" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
+                )}
+            >
+                {property.photos_url.map((image, index) => (
+                    <div key={index} className="relative h-[600px] flex items-center justify-center">
+                        <Image
+                            src={image}
+                            fill
+                            alt={`Property Image ${index + 1}`}
+                            className="max-w-full max-h-full object-contain"
+                        />
+                    </div>
+                ))}
+            </Carousel>
+        </div>
+    );
+}
 
 export default function PropiedadPage({ property }) {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <PropertyImageGallery property={property} />
+            {/* <PropertyImageGallery property={property} /> */}
+            <CarouselComponent property={property} />
 
-            {/* <div className="flex flex-col xl:flex-row justify-around">
-            <PropertyDetails property={property} />
-            <PropertySidebar
-                property={property}
-                setIsShareModalOpen={setIsShareModalOpen}
-            />
-        </div>
+            <div className="flex flex-col xl:flex-row justify-around">
+                <PropertyDetails property={property} />
+                <PropertySidebar
+                    property={property}
+                    setIsShareModalOpen={setIsShareModalOpen}
+                />
+            </div>
 
 
             <ShareModal
@@ -312,7 +269,7 @@ export default function PropiedadPage({ property }) {
                 onClose={() => setIsShareModalOpen(false)}
                 title={property.title}
                 url={`https://www.lhsconcept.com/propiedades/${property.url}`}
-            /> */}
+            />
         </div>
     );
 }
