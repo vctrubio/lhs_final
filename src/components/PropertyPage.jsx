@@ -30,7 +30,7 @@ function AmenitiesSection({ amenities, reformado }) {
 
     return (
         <div className="border-t pt-2">
-            <h3 className="font-serif text-xl text-white mb-2">
+            <h3 className="font-serif text-xl text-white my-2">
                 Características
             </h3>
             <div className="grid grid-cols-2 gap-4">
@@ -122,8 +122,8 @@ function PropertySidebar({ property, setIsShareModalOpen }) {
     return (
         <div className="lg:col-span-1" style={{ minWidth: '400px', maxWidth: '600px' }}>
             <div className="sticky top-8 bg-[#14213D] rounded-xl shadow-xl p-6">
-                <div className="mb-2">
-                    <span className="text-xl text-white">Precio</span>
+                <div className="my-3">
+                    <span className="text-2xl text-white">Precio</span>
                     <div className="text-4xl font-serif text-white flex" style={{ letterSpacing: '1px' }}>
                         <IconPrice stroke="white" />{property.precio.toLocaleString('es-ES')}
                     </div>
@@ -146,7 +146,7 @@ function PropertySidebar({ property, setIsShareModalOpen }) {
 
                 <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
 
-                <div className="mt-8 space-y-3">
+                <div className="my-6 space-y-3">
                     <button
                         onClick={() => {
                             const propertyUrl = `https://www.lhsconcept.com/propiedades/${property.url}`;
@@ -181,18 +181,18 @@ function PropertySidebar({ property, setIsShareModalOpen }) {
 function PropertyDetails({ property }) {
     return (
         <div className="max-w-xl">
-            <h1 className="font-serif text-4xl md:text-5xl text-[#14213D] mb-4 px-4">
+            <h1 className="font-serif text-4xl md:text-5xl text-[#14213D] mb-2 px-4 border-b inline-block">
                 {property.title}
             </h1>
 
-            <div className="flex items-center text-gray-600 mb-8 px-4">
+            <div className="flex items-center text-gray-600 mb-4 px-4">
                 <MapPin className="w-5 h-5 mr-2" />
                 <span>{property.barrioRef.name}</span>
             </div>
 
             <PropertyStats property={property} />
 
-            <div className="text-gray-600 leading-relaxed mb-12 px-2">
+            <div className="text-gray-600 text-xl leading-relaxed mb-12 px-2">
                 {property.description}
             </div>
         </div>
@@ -360,7 +360,7 @@ export default function PropiedadPage({ property }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <CarouselComponent property={property} />
 
-            <div className="flex flex-col xl:flex-row justify-around">
+            <div className="flex flex-col xl:flex-row justify-center gap-8 items-center">
                 <PropertyDetails property={property} />
                 <PropertySidebar
                     property={property}
