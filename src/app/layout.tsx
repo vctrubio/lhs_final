@@ -56,7 +56,9 @@ export default async function RootLayout({
     <html lang="en">
       <NuqsAdapter>
         <body>
-          <SideBar propertyParams={propertyParams} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <SideBar propertyParams={propertyParams} />
+          </Suspense>
           <main>
             {children}
           </main>
