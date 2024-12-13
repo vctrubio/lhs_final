@@ -27,13 +27,13 @@ export const NoResultsFound = ({ nuqsParams, entries, cssStateHover }: NoResults
                 <ul className="space-y-2 text-left">
                     {nuqsParams.title && (
                         <li className="flex items-center gap-2 text-gray-700">
-                            <span className="font-medium">T��tulo:</span> {nuqsParams.title}
+                            <span className="font-medium">Titulo:</span> {nuqsParams.title}
                         </li>
                     )}
                     {(nuqsParams.prices.min || nuqsParams.prices.max) && (
                         <li className="flex items-center gap-2 text-gray-700">
                             <span className="font-medium">Precio:</span> 
-                            {nuqsParams.prices.min || '0'} - {nuqsParams.prices.max || '∞'}
+                            {nuqsParams.prices.min || '0'}M - {nuqsParams.prices.max || '∞'}M
                         </li>
                     )}
                     {(nuqsParams.bathrooms.min || nuqsParams.bathrooms.max) && (
@@ -67,20 +67,7 @@ export const NoResultsFound = ({ nuqsParams, entries, cssStateHover }: NoResults
                 </p>
             </div>
 
-            {entries.length > 0 && (
-                <div className="mt-8">
-                    <h4 className="text-xl font-playfair mb-6">Propiedades destacadas</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {entries.slice(0, 3).map((entry: Property) => (
-                            <CardProperty 
-                                property={entry} 
-                                key={entry.title} 
-                                cssStateHover={cssStateHover}
-                            />
-                        ))}
-                    </div>
-                </div>
-            )}
+           
         </div>
     );
 }; 
