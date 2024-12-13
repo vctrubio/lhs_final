@@ -4,7 +4,7 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import SideBar from "@/components/SideBar";
 import { fetchEntriesContentful } from "#/backend/apisConnections";
 import React, { Suspense } from "react";
-import PropertyCardSection from "@/app/page";
+
 export const metadata: Metadata = {
   title: "LHS Concept",
   description: "Propiedades de Lujo en Madrid",
@@ -48,7 +48,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
+  console.log("--------------------RootLayout ~ children:----------------------------")
   const { properties, propertyParams } = await fetchEntriesContentful()
+  console.log('Layout properties length:', properties?.length)
 
   return (
     <html lang="en">
@@ -56,9 +58,9 @@ export default async function RootLayout({
         <body>
           <SideBar propertyParams={propertyParams} />
           <main>
-            <Suspense fallback={<div></div>}>
-              <PropertyCardSection properties={properties} />
-            </Suspense>
+            {React.cloneElement(children as React.ReactElement, {
+              properties
+            })}
           </main>
         </body>
       </NuqsAdapter>

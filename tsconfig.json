@@ -23,6 +23,6 @@
       "#/*": ["./*"]     // Root alias
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "backend/propertyProviderContext.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "backend/propertyProviderContext.js", "backend/caching.ts"],
   "exclude": ["node_modules"]
 }
