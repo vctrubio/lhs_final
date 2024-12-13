@@ -4,6 +4,7 @@ import { CardProperty } from '@/components/PropertyCard';
 import { Property } from "#/backend/types";
 import { formatPrice, getBathrooms, getBedrooms, getMetersSquare } from "@/utils/utils";
 import { NuqsManager } from "#/backend/nuqsv2";
+import { NoResultsFound } from "./NoResultsFound";
 
 export const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
     const [filterProperties, setFilterProperties] = useState<Property[]>(entries);
@@ -69,9 +70,7 @@ export const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) =
         <>
             <div className="property-container" last-man-standing={cssUniqueBoy ? 'on' : ''}>
                 {filterProperties.length === 0 ? (
-                    <div className="flex justify-center flex-col m-auto">
-                        <p className="text-center">No encontramos lo que buscas</p>
-                    </div>
+                    <NoResultsFound nuqsParams={nuqs.params} entries={entries} cssStateHover={cssStateHover} />
                 ) : (
                     filterProperties.map((entry: Property) => (
                         <CardProperty property={entry} key={entry.title} cssStateHover={cssStateHover} />
