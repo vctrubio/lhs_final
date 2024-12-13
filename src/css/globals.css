@@ -114,3 +114,22 @@ main {
 .thumbnail-slider .slick-current {
   opacity: 1;
 }
+
+/* Carousel fade effect */
+.carousel-fade .slide {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-fade .slide.selected {
+    opacity: 1;
+}
+
+/* Smooth arrow transitions */
+.carousel .control-arrow {
+    transition: all 0.3s ease-in-out !important;
+}
+
+.carousel .control-arrow:hover {
+    background: rgba(0, 0, 0, 0.5) !important;
+}

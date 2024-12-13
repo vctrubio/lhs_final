@@ -224,7 +224,7 @@ function CarouselComponent({ property }) {
 
                 // Keep between 3 and 12 thumbnails
                 const newCount = Math.min(
-                    Math.max(3, possibleCount),
+                    Math.max(4, possibleCount),
                     Math.min(12, property.photos_url.length)
                 );
 
@@ -291,7 +291,7 @@ function CarouselComponent({ property }) {
                 renderArrowPrev={(clickHandler, hasPrev) => (
                     <button
                         onClick={clickHandler}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/30 hover:bg-black/50 transition-all duration-200 rounded-r-lg opacity-0 group-hover:opacity-100"
+                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-r-lg opacity-0 group-hover:opacity-100 hover:pl-4"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="white" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -301,7 +301,7 @@ function CarouselComponent({ property }) {
                 renderArrowNext={(clickHandler, hasNext) => (
                     <button
                         onClick={clickHandler}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/30 hover:bg-black/50 transition-all duration-200 rounded-l-lg opacity-0 group-hover:opacity-100"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-l-lg opacity-0 group-hover:opacity-100 hover:pr-4"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="white" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -315,7 +315,7 @@ function CarouselComponent({ property }) {
                             src={image}
                             fill
                             alt={`Property Image ${index + 1}`}
-                            className="max-w-full max-h-full object-contain"
+                            className="max-w-full max-h-full object-contain transition-opacity duration-500"
                             priority={index === 0}
                         />
                     </div>
@@ -328,26 +328,25 @@ function CarouselComponent({ property }) {
         <div ref={containerRef} className="relative px-8 py-2">
             <div
                 ref={thumbnailsRef}
-                className="flex gap-2 overflow-x-hidden scroll-smooth mx-auto py-2"
+                className="flex gap-2 overflow-x-hidden scroll-smooth mx-auto py-2 px-1"
                 style={{
                     maxWidth: `${(visibleCount * 80) + ((visibleCount - 1) * 8)}px`,
-                    transition: 'max-width 0.3s ease-in-out'
                 }}
             >
                 {property.photos_url.map((image, index) => (
                     <button
                         key={index}
                         onClick={() => setCurrentIndex(index)}
-                        className={`flex-shrink-0 w-20 h-14 relative rounded overflow-hidden transition-all outline-none focus:outline-none
-                            ${currentIndex === index
-                                ? 'ring-2 ring-[#B8860B]'
-                                : 'opacity-70 hover:opacity-100'}`}
+                        className={`flex-shrink-0 w-20 h-14 relative rounded overflow-hidden transition-all duration-300 transform hover:scale-105
+                            ${currentIndex === index 
+                                ? 'ring-2 ring-[#B8860B] ring-offset-2 ring-offset-white shadow-lg' 
+                                : 'opacity-70 hover:opacity-100 hover:shadow-md'}`}
                     >
                         <Image
                             src={image}
                             fill
                             alt={`Thumbnail ${index + 1}`}
-                            className="object-cover"
+                            className="object-cover transition-transform duration-300 hover:scale-110"
                             sizes="80px"
                             draggable={false}
                         />
