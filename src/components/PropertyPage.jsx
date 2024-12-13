@@ -6,24 +6,9 @@ import { IconPrice } from "@/utils/svgs";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {
-    Bed,
-    Bath,
-    MapPin,
-    Share2,
-    Wind,
-    Flame,
-    Building2,
-    BarCode,
-    Home,
-    User,
-    Package,
-    Car,
-    Phone,
-    Ruler,
-    BedDouble,
-    Sun,
-    Toilet,
-    Fence,
+    Bed, Bath, MapPin, Share2, Wind, Flame, Building2,
+    Home, User, Package, Car, Phone, Ruler, BedDouble,
+    Sun, Toilet, Fence,
 } from "lucide-react";
 import ShareModal from './ShareModal';
 
@@ -50,13 +35,11 @@ function AmenitiesSection({ amenities, reformado }) {
                 Características
             </h3>
             <div className="grid grid-cols-2 gap-4">
-                {/* Show reformado status first */}
                 <div className="flex items-center gap-2">
                     <reformadoStatus.icon className={`w-5 h-5 ${reformado ? 'text-[#B8860B]' : 'text-gray-400'}`} />
                     <span className="text-white">{reformadoStatus.label}</span>
                 </div>
 
-                {/* Show other amenities only if they exist */}
                 {availableAmenities.map(({ icon: Icon, label }) => (
                     <div key={label} className="flex items-center gap-2">
                         <Icon className="w-5 h-5 text-[#B8860B]" />
@@ -101,7 +84,7 @@ function PropertyStats({ property }) {
             singularLabel: "Balcón"
         },
         {
-            icon: Fence, //tochange to terrace icon
+            icon: Fence,
             label: "Terrazas",
             value: property.charRef.patio,
             singularLabel: "Terraza",
@@ -136,13 +119,10 @@ function PropertyStats({ property }) {
     );
 }
 
-export default function PropiedadPage({ property }) {
+function PropertyImageGallery({ property }) {
     const [nav1, setNav1] = useState(null);
     const [nav2, setNav2] = useState(null);
-    const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
-    // console.log('popo, ', property)
-    // Settings for main slider
     const mainSettings = {
         dots: false,
         infinite: true,
@@ -151,9 +131,16 @@ export default function PropiedadPage({ property }) {
         slidesToScroll: 1,
         arrows: true,
         asNavFor: nav2,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    arrows: false,
+                }
+            }
+        ]
     };
 
-    // Settings for thumbnail slider
     const thumbSettings = {
         dots: false,
         infinite: true,
@@ -164,147 +151,198 @@ export default function PropiedadPage({ property }) {
         centerMode: true,
         focusOnSelect: true,
         arrows: true,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 3,
+                    arrows: false,
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 2,
+                    arrows: false,
+                    centerMode: false
+                }
+            }
+        ]
     };
 
     return (
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Image Gallery Section */}
-            <div className="mb-12">
-                {/* Main Image Slider */}
-                <div className="relative rounded-t-lg">
-                    <Slider
-                        {...mainSettings}
-                        ref={(slider1) => setNav1(slider1)}
-                        className="aspect-[16/9]"
-                    >
-                        {property.photos_url.map((image, index) => (
-                            <div key={index} className="relative aspect-[16/9]">
+        <div className="mb-6 sm:mb-8 lg:mb-12">
+            {/* Main Image Slider */}
+            <div className="relative rounded-t-lg w-full">
+                <Slider
+                    {...mainSettings}
+                    ref={(slider1) => setNav1(slider1)}
+                    className="w-full aspect-[16/9] sm:aspect-[16/9] md:aspect-[16/9]"
+                >
+                    {property.photos_url.map((image, index) => (
+                        <div key={index} className="relative w-full aspect-[16/9]">
+                            <Image
+                                src={image}
+                                alt={`${property.title} - View ${index + 1}`}
+                                fill
+                                className="object-contain"
+                                priority={index === 0}
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
+                            />
+                        </div>
+                    ))}
+                </Slider>
+            </div>
+
+            {/* Thumbnail Slider */}
+            <div className="rounded-b-lg p-2 sm:p-3 md:p-4">
+                <Slider
+                    {...thumbSettings}
+                    ref={(slider2) => setNav2(slider2)}
+                    className="thumbnail-slider"
+                >
+                    {property.photos_url.map((image, index) => (
+                        <div
+                            key={index}
+                            className="px-1 sm:px-2"
+                        >
+                            <div className="relative aspect-video rounded-lg overflow-hidden">
                                 <Image
                                     src={image}
-                                    alt={`${property.title} - View ${index + 1}`}
+                                    alt={`Thumbnail ${index + 1}`}
                                     fill
-                                    className="object-contain"
-                                    priority={index === 0}
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 25vw, (max-width: 1200px) 20vw, 15vw"
                                 />
                             </div>
-                        ))}
-                    </Slider>
+                        </div>
+                    ))}
+                </Slider>
+            </div>
+        </div>
+    );
+}
+
+function PropertySidebar({ property, setIsShareModalOpen }) {
+    return (
+        <div className="lg:col-span-1" style={{minWidth: '400px', maxWidth: '600px'}}>
+            <div className="sticky top-8 bg-[#14213D] rounded-xl shadow-xl p-6">
+                <div className="mb-2">
+                    <span className="text-xl text-white">Precio</span>
+                    <div className="text-4xl font-serif text-white flex" style={{ letterSpacing: '1px' }}>
+                        <IconPrice stroke="white" />{property.precio.toLocaleString('es-ES')}
+                    </div>
+
+                    <div className="space-y-2 pt-3">
+                        {property.precioIbi > 0 && (
+                            <div className="flex items-center justify-between text-sm">
+                                <span className="text-gray-500">+ IBI</span>
+                                <span className="text-gray-600 font-medium">€{property.precioIbi.toLocaleString('es-ES')}/año</span>
+                            </div>
+                        )}
+                        {property.precioComunidad > 0 && (
+                            <div className="flex items-center justify-between text-sm">
+                                <span className="text-gray-500">+ Gastos de Comunidad</span>
+                                <span className="text-gray-600 font-medium">€{property.precioComunidad.toLocaleString('es-ES')}/mes</span>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
-                {/* Thumbnail Slider */}
-                <div className="rounded-b-lg p-4">
-                    <Slider
-                        {...thumbSettings}
-                        ref={(slider2) => setNav2(slider2)}
-                        className="thumbnail-slider"
+                <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
+
+                <div className="mt-8 space-y-3">
+                    <button
+                        onClick={() => {
+                            const propertyUrl = `https://www.lhsconcept.com/propiedades/${property.url}`;
+                            const message = `Hola, estoy interesado en esta propiedad: ${property.title}\n${propertyUrl}`;
+                            const whatsappUrl = `https://wa.me/34616746971?text=${encodeURIComponent(message)}`;
+                            window.open(whatsappUrl, '_blank');
+                        }}
+                        className="w-full bg-[#14213D] text-white py-4 rounded-lg hover:bg-[#1a2b4d] transition-colors flex items-center justify-center gap-2 hover:bg-opacity-80 border"
                     >
-                        {property.photos_url.map((image, index) => (
-                            <div
-                                key={index}
-                                className="px-1"
-                            >
-                                <div className="relative aspect-video rounded-lg overflow-hidden">
-                                    <Image
-                                        src={image}
-                                        alt={`Thumbnail ${index + 1}`}
-                                        fill
-                                        className="object-cover"
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                    </Slider>
+                        <Phone className="w-5 h-5" />
+                        <span>Contactar</span>
+                    </button>
+                    <button
+                        onClick={() => setIsShareModalOpen(true)}
+                        className="w-full bg-[#14213D] text-white py-4 rounded-lg hover:bg-[#1a2b4d] transition-colors flex items-center justify-center gap-2 hover:bg-opacity-80 border"
+                    >
+                        <Share2 className="w-5 h-5" />
+                        <span>Compartir</span>
+                    </button>
+                    <button
+                        className="w-full bg-[#B8860B] text-white py-4 rounded-lg hover:bg-[#9a7209] transition-colors"
+                        onClick={() => window.open(property.plano_url, '_blank')}
+                    >
+                        Descargar Plano
+                    </button>
                 </div>
             </div>
+        </div>
+    );
+}
 
-            {/* Property Details */}
-            <div className="grid lg:grid-cols-3 gap-12">
-                {/* Left Column */}
-                <div className="lg:col-span-2">
+function PropertyDetails({ property }) {
+    return (
+        <div className="max-w-xl">
+            <h1 className="font-serif text-4xl md:text-5xl text-[#14213D] mb-4 px-4">
+                {property.title}
+            </h1>
 
-                    <h1 className="font-serif text-4xl md:text-5xl text-[#14213D] mb-4 px-4">
-                        {property.title}
-                    </h1>
-
-                    <div className="flex items-center text-gray-600 mb-8 px-4">
-                        <MapPin className="w-5 h-5 mr-2" />
-                        <span>{property.barrioRef.name}</span>
-                    </div>
-
-                    <PropertyStats property={property} />
-
-                    {/* Description */}
-                    <div className="text-gray-600 leading-relaxed mb-12 px-2">
-                        {property.description}
-                    </div>
-
-                </div>
-
-                {/* Right Column */}
-                <div className="lg:col-span-1">
-                    <div className="sticky top-8 bg-[#14213D] rounded-xl shadow-xl p-6">
-                        {/* Price Section */}
-                        <div className="mb-2">
-                            <span className="text-xl text-white">Precio</span>
-                            <div className="text-4xl font-serif text-white flex" style={{ letterSpacing: '1px' }}>
-                                <IconPrice stroke="white" />{property.precio.toLocaleString('es-ES')}
-                            </div>
-
-                            <div className="space-y-2 pt-3">
-                                {property.precioIbi > 0 && (
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="text-gray-500">+ IBI</span>
-                                        <span className="text-gray-600 font-medium">€{property.precioIbi.toLocaleString('es-ES')}/año</span>
-                                    </div>
-                                )}
-                                {property.precioComunidad > 0 && (
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="text-gray-500">+ Gastos de Comunidad</span>
-                                        <span className="text-gray-600 font-medium">€{property.precioComunidad.toLocaleString('es-ES')}/mes</span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Amenities Section */}
-                        <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
-
-                        {/* Action Buttons */}
-                        <div className="mt-8 space-y-3">
-                            <button 
-                                onClick={() => {
-                                    const propertyUrl = `https://www.lhsconcept.com/propiedades/${property.url}`;
-                                    const message = `Hola, estoy interesado en esta propiedad: ${property.title}\n${propertyUrl}`;
-                                    const whatsappUrl = `https://wa.me/34616746971?text=${encodeURIComponent(message)}`;
-                                    window.open(whatsappUrl, '_blank');
-                                }}
-                                className="w-full bg-[#14213D] text-white py-4 rounded-lg hover:bg-[#1a2b4d] transition-colors flex items-center justify-center gap-2 hover:bg-opacity-80 border"
-                            >
-                                <Phone className="w-5 h-5" />
-                                <span>Contactar</span>
-                            </button>
-                            <button 
-                                onClick={() => setIsShareModalOpen(true)}
-                                className="w-full bg-[#14213D] text-white py-4 rounded-lg hover:bg-[#1a2b4d] transition-colors flex items-center justify-center gap-2 hover:bg-opacity-80 border"
-                            >
-                                <Share2 className="w-5 h-5" />
-                                <span>Compartir</span>
-                            </button>
-                            <button className="w-full bg-[#B8860B] text-white py-4 rounded-lg hover:bg-[#9a7209] transition-colors" onClick={() => window.open(property.plano_url, '_blank')}>
-                                Descargar Plano
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div className="flex items-center text-gray-600 mb-8 px-4">
+                <MapPin className="w-5 h-5 mr-2" />
+                <span>{property.barrioRef.name}</span>
             </div>
 
-            <ShareModal 
+            <PropertyStats property={property} />
+
+            <div className="text-gray-600 leading-relaxed mb-12 px-2">
+                {property.description}
+            </div>
+        </div>
+    );
+}
+
+// export default function PropiedadPage({ property }) {
+//     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+
+//     return (
+
+
+
+//     );
+// }
+
+export default function PropiedadPage({ property }) {
+    const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+
+    return (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <PropertyImageGallery property={property} />
+
+        <div className="flex flex-col xl:flex-row justify-around">
+            <PropertyDetails property={property} />
+            <PropertySidebar
+                property={property}
+                setIsShareModalOpen={setIsShareModalOpen}
+            />
+        </div>
+
+
+            <ShareModal
                 isOpen={isShareModalOpen}
                 onClose={() => setIsShareModalOpen(false)}
                 title={property.title}
                 url={`https://www.lhsconcept.com/propiedades/${property.url}`}
             />
-        </main>
+        </div>
     );
 }
 

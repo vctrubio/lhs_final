@@ -58,9 +58,7 @@ export default async function RootLayout({
         <body>
           <SideBar propertyParams={propertyParams} />
           <main>
-            {React.cloneElement(children as React.ReactElement, {
-              properties
-            })}
+            {children}
           </main>
         </body>
       </NuqsAdapter>
