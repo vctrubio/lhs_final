@@ -205,68 +205,42 @@ function CarouselComponent({ property }) {
     const containerRef = useRef(null);
     const [visibleCount, setVisibleCount] = useState(6);
 
-    useEffect(() => {
-        const calculateVisibleCount = () => {
-            if (!containerRef.current) return;
-
-            requestAnimationFrame(() => {
-                const containerWidth = containerRef.current.offsetWidth;
-                const thumbnailWidth = 84; // thumbnail (80px) + margin (4px)
-                const gap = 8; // gap-2
-                const padding = 64; // px-8 (32px each side)
-
-                const availableWidth = containerWidth - padding;
-                const possibleCount = Math.floor(availableWidth / (thumbnailWidth + gap));
-
-                // Keep between 3 and 12 thumbnails
-                const newCount = Math.min(
-                    Math.max(4, possibleCount),
-                    Math.min(12, property.photos_url.length)
-                );
-
-                if (newCount !== visibleCount) {
-                    setVisibleCount(newCount);
-                }
-            });
-        };
-
-        calculateVisibleCount();
-
-        // Setup ResizeObserver for container size changes
-        const observer = new ResizeObserver(() => {
-            calculateVisibleCount();
-        });
-
-        if (containerRef.current) {
-            observer.observe(containerRef.current);
-        }
-
-        // Add window resize listener
-        window.addEventListener('resize', calculateVisibleCount);
-        // Cleanup
-        return () => {
-            observer.disconnect();
-            window.removeEventListener('resize', calculateVisibleCount);
-        };
-    }, [property.photos_url.length, visibleCount]);
-
-    useEffect(() => {
-        if (!thumbnailsRef.current) return;
-
-        const thumbnailWidth = 84; // width + margin
-        const gap = 8;
-        const centerOffset = Math.floor(visibleCount / 2);
-        const scrollPosition = Math.max(0,
-            (currentIndex - centerOffset) * (thumbnailWidth + gap)
+    // Memoize the thumbnail carousel to prevent re-renders
+    const ThumbnailCarousel = useMemo(() => {
+        return (
+            <div ref={containerRef} className="relative px-8 py-2">
+                <div
+                    ref={thumbnailsRef}
+                    className="flex gap-2 overflow-x-hidden scroll-smooth mx-auto py-2 px-1"
+                    style={{
+                        maxWidth: `${(visibleCount * 80) + ((visibleCount - 1) * 8)}px`,
+                    }}
+                >
+                    {property.photos_url.map((image, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setCurrentIndex(index)}
+                            className={`flex-shrink-0 w-20 h-14 relative rounded overflow-hidden transition-all duration-300 transform hover:scale-105
+                                ${currentIndex === index
+                                    ? 'ring-2 ring-[#B8860B] ring-offset-2 ring-offset-white shadow-lg'
+                                    : 'opacity-70 hover:opacity-100 hover:shadow-md'}`}
+                        >
+                            <Image
+                                src={image}
+                                fill
+                                alt={`Thumbnail ${index + 1}`}
+                                className="object-cover transition-transform duration-300 hover:scale-110"
+                                sizes="80px"
+                                draggable={false}
+                            />
+                        </button>
+                    ))}
+                </div>
+            </div>
         );
+    }, [property.photos_url, visibleCount, currentIndex]);
 
-        thumbnailsRef.current.scrollTo({
-            left: scrollPosition,
-            behavior: 'smooth'
-        });
-    }, [currentIndex, visibleCount]);
-
-    const MainCarousel = () => (
+    const MainCarousel = useMemo(() => (
         <div className="relative w-full h-[600px] group">
             <Carousel
                 showThumbs={false}
@@ -281,9 +255,10 @@ function CarouselComponent({ property }) {
                 swipeScrollTolerance={5}
                 preventMovementUntilSwipeScrollTolerance={true}
                 autoPlay={true}
-                autoPlaySpeed={6000}
-                onHoverPause={true}
-                //todo: add transition effects
+                interval={6000}
+                stopOnHover={true}
+                transitionTime={500}
+                animationHandler="fade"
                 renderArrowPrev={(clickHandler, hasPrev) => (
                     <button
                         onClick={clickHandler}
@@ -311,51 +286,68 @@ function CarouselComponent({ property }) {
                             src={image}
                             fill
                             alt={`Property Image ${index + 1}`}
-                            className="max-w-full max-h-full object-contain transition-opacity duration-500"
+                            className="object-contain transition-opacity duration-500"
                             priority={index === 0}
+                            loading={index === 0 ? "eager" : "lazy"}
                         />
                     </div>
                 ))}
             </Carousel>
         </div>
-    );
+    ), [property.photos_url, currentIndex]); 
+    
+    // Effect for handling thumbnail scrolling
+    useEffect(() => {
+        if (!thumbnailsRef.current) return;
 
-    const ThumbnailCarousel = () => (
-        <div ref={containerRef} className="relative px-8 py-2">
-            <div
-                ref={thumbnailsRef}
-                className="flex gap-2 overflow-x-hidden scroll-smooth mx-auto py-2 px-1"
-                style={{
-                    maxWidth: `${(visibleCount * 80) + ((visibleCount - 1) * 8)}px`,
-                }}
-            >
-                {property.photos_url.map((image, index) => (
-                    <button
-                        key={index}
-                        onClick={() => setCurrentIndex(index)}
-                        className={`flex-shrink-0 w-20 h-14 relative rounded overflow-hidden transition-all duration-300 transform hover:scale-105
-                            ${currentIndex === index
-                                ? 'ring-2 ring-[#B8860B] ring-offset-2 ring-offset-white shadow-lg'
-                                : 'opacity-70 hover:opacity-100 hover:shadow-md'}`}
-                    >
-                        <Image
-                            src={image}
-                            fill
-                            alt={`Thumbnail ${index + 1}`}
-                            className="object-cover transition-transform duration-300 hover:scale-110"
-                            sizes="80px"
-                            draggable={false}
-                        />
-                    </button>
-                ))}
-            </div>
-        </div>
-    );
+        const thumbnailWidth = 84;
+        const gap = 8;
+        const centerOffset = Math.floor(visibleCount / 2);
+        const scrollPosition = Math.max(0,
+            (currentIndex - centerOffset) * (thumbnailWidth + gap)
+        );
+
+        thumbnailsRef.current.scrollTo({
+            left: scrollPosition,
+            behavior: 'smooth'
+        });
+    }, [currentIndex, visibleCount]);
+
+    // Effect for calculating visible thumbnails
+    useEffect(() => {
+        const calculateVisibleCount = () => {
+            if (!containerRef.current) return;
+            const containerWidth = containerRef.current.offsetWidth;
+            const thumbnailWidth = 84;
+            const gap = 8;
+            const padding = 64;
+
+            const availableWidth = containerWidth - padding;
+            const possibleCount = Math.floor(availableWidth / (thumbnailWidth + gap));
+            
+            const newCount = Math.min(
+                Math.max(4, possibleCount),
+                Math.min(12, property.photos_url.length)
+            );
+
+            setVisibleCount(newCount);
+        };
+
+        const observer = new ResizeObserver(calculateVisibleCount);
+        
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        calculateVisibleCount();
+        
+        return () => observer.disconnect();
+    }, [property.photos_url.length]);
 
     return (
         <div className="relative w-full mb-8">
-            <MainCarousel />
-            <ThumbnailCarousel />
+            {MainCarousel}
+            {ThumbnailCarousel}
         </div>
     );
 }
