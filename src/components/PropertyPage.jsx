@@ -131,14 +131,7 @@ function PropertyImageGallery({ property }) {
         slidesToScroll: 1,
         arrows: true,
         asNavFor: nav2,
-        responsive: [
-            {
-                breakpoint: 768,
-                settings: {
-                    arrows: false,
-                }
-            }
-        ]
+
     };
 
     const thumbSettings = {
@@ -151,39 +144,17 @@ function PropertyImageGallery({ property }) {
         centerMode: true,
         focusOnSelect: true,
         arrows: true,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 3,
-                }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 3,
-                    arrows: false,
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 2,
-                    arrows: false,
-                    centerMode: false
-                }
-            }
-        ]
     };
 
     return (
-        <div className="mb-6 sm:mb-8 lg:mb-12">
+        <div className="mb-6 sm:mb-8 lg:mb-12 border">
+
             {/* Main Image Slider */}
             <div className="relative rounded-t-lg w-full">
                 <Slider
                     {...mainSettings}
                     ref={(slider1) => setNav1(slider1)}
-                    className="w-full aspect-[16/9] sm:aspect-[16/9] md:aspect-[16/9]"
+                    className="w-full aspect-[16/9] border"
                 >
                     {property.photos_url.map((image, index) => (
                         <div key={index} className="relative w-full aspect-[16/9]">
@@ -193,7 +164,7 @@ function PropertyImageGallery({ property }) {
                                 fill
                                 className="object-contain"
                                 priority={index === 0}
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
+                            // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
                             />
                         </div>
                     ))}
@@ -231,7 +202,7 @@ function PropertyImageGallery({ property }) {
 
 function PropertySidebar({ property, setIsShareModalOpen }) {
     return (
-        <div className="lg:col-span-1" style={{minWidth: '400px', maxWidth: '600px'}}>
+        <div className="lg:col-span-1" style={{ minWidth: '400px', maxWidth: '600px' }}>
             <div className="sticky top-8 bg-[#14213D] rounded-xl shadow-xl p-6">
                 <div className="mb-2">
                     <span className="text-xl text-white">Precio</span>
@@ -327,7 +298,7 @@ export default function PropiedadPage({ property }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <PropertyImageGallery property={property} />
 
-        <div className="flex flex-col xl:flex-row justify-around">
+            {/* <div className="flex flex-col xl:flex-row justify-around">
             <PropertyDetails property={property} />
             <PropertySidebar
                 property={property}
@@ -341,7 +312,7 @@ export default function PropiedadPage({ property }) {
                 onClose={() => setIsShareModalOpen(false)}
                 title={property.title}
                 url={`https://www.lhsconcept.com/propiedades/${property.url}`}
-            />
+            /> */}
         </div>
     );
 }
