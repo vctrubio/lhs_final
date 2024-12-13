@@ -47,15 +47,11 @@ body {
   display: grid;
   grid-template-columns: auto 1fr;
   min-height: 100vh;
-  overflow: hidden;
 }
 
 main {
-  height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  
   padding: 12px 24px;
+  margin-bottom: 12px;
 }
 
 @media (max-width: 768px) {
