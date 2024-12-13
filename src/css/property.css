@@ -1,11 +1,12 @@
 .property-container {
     display: flex;
     flex-wrap: wrap;
+    flex-grow: 1;
     justify-content: start;
+
     margin: 0 auto;
     min-height: 80vh;
     transition: all 0.5s ease;
-    background-color: var(--color-beigh-light-bg);
     position: relative;
     z-index: 2;
     gap: 16px 20px;

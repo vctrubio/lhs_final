@@ -9,7 +9,7 @@ import { NoResultsFound } from "./NoResultsFound";
 export const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
     const [filterProperties, setFilterProperties] = useState<Property[]>(entries);
     const [cssUniqueBoy, setUniqueBoy] = useState(false);
-    const [cssStateHover, setCssStateHover] = useState(false);
+    const [cssStateHover, setCssStateHover] = useState(true);
 
     const nuqs = NuqsManager();
 
@@ -59,6 +59,10 @@ export const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) =
                     return meters >= minMeters && meters <= maxMeters;
                 });
             }
+            setCssStateHover(true);
+        }
+        else {
+            setCssStateHover(false);
         }
 
         setFilterProperties(updatedProperties);

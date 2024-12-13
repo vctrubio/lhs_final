@@ -38,17 +38,32 @@
   }
 } */
 
+
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: 'Times New Roman', Times, serif;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  min-height: 100vh;
+  overflow: hidden;
 }
 
 main {
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  
   padding: 12px 24px;
 }
 
 @media (max-width: 768px) {
+  body {
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+
   main {
     margin-left: 42px;
   }
