@@ -204,41 +204,46 @@ function CarouselComponent({ property }) {
     const thumbnailsRef = useRef(null);
     const containerRef = useRef(null);
     const [visibleCount, setVisibleCount] = useState(6);
+    const [imagesLoaded, setImagesLoaded] = useState({});
+    const [showPlaceholders, setShowPlaceholders] = useState({});
+    const [allThumbnailsLoaded, setAllThumbnailsLoaded] = useState(false);
 
-    // Memoize the thumbnail carousel to prevent re-renders
-    const ThumbnailCarousel = useMemo(() => {
-        return (
-            <div ref={containerRef} className="relative px-8 py-2">
-                <div
-                    ref={thumbnailsRef}
-                    className="flex gap-2 overflow-x-hidden scroll-smooth mx-auto py-2 px-1"
-                    style={{
-                        maxWidth: `${(visibleCount * 80) + ((visibleCount - 1) * 8)}px`,
-                    }}
-                >
-                    {property.photos_url.map((image, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setCurrentIndex(index)}
-                            className={`flex-shrink-0 w-20 h-14 relative rounded overflow-hidden transition-all duration-300 transform hover:scale-105
-                                ${currentIndex === index
-                                    ? 'ring-2 ring-[#B8860B] ring-offset-2 ring-offset-white shadow-lg'
-                                    : 'opacity-70 hover:opacity-100 hover:shadow-md'}`}
-                        >
-                            <Image
-                                src={image}
-                                fill
-                                alt={`Thumbnail ${index + 1}`}
-                                className="object-cover transition-transform duration-300 hover:scale-110"
-                                sizes="80px"
-                                draggable={false}
-                            />
-                        </button>
-                    ))}
-                </div>
-            </div>
-        );
-    }, [property.photos_url, visibleCount, currentIndex]);
+    // Updated image load handler
+    const handleImageLoad = (index) => {
+        setImagesLoaded(prev => {
+            const newState = {
+                ...prev,
+                [index]: true
+            };
+            
+            // Check if all images are loaded
+            if (Object.keys(newState).length === property.photos_url.length) {
+                // All images loaded, show thumbnails after a short delay
+                setTimeout(() => {
+                    setAllThumbnailsLoaded(true);
+                }, 500);
+            }
+            
+            return newState;
+        });
+        
+        // Set minimum display time for main carousel placeholder
+        setTimeout(() => {
+            setShowPlaceholders(prev => ({
+                ...prev,
+                [index]: false
+            }));
+        }, 2000);
+    };
+
+    // Initialize placeholders
+    useEffect(() => {
+        const initialPlaceholders = {};
+        property.photos_url.forEach((_, index) => {
+            initialPlaceholders[index] = true;
+        });
+        setShowPlaceholders(initialPlaceholders);
+    }, [property.photos_url]);
 
     const MainCarousel = useMemo(() => (
         <div className="relative w-full h-[600px] group">
@@ -282,20 +287,76 @@ function CarouselComponent({ property }) {
             >
                 {property.photos_url.map((image, index) => (
                     <div key={index} className="relative h-[600px] flex items-center justify-center">
+                        {/* Placeholder image */}
+                        {showPlaceholders[index] && (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <Image
+                                    src="/logo-main.jpeg"
+                                    fill
+                                    alt="Loading placeholder"
+                                    className="object-contain"
+                                    priority={true}
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                                />
+                            </div>
+                        )}
+                        {/* Main image */}
                         <Image
                             src={image}
                             fill
                             alt={`Property Image ${index + 1}`}
-                            className="object-contain transition-opacity duration-500"
+                            className={`object-contain transition-opacity duration-1000 ${
+                                !showPlaceholders[index] ? 'opacity-100' : 'opacity-0'
+                            }`}
                             priority={index === 0}
                             loading={index === 0 ? "eager" : "lazy"}
+                            onLoad={() => handleImageLoad(index)}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                         />
                     </div>
                 ))}
             </Carousel>
         </div>
-    ), [property.photos_url, currentIndex]); 
-    
+    ), [property.photos_url, currentIndex, showPlaceholders]);
+
+    // Update ThumbnailCarousel
+    const ThumbnailCarousel = useMemo(() => {
+        if (!allThumbnailsLoaded) return null;
+
+        return (
+            <div ref={containerRef} className="relative px-8 py-2">
+                <div
+                    ref={thumbnailsRef}
+                    className="flex gap-2 overflow-x-hidden scroll-smooth mx-auto py-2 px-1"
+                    style={{
+                        maxWidth: `${(visibleCount * 80) + ((visibleCount - 1) * 8)}px`,
+                    }}
+                >
+                    {property.photos_url.map((image, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setCurrentIndex(index)}
+                            className={`flex-shrink-0 w-20 h-14 relative rounded overflow-hidden transition-all duration-300 transform hover:scale-105
+                                ${currentIndex === index
+                                    ? 'ring-2 ring-[#B8860B] ring-offset-2 ring-offset-white shadow-lg'
+                                    : 'opacity-70 hover:opacity-100 hover:shadow-md'}`}
+                        >
+                            <Image
+                                src={image}
+                                fill
+                                alt={`Thumbnail ${index + 1}`}
+                                className="object-cover transition-transform duration-300 hover:scale-110"
+                                sizes="80px"
+                                draggable={false}
+                                loading="lazy"
+                            />
+                        </button>
+                    ))}
+                </div>
+            </div>
+        );
+    }, [property.photos_url, visibleCount, currentIndex, allThumbnailsLoaded]);
+
     // Effect for handling thumbnail scrolling
     useEffect(() => {
         if (!thumbnailsRef.current) return;
@@ -347,7 +408,9 @@ function CarouselComponent({ property }) {
     return (
         <div className="relative w-full mb-8">
             {MainCarousel}
-            {ThumbnailCarousel}
+            <div className={`transition-opacity duration-500 ${allThumbnailsLoaded ? 'opacity-100' : 'opacity-0'}`}>
+                {ThumbnailCarousel}
+            </div>
         </div>
     );
 }
