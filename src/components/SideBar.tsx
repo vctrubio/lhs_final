@@ -101,6 +101,7 @@ function SidebarContentProperties({ nuqs, barrios }: { nuqs: any, barrios: Barri
                         valueLabelDisplay='auto'
                         style={{
                             color: 'var(--color-green-dark)',
+                            padding: '0px'
                         }}
                     />
 
