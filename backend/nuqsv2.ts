@@ -56,15 +56,15 @@ export function INuqs(propertyParams: PropertyParams) {
     const [priceValue, setPriceValue] = useState([0, 0]);
     const [precioMinimo, setPrecioMinimo] = useQueryState('precioMin', { defaultValue: '' });
     const [precioMaximo, setPrecioMaximo] = useQueryState('precioMax', { defaultValue: '' });
-
+    
     const [bathroomValue, setBathroomValue] = useState([0, 0]);
     const [banosMinimo, setBanosMinimo] = useQueryState('banosMin', { defaultValue: '' });
     const [banosMaximo, setBanosMaximo] = useQueryState('banosMax', { defaultValue: '' });
-
+    
     const [bedroomValue, setBedroomValue] = useState([0, 0]);
     const [dormitoriosMinimo, setDormitoriosMinimo] = useQueryState('dormitoriosMin', { defaultValue: '' });
     const [dormitoriosMaximo, setDormitoriosMaximo] = useQueryState('dormitoriosMax', { defaultValue: '' });
-
+    
     const [metersSquareValue, setMetersSquareValue] = useState([0, 0]);
     const [metrosCuadradosMinimo, setMetrosCuadradosMinimo] = useQueryState('metrosMin', { defaultValue: '' });
     const [metrosCuadradosMaximo, setMetrosCuadradosMaximo] = useQueryState('metrosMax', { defaultValue: '' });

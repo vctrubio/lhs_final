@@ -10,10 +10,9 @@
     left: 0;
     z-index: 10;
     height: 100vh;
-    width: 315px;
+    width: 345px;
 
     background-color: var(--color-beigh-light-bg);
-    box-shadow: 1px 0 0 0 black, 2px 0 0 0 black, 3px 0 0 0 black;
 }
 
 .nav-sidebar-head {
@@ -35,6 +34,7 @@
     padding: 1rem;
     background-color: inherit;
     border-top: 1px solid black;
+    margin: 0 12px;
 }
 
 .sidebar-search {
@@ -102,7 +102,6 @@
 .sidebar-content-slider {
     width: 85%;
     margin: 0 auto;
-    color: var(--color-green-dark);
 }
 
 .sidebar-content-icon {

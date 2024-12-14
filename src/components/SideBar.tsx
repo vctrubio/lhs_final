@@ -35,10 +35,13 @@ function SidebarContent({ nuqs }: { nuqs: any }) {
                         onChange={(_, newValue) => nuqs.sliders[key].valueSet(newValue)}
                         min={nuqs.sliders[key].params.min}
                         max={nuqs.sliders[key].params.max}
-                        marks={[{ value: nuqs.sliders[key].params.min, label: nuqs.sliders[key].params.min }, { value: nuqs.sliders[key].params.max, label: nuqs.sliders[key].params.max }]}
+                        marks={[{ value: nuqs.sliders[key].params.min, label: nuqs.sliders[key].params.title === 'Precio' ? `${nuqs.sliders[key].params.min}M` : nuqs.sliders[key].params.min }, { value: nuqs.sliders[key].params.max, label: nuqs.sliders[key].params.title === 'Precio' ? `${nuqs.sliders[key].params.max}M` : nuqs.sliders[key].params.max }]}
                         step={nuqs.sliders[key].params.title === 'Precio' ? 0.1 : 1}
                         disableSwap
                         valueLabelDisplay='auto'
+                        sx={{
+                            color: 'var(--color-green-dark)', // Track color
+                        }}
                     />
                 </div>
             ))}
