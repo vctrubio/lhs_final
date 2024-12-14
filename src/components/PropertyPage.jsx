@@ -100,7 +100,7 @@ function PropertyStats({ property }) {
     return (
         <div className="flex flex-wrap justify-between mb-12 px-4">
             {stats.filter(stat => stat.value > 0).map(({ icon: Icon, label, value, singularLabel, isTerraza }) => (
-                <div key={label} className="grid grid-rows-2 min-w-[100px] text-left">
+                <div key={label} className="grid grid-rows-2 min-w-[100px] text-left pt-2 pl-1">
                     <p className="text-sm text-gray-500 mb-1">
                         {value === 1 ? singularLabel : label}
                     </p>
@@ -121,7 +121,7 @@ function PropertyStats({ property }) {
 function PropertySidebar({ property, setIsShareModalOpen }) {
     return (
         <div className="lg:col-span-1" style={{ minWidth: '400px', maxWidth: '600px' }}>
-            <div className="sticky top-8 bg-[#14213D] rounded-xl shadow-xl p-6">
+            <div className="sticky top-8 bg-[#14213D] rounded-xl p-6">
                 <div className="my-3">
                     <span className="text-2xl text-white">Precio</span>
                     <div className="text-4xl font-serif text-white flex" style={{ letterSpacing: '1px' }}>
