@@ -1,5 +1,6 @@
 import { Property } from "#/backend/types";
 import { IconPrice } from "./svgs";
+import { useEffect, useState } from 'react';
 
 export function getBathrooms(property: Property) {
     if (!property.charRef) return 0;
@@ -44,3 +45,22 @@ export function formatCurrency(value: number, rent: boolean = false): JSX.Elemen
         </div>
     );
 }
+
+export function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+    }
+    const listener = () => setMatches(media.matches);
+    window.addEventListener('resize', listener);
+    return () => window.removeEventListener('resize', listener);
+  }, [matches, query]);
+
+  return matches;
+}
+
+// Usage example in components:
+// const isMobile = useMediaQuery('(max-width: 768px)');

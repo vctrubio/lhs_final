@@ -1,9 +1,17 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "../css/globals.css";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import SideBar from "@/components/SideBar";
 import { fetchEntriesContentful } from "#/backend/apisConnections";
 import React, { Suspense } from "react";
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
+}
 
 export const metadata: Metadata = {
   title: "LHS Concept",
@@ -63,9 +71,12 @@ export default async function RootLayout({
   console.log('Layout properties length:', properties?.length)
 
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      </head>
       <NuqsAdapter>
-        <body>
+        <body className="h-full">
           <Suspense fallback={<div>Loading...</div>}>
             <SideBar propertyParams={propertyParams} barrios={filteredBarrios} />
           </Suspense>

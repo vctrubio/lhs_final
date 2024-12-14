@@ -54,3 +54,22 @@ main {
 #price-color {
   color: var(--color-price)
 }
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@media (max-width: 768px) {
+  .mx-8 {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
