@@ -4,7 +4,6 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import SideBar from "@/components/SideBar";
 import { fetchEntriesContentful } from "#/backend/apisConnections";
 import React, { Suspense } from "react";
-import Icon from './icon'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -18,9 +17,9 @@ export const metadata: Metadata = {
   title: "LHS Concept",
   description: "Propiedades de Lujo en Madrid",
   icons: {
-    icon: Icon(),
-    shortcut: Icon()[1].url,
-    apple: Icon()[2].url,
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
   },
 
   keywords: "luxury, lifestyle, Madrid, exclusive, homes, family-oriented, real estate, high-end living, propiedades de lujo en madrid, propiedades seelectas, LHS Concept, LHS Propiedades",
