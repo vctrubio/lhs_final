@@ -207,8 +207,18 @@ function CarouselComponent({ property }) {
     const [imagesLoaded, setImagesLoaded] = useState({});
     const [showPlaceholders, setShowPlaceholders] = useState({});
     const [allThumbnailsLoaded, setAllThumbnailsLoaded] = useState(false);
+    const [isInitialMount, setIsInitialMount] = useState(true);
 
-    // Updated image load handler
+    // Add effect to handle initial mount
+    useEffect(() => {
+        // Wait a tiny bit before showing anything to prevent the glitch
+        const timer = setTimeout(() => {
+            setIsInitialMount(false);
+        }, 100);
+
+        return () => clearTimeout(timer);
+    }, []);
+
     const handleImageLoad = (index) => {
         setImagesLoaded(prev => {
             const newState = {
@@ -216,9 +226,7 @@ function CarouselComponent({ property }) {
                 [index]: true
             };
             
-            // Check if all images are loaded
             if (Object.keys(newState).length === property.photos_url.length) {
-                // All images loaded, show thumbnails after a short delay
                 setTimeout(() => {
                     setAllThumbnailsLoaded(true);
                 }, 500);
@@ -227,7 +235,6 @@ function CarouselComponent({ property }) {
             return newState;
         });
         
-        // Set minimum display time for main carousel placeholder
         setTimeout(() => {
             setShowPlaceholders(prev => ({
                 ...prev,
@@ -407,10 +414,23 @@ function CarouselComponent({ property }) {
 
     return (
         <div className="relative w-full mb-8">
-            {MainCarousel}
-            <div className={`transition-opacity duration-500 ${allThumbnailsLoaded ? 'opacity-100' : 'opacity-0'}`}>
-                {ThumbnailCarousel}
-            </div>
+            {/* Placeholder div to reserve space */}
+            <div 
+                className="w-full h-[600px]"
+                style={{ 
+                    display: isInitialMount ? 'block' : 'none' 
+                }}
+            />
+
+            {/* Main content */}
+            {!isInitialMount && (
+                <>
+                    {MainCarousel}
+                    <div className={`transition-opacity duration-500 ${allThumbnailsLoaded ? 'opacity-100' : 'opacity-0'}`}>
+                        {ThumbnailCarousel}
+                    </div>
+                </>
+            )}
         </div>
     );
 }
@@ -420,10 +440,10 @@ export default function PropiedadPage({ property }) {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
     return (
-        <div className="max-w-7xl mx-auto px-4 my-8 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 my-8 sm:px-6 lg:px-8 min-h-[1000px]">
             <CarouselComponent property={property} />
 
-            <div className="flex flex-col xl:flex-row justify-center gap-8 items-center">
+            <div className="flex flex-col xl:flex-row justify-center gap-8 items-start">
                 <PropertyDetails property={property} />
                 <PropertySidebar
                     property={property}
