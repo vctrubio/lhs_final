@@ -87,7 +87,6 @@ function SidebarContentProperties({ nuqs, barrios }: { nuqs: any, barrios: Barri
                     </div>
 
                     <Slider
-                        className="sidebar-content-slider"
                         value={nuqs.sliders[key].values}
                         onChange={(_, newValue) => nuqs.sliders[key].valueSet(newValue)}
                         min={nuqs.sliders[key].params.min}
@@ -101,7 +100,9 @@ function SidebarContentProperties({ nuqs, barrios }: { nuqs: any, barrios: Barri
                         valueLabelDisplay='auto'
                         style={{
                             color: 'var(--color-green-dark)',
-                            padding: '0px'
+                            padding: 'inherit',
+                            width: '85%',
+                            margin: '0 auto',
                         }}
                     />
 
