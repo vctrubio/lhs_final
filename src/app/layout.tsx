@@ -43,6 +43,8 @@ export const metadata: Metadata = {
       },
     ],
     siteName: "LHSConcept.com",
+    locale: 'es_ES',
+    alternateLocale: ['en_US'],
   },
 
   twitter: {
@@ -58,6 +60,39 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+
+  metadataBase: new URL('https://www.lhsconcept.com'),
+  alternates: {
+    canonical: '/',
+    languages: {
+      'es-ES': '/es',
+      'en-US': '/en',
+    },
+  },
+
+  verification: {
+    google: 'your-google-verification-code', // Add your Google Search Console verification code
+    yandex: 'your-yandex-verification-code', // If you use Yandex
+  },
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'RealEstateAgent',
+  name: 'LHS Concept',
+  description: 'Propiedades de Lujo en Madrid',
+  url: 'https://www.lhsconcept.com',
+  logo: 'https://www.lhsconcept.com/logo-main.jpeg',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Madrid',
+    addressCountry: 'ES',
+  },
+  sameAs: [
+    'https://www.facebook.com/lhsconcept',
+    'https://www.instagram.com/lhsconcept',
+    // Add your social media URLs
+  ],
 };
 
 export default async function RootLayout({
@@ -74,6 +109,10 @@ export default async function RootLayout({
     <html lang="en" className="h-full">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
       <NuqsAdapter>
         <body className="h-full">

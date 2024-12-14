@@ -45,7 +45,7 @@ export const CardProperty = ({ property, cssStateHover }: { property: Property, 
                         alt={property.title}
                         fill
                         style={{ objectFit: 'cover' }}
-                        sizes="(max-width: 768px) 100vw, 50vw" //for console.log warning::...
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         quality={100}
                         priority
                         title={property.title}
