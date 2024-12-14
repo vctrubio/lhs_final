@@ -1,11 +1,48 @@
-.footer{
+.footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
 
-    border: 1px solid white;
-    /* >*{
-        fill: var(--color-green-dark);
-        color: var(--color-green-dark);
-    } */
+.footer>div {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* Apply hover effects only on devices that support hover */
+@media (hover: hover) {
+    .footer>div:hover {
+        animation: bounce 0.8s ease-in-out 1;
+    }
+}
+
+/* For touch devices */
+.footer>div:active {
+    animation: bounce 0.8s ease-in-out 1;
+}
+
+/* Animation keyframes */
+@keyframes move-up {
+    0% {
+        transform: translateY(+20px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
