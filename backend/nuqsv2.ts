@@ -154,6 +154,7 @@ export function INuqs(propertyParams: PropertyParams) {
         setDormitoriosMaximo(null);
         setMetrosCuadradosMinimo(null);
         setMetrosCuadradosMaximo(null);
+        setBarrios(null);
         setQueryTitle('');
 
         setPriceValue([propertyParams.prices.min, propertyParams.prices.max]);
@@ -167,6 +168,7 @@ export function INuqs(propertyParams: PropertyParams) {
         banosMinimo, banosMaximo,
         dormitoriosMinimo, dormitoriosMaximo,
         metrosCuadradosMinimo, metrosCuadradosMaximo,
+        barrios,
         queryTitle && queryTitle !== '' // Check if sortOption is not empty
         // sortOption && sortOption !== '' // Check if sortOption is not empty
     ].some(param => param !== null && param !== '');
