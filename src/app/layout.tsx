@@ -8,6 +8,16 @@ import React, { Suspense } from "react";
 export const metadata: Metadata = {
   title: "LHS Concept",
   description: "Propiedades de Lujo en Madrid",
+  icons: {
+    icon: '/logo-main.jpeg',
+    shortcut: '/logo-main.jpeg',
+    apple: '/logo-main.jpeg',
+    other: {
+      rel: 'apple-touch-icon-precomposed',
+      url: '/logo-main.jpeg',
+    },
+  },
+
   keywords: "luxury, lifestyle, Madrid, exclusive, homes, family-oriented, real estate, high-end living, propiedades de lujo en madrid, propiedades seelectas, LHS Concept, LHS Propiedades",
 
   openGraph: {
