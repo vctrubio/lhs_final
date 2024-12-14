@@ -357,7 +357,7 @@ export default function PropiedadPage({ property }) {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 my-8 sm:px-6 lg:px-8">
             <CarouselComponent property={property} />
 
             <div className="flex flex-col xl:flex-row justify-center gap-8 items-center">
