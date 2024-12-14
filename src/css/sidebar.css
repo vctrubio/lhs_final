@@ -88,11 +88,6 @@
         border: 1px solid var(--color-green-dark-opec);
         box-shadow: 0 4px 8px var(--color-green-dark-opec);
     }
-
-    h2 {
-        font-size: 1.5rem;
-    }
-
 }
 
 .sidebar-content-header {
@@ -100,12 +95,12 @@
     justify-content: space-between;
     align-items: center;
 
-    padding: 4px 6px;
-    padding-left: 8px;
+    padding: 0px 16px;
+    font-size: 1.6rem;
 }
 
 .sidebar-content-slider {
-    width: 85%;
+    width: 80%;
     margin: 0 auto;
 }
 
@@ -274,5 +269,30 @@
 @media (max-width: 480px) {
     .barrio-checkbox {
         min-width: calc(50% - 0.75rem);
+    }
+}
+
+/* Add styles for desktop layout */
+@media (min-width: 769px) {
+    .nav-sidebar {
+        width: 345px;
+    }
+
+    /* Remove the transform on desktop when open */
+    .nav-sidebar.open {
+        transform: none;
+        position: fixed;
+    }
+
+    /* Add a class for the main content transition */
+    body.sidebar-open main {
+        margin-left: 345px;
+        transition: margin-left 0.3s ease-in-out;
+    }
+
+    /* Add default state for main to ensure smooth transition */
+    main {
+        margin-left: 0;
+        transition: margin-left 0.3s ease-in-out;
     }
 }

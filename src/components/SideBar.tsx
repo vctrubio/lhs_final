@@ -82,7 +82,7 @@ function SidebarContentProperties({ nuqs, barrios }: { nuqs: any, barrios: Barri
                 <div key={index}>
 
                     <div className="sidebar-content-header">
-                        <h2>{nuqs.sliders[key].params.title}</h2>
+                        <div>{nuqs.sliders[key].params.title}</div>
                         <div className="sidebar-content-icon">{nuqs.sliders[key].params.icon}</div>
                     </div>
 
@@ -139,10 +139,18 @@ export default function SideBar({ propertyParams, barrios }: { propertyParams: P
         };
 
         handleResize();
-
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    useEffect(() => {
+        if (window.innerWidth >= 768) {
+            document.body.classList.toggle('sidebar-open', isOpen);
+        }
+        return () => {
+            document.body.classList.remove('sidebar-open');
+        };
+    }, [isOpen]);
 
     return (
         <>
