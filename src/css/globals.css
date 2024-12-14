@@ -30,35 +30,18 @@
   --foreground: #1e1d1b;
 }
 
-/* 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
-
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: 'Times New Roman', Times, serif;
-
-  display: grid;
-  grid-template-columns: auto 1fr;
-  min-height: 100vh;
 }
 
 main {
   padding: 12px 24px;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
 }
 
 @media (max-width: 768px) {
-  body {
-    grid-template-columns: 1fr;
-    overflow: visible;
-  }
-
   main {
     margin-left: 42px;
   }

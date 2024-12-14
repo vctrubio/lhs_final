@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from "react";
-import { ChevronRight, ChevronLeft } from "lucide-react";
+import { ChevronRight, ChevronLeft, Menu } from "lucide-react";
 import { Logo } from "@/components/NavBar";
 import { Slider } from "@mui/material"
 import { PropertyParams } from "#/backend/parsing";
@@ -127,12 +127,33 @@ const SidebarContentRootPage = ({ nuqs, barrios }: { nuqs: any, barrios: Barrio[
 }
 
 export default function SideBar({ propertyParams, barrios }: { propertyParams: PropertyParams, barrios: Barrio[] }) {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
     const nuqs = INuqs(propertyParams);
     const url_roots = usePathname()
 
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 768) {
+                setIsOpen(false);
+            }
+        };
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <>
+            <button
+                className="burger-button"
+                onClick={() => setIsOpen(!isOpen)}
+                aria-label="Toggle navigation"
+            >
+                <Menu size={24} />
+            </button>
+
             <div className={`nav-sidebar ${isOpen ? 'open' : ''}`}>
                 <div className="nav-sidebar-head">
                     <Logo />
@@ -145,13 +166,6 @@ export default function SideBar({ propertyParams, barrios }: { propertyParams: P
                     <Footer />
                 </div>
             </div>
-            <button
-                className={`nav-sidebar-toggle ${isOpen ? 'open' : ''}`}
-                onClick={() => setIsOpen(!isOpen)}
-                aria-label="Toggle navigation"
-            >
-                {isOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
-            </button>
         </>
     );
 }

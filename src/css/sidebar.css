@@ -4,8 +4,7 @@
     justify-content: center;
     text-align: center;
 
-    position: sticky;
-    overflow: hidden;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 10;
@@ -13,6 +12,12 @@
     width: 345px;
 
     background-color: var(--color-beigh-light-bg);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.nav-sidebar.open {
+    transform: translateX(0);
 }
 
 .nav-sidebar-head {
@@ -117,68 +122,28 @@
     }
 }
 
-
-
-
 /* Mobile styles */
 @media (max-width: 768px) {
     .nav-sidebar {
-        position: fixed;
-        width: 100%;
-        transform: translateX(-100%);
-        padding-left: 40px;
+        width: 100vw;
+        max-width: none;
+        padding-left: 0;
     }
 
     .nav-sidebar.open {
         transform: translateX(0);
     }
 
-    .nav-sidebar-toggle {
-        position: fixed;
-        left: 0;
-        top: 0;
-        height: 100vh;
-        width: 40px;
+    .nav-sidebar-body {
+        padding: 12px;
+    }
+
+    .burger-button {
         background-color: var(--color-beigh-light-bg);
-        border: none;
-        box-shadow: 1px 0 0 0 black;
-        cursor: pointer;
-        z-index: 101;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.3s ease-in-out;
-    }
-
-    .nav-sidebar-toggle.open {
-        transform: translateX(0);
-        box-shadow: -1px 0 0 0 black;
-    }
-
-    .nav-sidebar-toggle:not(.open) {
-        transform: translateX(0);
-    }
-
-    .nav-sidebar-toggle:hover {
-        background-color: var(--color-beigh-light-bg-hover, #15423bb6);
-    }
-
-    .sidebar-content-slider {
-        width: 88%;
-    }
-
-}
-
-/* Desktop styles */
-@media (min-width: 769px) {
-    .nav-sidebar {
-        transition: transform 0.3s ease-in-out;
-    }
-
-    .nav-sidebar-toggle {
-        display: none;
     }
 }
+
+
 
 .barrios-checklist {
     padding: 1rem;
@@ -222,7 +187,6 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Custom checkbox styling */
 .barrio-checkbox input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
@@ -269,24 +233,30 @@
     background: var(--color-green-dark);
 }
 
-/* Responsive adjustments */
+
+/* Add new burger button styles */
+.burger-button {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 200;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-green-dark);
+}
+
 @media (max-width: 768px) {
     .barrio-checkbox {
         min-width: calc(33.33% - 0.75rem);
         padding: 0.35rem 0.5rem;
         font-size: 0.85rem;
     }
-}
 
-/* Add extra small screen styles */
-@media (max-width: 480px) {
-    .barrio-checkbox {
-        min-width: calc(50% - 0.75rem);
-    }
-}
-
-/* Add styles for the checkbox to make it more compact */
-@media (max-width: 768px) {
     .barrio-checkbox input[type="checkbox"] {
         width: 1rem;
         height: 1rem;
@@ -294,5 +264,15 @@
 
     .barrio-checkbox input[type="checkbox"]:checked::after {
         font-size: 0.7rem;
+    }
+
+    .nav-sidebar {
+        width: 100vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .barrio-checkbox {
+        min-width: calc(50% - 0.75rem);
     }
 }

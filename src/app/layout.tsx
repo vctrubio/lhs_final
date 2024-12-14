@@ -69,7 +69,7 @@ export default async function RootLayout({
           <Suspense fallback={<div>Loading...</div>}>
             <SideBar propertyParams={propertyParams} barrios={filteredBarrios} />
           </Suspense>
-          <main>
+          <main className="mx-8">
             {children}
           </main>
         </body>
