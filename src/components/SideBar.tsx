@@ -99,7 +99,7 @@ function SidebarContentProperties({ nuqs, barrios }: { nuqs: any, barrios: Barri
                         step={nuqs.sliders[key].params.title === 'Precio' ? 0.1 : 1}
                         disableSwap
                         valueLabelDisplay='auto'
-                        sx={{
+                        style={{
                             color: 'var(--color-green-dark)',
                         }}
                     />
