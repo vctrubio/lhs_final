@@ -59,7 +59,7 @@ export default async function RootLayout({
 }>) {
 
   console.log("--------------------RootLayout ~ children:----------------------------")
-  const { properties, propertyParams } = await fetchEntriesContentful()
+  const { properties, propertyParams, filteredBarrios } = await fetchEntriesContentful()
   console.log('Layout properties length:', properties?.length)
 
   return (
@@ -67,7 +67,7 @@ export default async function RootLayout({
       <NuqsAdapter>
         <body>
           <Suspense fallback={<div>Loading...</div>}>
-            <SideBar propertyParams={propertyParams} />
+            <SideBar propertyParams={propertyParams} barrios={filteredBarrios} />
           </Suspense>
           <main>
             {children}

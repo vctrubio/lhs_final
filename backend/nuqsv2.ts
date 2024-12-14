@@ -15,6 +15,7 @@ export function NuqsManager() {
     const [queryBedroomMax] = useQueryState('dormitoriosMax');
     const [queryMetersSquareMin] = useQueryState('metrosMin');
     const [queryMetersSquareMax] = useQueryState('metrosMax');
+    const [queryBarrios] = useQueryState('barrios');
 
     const [stateChanged, setStateChanged] = useState(false);
 
@@ -22,12 +23,12 @@ export function NuqsManager() {
         setStateChanged(prev => !prev);
     }, [queryTitle, queryPriceMin, queryPriceMax, queryBathroomMin,
         queryBathroomMax, queryBedroomMin, queryBedroomMax,
-        queryMetersSquareMin, queryMetersSquareMax]);
+        queryMetersSquareMin, queryMetersSquareMax, queryBarrios]);
 
     return {
         hasParams: [queryTitle, queryPriceMin, queryPriceMax, queryBathroomMin,
             queryBathroomMax, queryBedroomMin, queryBedroomMax,
-            queryMetersSquareMin, queryMetersSquareMax]
+            queryMetersSquareMin, queryMetersSquareMax, queryBarrios]
             .some(param => param !== null && param !== ''),
         stateChanged,
         params: {
@@ -47,7 +48,8 @@ export function NuqsManager() {
             m2: {
                 min: queryMetersSquareMin,
                 max: queryMetersSquareMax
-            }
+            },
+            barrios: queryBarrios
         }
     }
 }
@@ -70,6 +72,7 @@ export function INuqs(propertyParams: PropertyParams) {
     const [metrosCuadradosMaximo, setMetrosCuadradosMaximo] = useQueryState('metrosMax', { defaultValue: '' });
 
     const [queryTitle, setQueryTitle] = useQueryState('title', { defaultValue: '' });
+    const [barrios, setBarrios] = useQueryState('barrios');
 
     useEffect(() => {
         setPriceValue([propertyParams.prices.min, propertyParams.prices.max]);
@@ -205,6 +208,10 @@ export function INuqs(propertyParams: PropertyParams) {
                 valueQueryMax: setMetrosCuadradosMaximo,
                 params: propertyParams.metersSquare
             }
+        },
+        barrios: {
+            value: barrios,
+            setValue: setBarrios
         }
     }
 }

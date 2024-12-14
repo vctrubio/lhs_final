@@ -59,6 +59,14 @@ export const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) =
                     return meters >= minMeters && meters <= maxMeters;
                 });
             }
+
+            if (nuqs.params.barrios) {
+                const selectedBarrios = nuqs.params.barrios.split(',');
+                updatedProperties = updatedProperties.filter(property =>
+                    selectedBarrios.includes(property.barrioRef.name)
+                );
+            }
+
             setCssStateHover(true);
         }
         else {
@@ -68,13 +76,13 @@ export const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) =
         setFilterProperties(updatedProperties);
         setUniqueBoy(updatedProperties.length <= 1);
 
-    }, [entries, nuqs.stateChanged]);
+    }, [entries, nuqs.stateChanged, nuqs.hasParams, nuqs.params.title, nuqs.params.prices.min, nuqs.params.prices.max, nuqs.params.bathrooms.min, nuqs.params.bathrooms.max, nuqs.params.bedrooms.min, nuqs.params.bedrooms.max, nuqs.params.m2.min, nuqs.params.m2.max, nuqs.params.barrios]);
 
     return (
         <>
             <div className="property-container" last-man-standing={cssUniqueBoy ? 'on' : ''}>
                 {filterProperties.length === 0 ? (
-                    <NoResultsFound nuqsParams={nuqs.params} entries={entries} cssStateHover={cssStateHover} />
+                    <NoResultsFound nuqsParams={nuqs.params} entries={entries} />
                 ) : (
                     filterProperties.map((entry: Property) => (
                         <CardProperty property={entry} key={entry.title} cssStateHover={cssStateHover} />

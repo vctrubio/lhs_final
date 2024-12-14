@@ -21,7 +21,7 @@ export function extractImageUrls(entries: any[]): string[] {
 
 // Fetching //
 let count = 0;
-export async function fetchEntriesContentful(): Promise<{ properties: Property[], barrios: Barrio[], propertyParams: PropertyParams }> {
+export async function fetchEntriesContentful(): Promise<{ properties: Property[], filteredBarrios: Barrio[], propertyParams: PropertyParams }> {
     count++;
     console.log('calling fetchEntriesContentful: ', count)
 
@@ -41,7 +41,11 @@ export async function fetchEntriesContentful(): Promise<{ properties: Property[]
     });
 
     const propertyParams = getPropertiesParams(properties)
-    return { properties, barrios, propertyParams }
+
+    const uniqueBarriosInProperties = [...new Set(properties.map(property => property.barrioRef.name))];
+    const filteredBarrios = barrios.filter(barrio => uniqueBarriosInProperties.includes(barrio.name));
+
+    return { properties, filteredBarrios, propertyParams }
 }
 
 export async function fetchPropertyByID(url: string): Promise<Property | null> {

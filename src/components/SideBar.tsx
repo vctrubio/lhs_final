@@ -1,6 +1,6 @@
 'use client'
+import { useState, useEffect } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
-import { useState } from "react";
 import { Logo } from "@/components/NavBar";
 import { Slider } from "@mui/material"
 import { PropertyParams } from "#/backend/parsing";
@@ -8,9 +8,9 @@ import { INuqs } from "#/backend/nuqsv2";
 import { IconRepeatClassic, IconSearch } from "@/utils/svgs"
 import Footer from "@/components/Footer"
 import { usePathname } from "next/navigation";
+import { Barrio } from "#/backend/types";
 
 function SearchInput({ reset, queryParams, queryTitle, setQueryTitle }: { reset: () => void, queryParams: boolean, queryTitle: string, setQueryTitle: (value: string) => void }) {
-
     const Icon = queryParams ? <IconRepeatClassic /> : <IconSearch />;
 
     return (
@@ -21,7 +21,60 @@ function SearchInput({ reset, queryParams, queryTitle, setQueryTitle }: { reset:
     )
 }
 
-function SidebarContentProperties({ nuqs }: { nuqs: any }) {
+
+function BarriosChecklist({ barrios, selectedBarrios, onChange }: {
+    barrios: Barrio[],
+    selectedBarrios: string | null,
+    onChange: (value: string | null) => void
+}) {
+    const [selected, setSelected] = useState<Set<string>>(new Set())
+
+    useEffect(() => {
+        // Initialize from URL params
+        if (selectedBarrios) {
+            setSelected(new Set(selectedBarrios.split(',')))
+        } else {
+            setSelected(new Set())
+        }
+    }, [selectedBarrios])
+
+    const handleToggle = (barrioName: string) => {
+        const newSelected = new Set(selected)
+        if (newSelected.has(barrioName)) {
+            newSelected.delete(barrioName)
+        } else {
+            newSelected.add(barrioName)
+        }
+        setSelected(newSelected)
+
+        // If none selected, set param to null. Otherwise join with commas
+        if (newSelected.size === 0) {
+            onChange(null)
+        } else {
+            onChange(Array.from(newSelected).join(','))
+        }
+    }
+
+    return (
+        <div className="barrios-checklist">
+            <h2>Barrios</h2>
+            <div className="barrios-list">
+                {barrios.map((barrio) => (
+                    <label key={barrio.name} className="barrio-checkbox">
+                        <input
+                            type="checkbox"
+                            checked={selected.has(barrio.name)}
+                            onChange={() => handleToggle(barrio.name)}
+                        />
+                        {barrio.name}
+                    </label>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+function SidebarContentProperties({ nuqs, barrios }: { nuqs: any, barrios: Barrio[] }) {
 
     return (
         <div className="sidebar-content">
@@ -53,20 +106,27 @@ function SidebarContentProperties({ nuqs }: { nuqs: any }) {
 
                 </div>
             ))}
+            <div className="sidebar-content-barrios">
+                <BarriosChecklist
+                    barrios={barrios}
+                    selectedBarrios={nuqs.barrios.value}
+                    onChange={nuqs.barrios.setValue}
+                />
+            </div>
         </div>
     );
 }
 
-const SidebarContentRootPage = ({ nuqs }: { nuqs: any }) => {
+const SidebarContentRootPage = ({ nuqs, barrios }: { nuqs: any, barrios: Barrio[] }) => {
     return (
         <>
             <SearchInput reset={nuqs.handleReset} queryParams={nuqs.hasQueryParams} queryTitle={nuqs.query.value} setQueryTitle={nuqs.query.setValue} />
-            <SidebarContentProperties nuqs={nuqs} />
+            <SidebarContentProperties nuqs={nuqs} barrios={barrios} />
         </>
     )
 }
 
-export default function SideBar({ propertyParams }: { propertyParams: PropertyParams }) {
+export default function SideBar({ propertyParams, barrios }: { propertyParams: PropertyParams, barrios: Barrio[] }) {
     const [isOpen, setIsOpen] = useState(false);
     const nuqs = INuqs(propertyParams);
     const url_roots = usePathname()
@@ -78,7 +138,7 @@ export default function SideBar({ propertyParams }: { propertyParams: PropertyPa
                     <Logo />
                 </div>
                 <div className="nav-sidebar-body">
-                    {url_roots === '/' && <SidebarContentRootPage nuqs={nuqs} />}
+                    {url_roots === '/' && <SidebarContentRootPage nuqs={nuqs} barrios={barrios} />}
                     {url_roots.startsWith('/propiedades/') && <h1>-{url_roots.split('/')[2]}-</h1>}
                 </div>
                 <div className="nav-sidebar-footer">

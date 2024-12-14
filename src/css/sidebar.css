@@ -179,3 +179,120 @@
         display: none;
     }
 }
+
+.barrios-checklist {
+    padding: 1rem;
+}
+
+.barrios-checklist h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: var(--color-green-dark);
+    border-bottom: 2px solid var(--color-green-dark-opec);
+    padding-bottom: 0.5rem;
+}
+
+.barrios-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 0.5rem;
+}
+
+.barrio-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    background: white;
+    border-radius: 20px;
+    border: 1px solid var(--color-green-dark-opec);
+    transition: all 0.2s ease;
+    min-width: calc(50% - 0.75rem);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-size: 0.9rem;
+}
+
+.barrio-checkbox:hover {
+    background: var(--color-beigh-light-bg-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom checkbox styling */
+.barrio-checkbox input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 2px solid var(--color-green-dark);
+    border-radius: 4px;
+    margin: 0;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.barrio-checkbox input[type="checkbox"]:checked {
+    background-color: var(--color-green-dark);
+}
+
+.barrio-checkbox input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 0.8rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Scrollbar styling */
+.barrios-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.barrios-list::-webkit-scrollbar-track {
+    background: var(--color-beigh-light-bg);
+    border-radius: 4px;
+}
+
+.barrios-list::-webkit-scrollbar-thumb {
+    background: var(--color-green-dark-opec);
+    border-radius: 4px;
+}
+
+.barrios-list::-webkit-scrollbar-thumb:hover {
+    background: var(--color-green-dark);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .barrio-checkbox {
+        min-width: calc(33.33% - 0.75rem);
+        padding: 0.35rem 0.5rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Add extra small screen styles */
+@media (max-width: 480px) {
+    .barrio-checkbox {
+        min-width: calc(50% - 0.75rem);
+    }
+}
+
+/* Add styles for the checkbox to make it more compact */
+@media (max-width: 768px) {
+    .barrio-checkbox input[type="checkbox"] {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .barrio-checkbox input[type="checkbox"]:checked::after {
+        font-size: 0.7rem;
+    }
+}
