@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from "react";
-import { ChevronRight, ChevronLeft, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Logo } from "@/components/NavBar";
 import { Slider } from "@mui/material"
 import { PropertyParams } from "#/backend/parsing";
@@ -9,6 +9,7 @@ import { IconRepeatClassic, IconSearch } from "@/utils/svgs"
 import Footer from "@/components/Footer"
 import { usePathname } from "next/navigation";
 import { Barrio } from "#/backend/types";
+import SideBarProperty from "./SideBarProperty";
 
 function SearchInput({ reset, queryParams, queryTitle, setQueryTitle }: { reset: () => void, queryParams: boolean, queryTitle: string, setQueryTitle: (value: string) => void }) {
     const Icon = queryParams ? <IconRepeatClassic /> : <IconSearch />;
@@ -20,7 +21,6 @@ function SearchInput({ reset, queryParams, queryTitle, setQueryTitle }: { reset:
         </div>
     )
 }
-
 
 function BarriosChecklist({ barrios, selectedBarrios, onChange }: {
     barrios: Barrio[],
@@ -154,6 +154,16 @@ export default function SideBar({ propertyParams, barrios }: { propertyParams: P
         };
     }, [isOpen]);
 
+    const renderSidebarContent = () => {
+        if (url_roots === '/') {
+            return <SidebarContentRootPage nuqs={nuqs} barrios={barrios} />;
+        }
+        if (url_roots.startsWith('/propiedades/')) {
+            return <SideBarProperty />;
+        }
+        return null;
+    };
+
     return (
         <>
             <button
@@ -169,8 +179,7 @@ export default function SideBar({ propertyParams, barrios }: { propertyParams: P
                     <Logo />
                 </div>
                 <div className="nav-sidebar-body">
-                    {url_roots === '/' && <SidebarContentRootPage nuqs={nuqs} barrios={barrios} />}
-                    {url_roots.startsWith('/propiedades/') && <h1>-{url_roots.split('/')[2]}-</h1>}
+                    {renderSidebarContent()}
                 </div>
                 <div className="nav-sidebar-footer">
                     <Footer />

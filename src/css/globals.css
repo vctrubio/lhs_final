@@ -55,6 +55,11 @@ main {
   color: var(--color-price)
 }
 
+
+/* Add these mobile-first optimizations */
+
+/* Optimize touch targets for mobile */
+/* 
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
@@ -74,7 +79,6 @@ main {
   }
 }
 
-/* Add these mobile-first optimizations */
 @layer utilities {
   .safe-bottom {
     padding-bottom: env(safe-area-inset-bottom);
@@ -84,8 +88,6 @@ main {
     padding-top: env(safe-area-inset-top);
   }
 }
-
-/* Optimize touch targets for mobile */
 @media (max-width: 768px) {
   button, 
   a,
@@ -96,13 +98,12 @@ main {
   
   input,
   select {
-    font-size: 16px; /* Prevents iOS zoom on focus */
+    font-size: 16px; 
   }
   
-  /* Improve mobile scrolling */
   .scroll-container {
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
   }
 }
-
+ */
