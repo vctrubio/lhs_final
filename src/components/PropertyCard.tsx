@@ -49,6 +49,8 @@ export const CardProperty = ({ property, cssStateHover }: { property: Property, 
                         quality={100}
                         priority
                         title={property.title}
+                        placeholder="blur"
+                        blurDataURL={coverPhoto}
                     />
                     <div className="property-desc">
                         <DescBox text={area} icon={Ruler} />

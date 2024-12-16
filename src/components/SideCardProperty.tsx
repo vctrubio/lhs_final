@@ -22,6 +22,8 @@ export default function SideCardProperty({ property }: { property: Property }) {
                     src={property.cover_url[0]}
                     alt={property.title}
                     fill
+                    placeholder="blur"
+                    blurDataURL={property.cover_url[0]}
                     className="object-cover"
                 />
                 <div className="absolute inset-0 bg-black/10" />
