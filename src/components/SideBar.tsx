@@ -128,7 +128,7 @@ const SidebarContentRootPage = ({ nuqs, barrios }: { nuqs: any, barrios: Barrio[
     )
 }
 
-export default function SideBar({ propertyParams, barrios }: { propertyParams: PropertyParams, barrios: Barrio[] }) {
+export default function SideBar({ propertyParams, barrios, propertyUrl }: { propertyParams: PropertyParams, barrios: Barrio[], propertyUrl?: string }) {
     const [isOpen, setIsOpen] = useState(true);
     const nuqs = INuqs(propertyParams);
     const url_roots = usePathname()
