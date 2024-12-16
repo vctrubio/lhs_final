@@ -120,7 +120,7 @@ function PropertyStats({ property }) {
 
 function PropertySidebar({ property, setIsShareModalOpen }) {
     return (
-        <div className="lg:col-span-1" style={{ minWidth: '400px', maxWidth: '600px' }}>
+        <div className="lg:col-span-1 min-w-[400px] max-w-[600px] mx-auto">
             <div className="sticky top-8 bg-[#14213D] rounded-xl p-6">
                 <div className="my-3">
                     <span className="text-2xl text-white">Precio</span>
@@ -181,7 +181,7 @@ function PropertySidebar({ property, setIsShareModalOpen }) {
 function PropertyDetails({ property }) {
     return (
         <div className="max-w-xl">
-            <h1 className="font-serif text-4xl md:text-5xl text-[#14213D] mb-2 px-4 border-b inline-block">
+            <h1 className="font-serif text-4xl md:text-5xl text-[#14213D] mb-2 px-4 inline-block">
                 {property.title}
             </h1>
 
