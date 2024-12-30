@@ -117,17 +117,16 @@ export default function SideBarProperty() {
                         return (valueA - valueB) * multiplier;
                     });
 
-                    setDisplayedProperties(sortedProperties.slice(0, 4));
+                    setDisplayedProperties(sortedProperties);
                 }}
                 onRotate={handleRotate}
                 activeSort={activeSort}
                 sortDirection={sortDirection}
                 properties={displayedProperties}
-                totalProperties={allRelatedProperties.length}
             />
 
             {/* Properties */}
-            <div className="space-y-4">
+            <div className="space-y-4 border">
                 <div className="space-y-3">
                     {displayedProperties.map((property) => (
                         <SideCardProperty

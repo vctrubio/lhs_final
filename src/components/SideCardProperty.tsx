@@ -13,8 +13,8 @@ export default function SideCardProperty({ property }: { property: Property }) {
         <Link href={`/propiedades/${property.url}`} className="flex">
             <motion.div
                 whileHover={{ y: -4, scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="flex gap-3 p-3 bg-white rounded-xl cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300"
+                transition={{ type: "spring", stiffness: 500 }}
+                className="w-full flex gap-3 p-3 border border-mac rounded-lg cursor-pointer shadow-sm hover:shadow-lg transition-all duration-300"
             >
                 <div className="relative w-[100px] h-[80px] flex-shrink-0 rounded-lg overflow-hidden group">
                     <Image

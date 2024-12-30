@@ -11,7 +11,6 @@ interface SideBarNavProps {
     activeSort: SortKey | null;
     sortDirection: 'asc' | 'desc';
     properties: Property[];
-    totalProperties: number;
 }
 
 export default function SideBarNav({ 
@@ -20,7 +19,6 @@ export default function SideBarNav({
     activeSort, 
     sortDirection,
     properties,
-    totalProperties
 }: SideBarNavProps) {
     const getAverageValue = (key: SortKey) => {
         const sum = properties.reduce((acc, prop) => acc + prop.charRef[key], 0);
@@ -39,7 +37,7 @@ export default function SideBarNav({
             <button
                 onClick={() => onSort(key)}
                 className={`
-                    flex flex-col items-center gap-1 p-2 rounded-lg transition-all
+                    flex flex-col items-center gap-1 p-2 rounded-lg transition-all ${!isActive && 'hover:bg-mac'}
                     ${isActive 
                         ? 'bg-[var(--color-green-dark)] text-white' 
                         : 'hover:bg-[var(--color-green-dark)]/10'
@@ -62,7 +60,7 @@ export default function SideBarNav({
 
     return (
         <div className="flex flex-col gap-2">
-            <div className="flex justify-around items-center p-2 bg-gray-50 rounded-lg">
+            <div className={`flex justify-around items-center p-2 rounded-lg ${!activeSort ? 'border border-mac' : ''}`}>
                 {renderSortButton(
                     <Bed className="w-5 h-5" />,
                     'dormitorios',
@@ -81,8 +79,8 @@ export default function SideBarNav({
             </div>
             
             <div className="flex justify-between items-center px-2">
-                <span className="text-xs text-[var(--color-green-dark)]/70">
-                    Mostrando 4 de {totalProperties} propiedades
+                <span>
+                    Mostrando similares
                 </span>
                 <button
                     onClick={onRotate}
