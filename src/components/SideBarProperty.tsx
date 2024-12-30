@@ -126,7 +126,7 @@ export default function SideBarProperty() {
             />
 
             {/* Properties */}
-            <div className="space-y-4 border">
+            <div className="space-y-4">
                 <div className="space-y-3">
                     {displayedProperties.map((property) => (
                         <SideCardProperty
