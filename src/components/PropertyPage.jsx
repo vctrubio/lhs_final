@@ -7,7 +7,7 @@ import { IconPrice } from "@/utils/svgs";
 import {
     Bed, Bath, MapPin, Share2, Wind, Flame, Building2,
     Home, User, Package, Car, Phone, Ruler, BedDouble,
-    Sun, Toilet, Fence,
+    Sun, Toilet, Fence, Download,
 } from "lucide-react";
 import ShareModal from './ShareModal';
 
@@ -29,20 +29,20 @@ function AmenitiesSection({ amenities, reformado }) {
     ].filter(amenity => amenity.value) : [];
 
     return (
-        <div className="border-t pt-2">
-            <h3 className="font-serif text-xl text-white my-2">
+        <div className="border-t border-[#E1D8C6] pt-2">
+            <h3 className="font-serif text-xl text-black my-2">
                 Características
             </h3>
             <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center gap-2">
-                    <reformadoStatus.icon className={`w-5 h-5 ${reformado ? 'text-[#B8860B]' : 'text-gray-400'}`} />
-                    <span className="text-white">{reformadoStatus.label}</span>
+                    <reformadoStatus.icon className={`w-5 h-5 ${reformado ? 'text-black' : 'text-gray-400'}`} />
+                    <span className="text-black">{reformadoStatus.label}</span>
                 </div>
 
                 {availableAmenities.map(({ icon: Icon, label }) => (
                     <div key={label} className="flex items-center gap-2">
-                        <Icon className="w-5 h-5 text-[#B8860B]" />
-                        <span className="text-white">{label}</span>
+                        <Icon className="w-5 h-5 text-back" />
+                        <span className="text-black">{label}</span>
                     </div>
                 ))}
             </div>
@@ -101,7 +101,7 @@ function PropertyStats({ property }) {
         <div className="flex flex-wrap justify-between mb-12 px-4">
             {stats.filter(stat => stat.value > 0).map(({ icon: Icon, label, value, singularLabel, isTerraza }) => (
                 <div key={label} className="grid grid-rows-2 min-w-[100px] text-left pt-2 pl-1">
-                    <p className="text-sm text-gray-500 mb-1">
+                    <p className="mb-1">
                         {value === 1 ? singularLabel : label}
                     </p>
                     <div className="flex justify-start gap-2 items-center">
@@ -119,26 +119,30 @@ function PropertyStats({ property }) {
 }
 
 function PropertyBroucher({ property, setIsShareModalOpen }) {
+    const buttonBaseStyle = "w-full py-4 rounded-lg transition-colors duration-800 hover:bg-[#E1D8C6] flex items-center justify-center gap-2";
+    const primaryButtonStyle = `${buttonBaseStyle} bg-mac`;
+    const secondaryButtonStyle = `${buttonBaseStyle} bg-mac`;
+
     return (
         <div className="lg:col-span-1 min-w-[400px] max-w-[600px] mx-auto">
-            <div className="sticky top-8 bg-[#14213D] rounded-xl p-6">
-                <div className="my-3">
-                    <span className="text-2xl text-white">Precio</span>
-                    <div className="text-4xl font-serif text-white flex" style={{ letterSpacing: '1px' }}>
-                        <IconPrice stroke="white" />{property.precio.toLocaleString('es-ES')}
+            <div className="sticky top-8 bg-[#91AC8F] rounded-xl p-6">
+                <div className="mb-4">
+                    <span className="text-2xl text-black">Precio</span>
+                    <div className="text-4xl font-serif text-black flex" style={{ letterSpacing: '1px' }}>
+                        <IconPrice stroke="black" />{property.precio.toLocaleString('es-ES')}
                     </div>
 
                     <div className="space-y-2 pt-3">
                         {property.precioIbi > 0 && (
-                            <div className="flex items-center justify-between text-sm">
-                                <span className="text-gray-500">+ IBI</span>
-                                <span className="text-gray-600 font-medium">€{property.precioIbi.toLocaleString('es-ES')}/año</span>
+                            <div className="flex items-center justify-between text-sm text-dark">
+                                <span className="">+ IBI</span>
+                                <span className="font-medium">€{property.precioIbi.toLocaleString('es-ES')}/año</span>
                             </div>
                         )}
                         {property.precioComunidad > 0 && (
                             <div className="flex items-center justify-between text-sm">
-                                <span className="text-gray-500">+ Gastos de Comunidad</span>
-                                <span className="text-gray-600 font-medium">€{property.precioComunidad.toLocaleString('es-ES')}/mes</span>
+                                <span className="">+ Gastos de Comunidad</span>
+                                <span className="font-medium">€{property.precioComunidad.toLocaleString('es-ES')}/mes</span>
                             </div>
                         )}
                     </div>
@@ -147,30 +151,34 @@ function PropertyBroucher({ property, setIsShareModalOpen }) {
                 <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
 
                 <div className="my-6 space-y-3">
+                    <div className="flex flex-row gap-2">
+                        <button
+                            onClick={() => {
+                                const propertyUrl = `https://www.lhsconcept.com/propiedades/${property.url}`;
+                                const message = `Hola, estoy interesado en esta propiedad: ${property.title}\n${propertyUrl}`;
+                                const whatsappUrl = `https://wa.me/34616746971?text=${encodeURIComponent(message)}`;
+                                window.open(whatsappUrl, '_blank');
+                            }}
+                            className={primaryButtonStyle}
+                        >
+                            <Phone className="w-5 h-5" />
+                            <span>Contactar</span>
+                        </button>
+
+                        <button
+                            onClick={() => setIsShareModalOpen(true)}
+                            className={primaryButtonStyle}
+                        >
+                            <Share2 className="w-5 h-5" />
+                            <span>Compartir</span>
+                        </button>
+                    </div>
                     <button
-                        onClick={() => {
-                            const propertyUrl = `https://www.lhsconcept.com/propiedades/${property.url}`;
-                            const message = `Hola, estoy interesado en esta propiedad: ${property.title}\n${propertyUrl}`;
-                            const whatsappUrl = `https://wa.me/34616746971?text=${encodeURIComponent(message)}`;
-                            window.open(whatsappUrl, '_blank');
-                        }}
-                        className="w-full bg-[#14213D] text-white py-4 rounded-lg hover:bg-[#1a2b4d] transition-colors flex items-center justify-center gap-2 hover:bg-opacity-80 border"
-                    >
-                        <Phone className="w-5 h-5" />
-                        <span>Contactar</span>
-                    </button>
-                    <button
-                        onClick={() => setIsShareModalOpen(true)}
-                        className="w-full bg-[#14213D] text-white py-4 rounded-lg hover:bg-[#1a2b4d] transition-colors flex items-center justify-center gap-2 hover:bg-opacity-80 border"
-                    >
-                        <Share2 className="w-5 h-5" />
-                        <span>Compartir</span>
-                    </button>
-                    <button
-                        className="w-full bg-[#B8860B] text-white py-4 rounded-lg hover:bg-[#9a7209] transition-colors"
+                        className={secondaryButtonStyle}
                         onClick={() => window.open(property.plano_url, '_blank')}
                     >
-                        Descargar Plano
+                        <Download className="w-5 h-5" />
+                        <span>Descargar Plano</span>
                     </button>
                 </div>
             </div>
@@ -225,16 +233,16 @@ function CarouselComponent({ property }) {
                 ...prev,
                 [index]: true
             };
-            
+
             if (Object.keys(newState).length === property.photos_url.length) {
                 setTimeout(() => {
                     setAllThumbnailsLoaded(true);
                 }, 500);
             }
-            
+
             return newState;
         });
-        
+
         setTimeout(() => {
             setShowPlaceholders(prev => ({
                 ...prev,
@@ -314,15 +322,14 @@ function CarouselComponent({ property }) {
                             src={image}
                             fill
                             alt={`Property Image ${index + 1}`}
-                            className={`object-contain transition-opacity duration-1000 ${
-                                !showPlaceholders[index] ? 'opacity-100' : 'opacity-0'
-                            }`}
+                            className={`object-contain transition-opacity duration-1000 ${!showPlaceholders[index] ? 'opacity-100' : 'opacity-0'
+                                }`}
                             priority={index === 0}
                             loading={index === 0 ? "eager" : "lazy"}
                             onLoad={() => handleImageLoad(index)}
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                             placeholder="blur"
-                            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx0fHRsdHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR0XFyAeIRMhISE1IzAnNSM1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTX/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+                            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx0fHRsdHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR0XFyAeIRMhISE1IzAnNSM1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTX/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                         />
                     </div>
                 ))}
@@ -398,7 +405,7 @@ function CarouselComponent({ property }) {
 
             const availableWidth = containerWidth - padding;
             const possibleCount = Math.floor(availableWidth / (thumbnailWidth + gap));
-            
+
             const newCount = Math.min(
                 Math.max(4, possibleCount),
                 Math.min(12, property.photos_url.length)
@@ -408,23 +415,23 @@ function CarouselComponent({ property }) {
         };
 
         const observer = new ResizeObserver(calculateVisibleCount);
-        
+
         if (containerRef.current) {
             observer.observe(containerRef.current);
         }
 
         calculateVisibleCount();
-        
+
         return () => observer.disconnect();
     }, [property.photos_url.length]);
 
     return (
         <div className="relative w-full mb-8">
             {/* Placeholder div to reserve space */}
-            <div 
+            <div
                 className="w-full h-[600px]"
-                style={{ 
-                    display: isInitialMount ? 'block' : 'none' 
+                style={{
+                    display: isInitialMount ? 'block' : 'none'
                 }}
             />
 

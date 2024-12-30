@@ -72,6 +72,7 @@ export async function fetchPropertyByID(url: string): Promise<Property | null> {
 
 
 // Parsing //
+
 function parsePropertyFromContentful({ entry }: { entry: any }): Property {
     function getRoomPhotoUrl(entries: any[]): string[] {
         const urls = entries.map(entry => {
