@@ -121,7 +121,7 @@ function CharacteristicsSection({ propertyCharacteristics }) {
 
 
     return (
-        <div className="flex flex-wrap gap-4 ">
+        <div className="flex flex-wrap justify-center gap-4 ">
             {availableCharacteristics.map(({ icon: Icon, label, value }) => (
                 <div key={label} className="flex flex-col items-center gap-2">
                     <Icon className="w-7 h-7" />
