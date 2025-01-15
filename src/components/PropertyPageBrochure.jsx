@@ -2,47 +2,10 @@ import { IconPrice } from "@/utils/svgs";
 import {
     Share2, Wind, Flame, Building2,
     Home, User, Package, Car, Phone,
-    Download
+    Download, BedDouble, Bed, Bath,
+    Toilet, Sun, Fence, Ruler,
+    PaintRoller
 } from "lucide-react";
-
-function AmenitiesSection({ amenities, reformado }) {
-    const reformadoStatus = {
-        icon: Home,
-        label: reformado ? 'Reformado' : 'Para reformar',
-    };
-
-    const availableAmenities = amenities ? [
-        { icon: Home, label: 'Amueblado', value: amenities.furnished },
-        { icon: Wind, label: 'AC', value: amenities.ac },
-        { icon: Flame, label: 'Calefacción', value: amenities.heating },
-        { icon: Building2, label: 'Terraza', value: amenities.rooftop },
-        { icon: User, label: 'Portero', value: amenities.portero },
-        { icon: Package, label: 'Trastero', value: amenities.trastero },
-        { icon: Building2, label: 'Ascensor', value: amenities.elevator },
-        { icon: Car, label: 'Parking', value: amenities.parking },
-    ].filter(amenity => amenity.value) : [];
-
-    return (
-        <div>
-            <h3 className="font-serif text-xl text-black my-2">
-                Características
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center gap-2">
-                    <reformadoStatus.icon className={`w-5 h-5 ${reformado ? 'text-black' : 'text-gray-400'}`} />
-                    <span className="text-black">{reformadoStatus.label}</span>
-                </div>
-
-                {availableAmenities.map(({ icon: Icon, label }) => (
-                    <div key={label} className="flex items-center gap-2">
-                        <Icon className="w-5 h-5 text-back" />
-                        <span className="text-black">{label}</span>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-}
 
 function ShareButton({ property, setIsShareModalOpen }) {
     const buttonBaseStyle = "w-full py-4 rounded-lg transition-colors duration-800 hover:bg-[#E1D8C6] flex items-center justify-center gap-2";
@@ -83,36 +46,114 @@ function ShareButton({ property, setIsShareModalOpen }) {
     );
 }
 
+function AmenitiesSection({ amenities, reformado }) {
+    const availableAmenities = amenities ? [
+        { icon: PaintRoller, label: reformado ? 'Reformado' : 'Para reformar', value: reformado },
+        { icon: Home, label: 'Amueblado', value: amenities.furnished },
+        { icon: Wind, label: 'AC', value: amenities.ac },
+        { icon: Flame, label: 'Calefacción', value: amenities.heating },
+        { icon: Building2, label: 'Terraza', value: amenities.rooftop },
+        { icon: User, label: 'Portero', value: amenities.portero },
+        { icon: Package, label: 'Trastero', value: amenities.trastero },
+        { icon: Building2, label: 'Ascensor', value: amenities.elevator },
+        { icon: Car, label: 'Parking', value: amenities.parking },
+    ].filter(amenity => amenity.value) : [];
 
-function CharacteristicsSection({ property }) {
     return (
-        <div>
-            hello i
+        <div className="grid grid-cols-2 gap-4 px-8 [&>*]:flex [&>*]:items-center [&>*]:gap-2">
+            {availableAmenities.map(({ icon: Icon, label }) => (
+                <div key={label}>
+                    <Icon className="w-5 h-5 text-black" />
+                    <span className="text-black">{label}</span>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+function CharacteristicsSection({ propertyCharacteristics }) {
+    console.log('do u see, ', propertyCharacteristics);
+    const availableCharacteristics = propertyCharacteristics ? [
+        {
+            icon: BedDouble,
+            label: "Dormitorios En Suite",
+            value: propertyCharacteristics.dormitoriosSuite,
+            singularLabel: "Dormitorio En Suite"
+        },
+        {
+            icon: Bed,
+            label: "Dormitorios",
+            value: propertyCharacteristics.dormitorios,
+            singularLabel: "Dormitorio"
+        },
+        {
+            icon: Bath,
+            label: "Baños",
+            value: propertyCharacteristics.banos,
+            singularLabel: "Baño"
+        },
+        {
+            icon: Toilet,
+            label: "Aseos",
+            value: propertyCharacteristics.aseo,
+            singularLabel: "Aseo"
+        },
+        {
+            icon: Sun,
+            label: "Balcones",
+            value: propertyCharacteristics.balcones,
+            singularLabel: "Balcón"
+        },
+        // {
+        //     icon: Fence,
+        //     label: "Terrazas",
+        //     value: propertyCharacteristics.patio,
+        //     singularLabel: "Terraza",
+        //     isTerraza: true
+        // },
+        {
+            icon: Ruler,
+            label: "M²",
+            value: propertyCharacteristics.metrosCuadradros,
+            singularLabel: "M²"
+        }
+    ].filter(characteristic => characteristic.value > 0) : [];
+
+
+    return (
+        <div className="flex flex-wrap gap-4 ">
+            {availableCharacteristics.map(({ icon: Icon, label, value }) => (
+                <div key={label} className="flex flex-col items-center gap-2">
+                    <Icon className="w-7 h-7" />
+                    <div className="text-sm">{label}</div>
+                    <div className="font-bold">{value}</div>
+                </div>
+            ))}
         </div>
     )
 }
 
-export function PropertyBroucher({ property, setIsShareModalOpen }) {
-
+export function PropertyBroucher({ property }) {
     const Head = () => {
         return (
-            <div>
-                <span className="text-2xl text-black">Precio</span>
-                <div className="text-4xl font-serif text-black flex" style={{ letterSpacing: '1px' }}>
-                    <IconPrice stroke="black" />{property.precio.toLocaleString('es-ES')}
+            <div className="[&_span]:text-dark">
+                <h2>Precio</h2>
+                <div className="text-4xl flex" style={{ letterSpacing: '1px' }}>
+                    <IconPrice stroke="black" />
+                    {property.precio.toLocaleString('es-ES')}
                 </div>
 
                 <div className="space-y-2 pt-3">
                     {property.precioIbi > 0 && (
-                        <div className="flex items-center justify-between text-sm text-dark">
-                            <span className="">+ IBI</span>
-                            <span className="font-medium">€{property.precioIbi.toLocaleString('es-ES')}/año</span>
+                        <div className="flex items-center justify-between">
+                            <span>+ IBI</span>
+                            <span >€{property.precioIbi.toLocaleString('es-ES')}/año</span>
                         </div>
                     )}
                     {property.precioComunidad > 0 && (
-                        <div className="flex items-center justify-between text-sm">
-                            <span className="">+ Gastos de Comunidad</span>
-                            <span className="font-medium">€{property.precioComunidad.toLocaleString('es-ES')}/mes</span>
+                        <div className="flex items-center justify-between">
+                            <span >+ Gastos de Comunidad</span>
+                            <span>€{property.precioComunidad.toLocaleString('es-ES')}/mes</span>
                         </div>
                     )}
                 </div>
@@ -121,10 +162,10 @@ export function PropertyBroucher({ property, setIsShareModalOpen }) {
     }
 
     return (
-        <div className="lg:col-span-1 min-w-[400px] max-w-[600px] mx-auto">
-            <div className="sticky top-8 bg-[#91AC8F] rounded-xl p-6 divide-y divide-[#E1D8C6] [&>*]:py-2">
+        <div className="mx-auto min-w-[400px] bg-[#91AC8F] rounded-xl font-serif px-8 py-4">
+            <div className="sticky divide-y divide-[#E1D8C6] [&>*]:py-4 [&_h2]:text-2xl [&_h3]:text-xl ">
                 <Head />
-                <CharacteristicsSection property={property} />
+                <CharacteristicsSection propertyCharacteristics={property.charRef} />
                 <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
                 {/* <ShareButton property={property} setIsShareModalOpen={setIsShareModalOpen} /> */}
             </div>
