@@ -23,7 +23,7 @@ function AmenitiesSection({ amenities, reformado }) {
     ].filter(amenity => amenity.value) : [];
 
     return (
-        <div className="border-t border-[#E1D8C6] pt-2">
+        <div>
             <h3 className="font-serif text-xl text-black my-2">
                 Características
             </h3>
@@ -43,69 +43,90 @@ function AmenitiesSection({ amenities, reformado }) {
         </div>
     );
 }
-export function PropertyBroucher({ property, setIsShareModalOpen }) {
+
+function ShareButton({ property, setIsShareModalOpen }) {
     const buttonBaseStyle = "w-full py-4 rounded-lg transition-colors duration-800 hover:bg-[#E1D8C6] flex items-center justify-center gap-2";
     const primaryButtonStyle = `${buttonBaseStyle} bg-background`;
     const secondaryButtonStyle = `${buttonBaseStyle} bg-background`;
 
+    return (<div className="my-6 space-y-3">
+        <div className="flex flex-row gap-2">
+            <button
+                onClick={() => {
+                    const propertyUrl = `https://www.lhsconcept.com/propiedades/${property.url}`;
+                    const message = `Hola, estoy interesado en esta propiedad: ${property.title}\n${propertyUrl}`;
+                    const whatsappUrl = `https://wa.me/34616746971?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappUrl, '_blank');
+                }}
+                className={primaryButtonStyle}
+            >
+                <Phone className="w-5 h-5" />
+                <span>Contactar</span>
+            </button>
+
+            <button
+                onClick={() => setIsShareModalOpen(true)}
+                className={primaryButtonStyle}
+            >
+                <Share2 className="w-5 h-5" />
+                <span>Compartir</span>
+            </button>
+        </div>
+        <button
+            className={secondaryButtonStyle}
+            onClick={() => window.open(property.plano_url, '_blank')}
+        >
+            <Download className="w-5 h-5" />
+            <span>Descargar Plano</span>
+        </button>
+    </div>
+    );
+}
+
+
+function CharacteristicsSection({ property }) {
+    return (
+        <div>
+            hello i
+        </div>
+    )
+}
+
+export function PropertyBroucher({ property, setIsShareModalOpen }) {
+
+    const Head = () => {
+        return (
+            <div>
+                <span className="text-2xl text-black">Precio</span>
+                <div className="text-4xl font-serif text-black flex" style={{ letterSpacing: '1px' }}>
+                    <IconPrice stroke="black" />{property.precio.toLocaleString('es-ES')}
+                </div>
+
+                <div className="space-y-2 pt-3">
+                    {property.precioIbi > 0 && (
+                        <div className="flex items-center justify-between text-sm text-dark">
+                            <span className="">+ IBI</span>
+                            <span className="font-medium">€{property.precioIbi.toLocaleString('es-ES')}/año</span>
+                        </div>
+                    )}
+                    {property.precioComunidad > 0 && (
+                        <div className="flex items-center justify-between text-sm">
+                            <span className="">+ Gastos de Comunidad</span>
+                            <span className="font-medium">€{property.precioComunidad.toLocaleString('es-ES')}/mes</span>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="lg:col-span-1 min-w-[400px] max-w-[600px] mx-auto">
-            <div className="sticky top-8 bg-[#91AC8F] rounded-xl p-6">
-                <div className="mb-4">
-                    <span className="text-2xl text-black">Precio</span>
-                    <div className="text-4xl font-serif text-black flex" style={{ letterSpacing: '1px' }}>
-                        <IconPrice stroke="black" />{property.precio.toLocaleString('es-ES')}
-                    </div>
-
-                    <div className="space-y-2 pt-3">
-                        {property.precioIbi > 0 && (
-                            <div className="flex items-center justify-between text-sm text-dark">
-                                <span className="">+ IBI</span>
-                                <span className="font-medium">€{property.precioIbi.toLocaleString('es-ES')}/año</span>
-                            </div>
-                        )}
-                        {property.precioComunidad > 0 && (
-                            <div className="flex items-center justify-between text-sm">
-                                <span className="">+ Gastos de Comunidad</span>
-                                <span className="font-medium">€{property.precioComunidad.toLocaleString('es-ES')}/mes</span>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
+            <div className="sticky top-8 bg-[#91AC8F] rounded-xl p-6 divide-y divide-[#E1D8C6] [&>*]:py-2">
+                <Head />
+                <CharacteristicsSection property={property} />
                 <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
-
-                <div className="my-6 space-y-3">
-                    <div className="flex flex-row gap-2">
-                        <button
-                            onClick={() => {
-                                const propertyUrl = `https://www.lhsconcept.com/propiedades/${property.url}`;
-                                const message = `Hola, estoy interesado en esta propiedad: ${property.title}\n${propertyUrl}`;
-                                const whatsappUrl = `https://wa.me/34616746971?text=${encodeURIComponent(message)}`;
-                                window.open(whatsappUrl, '_blank');
-                            }}
-                            className={primaryButtonStyle}
-                        >
-                            <Phone className="w-5 h-5" />
-                            <span>Contactar</span>
-                        </button>
-
-                        <button
-                            onClick={() => setIsShareModalOpen(true)}
-                            className={primaryButtonStyle}
-                        >
-                            <Share2 className="w-5 h-5" />
-                            <span>Compartir</span>
-                        </button>
-                    </div>
-                    <button
-                        className={secondaryButtonStyle}
-                        onClick={() => window.open(property.plano_url, '_blank')}
-                    >
-                        <Download className="w-5 h-5" />
-                        <span>Descargar Plano</span>
-                    </button>
-                </div>
+                {/* <ShareButton property={property} setIsShareModalOpen={setIsShareModalOpen} /> */}
             </div>
         </div>
     );
