@@ -133,6 +133,7 @@ function CharacteristicsSection({ propertyCharacteristics }) {
     )
 }
 
+
 export function PropertyBroucher({ property }) {
     const Head = () => {
         return (
@@ -143,32 +144,41 @@ export function PropertyBroucher({ property }) {
                     {property.precio.toLocaleString('es-ES')}
                 </div>
 
-                <div className="space-y-2 pt-3">
-                    {property.precioIbi > 0 && (
-                        <div className="flex items-center justify-between">
-                            <span>+ IBI</span>
-                            <span >€{property.precioIbi.toLocaleString('es-ES')}/año</span>
-                        </div>
-                    )}
-                    {property.precioComunidad > 0 && (
-                        <div className="flex items-center justify-between">
-                            <span >+ Gastos de Comunidad</span>
-                            <span>€{property.precioComunidad.toLocaleString('es-ES')}/mes</span>
-                        </div>
-                    )}
-                </div>
+                {(property.precioAntes > 0 || property.precioComunidad > 0) && (
+                    <div className="space-y-2 pt-3">
+                        {property.precioIbi > 0 && (
+                            <div className="flex items-center justify-between">
+                                <span>+ IBI</span>
+                                <span >€{property.precioIbi.toLocaleString('es-ES')}/año</span>
+                            </div>
+                        )}
+                        {property.precioComunidad > 0 && (
+                            <div className="flex items-center justify-between">
+                                <span >+ Gastos de Comunidad</span>
+                                <span>€{property.precioComunidad.toLocaleString('es-ES')}/mes</span>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         );
     }
 
     return (
         <div className="mx-auto min-w-[400px] bg-[#91AC8F] rounded-xl font-serif px-8 py-4">
-            <div className="sticky divide-y divide-[#E1D8C6] [&>*]:py-4 [&_h2]:text-2xl [&_h3]:text-xl ">
+            <div className="sticky divide-y divide-[#E1D8C6] [&>*]:py-4 [&_h2]:text-xl [&_h2]:pb-1 [&_h3]:text-xl ">
                 <Head />
-                <CharacteristicsSection propertyCharacteristics={property.charRef} />
-                <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
-                {/* <ShareButton property={property} setIsShareModalOpen={setIsShareModalOpen} /> */}
+                    <CharacteristicsSection propertyCharacteristics={property.charRef} />
+                    <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
+                {/* <ShareButton property={property} /> */}
             </div>
         </div>
     );
 }
+
+/*
+add compoonent footer
+    - LHS Concept * MADRID * 2025
+    - lhsconcept.com/property.url
+    - 616746971
+*/
