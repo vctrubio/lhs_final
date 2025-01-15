@@ -11,6 +11,8 @@ import {
 import ShareModal from './ShareModal';
 import { PropertyBroucher } from './PropertyPageBrochure';
 
+
+//depreciated
 function PropertyStats({ property }) {
     const stats = [
         {
@@ -91,7 +93,7 @@ function PropertyDetails({ property }) {
                 <span>{property.barrioRef.name}</span>
             </div>
 
-            <PropertyStats property={property} />
+            {/* <PropertyStats property={property} /> */}
 
             <div className="text-gray-600 text-xl leading-relaxed mb-12 px-2">
                 {property.description}
