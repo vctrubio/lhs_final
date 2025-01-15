@@ -34,16 +34,16 @@ function AmenitiesSection({ amenities, reformado }) {
 function CharacteristicsSection({ propertyCharacteristics }) {
     const availableCharacteristics = propertyCharacteristics ? [
         {
-            icon: BedDouble,
-            label: "Dormitorios En Suite",
-            value: propertyCharacteristics.dormitoriosSuite,
-            singularLabel: "Dormitorio En Suite"
-        },
-        {
             icon: Bed,
             label: "Dormitorios",
             value: propertyCharacteristics.dormitorios,
             singularLabel: "Dormitorio"
+        },
+        {
+            icon: BedDouble,
+            label: "Dormitorios En Suite",
+            value: propertyCharacteristics.dormitoriosSuite,
+            singularLabel: "D En Suite"
         },
         {
             icon: Bath,
