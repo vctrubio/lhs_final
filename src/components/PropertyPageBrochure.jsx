@@ -1,50 +1,10 @@
-import { IconPrice } from "@/utils/svgs";
 import {
-    Share2, Wind, Flame, Building2,
-    Home, User, Package, Car, Phone,
-    Download, BedDouble, Bed, Bath,
-    Toilet, Sun, Fence, Ruler,
+    Wind, Flame, Building2,
+    Home, User, Package, Car,
+    BedDouble, Bed, Bath,
+    Toilet, Sun, Ruler, Euro,
     PaintRoller
 } from "lucide-react";
-
-function ShareButton({ property, setIsShareModalOpen }) {
-    const buttonBaseStyle = "w-full py-4 rounded-lg transition-colors duration-800 hover:bg-[#E1D8C6] flex items-center justify-center gap-2";
-    const primaryButtonStyle = `${buttonBaseStyle} bg-background`;
-    const secondaryButtonStyle = `${buttonBaseStyle} bg-background`;
-
-    return (<div className="my-6 space-y-3">
-        <div className="flex flex-row gap-2">
-            <button
-                onClick={() => {
-                    const propertyUrl = `https://www.lhsconcept.com/propiedades/${property.url}`;
-                    const message = `Hola, estoy interesado en esta propiedad: ${property.title}\n${propertyUrl}`;
-                    const whatsappUrl = `https://wa.me/34616746971?text=${encodeURIComponent(message)}`;
-                    window.open(whatsappUrl, '_blank');
-                }}
-                className={primaryButtonStyle}
-            >
-                <Phone className="w-5 h-5" />
-                <span>Contactar</span>
-            </button>
-
-            <button
-                onClick={() => setIsShareModalOpen(true)}
-                className={primaryButtonStyle}
-            >
-                <Share2 className="w-5 h-5" />
-                <span>Compartir</span>
-            </button>
-        </div>
-        <button
-            className={secondaryButtonStyle}
-            onClick={() => window.open(property.plano_url, '_blank')}
-        >
-            <Download className="w-5 h-5" />
-            <span>Descargar Plano</span>
-        </button>
-    </div>
-    );
-}
 
 function AmenitiesSection({ amenities, reformado }) {
     const availableAmenities = amenities ? [
@@ -72,7 +32,6 @@ function AmenitiesSection({ amenities, reformado }) {
 }
 
 function CharacteristicsSection({ propertyCharacteristics }) {
-    console.log('do u see, ', propertyCharacteristics);
     const availableCharacteristics = propertyCharacteristics ? [
         {
             icon: BedDouble,
@@ -104,13 +63,6 @@ function CharacteristicsSection({ propertyCharacteristics }) {
             value: propertyCharacteristics.balcones,
             singularLabel: "Balcón"
         },
-        // {
-        //     icon: Fence,
-        //     label: "Terrazas",
-        //     value: propertyCharacteristics.patio,
-        //     singularLabel: "Terraza",
-        //     isTerraza: true
-        // },
         {
             icon: Ruler,
             label: "M²",
@@ -121,7 +73,7 @@ function CharacteristicsSection({ propertyCharacteristics }) {
 
 
     return (
-        <div className="flex flex-wrap gap-4 ">
+        <div className="flex flex-wrap gap-4 justify-center">
             {availableCharacteristics.map(({ icon: Icon, label, value }) => (
                 <div key={label} className="flex flex-col items-center gap-2">
                     <Icon className="w-7 h-7" />
@@ -140,7 +92,7 @@ export function PropertyBroucher({ property }) {
             <div className="[&_span]:text-dark">
                 <h2>Precio</h2>
                 <div className="text-4xl flex" style={{ letterSpacing: '1px' }}>
-                    <IconPrice stroke="black" />
+                    <Euro className="w-12 h-10" />
                     {property.precio.toLocaleString('es-ES')}
                 </div>
 
@@ -170,15 +122,7 @@ export function PropertyBroucher({ property }) {
                 <Head />
                     <CharacteristicsSection propertyCharacteristics={property.charRef} />
                     <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
-                {/* <ShareButton property={property} /> */}
             </div>
         </div>
     );
 }
-
-/*
-add compoonent footer
-    - LHS Concept * MADRID * 2025
-    - lhsconcept.com/property.url
-    - 616746971
-*/
