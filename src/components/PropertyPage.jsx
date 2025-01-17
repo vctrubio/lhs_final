@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { PropertyBroucher } from "./PropertyPageBrochure";
+import {PropertyDescription} from "./PropertyDescription";
 import ShareModal from "./ShareModal";
 
 // ------------------------------------
@@ -209,9 +210,7 @@ export default function PropiedadPage({ property }) {
       <CarouselComponent property={property} />
 
       <div className="flex flex-col xl:flex-row justify-center gap-8 items-start">
-        <div className="text-gray-600 text-xl leading-relaxed p-4 my-auto text-center">
-          {property.description}
-        </div>
+        <PropertyDescription property={property} />
 
         <PropertyBroucher property={property} />
       </div>

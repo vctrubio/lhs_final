@@ -9,7 +9,7 @@ type PageParams = {
 }
 
 type Props = {
-    params: PageParams;
+    params: Promise<PageParams>; // Changed from PageParams to Promise<PageParams>
 }
 
 const fetchProperty = cache(async (slug: string) => {
@@ -24,7 +24,8 @@ async function getPropertyData(params: PageParams) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const { property, slug } = await getPropertyData(params);
+    const resolvedParams = await params; // Await the params
+    const { property, slug } = await getPropertyData(resolvedParams);
 
     if (!property) {
         return {
@@ -76,7 +77,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-    const { property } = await getPropertyData(params);
+    const resolvedParams = await params; // Await the params
+    const { property } = await getPropertyData(resolvedParams);
 
     if (!property) {
         return <></>
