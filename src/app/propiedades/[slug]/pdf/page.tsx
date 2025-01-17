@@ -19,7 +19,7 @@ class PdfParent {
     description: string;
     characteristics: string | undefined;
     rooms: PropiedadHabitacion[];
-    
+
     constructor(property: Property) {
         this.title = property.title;
         this.photos = property.photos_url;
@@ -30,12 +30,12 @@ class PdfParent {
 
 const PdfPageOne = ({ title, photos }: { title: string, photos: string[] }) => {
     return (
-        <div>
-            <h1 className="text-2xl font-bold text-center">
+        <div className='py-8'>
+            <h1 className="text-6xl font-bold text-center my-8">
                 {title}
             </h1>
-            <div className="relative w-full h-64"> {/* Ensure the parent container has a defined height */}
-                <Image src={photos[0]} alt="Propiedad" layout="fill" objectFit="cover" />
+            <div className="relative w-full h-[840px]"> {/* Ensure the parent container has a defined height */}
+                <Image src={photos[0]} alt="Propiedad" layout="fill" objectFit="cover"/>
             </div>
         </div>
     );
@@ -67,8 +67,8 @@ const PdfPageTwo = ({ description, photos, brochure }: { description: string, ph
 
 const PdfRoomPage = ({ room }: { room: PropiedadHabitacion }) => {
     return (
-        <div>
-            <h1 className="text-2xl font-bold text-center">
+        <div className=''>
+            <h1 className="text-4xl font-bold text-center pt-[1rem]">
                 {room.title}
             </h1>
             <p className="text-center">
