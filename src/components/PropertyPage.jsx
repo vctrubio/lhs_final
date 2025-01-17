@@ -195,7 +195,7 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
 });
 
 // ------------------------------------
-// Main Page
+// Main Page || HANDLE ALT IMAGE for PLACEHOLDER
 // ------------------------------------
 export default function PropiedadPage({ property }) {
 //   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
