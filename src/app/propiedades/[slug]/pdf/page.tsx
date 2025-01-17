@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { fetchPropertyByID } from '#/backend/apisConnections';
 import { Property } from '#/backend/types';
 import Image from 'next/image';
+import { PropertyBroucher } from '@/components/PropertyPageBrochure';
 
 type PageParams = {
     slug: string;
 }
 
 type Props = {
-    params: PageParams;
+    params: Promise<PageParams>;
 }
 
 class PdfParent {
@@ -20,7 +21,7 @@ class PdfParent {
 
     constructor(property: Property) {
         this.title = property.title;
-        this.photos = property.cover_url;
+        this.photos = property.photos_url;
         this.description = property.description;
     }
 }
@@ -31,43 +32,43 @@ const PdfPageOne = ({ title, photos }: { title: string, photos: string[] }) => {
             <h1 className="text-2xl font-bold text-center">
                 {title}
             </h1>
-            <div>
-                <img src={photos[0]} alt="Propiedad" />
+            <div className="relative w-full h-64"> {/* Ensure the parent container has a defined height */}
+                <Image src={photos[0]} alt="Propiedad" layout="fill" objectFit="cover" />
             </div>
         </div>
     );
 }
 
-const PdfPageTwo = ({ description, photos, characteristics }: { description: string, photos: string[], characteristics: string | undefined }) => {
+const PdfPageTwo = ({ description, photos, brochure }: { description: string, photos: string[], brochure: React.ReactNode }) => {
+    console.log('photos: ', photos);
     return (
-        <div className="grid grid-cols-2 gap-2 bg-gray-100">
-            <div className="border border-gray-300 p-4 overflow-hidden text-ellipsis">
-                {/* {description} */}
+        <div className="grid grid-cols-2 grid-rows-2 gap-2 h-full">
+            <div className="border border-gray-300 rounded-xl flex items-center justify-center overflow-hidden text-ellipsis text-center text-xl">
+                {description}
             </div>
-            <div className="border border-gray-300 p-4">
-                {/* <img src={photos[2]} alt="Propiedad" /> */}
-                <Image src={photos[2]} alt="Propiedad" />
+            <div
+                className="border border-gray-300 rounded-xl relative w-full h-full"
+                style={{ backgroundImage: `url(${photos[1]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+            >
             </div>
-            <div className="border border-gray-300 p-4">
-                {/* <img src={photos[3]} alt="Propiedad" /> */}
-                photos[3]
+            <div
+                className="border border-gray-300 rounded-xl relative w-full h-full"
+                style={{ backgroundImage: `url(${photos[2]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+            >
             </div>
-            <div className="border border-gray-300 p-4">
-                {/* {characteristics} */}
-                characteristics
+            <div className="border border-gray-300 rounded-xl overflow-hidden">
+                {brochure}
             </div>
         </div>
     );
 }
 
-
-function CreatePdf(pdf: PdfParent) {
-
+function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNode }) {
     return (
-        <div className="bg-gray-100 p-4">
-            <div className="[&>div]:bg-white [&>div]:mx-auto [&>div]:shadow-md [&>div]:border [&>div]:border-gray-300 [&>div]:w-a4 [&>div]:h-a4 [&>div]:p-10">
+        <div className="bg-background">
+            <div className="[&>div]:mx-auto  [&>div]:w-a4 [&>div]:h-a4">
                 <PdfPageOne title={pdf.title} photos={pdf.photos} />
-                <PdfPageTwo description={pdf.description} photos={pdf.photos} characteristics={pdf.characteristics} />
+                <PdfPageTwo description={pdf.description} photos={pdf.photos} brochure={brochure} />
             </div>
         </div>
     );
@@ -78,19 +79,21 @@ export default function PdfView({ params }: Props) {
 
     useEffect(() => {
         async function fetchData() {
-            const fetchedProperty = await fetchPropertyByID(params.slug);
+            const resolvedParams = await params;
+            const fetchedProperty = await fetchPropertyByID(resolvedParams.slug);
             setProperty(fetchedProperty);
         }
         fetchData();
-    }, [params.slug]);
+    }, [params]);
 
     if (!property) {
         return <div>Property not found</div>;
     }
 
     const pdf = new PdfParent(property);
+    const brochure = <PropertyBroucher property={property} />;
 
     return (
-        <CreatePdf {...pdf} />
+        <CreatePdf pdf={pdf} brochure={brochure} />
     );
 };
