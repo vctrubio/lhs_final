@@ -19,10 +19,16 @@ export default {
         greenish: "#91AC8F",
         dark: "#14213D",
       },
+      spacing: {
+        a4: '297mm', // Height of an A4 page
+      },
+      width: {
+        a4: '210mm', // Width of an A4 page
+      },
     },
   },
   plugins: [
-    plugin(function({ addComponents }) {
+    plugin(function ({ addComponents }) {
       addComponents({
         '.btn': {
           width: '100%',
