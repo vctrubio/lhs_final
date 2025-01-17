@@ -91,7 +91,7 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
             <Image
               src={image}
               fill
-              alt={`Property Image ${index + 1}`}
+              alt={`${property.title} ${index + 1}`}
               className="object-contain"
               priority={index === 0} // eagerly load the first image
               loading={index === 0 ? "eager" : "lazy"}
@@ -129,7 +129,7 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
             <Image
               src={image}
               fill
-              alt={`Thumbnail ${index + 1}`}
+              alt={`${property.title} sm-${index + 1}`}
               sizes="80px"
               className="object-cover transition-transform duration-300 hover:scale-110"
               loading="lazy"
