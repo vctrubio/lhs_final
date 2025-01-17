@@ -81,7 +81,7 @@ export default async function Page({ params }: Props) {
     const { property } = await getPropertyData(resolvedParams);
 
     if (!property) {
-        // Fetch some recommended properties
+        // 404 page not found page better....
         const { properties } = await fetchEntriesContentful();
         return <PropertyRecommendations properties={properties} />;
     }
