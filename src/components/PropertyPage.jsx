@@ -1,281 +1,227 @@
 "use client";
-import { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import ShareModal from './ShareModal';
-import { PropertyBroucher } from './PropertyPageBrochure';
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { PropertyBroucher } from "./PropertyPageBrochure";
+import ShareModal from "./ShareModal";
 
+// ------------------------------------
+// Memoized Carousel
+// ------------------------------------
+const CarouselComponent = React.memo(function CarouselComponent({ property }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const thumbnailsRef = useRef(null);
+  const containerRef = useRef(null);
+  const [visibleCount, setVisibleCount] = useState(6);
 
-function CarouselComponent({ property }) {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const thumbnailsRef = useRef(null);
-    const containerRef = useRef(null);
-    const [visibleCount, setVisibleCount] = useState(6);
-    const [imagesLoaded, setImagesLoaded] = useState({});
-    const [showPlaceholders, setShowPlaceholders] = useState({});
-    const [allThumbnailsLoaded, setAllThumbnailsLoaded] = useState(false);
-    const [isInitialMount, setIsInitialMount] = useState(true);
+  // Single config object for the static props
+  const carouselConfig = {
+    showThumbs: false,
+    showStatus: false,
+    infiniteLoop: true,
+    useKeyboardArrows: true,
+    showIndicators: false,
+    swipeable: true,
+    emulateTouch: true,
+    swipeScrollTolerance: 5,
+    preventMovementUntilSwipeScrollTolerance: true,
+    autoPlay: true,
+    interval: 6000,
+    stopOnHover: true,
+    transitionTime: 500,
+    animationHandler: "fade",
+  };
 
-    // Add effect to handle initial mount
-    useEffect(() => {
-        // Wait a tiny bit before showing anything to prevent the glitch
-        const timer = setTimeout(() => {
-            setIsInitialMount(false);
-        }, 100);
+  // Main Carousel
+  const MainCarousel = (
+    <div className="relative w-full h-[600px] group">
+      <Carousel
+        {...carouselConfig}
+        selectedItem={currentIndex}
+        onChange={setCurrentIndex}
+        renderArrowPrev={(clickHandler) => (
+          <button
+            onClick={clickHandler}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-r-lg opacity-0 group-hover:opacity-100 hover:pl-4"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="white"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 19.5 8.25 12l7.5-7.5"
+              />
+            </svg>
+          </button>
+        )}
+        renderArrowNext={(clickHandler) => (
+          <button
+            onClick={clickHandler}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-l-lg opacity-0 group-hover:opacity-100 hover:pr-4"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="white"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
+            </svg>
+          </button>
+        )}
+      >
+        {property.photos_url.map((image, index) => (
+          <div
+            key={index}
+            className="relative h-[600px] flex items-center justify-center"
+          >
+            <Image
+              src={image}
+              fill
+              alt={`Property Image ${index + 1}`}
+              className="object-contain"
+              priority={index === 0} // eagerly load the first image
+              loading={index === 0 ? "eager" : "lazy"}
+              sizes="(max-width: 768px) 100vw,
+                     (max-width: 1200px) 80vw,
+                     1200px"
+            />
+          </div>
+        ))}
+      </Carousel>
+    </div>
+  );
 
-        return () => clearTimeout(timer);
-    }, []);
+  // Thumbnail Carousel
+  const ThumbnailCarousel = (
+    <div ref={containerRef} className="relative px-8 py-2">
+      <div
+        ref={thumbnailsRef}
+        className="flex gap-2 overflow-x-hidden scroll-smooth mx-auto py-2 px-1"
+        style={{
+          maxWidth: `${visibleCount * 80 + (visibleCount - 1) * 8}px`,
+        }}
+      >
+        {property.photos_url.map((image, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`flex-shrink-0 w-20 h-14 relative rounded overflow-hidden transition-all duration-300 transform hover:scale-105
+              ${
+                currentIndex === index
+                  ? "ring-2 ring-[#B8860B] ring-offset-2 ring-offset-white shadow-lg"
+                  : "opacity-70 hover:opacity-100 hover:shadow-md"
+              }`}
+          >
+            <Image
+              src={image}
+              fill
+              alt={`Thumbnail ${index + 1}`}
+              sizes="80px"
+              className="object-cover transition-transform duration-300 hover:scale-110"
+              loading="lazy"
+            />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 
-    const handleImageLoad = (index) => {
-        setImagesLoaded(prev => {
-            const newState = {
-                ...prev,
-                [index]: true
-            };
+  // Auto-scroll thumbnails
+  useEffect(() => {
+    if (!thumbnailsRef.current) return;
 
-            if (Object.keys(newState).length === property.photos_url.length) {
-                setTimeout(() => {
-                    setAllThumbnailsLoaded(true);
-                }, 500);
-            }
+    const thumbnailWidth = 84; // 80 + (some margin)
+    const gap = 8;
+    const centerOffset = Math.floor(visibleCount / 2);
+    const scrollPosition = Math.max(
+      0,
+      (currentIndex - centerOffset) * (thumbnailWidth + gap)
+    );
 
-            return newState;
-        });
+    thumbnailsRef.current.scrollTo({
+      left: scrollPosition,
+      behavior: "smooth",
+    });
+  }, [currentIndex, visibleCount]);
 
-        setTimeout(() => {
-            setShowPlaceholders(prev => ({
-                ...prev,
-                [index]: false
-            }));
-        }, 2000);
+  // Calculate visible thumbnails
+  useEffect(() => {
+    const calculateVisibleCount = () => {
+      if (!containerRef.current) return;
+      const containerWidth = containerRef.current.offsetWidth;
+      const thumbnailWidth = 84; // 80 + ~4 margin
+      const gap = 8;
+      const padding = 64; // px-8 => 8 * 8=64 total horizontal
+
+      const availableWidth = containerWidth - padding;
+      const possibleCount = Math.floor(availableWidth / (thumbnailWidth + gap));
+      const newCount = Math.min(
+        Math.max(4, possibleCount),
+        Math.min(12, property.photos_url.length)
+      );
+
+      setVisibleCount(newCount);
     };
 
-    // Initialize placeholders
-    useEffect(() => {
-        const initialPlaceholders = {};
-        property.photos_url.forEach((_, index) => {
-            initialPlaceholders[index] = true;
-        });
-        setShowPlaceholders(initialPlaceholders);
-    }, [property.photos_url]);
+    const observer = new ResizeObserver(calculateVisibleCount);
+    if (containerRef.current) observer.observe(containerRef.current);
 
-    const MainCarousel = useMemo(() => (
-        <div className="relative w-full h-[600px] group">
-            <Carousel
-                showThumbs={false}
-                showStatus={false}
-                infiniteLoop={true}
-                useKeyboardArrows={true}
-                showIndicators={false}
-                selectedItem={currentIndex}
-                onChange={setCurrentIndex}
-                swipeable={true}
-                emulateTouch={true}
-                swipeScrollTolerance={5}
-                preventMovementUntilSwipeScrollTolerance={true}
-                autoPlay={true}
-                interval={6000}
-                stopOnHover={true}
-                transitionTime={500}
-                animationHandler="fade"
-                renderArrowPrev={(clickHandler, hasPrev) => (
-                    <button
-                        onClick={clickHandler}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-r-lg opacity-0 group-hover:opacity-100 hover:pl-4"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="white" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                        </svg>
-                    </button>
-                )}
-                renderArrowNext={(clickHandler, hasNext) => (
-                    <button
-                        onClick={clickHandler}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-black/30 hover:bg-black/50 transition-all duration-300 rounded-l-lg opacity-0 group-hover:opacity-100 hover:pr-4"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="white" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </button>
-                )}
-            >
-                {property.photos_url.map((image, index) => (
-                    <div key={index} className="relative h-[600px] flex items-center justify-center">
-                        {/* Placeholder image */}
-                        {showPlaceholders[index] && (
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <Image
-                                    src="/logo-main.jpeg"
-                                    fill
-                                    alt="Loading placeholder"
-                                    className="object-contain"
-                                    priority={true}
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
-                                    placeholder="blur"
-                                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx0fHRsdHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR0XFyAeIRMhISE1IzAnNSM1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTX/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                                />
-                            </div>
-                        )}
-                        {/* Main image */}
-                        <Image
-                            src={image}
-                            fill
-                            alt={`Property Image ${index + 1}`}
-                            className={`object-contain transition-opacity duration-1000 ${!showPlaceholders[index] ? 'opacity-100' : 'opacity-0'
-                                }`}
-                            priority={index === 0}
-                            loading={index === 0 ? "eager" : "lazy"}
-                            onLoad={() => handleImageLoad(index)}
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
-                            placeholder="blur"
-                            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx0fHRsdHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR0XFyAeIRMhISE1IzAnNSM1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTX/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-                        />
-                    </div>
-                ))}
-            </Carousel>
-        </div>
-    ), [property.photos_url, currentIndex, showPlaceholders]);
+    // Initial run
+    calculateVisibleCount();
 
-    // Update ThumbnailCarousel
-    const ThumbnailCarousel = useMemo(() => {
-        if (!allThumbnailsLoaded) return null;
+    return () => observer.disconnect();
+  }, [property.photos_url.length]);
 
-        return (
-            <div ref={containerRef} className="relative px-8 py-2">
-                <div
-                    ref={thumbnailsRef}
-                    className="flex gap-2 overflow-x-hidden scroll-smooth mx-auto py-2 px-1"
-                    style={{
-                        maxWidth: `${(visibleCount * 80) + ((visibleCount - 1) * 8)}px`,
-                    }}
-                >
-                    {property.photos_url.map((image, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setCurrentIndex(index)}
-                            className={`flex-shrink-0 w-20 h-14 relative rounded overflow-hidden transition-all duration-300 transform hover:scale-105
-                                ${currentIndex === index
-                                    ? 'ring-2 ring-[#B8860B] ring-offset-2 ring-offset-white shadow-lg'
-                                    : 'opacity-70 hover:opacity-100 hover:shadow-md'}`}
-                        >
-                            <Image
-                                src={image}
-                                fill
-                                alt={`Propiedad ${index + 1}`}
-                                placeholder="blur"
-                                blurDataURL={image}
-                                className="object-cover transition-transform duration-300 hover:scale-110"
-                                sizes="80px"
-                                draggable={false}
-                                loading="lazy"
-                            />
-                        </button>
-                    ))}
-                </div>
-            </div>
-        );
-    }, [property.photos_url, visibleCount, currentIndex, allThumbnailsLoaded]);
+  return (
+    <div className="relative w-full my-8">
+      {MainCarousel}
+      {ThumbnailCarousel}
+    </div>
+  );
+});
 
-    // Effect for handling thumbnail scrolling
-    useEffect(() => {
-        if (!thumbnailsRef.current) return;
-
-        const thumbnailWidth = 84;
-        const gap = 8;
-        const centerOffset = Math.floor(visibleCount / 2);
-        const scrollPosition = Math.max(0,
-            (currentIndex - centerOffset) * (thumbnailWidth + gap)
-        );
-
-        thumbnailsRef.current.scrollTo({
-            left: scrollPosition,
-            behavior: 'smooth'
-        });
-    }, [currentIndex, visibleCount]);
-
-    // Effect for calculating visible thumbnails
-    useEffect(() => {
-        const calculateVisibleCount = () => {
-            if (!containerRef.current) return;
-            const containerWidth = containerRef.current.offsetWidth;
-            const thumbnailWidth = 84;
-            const gap = 8;
-            const padding = 64;
-
-            const availableWidth = containerWidth - padding;
-            const possibleCount = Math.floor(availableWidth / (thumbnailWidth + gap));
-
-            const newCount = Math.min(
-                Math.max(4, possibleCount),
-                Math.min(12, property.photos_url.length)
-            );
-
-            setVisibleCount(newCount);
-        };
-
-        const observer = new ResizeObserver(calculateVisibleCount);
-
-        if (containerRef.current) {
-            observer.observe(containerRef.current);
-        }
-
-        calculateVisibleCount();
-
-        return () => observer.disconnect();
-    }, [property.photos_url.length]);
-
-    return (
-        <div className="relative w-full my-8">
-            {/* Placeholder div to reserve space */}
-            <div
-                className="w-full h-[600px]"
-                style={{
-                    display: isInitialMount ? 'block' : 'none'
-                }}
-            />
-            {/* Main content */}
-            {!isInitialMount && (
-                <>
-                    {MainCarousel}
-                    <div className={`transition-opacity duration-500 ${allThumbnailsLoaded ? 'opacity-100' : 'opacity-0'}`}>
-                        {ThumbnailCarousel}
-                    </div>
-                </>
-            )}
-        </div>
-    );
-}
-
-
+// ------------------------------------
+// Main Page
+// ------------------------------------
 export default function PropiedadPage({ property }) {
-    const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+//   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
-    return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[1000px]">
-            <h1 className="text-5xl text-[#14213D] text-center text-greener">
-                {property.title}
-            </h1>
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[1000px]">
+      <h1 className="text-5xl text-[#14213D] text-center text-greener">
+        {property.title}
+      </h1>
 
-            <CarouselComponent property={property} />
+      <CarouselComponent property={property} />
 
-            <div className="flex flex-col xl:flex-row justify-center gap-8 items-start">
-                <div className="text-gray-600 text-xl leading-relaxed p-4 my-auto text-center">
-                    {property.description}
-                </div>
-
-                <PropertyBroucher
-                    property={property}
-                />
-            </div>
-
-            <ShareModal
-                isOpen={isShareModalOpen}
-                onClose={() => setIsShareModalOpen(false)}
-                title={property.title}
-                url={`https://www.lhsconcept.com/propiedades/${property.url}`}
-            />
+      <div className="flex flex-col xl:flex-row justify-center gap-8 items-start">
+        <div className="text-gray-600 text-xl leading-relaxed p-4 my-auto text-center">
+          {property.description}
         </div>
-    );
-}
 
+        <PropertyBroucher property={property} />
+      </div>
+
+      {/* <ShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        title={property.title}
+        url={`https://www.lhsconcept.com/propiedades/${property.url}`}
+      /> */}
+    </div>
+  );
+}

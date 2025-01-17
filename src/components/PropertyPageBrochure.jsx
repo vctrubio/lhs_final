@@ -1,8 +1,9 @@
+import { IconPrice } from "@/utils/svgs";
 import {
     Wind, Flame, Building2,
     Home, User, Package, Car,
     BedDouble, Bed, Bath,
-    Toilet, Sun, Ruler, Euro,
+    Toilet, Sun, Ruler,
     PaintRoller
 } from "lucide-react";
 
@@ -92,7 +93,7 @@ export function PropertyBroucher({ property }) {
             <div className="[&_span]:text-dark">
                 <h2>Precio</h2>
                 <div className="text-4xl flex" style={{ letterSpacing: '1px' }}>
-                    <Euro className="w-12 h-10" />
+                    <IconPrice />
                     {property.precio.toLocaleString('es-ES')}
                 </div>
 
@@ -120,8 +121,8 @@ export function PropertyBroucher({ property }) {
         <div className="mx-auto min-w-[400px] bg-[#91AC8F] rounded-xl font-serif px-8 py-4">
             <div className="sticky divide-y divide-[#E1D8C6] [&>*]:py-4 [&_h2]:text-xl [&_h2]:pb-1 [&_h3]:text-xl ">
                 <Head />
-                    <CharacteristicsSection propertyCharacteristics={property.charRef} />
-                    <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
+                <CharacteristicsSection propertyCharacteristics={property.charRef} />
+                <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
             </div>
         </div>
     );
