@@ -9,7 +9,7 @@ type PageParams = {
 }
 
 type Props = {
-    params: Promise<PageParams>;
+    params: PageParams;
 }
 
 const fetchProperty = cache(async (slug: string) => {
@@ -24,8 +24,7 @@ async function getPropertyData(params: PageParams) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const resolvedParams = await params;
-    const { property, slug } = await getPropertyData(resolvedParams);
+    const { property, slug } = await getPropertyData(params);
 
     if (!property) {
         return {
@@ -77,13 +76,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-    const resolvedParams = await params;
-    const { property } = await getPropertyData(resolvedParams);
+    const { property } = await getPropertyData(params);
 
     if (!property) {
-        // 404 page not found page better....
-        const { properties } = await fetchEntriesContentful();
-        return <PropertyRecommendations properties={properties} />;
+        return <></>
     }
 
     return <PropertyPage property={property} />;
