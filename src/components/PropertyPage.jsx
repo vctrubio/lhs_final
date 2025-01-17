@@ -3,104 +3,9 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import {
-    Bed, Bath, MapPin, Share2, Wind, Flame, Building2,
-    Home, User, Package, Car, Phone, Ruler, BedDouble,
-    Sun, Toilet, Fence, Download,
-} from "lucide-react";
 import ShareModal from './ShareModal';
 import { PropertyBroucher } from './PropertyPageBrochure';
 
-
-//depreciated
-function PropertyStats({ property }) {
-    const stats = [
-        {
-            icon: BedDouble,
-            label: "Dormitorios En Suite",
-            value: property.charRef.dormitoriosSuite,
-            singularLabel: "Dormitorio En Suite"
-        },
-        {
-            icon: Bed,
-            label: "Dormitorios",
-            value: property.charRef.dormitorios,
-            singularLabel: "Dormitorio"
-        },
-        {
-            icon: Bath,
-            label: "Baños",
-            value: property.charRef.banos,
-            singularLabel: "Baño"
-        },
-        {
-            icon: Toilet,
-            label: "Aseos",
-            value: property.charRef.aseo,
-            singularLabel: "Aseo"
-        },
-        {
-            icon: Sun,
-            label: "Balcones",
-            value: property.charRef.balcones,
-            singularLabel: "Balcón"
-        },
-        {
-            icon: Fence,
-            label: "Terrazas",
-            value: property.charRef.patio,
-            singularLabel: "Terraza",
-            isTerraza: true
-        },
-        {
-            icon: Ruler,
-            label: "M²",
-            value: property.charRef.metrosCuadradros,
-            singularLabel: "M²"
-        }
-    ];
-
-    return (
-        <div className="flex flex-wrap justify-between mb-12 px-4">
-            {stats.filter(stat => stat.value > 0).map(({ icon: Icon, label, value, singularLabel, isTerraza }) => (
-                <div key={label} className="grid grid-rows-2 min-w-[100px] text-left pt-2 pl-1">
-                    <p className="mb-1">
-                        {value === 1 ? singularLabel : label}
-                    </p>
-                    <div className="flex justify-start gap-2 items-center">
-                        <Icon className="w-6 h-6 text-[#B8860B]" />
-                        {(!isTerraza || value > 1) && (
-                            <span className="text-lg font-semibold text-[#14213D]">
-                                {value}
-                            </span>
-                        )}
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
-}
-
-function PropertyDetails({ property }) {
-    return (
-        <div className="max-w-xl">
-            <h1 className="font-serif text-4xl md:text-5xl text-[#14213D] mb-2 px-4 inline-block">
-                {property.title}
-            </h1>
-
-            <div className="flex items-center text-gray-600 mb-4 px-4">
-                <MapPin className="w-5 h-5 mr-2" />
-                <span>{property.barrioRef.name}</span>
-            </div>
-
-            {/* <PropertyStats property={property} /> */}
-
-            <div className="text-gray-600 text-xl leading-relaxed mb-12 px-2">
-                {property.description}
-            </div>
-        </div>
-    );
-}
 
 function CarouselComponent({ property }) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -321,7 +226,7 @@ function CarouselComponent({ property }) {
     }, [property.photos_url.length]);
 
     return (
-        <div className="relative w-full mb-8">
+        <div className="relative w-full my-8">
             {/* Placeholder div to reserve space */}
             <div
                 className="w-full h-[600px]"
@@ -329,7 +234,6 @@ function CarouselComponent({ property }) {
                     display: isInitialMount ? 'block' : 'none'
                 }}
             />
-
             {/* Main content */}
             {!isInitialMount && (
                 <>
@@ -348,14 +252,20 @@ export default function PropiedadPage({ property }) {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
     return (
-        <div className="max-w-7xl mx-auto px-4 my-8 sm:px-6 lg:px-8 min-h-[1000px]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[1000px]">
+            <h1 className="text-5xl text-[#14213D] text-center border" >
+                {property.title}
+            </h1>
+
             <CarouselComponent property={property} />
 
-            <div className="flex flex-col xl:flex-row justify-center gap-8 items-start">
-                <PropertyDetails property={property} />
+            <div className="flex flex-col xl:flex-row justify-center gap-8 items-start border">
+                <div className="text-gray-600 text-xl leading-relaxed mb-12 px-2 text-center border">
+                    {property.description}
+                </div>
+
                 <PropertyBroucher
                     property={property}
-                    setIsShareModalOpen={setIsShareModalOpen}
                 />
             </div>
 

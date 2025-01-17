@@ -10,9 +10,10 @@ export default async function Home() {
     return <div>No properties available.... TBD</div>;
   }
 
+  // fallback tbd
   return (
     <>
-      <Suspense fallback={<div>TBD...</div>}>
+      <Suspense fallback={<div></div>}>
         <SideBar propertyParams={propertyParams} barrios={filteredBarrios} />
         <CardPropertySearchFilter entries={properties} />
       </Suspense>

@@ -105,8 +105,8 @@ export default async function RootLayout({
         />
       </head>
       <NuqsAdapter>
-        <body className="h-full">
-          <main className="mx-8">
+        <body>
+          <main className="mx-8 pb-8">
             {children}
           </main>
         </body>
