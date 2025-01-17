@@ -253,14 +253,14 @@ export default function PropiedadPage({ property }) {
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[1000px]">
-            <h1 className="text-5xl text-[#14213D] text-center border" >
+            <h1 className="text-5xl text-[#14213D] text-center text-greener">
                 {property.title}
             </h1>
 
             <CarouselComponent property={property} />
 
-            <div className="flex flex-col xl:flex-row justify-center gap-8 items-start border">
-                <div className="text-gray-600 text-xl leading-relaxed mb-12 px-2 text-center border">
+            <div className="flex flex-col xl:flex-row justify-center gap-8 items-start">
+                <div className="text-gray-600 text-xl leading-relaxed p-4 my-auto text-center">
                     {property.description}
                 </div>
 

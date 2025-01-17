@@ -10,7 +10,7 @@ export function Logo() {
     };
 
     return (
-        <div className="lhs-logo relative border">
+        <div className="lhs-logo relative">
             <Link href="/" title="LHS Concept" id='lhs'>
                 LHS
             </Link>

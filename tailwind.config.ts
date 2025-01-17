@@ -12,6 +12,7 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        greener: "#15423b",
         gold: "#B8860B",
         slate: "#4C585B",
         mac: "#A2AAAD",
