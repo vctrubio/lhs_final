@@ -1,21 +1,21 @@
 import React, { Suspense } from 'react';
 import { CardPropertySearchFilter } from '@/components/CardPropertySearchFilter';
-import { Property } from '#/backend/types';
 import { fetchEntriesContentful } from '#/backend/apisConnections';
+import SideBar from '@/components/SideBar';
 
 export default async function Home() {
-  const { properties } = await fetchEntriesContentful()
-  console.log("🚀 ~ Home ~ properties:", properties?.length);
+  const { properties, propertyParams, filteredBarrios } = await fetchEntriesContentful()
 
   if (!properties || properties.length === 0) {
-    return <div>No properties available....EERRROR..... TBD</div>;
+    return <div>No properties available.... TBD</div>;
   }
 
   return (
-    <Suspense fallback={<div>TBD...</div>}>
-      <div className="flex flex-wrap">
+    <>
+      <Suspense fallback={<div>TBD...</div>}>
+        <SideBar propertyParams={propertyParams} barrios={filteredBarrios} />
         <CardPropertySearchFilter entries={properties} />
-      </div>
-    </Suspense>
+      </Suspense>
+    </>
   );
 }
