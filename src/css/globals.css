@@ -8,7 +8,6 @@
 @import '../css/playground.css';
 @import '../css/sidebar.css';
 @import '../css/footer.css';
-@import "../css/pdfPages.css";
 
 :root {
   --color-green-original: #91CEB8;

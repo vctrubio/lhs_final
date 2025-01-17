@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link"; // Import Link from next/link
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { PropertyBroucher } from "./PropertyPageBrochure";
-import {PropertyDescription} from "./PropertyDescription";
+import { PropertyDescription } from "./PropertyDescription";
 import ShareModal from "./ShareModal";
 
 // ------------------------------------
@@ -121,10 +122,9 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
             key={index}
             onClick={() => setCurrentIndex(index)}
             className={`flex-shrink-0 w-20 h-14 relative rounded overflow-hidden transition-all duration-300 transform hover:scale-105
-              ${
-                currentIndex === index
-                  ? "ring-2 ring-[#B8860B] ring-offset-2 ring-offset-white shadow-lg"
-                  : "opacity-70 hover:opacity-100 hover:shadow-md"
+              ${currentIndex === index
+                ? "ring-2 ring-[#B8860B] ring-offset-2 ring-offset-white shadow-lg"
+                : "opacity-70 hover:opacity-100 hover:shadow-md"
               }`}
           >
             <Image
@@ -199,7 +199,7 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
 // Main Page || HANDLE ALT IMAGE for PLACEHOLDER
 // ------------------------------------
 export default function PropiedadPage({ property }) {
-//   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  //   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[1000px]">
@@ -215,12 +215,21 @@ export default function PropiedadPage({ property }) {
         <PropertyBroucher property={property} />
       </div>
 
+      <div className="text-center mt-8">
+        <Link href={`/propiedades/${property.url}/pdf`}>
+          <div className="bg-[#14213D] text-white py-2 px-4 rounded-lg inline-block">
+            PDF
+          </div>
+        </Link>
+      </div>
+
       {/* <ShareModal
         isOpen={isShareModalOpen}
         onClose={() => setIsShareModalOpen(false)}
         title={property.title}
         url={`https://www.lhsconcept.com/propiedades/${property.url}`}
       /> */}
+
     </div>
   );
 }
