@@ -7,7 +7,7 @@ export default function PropertyLayout({
 }) {
     return (
         <div className="flex flex-col justify-center items-center">
-            <NavBar />
+            {/* <NavBar /> */}
             {children}
         </div>
     )
