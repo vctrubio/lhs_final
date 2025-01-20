@@ -6,6 +6,8 @@ export interface Property {
     buyOrRent: boolean;
     reformado: boolean;
 
+    quote: string;
+
     precio: number;
     precioIbi: number;
     precioComunidad: number;

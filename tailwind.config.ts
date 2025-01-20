@@ -25,6 +25,9 @@ export default {
       width: {
         a4: '210mm', // Width of an A4 page
       },
+      fontFamily: {
+        ricordi: ['TTRicordi', 'sans-serif'],
+      },
     },
   },
   plugins: [

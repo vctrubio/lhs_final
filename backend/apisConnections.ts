@@ -85,7 +85,7 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
 
     const updatedAt = entry.sys.updatedAt
     // console.log('ENTRY FIELDS: ', entry.fields.photos)
-    const { barrioRef, amentetiesRef, characteristics, habitacionesPaginas, ibi, maintenanceCostMonthly, photos, plano, title, description, buyOrRent, reformado, precio, url } = entry.fields;
+    const { barrioRef, amentetiesRef, characteristics, habitacionesPaginas, ibi, maintenanceCostMonthly, photos, plano, title, description, buyOrRent, reformado, precio, url, quote } = entry.fields;
     const coverUrl = photos ? extractImageUrls(photos)[0] : null;
     const planoUrl = plano ? ImageToUrl(plano) : null;
 
@@ -95,6 +95,7 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
         description: description,
         buyOrRent: buyOrRent,
         reformado: reformado,
+        quote: quote,
         precio: precio,
         precioIbi: ibi ?? 0,
         precioComunidad: maintenanceCostMonthly ?? 0,
