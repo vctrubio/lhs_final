@@ -86,6 +86,18 @@ function CharacteristicsSection({ propertyCharacteristics }) {
     )
 }
 
+function FooterSection({ slug }) {
+    return (
+        <div className="mt-4 p-4 rounded-xl">
+            <div className="text-serif font-bold">
+                LHS Concept | Madrid | 2025
+            </div>
+            <div className="font-extralight">
+                <a>www.lhsconcept.com/{slug}</a>
+            </div>
+        </div>
+    )
+}
 
 export function PropertyBroucher({ property }) {
     const Head = () => {
@@ -118,11 +130,12 @@ export function PropertyBroucher({ property }) {
     }
 
     return (
-        <div className="mx-auto min-w-[380px] bg-greenish rounded-xl font-serif px-8 py-4">
+        <div className="mx-auto min-w-[380px] min-h-[560px] bg-greenish rounded-xl font-serif px-8 py-4">
             <div className="sticky divide-y divide-background [&>*]:py-4 [&_h2]:text-xl [&_h2]:pb-1 [&_h3]:text-xl ">
                 <Head />
                 <CharacteristicsSection propertyCharacteristics={property.charRef} />
                 <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
+                <FooterSection slug={property.url} />
             </div>
         </div>
     );
