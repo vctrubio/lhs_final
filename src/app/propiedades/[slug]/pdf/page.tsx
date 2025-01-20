@@ -16,6 +16,7 @@ type Props = {
 class PdfParent {
     title: string;
     quote: string;
+    barrio: string;
     photos: string[];
     description: string;
     characteristics: string | undefined;
@@ -23,6 +24,7 @@ class PdfParent {
 
     constructor(property: Property) {
         this.title = property.title;
+        this.barrio = property.barrioRef.name;
         this.quote = property.quote;
         this.photos = property.photos_url;
         this.description = property.description;
@@ -43,21 +45,30 @@ const PdfPageOne = ({ title, photos }: { title: string, photos: string[] }) => {
     );
 }
 
-const PdfPageTwo = ({ description, photos, brochure }: { description: string, photos: string[], brochure: React.ReactNode }) => {
-    console.log('photos: ', photos);
+const PdfPageTwo = ({ pdf, brochure }: { pdf:PdfParent, brochure: React.ReactNode }) => {
     return (
         <div className="relative grid grid-cols-2 grid-rows-2 gap-2 h-full">
-            <div className="flex items-center justify-center overflow-hidden text-ellipsis text-center text-xl px-1">
-                {description}
+            <div className="flex flex-col justify-around text-xl font-serif">
+                <div className="ml-4">
+                    <h1 className="font-bold text-2xl">
+                        {pdf.title}
+                    </h1>
+                    <h2 className="text-xl">
+                        {pdf.barrio}
+                    </h2>
+                </div>
+                <div className="flex items-center justify-center overflow-hidden text-ellipsis text-center px-2">
+                    {pdf.description}
+                </div>
             </div>
             <div
                 className="border border-gold w-full h-full"
-                style={{ borderTopLeftRadius: '25px', borderBottomRightRadius: '25px', borderBottomLeftRadius: '25px', backgroundImage: `url(${photos[1]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                style={{ borderTopLeftRadius: '25px', borderBottomRightRadius: '25px', borderBottomLeftRadius: '25px', backgroundImage: `url(${pdf.photos[1]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
             >
             </div>
             <div
                 className="border border-gold w-full h-full"
-                style={{ borderTopRightRadius: '25px', borderBottomRightRadius: '25px', borderTopLeftRadius: '25px', backgroundImage: `url(${photos[2]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                style={{ borderTopRightRadius: '25px', borderBottomRightRadius: '25px', borderTopLeftRadius: '25px', backgroundImage: `url(${pdf.photos[2]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
             >
             </div>
             <div className="gold rounded-xl overflow-hidden">
@@ -92,7 +103,7 @@ function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNod
         <div className="bg-background">
             <div className="[&>div]:mx-auto  [&>div]:w-a4 [&>div]:h-a4">
                 <PdfPageOne title={pdf.quote} photos={pdf.photos} />
-                <PdfPageTwo description={pdf.description} photos={pdf.photos} brochure={brochure} />
+                <PdfPageTwo pdf={pdf} brochure={brochure} />
                 {pdf.rooms.map((room, index) => (
                     <PdfRoomPage key={index} room={room} />
                 ))}

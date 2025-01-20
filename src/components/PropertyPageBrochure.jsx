@@ -118,8 +118,8 @@ export function PropertyBroucher({ property }) {
     }
 
     return (
-        <div className="mx-auto min-w-[380px] bg-[#91AC8F] rounded-xl font-serif px-8 py-4">
-            <div className="sticky divide-y divide-[#E1D8C6] [&>*]:py-4 [&_h2]:text-xl [&_h2]:pb-1 [&_h3]:text-xl ">
+        <div className="mx-auto min-w-[380px] bg-greenish rounded-xl font-serif px-8 py-4">
+            <div className="sticky divide-y divide-background [&>*]:py-4 [&_h2]:text-xl [&_h2]:pb-1 [&_h3]:text-xl ">
                 <Head />
                 <CharacteristicsSection propertyCharacteristics={property.charRef} />
                 <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
