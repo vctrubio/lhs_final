@@ -5,6 +5,10 @@ import { Property, PropiedadHabitacion } from '#/backend/types';
 import Image from 'next/image';
 import { PropertyBroucher } from '@/components/PropertyPageBrochure';
 
+import {
+    IconFindUs,
+} from '@/utils/svgs';
+
 type PageParams = {
     slug: string;
 }
@@ -53,8 +57,9 @@ const PdfPageTwo = ({ pdf, brochure }: { pdf:PdfParent, brochure: React.ReactNod
                     <h1 className="font-bold text-2xl">
                         {pdf.title}
                     </h1>
-                    <h2 className="text-xl">
-                        {pdf.barrio}
+                    <h2 className="flex items-center text-xl">
+                        <IconFindUs fill="#15423b"/>
+                        <div className="pl-1">{pdf.barrio}</div>
                     </h2>
                 </div>
                 <div className="flex items-center justify-center overflow-hidden text-ellipsis text-center px-2">
