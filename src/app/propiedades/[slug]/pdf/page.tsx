@@ -25,6 +25,7 @@ class PdfParent {
     description: string;
     characteristics: string | undefined;
     rooms: PropiedadHabitacion[];
+    planoUrl: string;
 
     constructor(property: Property) {
         this.title = property.title;
@@ -33,23 +34,24 @@ class PdfParent {
         this.photos = property.photos_url;
         this.description = property.description;
         this.rooms = property.roomsRef;
+        this.planoUrl = property.plano_url;
     }
 }
 
 const PdfPageOne = ({ title, photos }: { title: string, photos: string[] }) => {
     return (
-        <div className='py-8'>
+        <div className='pt-8'>
             <h1 className="text-5xl text-zinc-500 font-ricordi font-light text-center my-4 px-2">
                 "{title}"
             </h1>
-            <div className="relative w-full h-[840px]"> {/* Ensure the parent container has a defined height */}
-                <Image src={photos[0]} alt="Propiedad" layout="fill" objectFit="cover"/>
+            <div className="relative w-full h-[920px]"> {/* Ensure the parent container has a defined height */}
+                <Image src={photos[0]} alt="Propiedad" layout="fill" objectFit="cover" />
             </div>
         </div>
     );
 }
 
-const PdfPageTwo = ({ pdf, brochure }: { pdf:PdfParent, brochure: React.ReactNode }) => {
+const PdfPageTwo = ({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNode }) => {
     return (
         <div className="relative grid grid-cols-2 grid-rows-2 gap-2 h-full">
             <div className="flex flex-col justify-around text-xl font-serif">
@@ -58,7 +60,7 @@ const PdfPageTwo = ({ pdf, brochure }: { pdf:PdfParent, brochure: React.ReactNod
                         {pdf.title}
                     </h1>
                     <h2 className="flex items-center text-xl">
-                        <IconFindUs fill="#15423b"/>
+                        <IconFindUs fill="#15423b" />
                         <div className="pl-1">{pdf.barrio}</div>
                     </h2>
                 </div>
@@ -86,7 +88,7 @@ const PdfPageTwo = ({ pdf, brochure }: { pdf:PdfParent, brochure: React.ReactNod
 const PdfRoomPage = ({ room }: { room: PropiedadHabitacion }) => {
     return (
         <div className=''>
-            <h1 className="text-4xl font-ricordi text-center pt-[1rem]">
+            <h1 className="text-4xl font-serif text-center my-4">
                 {room.title}
             </h1>
             <p className="text-center">
@@ -103,6 +105,19 @@ const PdfRoomPage = ({ room }: { room: PropiedadHabitacion }) => {
     );
 }
 
+const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
+    return (
+        <div className='pt-8'>
+            <h1 className="text-5xl text-center my-4 px-2">
+                Plano
+            </h1>
+            <div className="relative w-full h-[920px] mb-4">
+                <Image src={planoUrl} alt="Plano" layout="fill" objectFit="contain" />
+            </div>
+        </div>
+    );
+}
+
 function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNode }) {
     return (
         <div className="bg-background">
@@ -112,6 +127,7 @@ function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNod
                 {pdf.rooms.map((room, index) => (
                     <PdfRoomPage key={index} room={room} />
                 ))}
+                <PdfPlanoPage planoUrl={pdf.planoUrl} photo={pdf.photos[0]} />
             </div>
         </div>
     );
