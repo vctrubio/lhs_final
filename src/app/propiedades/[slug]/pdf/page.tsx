@@ -88,7 +88,7 @@ const PdfPageTwo = ({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNo
 const PdfRoomPage = ({ room }: { room: PropiedadHabitacion }) => {
     return (
         <div className=''>
-            <h1 className="text-4xl font-serif text-center my-4">
+            <h1 className="text-4xl font- text-center pt-[1rem]">
                 {room.title}
             </h1>
             <p className="text-center">
@@ -153,7 +153,7 @@ export default function PdfView({ params }: Props) {
     const brochure = <PropertyBroucher property={property} />;
 
     return (
-        <div className='bg-white  h-full'>
+        <div id='pdf' className='h-full'>
             <CreatePdf pdf={pdf} brochure={brochure} />
         </div>
     );
