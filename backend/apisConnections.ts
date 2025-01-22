@@ -2,6 +2,7 @@ import { Asset, createClient, Entry } from 'contentful';
 import { Property, Barrio } from './types';
 import { getPropertiesParams } from './parsing';
 import { PropertyParams } from './parsing';
+import { GiEntryDoor } from 'react-icons/gi';
 
 // Client: Contentful
 const client = createClient({
@@ -35,7 +36,8 @@ export async function fetchEntriesContentful(): Promise<{ properties: Property[]
             barrios.push(parseBarrioFromContentful({ entry }))
         }
         if (entry.sys.contentType.sys.id === 'propiedad') {
-            properties.push(parsePropertyFromContentful({ entry }))
+            if (entry.fields.buyOrRent) //buy is true -- only parsing buy properties for now
+                properties.push(parsePropertyFromContentful({ entry }))
         }
 
     });
