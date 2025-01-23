@@ -4,10 +4,7 @@ import { fetchPropertyByID } from '#/backend/apisConnections';
 import { Property, PropiedadHabitacion } from '#/backend/types';
 import Image from 'next/image';
 import { PropertyBroucher } from '@/components/PropertyPageBrochure';
-
-import {
-    IconFindUs,
-} from '@/utils/svgs';
+import { IconFindUs } from '@/utils/svgs';
 
 type PageParams = {
     slug: string;
@@ -157,4 +154,4 @@ export default function PdfView({ params }: Props) {
             <CreatePdf pdf={pdf} brochure={brochure} />
         </div>
     );
-};
+}
