@@ -208,7 +208,7 @@ export default function PropiedadPage({ property }) {
           {property.title}
           </h1>
           <h2 className="text-2xl font-recordi">
-              "{property.quote}"
+              &quot;{property.quote}&quot;
             </h2>
       </div>
 
@@ -221,7 +221,7 @@ export default function PropiedadPage({ property }) {
       </div>
 
       <div className="text-center mt-8">
-        <Link href={`/propiedades/${property.url}/pdf`}>
+        <Link href={`/${property.url}/pdf`}>
           <div className="bg-[#14213D] text-white py-2 px-4 rounded-lg inline-block">
             PDF
           </div>
