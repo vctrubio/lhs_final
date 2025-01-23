@@ -104,7 +104,7 @@ export function PropertyBroucher({ property }) {
         return (
             <div className="[&_span]:text-dark">
                 <h2>Precio</h2>
-                <div className="text-4xl flex" style={{ letterSpacing: '1px' }}>
+                <div className="text-3xl flex" style={{ letterSpacing: '1px' }}>
                     <IconPrice />
                     {property.precio.toLocaleString('es-ES')}
                 </div>
@@ -131,7 +131,7 @@ export function PropertyBroucher({ property }) {
 
     return (
         <div className="mx-auto min-w-[380px] min-h-[560px] bg-greenish rounded-xl font-serif px-8 py-4">
-            <div className="sticky divide-y divide-background [&>*]:py-4 [&_h2]:text-xl [&_h2]:pb-1 [&_h3]:text-xl ">
+            <div className="sticky divide-y divide-background [&>*]:py-4 [&_h2]:text-2xl [&_h2]:pb-1 [&_h3]:text-xl ">
                 <Head />
                 <CharacteristicsSection propertyCharacteristics={property.charRef} />
                 <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
