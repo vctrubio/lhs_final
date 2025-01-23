@@ -39,9 +39,9 @@ const PdfPageOne = ({ title, photos }: { title: string, photos: string[] }) => {
     return (
         <div className='pt-8'>
             <h1 className="text-5xl text-zinc-500 font-ricordi font-light text-center my-4 px-2">
-                "{title}"
+                &quot;{title}&quot;
             </h1>
-            <div className="relative w-full h-[920px]"> {/* Ensure the parent container has a defined height */}
+            <div className="relative w-full h-[960px]"> {/* Ensure the parent container has a defined height */}
                 <Image src={photos[0]} alt="Propiedad" layout="fill" objectFit="cover" />
             </div>
         </div>
