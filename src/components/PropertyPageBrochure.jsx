@@ -1,3 +1,4 @@
+import {FooterTagShare as FooterShareComponent} from "@/components/FooterTag";
 import { IconPrice } from "@/utils/svgs";
 import {
     Wind, Flame, Building2,
@@ -88,7 +89,7 @@ function CharacteristicsSection({ propertyCharacteristics }) {
 
 function FooterSection({ slug }) {
     return (
-        <div className="mt-4 p-4 rounded-xl">
+        <div className="p-4">
             <div className="text-serif font-bold">
                 LHS Concept | Madrid | 2025
             </div>
@@ -137,6 +138,7 @@ export function PropertyBroucher({ property }) {
                 <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
                 <FooterSection slug={property.url} />
             </div>
+        <FooterShareComponent/>
         </div>
     );
 }

@@ -109,7 +109,7 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
 
   // Thumbnail Carousel
   const ThumbnailCarousel = (
-    <div ref={containerRef} className="relative px-8 py-2">
+    <div ref={containerRef} className="relative px-4 py-2">
       <div
         ref={thumbnailsRef}
         className="flex gap-2 overflow-x-hidden scroll-smooth mx-auto py-2 px-1"
@@ -214,9 +214,8 @@ export default function PropiedadPage({ property }) {
 
       <CarouselComponent property={property} />
 
-      <div className="flex flex-col xl:flex-row justify-center gap-8 items-start">
+      <div className="flex flex-col xl:flex-row justify-center gap-8">
         <PropertyDescription property={property} />
-
         <PropertyBroucher property={property} />
       </div>
 
