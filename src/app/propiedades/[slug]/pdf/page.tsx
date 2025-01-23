@@ -121,10 +121,10 @@ function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNod
             <div className="[&>div]:mx-auto  [&>div]:w-a4 [&>div]:h-a4">
                 <PdfPageOne title={pdf.quote} photos={pdf.photos} />
                 <PdfPageTwo pdf={pdf} brochure={brochure} />
-                {pdf.rooms.map((room, index) => (
+                {pdf.rooms && pdf.rooms.map((room, index) => (
                     <PdfRoomPage key={index} room={room} />
                 ))}
-                <PdfPlanoPage planoUrl={pdf.planoUrl} photo={pdf.photos[0]} />
+                <PdfPlanoPage planoUrl={pdf.planoUrl}/>
             </div>
         </div>
     );
