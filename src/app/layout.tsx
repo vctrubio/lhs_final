@@ -1,7 +1,13 @@
 import "../css/globals.css";
 import type { Metadata, Viewport } from "next";
+import { Eczar } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import React from "react";
+
+const eczar = Eczar({
+  subsets: ['latin'], // Load only necessary subsets
+  variable: '--font-eczar', // Define a CSS variable for Tailwind
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -95,7 +101,7 @@ export default async function RootLayout({
 }>) {
   
   return (
-    <html lang="es" className="h-full">
+    <html lang="es" className={eczar.variable}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <script

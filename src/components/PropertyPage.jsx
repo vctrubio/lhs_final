@@ -203,11 +203,11 @@ export default function PropiedadPage({ property }) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[1000px]">
-      <div className="flex flex-col gap-1 text-center text-greener mt-2">
+      <div className="flex flex-col gap-1 text-center text-greener my-2 pb-6">
           <h1 className="text-5xl">
           {property.title}
           </h1>
-          <h2 className="text-2xl font-recordi">
+          <h2 className="text-2xl font-eczar">
               &quot;{property.quote}&quot;
             </h2>
       </div>
