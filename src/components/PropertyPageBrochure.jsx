@@ -100,7 +100,7 @@ function FooterSection({ slug }) {
     )
 }
 
-export function PropertyBroucher({ property }) {
+export function PropertyBroucher({ property, flag=false }) {
     const Head = () => {
         return (
             <div className="[&_span]:text-dark">
@@ -136,9 +136,8 @@ export function PropertyBroucher({ property }) {
                 <Head />
                 <CharacteristicsSection propertyCharacteristics={property.charRef} />
                 <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
-                <FooterSection slug={property.url} />
+                {flag ? <FooterSection slug={property.url}/> : <FooterShareComponent />}
             </div>
-        <FooterShareComponent/>
         </div>
     );
 }

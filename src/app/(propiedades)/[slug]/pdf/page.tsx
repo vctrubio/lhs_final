@@ -147,7 +147,7 @@ export default function PdfView({ params }: Props) {
     }
 
     const pdf = new PdfParent(property);
-    const brochure = <PropertyBroucher property={property} />;
+    const brochure = <PropertyBroucher property={property} flag={true}/>;
 
     return (
         <div id='pdf' className='h-full'>

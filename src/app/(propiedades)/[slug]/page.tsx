@@ -77,7 +77,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-    const resolvedParams = await params; // Await the params
+    const resolvedParams = await params; 
     const { property } = await getPropertyData(resolvedParams);
 
     if (!property) {
