@@ -1,9 +1,13 @@
-import type { Metadata, Viewport } from "next";
 import "../css/globals.css";
+import type { Metadata, Viewport } from "next";
+import { Eczar } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
-import SideBar from "@/components/SideBar";
-import { fetchEntriesContentful } from "#/backend/apisConnections";
-import React, { Suspense } from "react";
+import React from "react";
+
+const eczar = Eczar({
+  subsets: ['latin'], // Load only necessary subsets
+  variable: '--font-eczar', // Define a CSS variable for Tailwind
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -68,7 +72,6 @@ export const metadata: Metadata = {
 
   verification: {
     google: 'your-google-verification-code', // Add your Google Search Console verification code
-    yandex: 'your-yandex-verification-code', // If you use Yandex
   },
 };
 
@@ -85,9 +88,9 @@ const jsonLd = {
     addressCountry: 'ES',
   },
   sameAs: [
-    'https://www.facebook.com/lhsconcept',
     'https://www.instagram.com/lhsconcept',
     // Add your social media URLs
+    // 'https://www.facebook.com/lhsconcept',
   ],
 };
 
@@ -96,13 +99,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  console.log("--------------------RootLayout ~ children:----------------------------")
-  const { properties, propertyParams, filteredBarrios } = await fetchEntriesContentful()
-  console.log('Layout properties length:', properties?.length)
-
+  
   return (
-    <html lang="en" className="h-full">
+    <html lang="es" className={eczar.variable}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <script
@@ -111,11 +110,8 @@ export default async function RootLayout({
         />
       </head>
       <NuqsAdapter>
-        <body className="h-full">
-          <Suspense fallback={<div>Loading...</div>}>
-            <SideBar propertyParams={propertyParams} barrios={filteredBarrios} />
-          </Suspense>
-          <main className="mx-8">
+        <body>
+          <main className="mx-8 pb-8">
             {children}
           </main>
         </body>

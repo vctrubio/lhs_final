@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { formatPrice } from '@/utils/utils';
 import { useQueryState } from 'nuqs'
 import { PropertyParams } from './parsing';
 
@@ -79,7 +78,7 @@ export function INuqs(propertyParams: PropertyParams) {
         setBathroomValue([propertyParams.bathrooms.min, propertyParams.bathrooms.max]);
         setBedroomValue([propertyParams.bedrooms.min, propertyParams.bedrooms.max]);
         setMetersSquareValue([propertyParams.metersSquare.min, propertyParams.metersSquare.max]);
-    }, []);
+    }, [propertyParams]); // Add propertyParams as a dependency
 
 
 
@@ -143,7 +142,7 @@ export function INuqs(propertyParams: PropertyParams) {
             setMetrosCuadradosMaximo(null);
         }
 
-    }, [priceValue, bathroomValue, bedroomValue, metersSquareValue]);
+    }, [priceValue, bathroomValue, bedroomValue, metersSquareValue, propertyParams]); // Add propertyParams as a dependency
 
     const handleReset = () => {
         setPrecioMinimo(null);

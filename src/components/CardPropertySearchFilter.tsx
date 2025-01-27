@@ -7,7 +7,7 @@ import { NuqsManager } from "#/backend/nuqsv2";
 import { NoResultsFound } from "./NoResultsFound";
 
 export const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
-    const [filterProperties, setFilterProperties] = useState<Property[]>(entries);
+    const [filterProperties, setFilterProperties] = useState<Property[]>([]);
     const [cssUniqueBoy, setUniqueBoy] = useState(false);
     const [cssStateHover, setCssStateHover] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
@@ -15,9 +15,8 @@ export const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) =
     const nuqs = NuqsManager();
 
     useEffect(() => {
+        setIsLoading(true);
         let updatedProperties = [...entries];
-
-        setIsLoading(false);
 
         if (nuqs.hasParams) {
             if (nuqs.params.title) {
@@ -78,14 +77,17 @@ export const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) =
 
         setFilterProperties(updatedProperties);
         setUniqueBoy(updatedProperties.length <= 1);
+        setIsLoading(false);
 
     }, [entries, nuqs.stateChanged, nuqs.hasParams, nuqs.params.title, nuqs.params.prices.min, nuqs.params.prices.max, nuqs.params.bathrooms.min, nuqs.params.bathrooms.max, nuqs.params.bedrooms.min, nuqs.params.bedrooms.max, nuqs.params.m2.min, nuqs.params.m2.max, nuqs.params.barrios]);
 
     return (
-        <>
-            {isLoading ? null : (
+         <div className="flex flex-wrap">
+             {isLoading ? (
+                <div></div>
+            ) : (
                 <div className="property-container" last-man-standing={cssUniqueBoy ? 'on' : ''}>
-                    {filterProperties.length === 0 ? (
+                    {filterProperties.length === 0 && isLoading? (
                         <NoResultsFound nuqsParams={nuqs.params} entries={entries} />
                     ) : (
                         filterProperties.map((entry: Property) => (
@@ -94,6 +96,6 @@ export const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) =
                     )}
                 </div>
             )}
-        </>
+        </div>
     );
 };

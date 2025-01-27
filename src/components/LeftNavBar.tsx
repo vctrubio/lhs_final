@@ -2,26 +2,11 @@
 
 import { useState } from 'react';
 import { Menu, X, Mail, Instagram, MapPin, MessageSquare } from 'lucide-react';
-import Image from 'next/image';
 import '../css/leftNavBar.css';
+import Logo from './Logo';
 
 interface LeftNavBarProps {
     children: React.ReactNode;
-}
-
-// Logo Component
-function Logo() {
-    return (
-        <div className="h-16 flex items-center justify-center">
-            <Image
-                src="/logo-main.jpeg"
-                alt="LHS Concept Logo"
-                width={120}
-                height={70}
-                className="object-contain brightness-110"
-            />
-        </div>
-    );
 }
 
 // Search Parameters Component
@@ -94,12 +79,6 @@ function NavContent({ children, className = '', pt = 'p-4' }: {
         </div>
     );
 }
-
-// <LeftNavBar>
-// <div className="p-4">
-//   <h2>Filters will go here</h2>
-// </div>
-// </LeftNavBar>
 
 export default function LeftNavBar({ children }: LeftNavBarProps) {
     const [isOpen, setIsOpen] = useState(false);

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { fetchPropertyByID, fetchEntriesContentful } from '#/backend/apisConnections';
+import { fetchPropertyByID } from '#/backend/apisConnections';
 import PropertyPage from '@/components/PropertyPage';
-import PropertyRecommendations from '@/components/PropertyRecommendations';
+import {LHSBond} from '@/components/LHSBond';
 import { cache } from 'react';
 
 type PageParams = {
@@ -9,7 +9,7 @@ type PageParams = {
 }
 
 type Props = {
-    params: Promise<PageParams>;
+    params: Promise<PageParams>; // Changed from PageParams to Promise<PageParams>
 }
 
 const fetchProperty = cache(async (slug: string) => {
@@ -24,7 +24,7 @@ async function getPropertyData(params: PageParams) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const resolvedParams = await params;
+    const resolvedParams = await params; // Await the params
     const { property, slug } = await getPropertyData(resolvedParams);
 
     if (!property) {
@@ -77,14 +77,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-    const resolvedParams = await params;
+    const resolvedParams = await params; 
     const { property } = await getPropertyData(resolvedParams);
 
     if (!property) {
-        // Fetch some recommended properties
-        const { properties } = await fetchEntriesContentful();
-        return <PropertyRecommendations properties={properties} />;
+        return <></>
     }
 
-    return <PropertyPage property={property} />;
+    return (
+        <>
+            <LHSBond tag={property.title}/>
+            <PropertyPage property={property} />
+        </>
+    )
 }

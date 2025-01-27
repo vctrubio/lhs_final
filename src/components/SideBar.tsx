@@ -128,8 +128,8 @@ const SidebarContentRootPage = ({ nuqs, barrios }: { nuqs: any, barrios: Barrio[
     )
 }
 
-export default function SideBar({ propertyParams, barrios, propertyUrl }: { propertyParams: PropertyParams, barrios: Barrio[], propertyUrl?: string }) {
-    const [isOpen, setIsOpen] = useState(true);
+export default function SideBar({ propertyParams, barrios }: { propertyParams: PropertyParams, barrios: Barrio[] }) {
+    const [isOpen, setIsOpen] = useState(false); // Set initial state to false
     const nuqs = INuqs(propertyParams);
     const url_roots = usePathname()
 
@@ -137,6 +137,8 @@ export default function SideBar({ propertyParams, barrios, propertyUrl }: { prop
         const handleResize = () => {
             if (window.innerWidth < 768) {
                 setIsOpen(false);
+            } else {
+                setIsOpen(true); // bug hydration nextjs error?
             }
         };
 

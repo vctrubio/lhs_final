@@ -2,6 +2,7 @@ import { Asset, createClient, Entry } from 'contentful';
 import { Property, Barrio } from './types';
 import { getPropertiesParams } from './parsing';
 import { PropertyParams } from './parsing';
+import { GiEntryDoor } from 'react-icons/gi';
 
 // Client: Contentful
 const client = createClient({
@@ -35,7 +36,8 @@ export async function fetchEntriesContentful(): Promise<{ properties: Property[]
             barrios.push(parseBarrioFromContentful({ entry }))
         }
         if (entry.sys.contentType.sys.id === 'propiedad') {
-            properties.push(parsePropertyFromContentful({ entry }))
+            if (entry.fields.buyOrRent) //buy is true -- only parsing buy properties for now
+                properties.push(parsePropertyFromContentful({ entry }))
         }
 
     });
@@ -85,7 +87,7 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
 
     const updatedAt = entry.sys.updatedAt
     // console.log('ENTRY FIELDS: ', entry.fields.photos)
-    const { barrioRef, amentetiesRef, characteristics, habitacionesPaginas, ibi, maintenanceCostMonthly, photos, plano, title, description, buyOrRent, reformado, precio, url } = entry.fields;
+    const { barrioRef, amentetiesRef, characteristics, habitacionesPaginas, ibi, maintenanceCostMonthly, photos, plano, title, description, buyOrRent, reformado, precio, url, quote } = entry.fields;
     const coverUrl = photos ? extractImageUrls(photos)[0] : null;
     const planoUrl = plano ? ImageToUrl(plano) : null;
 
@@ -95,6 +97,7 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
         description: description,
         buyOrRent: buyOrRent,
         reformado: reformado,
+        quote: quote,
         precio: precio,
         precioIbi: ibi ?? 0,
         precioComunidad: maintenanceCostMonthly ?? 0,
