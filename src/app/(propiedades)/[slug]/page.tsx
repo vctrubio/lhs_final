@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { fetchPropertyByID, fetchEntriesContentful } from '#/backend/apisConnections';
+import { fetchPropertyByID } from '#/backend/apisConnections';
 import PropertyPage from '@/components/PropertyPage';
-import PropertyRecommendations from '@/components/PropertyRecommendations';
+import {LHSBond} from '@/components/LHSBond';
 import { cache } from 'react';
 
 type PageParams = {
@@ -84,5 +84,10 @@ export default async function Page({ params }: Props) {
         return <></>
     }
 
-    return <PropertyPage property={property} />;
+    return (
+        <>
+            <LHSBond tag={property.title}/>
+            <PropertyPage property={property} />
+        </>
+    )
 }
