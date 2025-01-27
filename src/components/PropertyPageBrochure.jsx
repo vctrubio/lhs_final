@@ -87,13 +87,13 @@ function CharacteristicsSection({ propertyCharacteristics }) {
     )
 }
 
-function FooterSection({ slug }) {
+function FooterSection({ slug, barrio}) {
     return (
         <div className="p-4">
-            <div className="text-serif font-bold">
-                LHS Concept | Madrid | 2025
+            <div className="text-serif">
+                LHS Concept | {barrio} • Mardid | 2025
             </div>
-            <div className="font-extralight">
+            <div className="font-bold">
                 <a>www.lhsconcept.com/{slug}</a>
             </div>
         </div>
@@ -136,7 +136,7 @@ export function PropertyBroucher({ property, flag=false }) {
                 <Head />
                 <CharacteristicsSection propertyCharacteristics={property.charRef} />
                 <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
-                {flag ? <FooterSection slug={property.url}/> : <FooterShareComponent />}
+                {flag ? <FooterSection slug={property.url} barrio={property.barrioRef.name}/> : <FooterShareComponent />}
             </div>
         </div>
     );
