@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { fetchPropertyByID } from '#/backend/apisConnections';
 import PropertyPage from '@/components/PropertyPage';
-import {LHSBond} from '@/components/LHSBond';
+import {LHSBond} from '@/components/lhsbond';
 import { cache } from 'react';
 
 type PageParams = {
