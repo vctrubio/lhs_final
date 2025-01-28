@@ -26,7 +26,7 @@ export interface Property {
     amentitiesRef: Amentities;
     charRef: PropiedadCharacteristics;
     roomsRef: PropiedadHabitacion[];
-    // updatedAt: string;
+    updatedAt: string;
 }
 
 export interface Barrio {
@@ -64,7 +64,7 @@ export interface PropiedadHabitacion {
     title: string;
     propiedadDe: string;
     description: string;
-    photos: string[];
+    photos: Photo[];
 }
 
 // NOT USED //

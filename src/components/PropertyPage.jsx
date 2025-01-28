@@ -91,7 +91,7 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
                         className="relative h-[600px] flex items-center justify-center"
                     >
                         <Image
-                            src={image}
+                            src={image.url}
                             fill
                             alt={`${property.title} ${index + 1}`}
                             className="object-contain"
@@ -128,7 +128,7 @@ ${currentIndex === index
 }`}
                     >
                         <Image
-                            src={image}
+                            src={image.url}
                             fill
                             alt={`${property.title} sm-${index + 1}`}
                             sizes="80px"

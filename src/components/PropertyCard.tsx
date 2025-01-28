@@ -41,7 +41,7 @@ export const CardProperty = ({ property, cssStateHover }: { property: Property, 
                 </div>
                 <div className="property-banner">
                     <Image
-                        src={coverPhoto}
+                        src={coverPhoto.url}
                         alt={property.title}
                         fill
                         style={{ objectFit: 'cover' }}
@@ -50,7 +50,7 @@ export const CardProperty = ({ property, cssStateHover }: { property: Property, 
                         priority
                         title={property.title}
                         placeholder="blur"
-                        blurDataURL={coverPhoto}
+                        blurDataURL={coverPhoto.url}
                     />
                     <div className="property-desc">
                         <DescBox text={area} icon={Ruler} />

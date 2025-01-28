@@ -9,15 +9,17 @@ const client = createClient({
     accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN as string,
 });
 
-// TMP UTILS //
 export function ImageToUrl(entry: any): Photo {
-    const url = entry.fields.file.url.startsWith('http') ? entry.fields.file.url : `https:${entry.fields.file.url}`;
-
     // console.log('can u see img:', entry.fields.file)
     //    url: '//images.ctfassets.net/0nbi0p8gb167/1oLN77LuXeBKgE0KBLOWvT/9fcfb8abe6d1bbd21956d3f0e5cf59d7/PHOTO-2024-07-31-12-16-41__2_.jpg',
     // details: { size: 274835, image: { width: 1204, height: 1600 } },
 
 
+    function startsWithHttp(url: string): string{
+        return url.startsWith('http') ? url : `https:${url}`;
+    }
+
+    const url = startsWithHttp(entry.fields.file.url);
     const width = entry.fields.file.details.image.width;
     const height = entry.fields.file.details.image.height;
 
@@ -98,7 +100,7 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
     }
 
     const updatedAt = entry.sys.updatedAt
-    console.log('ENTRY FIELDS: ', entry.fields.photos)
+    // console.log('ENTRY FIELDS: ', entry.fields.photos)
     const { barrioRef, amentetiesRef, characteristics, habitacionesPaginas, ibi, maintenanceCostMonthly, photos, plano, title, description, buyOrRent, reformado, precio, url, quote } = entry.fields;
     const coverUrl = photos ? extractImageUrls(photos)[0] : null;
     const planoUrl = plano ? ImageToUrl(plano) : null;
@@ -121,7 +123,7 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
         roomsRef: entry.fields.habitacionesPaginas?.map((h: Entry<any>) => ({
             title: h.fields.title,
             description: h.fields.description,
-            photos: (h.fields.photos as Asset<any>[])?.map(photo => photo.fields.file?.url) ?? []
+            photos: (h.fields.photos as Asset<any>[])?.map(photo => ImageToUrl(photo)) ?? []
         })) ?? null,
 
         photos_url: [
@@ -130,7 +132,6 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
         ],
 
         updatedAt: updatedAt,
-        canva_id: null,
     } as Property;
 }
 

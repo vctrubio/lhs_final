@@ -46,9 +46,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             url: `https://www.lhsconcept.com/propiedades/${slug}`,
             images: property.photos_url ? [
                 {
-                    url: property.photos_url[0],
-                    width: 1200,
-                    height: 630,
+                    url: property.photos_url[0].url,
+                    width: property.photos_url[0].width,
+                    height: property.photos_url[0].height,
                     alt: property.title,
                 }
             ] : [],
@@ -60,10 +60,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             creator: '@lhsconcept',
             title: propertyTitle,
             description: propertyDescription,
-            images: property.photos_url ? [property.photos_url[0]] : [],
+            images: property.photos_url ? [property.photos_url[0].url] : [],
         },
         alternates: {
-            canonical: `https://www.lhsconcept.com/propiedades/${slug}`,
+            canonical: `https://www.lhsconcept.com/${slug}`,
         },
         robots: {
             index: true,
