@@ -1,8 +1,7 @@
 import { Asset, createClient, Entry } from 'contentful';
-import { Property, Barrio } from './types';
+import { Property, Barrio, Photo } from './types';
 import { getPropertiesParams } from './parsing';
 import { PropertyParams } from './parsing';
-import { GiEntryDoor } from 'react-icons/gi';
 
 // Client: Contentful
 const client = createClient({
@@ -11,12 +10,25 @@ const client = createClient({
 });
 
 // TMP UTILS //
-export function ImageToUrl(entry: any): string {
+export function ImageToUrl(entry: any): Photo {
     const url = entry.fields.file.url.startsWith('http') ? entry.fields.file.url : `https:${entry.fields.file.url}`;
-    return url;
+
+    // console.log('can u see img:', entry.fields.file)
+    //    url: '//images.ctfassets.net/0nbi0p8gb167/1oLN77LuXeBKgE0KBLOWvT/9fcfb8abe6d1bbd21956d3f0e5cf59d7/PHOTO-2024-07-31-12-16-41__2_.jpg',
+    // details: { size: 274835, image: { width: 1204, height: 1600 } },
+
+
+    const width = entry.fields.file.details.image.width;
+    const height = entry.fields.file.details.image.height;
+
+    return {
+        url,
+        width,
+        height,
+    }
 }
 
-export function extractImageUrls(entries: any[]): string[] {
+export function extractImageUrls(entries: any[]): Photo[] {
     return entries.map(entry => ImageToUrl(entry));
 }
 
@@ -75,7 +87,7 @@ export async function fetchPropertyByID(url: string): Promise<Property | null> {
 
 // Parsing //
 function parsePropertyFromContentful({ entry }: { entry: any }): Property {
-    function getRoomPhotoUrl(entries: any[]): string[] {
+    function getRoomPhotoUrl(entries: any[]): Photo[] {
         const urls = entries.map(entry => {
             const photos = entry.fields.photos
             const it = photos ? extractImageUrls(photos) : []
@@ -86,7 +98,7 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
     }
 
     const updatedAt = entry.sys.updatedAt
-    // console.log('ENTRY FIELDS: ', entry.fields.photos)
+    console.log('ENTRY FIELDS: ', entry.fields.photos)
     const { barrioRef, amentetiesRef, characteristics, habitacionesPaginas, ibi, maintenanceCostMonthly, photos, plano, title, description, buyOrRent, reformado, precio, url, quote } = entry.fields;
     const coverUrl = photos ? extractImageUrls(photos)[0] : null;
     const planoUrl = plano ? ImageToUrl(plano) : null;
@@ -115,7 +127,6 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
         photos_url: [
             ...(photos ? extractImageUrls(photos) : []),
             ...(habitacionesPaginas ? getRoomPhotoUrl(habitacionesPaginas) : []),
-            // ...(planoUrl ? [planoUrl] : [])
         ],
 
         updatedAt: updatedAt,

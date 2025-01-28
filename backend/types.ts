@@ -1,3 +1,9 @@
+export interface Photo {
+    url: string;
+    width: number;
+    height: number;
+}
+
 // PRIMARY //
 export interface Property {
     title: string;
@@ -12,9 +18,9 @@ export interface Property {
     precioIbi: number;
     precioComunidad: number;
 
-    plano_url: string;
-    cover_url: string[];
-    photos_url: string[];
+    plano_url: Photo;
+    cover_url: Photo[];
+    photos_url: Photo[];
 
     barrioRef: Barrio;
     amentitiesRef: Amentities;
