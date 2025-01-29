@@ -3,7 +3,7 @@ import { Photo } from "#/backend/types";
 export function sortAndChunkPhotos(photos: Photo[]): Photo[][] {
     // 1) Mark each photo as portrait or landscape
     photos.forEach((photo) => {
-        photo.portrait = photo.width < photo.height;
+        photo.portrait = photo.width < photo.height; // is it L OR P
     });
 
     // 2) Separate into two arrays

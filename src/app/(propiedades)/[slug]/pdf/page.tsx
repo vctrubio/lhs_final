@@ -94,12 +94,14 @@ const PdfRoomPage = ({ room }: { room: PropiedadHabitacion }) => {
             <p className="text-center">
                 {room.description}
             </p>
-            <div className="grid grid-cols-2 gap-2">
-                {room.photos.map((photo, index) => (
+            <div className="border w-full h-full">
+                helloworld
+                {/* {room.photos.map((photo, index) => (
                     <div key={index} className="relative w-full h-64">
                         <Image src={photo.url} alt={`Room photo ${index + 1}`} layout="fill" objectFit="cover" />
                     </div>
-                ))}
+                ))} */} 
+                {/* change to call --> <PdfBig photosArray={photos} /> */}
             </div>
         </div>
     );
@@ -132,13 +134,12 @@ function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNod
     return (
         <div className="bg-background">
             <div className="[&>div]:mx-auto  [&>div]:w-a4 [&>div]:h-a4">
-                <PdfBig photosArray={photos} />
-                {/* <PdfPageOne title={pdf.quote} photos={pdf.photos} />
+                <PdfPageOne title={pdf.quote} photos={pdf.photos} />
                 <PdfPageTwo pdf={pdf} brochure={brochure} />
                 {pdf.rooms && pdf.rooms.map((room, index) => (
                     <PdfRoomPage key={index} room={room} />
                 ))}
-                <PdfPlanoPage planoUrl={pdf.planoUrl.url}/>  */}
+                <PdfPlanoPage planoUrl={pdf.planoUrl.url}/> 
             </div>
         </div>
     );

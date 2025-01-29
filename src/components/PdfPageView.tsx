@@ -24,7 +24,6 @@ const PdfGrid = ({ photosArray }: { photosArray: Photo[] }) => {
 }
 
 
-
 export const PdfBig = ({ photosArray }: { photosArray: Photo[] }) => {
 
     const chunks = sortAndChunkPhotos(photosArray);
