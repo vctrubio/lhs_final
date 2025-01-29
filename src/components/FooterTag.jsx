@@ -1,41 +1,42 @@
+'use client'
+
 import { Mail, Send, Download, Phone } from "lucide-react";
 
-export function FooterTagShare() {
+export function FooterTagShare({ property }) {
+
     const buttons = [
         {
             icon: Phone,
-            label: "Call",
-            onClick: () => alert("Call button clicked!"),
+            label: "Llamar",
+            onClick: () => window.open(`https://wa.me/34616746971?text=Hi, I am interested in this flat: ${property.url}`, '_blank'),
         },
         {
             icon: Mail,
-            label: "Contact",
-            onClick: () => alert("Contact button clicked!"),
+            label: "Contactar",
+            onClick: () => window.location.href = `mailto:lhsconcept@lhsconcept.com?subject=Interest in flat: ${property.url}`,
         },
         {
             icon: Download,
-            label: "Download",
-            onClick: () => alert("Download button clicked!"),
+            label: "Ficha",
+            onClick: () => window.open(`/${property.url}/pdf`, '_blank'),
         },
         {
             icon: Send,
-            label: "Send",
-            onClick: () => alert("Send button clicked!"),
+            label: "Enviar",
+            onClick: () => alert(`Send button clicked for flat: ${property.url}`),
         },
     ];
 
     return (
-        <div className="flex justify-around p-4">
+        <div className="flex justify-around p-2"        >
             {buttons.map(({ icon: Icon, label, onClick }) => (
                 <button
                     key={label}
                     onClick={onClick}
-                    className="group flex flex-col items-center transition duration-300 ease-in-out"
+                    className="flex items-center justify-center bg-background rounded-full w-14 h-14 mt-2" // mt-2 for brochure centering...
                 >
-                    <div className="flex items-center justify-center w-14 h-14 mx-1 bg-background rounded-full group-hover:bg-gray-200 transition duration-300 ease-in-out ">
-                        <Icon className="w-6 h-6" />
-                    </div>
-                    <span className="mt-2 text-sm font-medium"></span>
+                    <Icon className="w-6 h-6" />
+                    {/* <span className="mt-2 text-sm font-medium">{label}</span> */}
                 </button>
             ))}
         </div>

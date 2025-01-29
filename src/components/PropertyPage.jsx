@@ -213,14 +213,6 @@ export default function PropiedadPage({ property }) {
             <PropertyBroucher property={property} />
           </div>
 
-          <div className="text-center mt-8">
-            <Link href={`/${property.url}/pdf`}>
-              <div className="bg-[#14213D] text-white py-2 px-4 rounded-lg inline-block">
-                PDF
-              </div>
-            </Link>
-          </div>
-
     </div>
   );
 }
