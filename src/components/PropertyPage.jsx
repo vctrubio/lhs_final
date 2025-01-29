@@ -202,7 +202,7 @@ export default function PropiedadPage({ property }) {
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[1000px]">
 
-            <h2 className="text-2xl text-center font-eczar my-4">
+            <h2 className="text-2xl text-center font-eczar mt-4">
                 &quot;{property.quote}&quot;
             </h2>
 

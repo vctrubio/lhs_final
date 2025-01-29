@@ -16,15 +16,15 @@ export function LHSBond({ title='lhs', concept='Concept', tag='propiedades selec
                 >
                     {title}
                 </div>
-                <div className='justify-center sm:justify-start items-center pb-2'
+                <div className='justify-center sm:justify-start items-center pb-1'
                 >
                     {concept}
                 </div>
             </div>
-            <div className='px-5 py-2 flex justify-center w-full
+            <div className='flex justify-center w-full
                 text-[42px] text-center tracking-[8px]
                 rounded-xl
-                bg-greener text-background'
+                bg-gold text-background'
                 >
                 {tag}
             </div>
