@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect } from "react";
 import { Menu } from "lucide-react";
-import { Logo } from "@/components/NavBar";
 import { Slider } from "@mui/material"
 import { PropertyParams } from "#/backend/parsing";
 import { INuqs } from "#/backend/nuqsv2";
@@ -131,14 +130,14 @@ const SidebarContentRootPage = ({ nuqs, barrios }: { nuqs: any, barrios: Barrio[
 export default function SideBar({ propertyParams, barrios }: { propertyParams: PropertyParams, barrios: Barrio[] }) {
     const [isOpen, setIsOpen] = useState(false); // Set initial state to false
     const nuqs = INuqs(propertyParams);
-    const url_roots = usePathname()
 
     useEffect(() => {
+        // check-up4-prod
         const handleResize = () => {
             if (window.innerWidth < 768) {
                 setIsOpen(false);
             } else {
-                setIsOpen(true); // bug hydration nextjs error?
+                setIsOpen(true); 
             }
         };
 
@@ -156,16 +155,6 @@ export default function SideBar({ propertyParams, barrios }: { propertyParams: P
         };
     }, [isOpen]);
 
-    const renderSidebarContent = () => {
-        if (url_roots === '/') {
-            return <SidebarContentRootPage nuqs={nuqs} barrios={barrios} />;
-        }
-        if (url_roots.startsWith('/propiedades/')) {
-            return <SideBarProperty />;
-        }
-        return null;
-    };
-
     return (
         <>
             <button
@@ -173,20 +162,22 @@ export default function SideBar({ propertyParams, barrios }: { propertyParams: P
                 onClick={() => setIsOpen(!isOpen)}
                 aria-label="Toggle navigation"
             >
-                <Menu size={24} />
+                <Menu size={44} />
             </button>
 
             <div className={`nav-sidebar ${isOpen ? 'open' : ''}`}>
-                <div className="nav-sidebar-head">
-                    Propiedades
-                </div>
-                <div className="nav-sidebar-body">
-                    {renderSidebarContent()}
-                </div>
-                <div className="nav-sidebar-footer">
-                    <Footer />
-                </div>
+                <div className='nav-sidebar-menu'>
+                    <div className="nav-sidebar-head">
+                        Propiedades
+                    </div>
+                    <div className="nav-sidebar-body">
+                        <SidebarContentRootPage nuqs={nuqs} barrios={barrios} />
+                    </div>
+                </div> 
             </div>
         </>
     );
 }
+/* <div className="nav-sidebar-footer">
+    <Footer />
+</div> */
