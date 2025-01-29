@@ -4,7 +4,7 @@
     flex-grow: 1;
     justify-content: start;
 
-    margin: 0 auto;
+    margin: 10px auto;
     min-height: 80vh;
     transition: all 0.5s ease;
     position: relative;
