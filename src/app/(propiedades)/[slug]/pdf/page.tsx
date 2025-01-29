@@ -5,6 +5,8 @@ import { Property, PropiedadHabitacion } from '#/backend/types';
 import Image from 'next/image';
 import { PropertyBroucher } from '@/components/PropertyPageBrochure';
 import { IconFindUs } from '@/utils/svgs';
+import { PdfBig } from '@/components/PdfPageView';
+import { Photo } from '#/backend/types';
 
 type PageParams = {
     slug: string;
@@ -12,13 +14,6 @@ type PageParams = {
 
 type Props = {
     params: Promise<PageParams>;
-}
-
-type Photo = {
-    url: string;
-    width: number;
-    height: number;
-    portrait?: boolean;
 }
 
 class PdfParent {
@@ -123,35 +118,10 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
     );
 }
 
-const PdfBig = ({photosArray}: {photosArray: Photo[]}) => 
-{
-    function rtnPorL({p}: {p: Photo[]}){
-        return p.map(ptr => {
-            ptr.portrait = ptr.width < ptr.height ? true : false;
-            return ptr
-        })
-    }
-
-    function rtnPhotosArray(p: Photo[]){
-        return p.map(ptr => ptr.portrait ? 'P' : 'L');
-    }
-
-    const processedPhotos = rtnPorL({p: photosArray});
-    const pdfPhotosArray = rtnPhotosArray(processedPhotos)
-
-    return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-        {pdfPhotosArray.map((orientation, index) => (
-            <div key={index}>{orientation}</div>
-        ))}
-    </div>
-    );
-}
-
 function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNode }) {
     const photos = pdf.photos;
 
-    const pdfPhotos = photos.slice(0,3);
+    const pdfPhotos = photos.slice(0, 3);
 
     let leftOverPhotos;
 
@@ -163,6 +133,12 @@ function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNod
         <div className="bg-background">
             <div className="[&>div]:mx-auto  [&>div]:w-a4 [&>div]:h-a4">
                 <PdfBig photosArray={photos} />
+                {/* <PdfPageOne title={pdf.quote} photos={pdf.photos} />
+                <PdfPageTwo pdf={pdf} brochure={brochure} />
+                {pdf.rooms && pdf.rooms.map((room, index) => (
+                    <PdfRoomPage key={index} room={room} />
+                ))}
+                <PdfPlanoPage planoUrl={pdf.planoUrl.url}/>  */}
             </div>
         </div>
     );
@@ -186,7 +162,7 @@ export default function PdfView({ params }: Props) {
     }
 
     const pdf = new PdfParent(property);
-    const brochure = <PropertyBroucher property={property} flag={true}/>;
+    const brochure = <PropertyBroucher property={property} flag={true} />;
 
     return (
         <div id='pdf' className='h-full'>
