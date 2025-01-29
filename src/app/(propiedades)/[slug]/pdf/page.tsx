@@ -18,6 +18,7 @@ type Photo = {
     url: string;
     width: number;
     height: number;
+    portrait?: boolean;
 }
 
 class PdfParent {
@@ -88,6 +89,7 @@ const PdfPageTwo = ({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNo
     );
 }
 
+
 const PdfRoomPage = ({ room }: { room: PropiedadHabitacion }) => {
     return (
         <div className=''>
@@ -121,6 +123,31 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
     );
 }
 
+const PdfBig = ({photosArray}: {photosArray: Photo[]}) => 
+{
+    function rtnPorL({p}: {p: Photo[]}){
+        return p.map(ptr => {
+            ptr.portrait = ptr.width < ptr.height ? true : false;
+            return ptr
+        })
+    }
+
+    function rtnPhotosArray(p: Photo[]){
+        return p.map(ptr => ptr.portrait ? 'P' : 'L');
+    }
+
+    const processedPhotos = rtnPorL({p: photosArray});
+    const pdfPhotosArray = rtnPhotosArray(processedPhotos)
+
+    return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+        {pdfPhotosArray.map((orientation, index) => (
+            <div key={index}>{orientation}</div>
+        ))}
+    </div>
+    );
+}
+
 function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNode }) {
     const photos = pdf.photos;
 
@@ -135,16 +162,12 @@ function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNod
     return (
         <div className="bg-background">
             <div className="[&>div]:mx-auto  [&>div]:w-a4 [&>div]:h-a4">
-                <PdfPageOne title={pdf.quote} photos={pdf.photos} />
-                <PdfPageTwo pdf={pdf} brochure={brochure} />
-                {pdf.rooms && pdf.rooms.map((room, index) => (
-                    <PdfRoomPage key={index} room={room} />
-                ))}
-                <PdfPlanoPage planoUrl={pdf.planoUrl.url}/>
+                <PdfBig photosArray={photos} />
             </div>
         </div>
     );
 }
+
 
 export default function PdfView({ params }: Props) {
     const [property, setProperty] = useState<Property | null>(null);
