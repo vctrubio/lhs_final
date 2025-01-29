@@ -1,9 +1,8 @@
-'use client'
 import Link from 'next/link';
 
-export function LHSBond({ title='lhs', concept='Concept', tag='propiedades selectas' }) {
+export function LHSBond({ title='lhs', concept='Concept', tag='propiedades selectas', flag=true }) {
     return (
-        <div className='flex flex-col [&_*]:flex w-[600px] font-sarif'>
+        <div className='flex flex-col [&_*]:flex w-[600px] font-sarif mx-auto'>
             <div className='h-4/5 flex-col sm:flex-row justify-center text-[102px]'>
                 <div className='justify-center items-center mx-auto 
                     text-center tracking-wide uppercase w-[242px] h-[242px]
@@ -21,13 +20,15 @@ export function LHSBond({ title='lhs', concept='Concept', tag='propiedades selec
                     {concept}
                 </div>
             </div>
-            <div className='flex justify-center w-full
-                text-[42px] text-center tracking-[8px]
-                rounded-xl
-                bg-gold text-background'
+            {flag && 
+                <div className='flex justify-center w-full
+                    text-[42px] text-center tracking-[8px]
+                    rounded-xl
+                    bg-gold text-background'
                 >
-                {tag}
-            </div>
+                    {tag}
+                </div>
+            }
         </div>
     )
 }

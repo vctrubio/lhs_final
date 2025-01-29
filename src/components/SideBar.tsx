@@ -178,7 +178,7 @@ export default function SideBar({ propertyParams, barrios }: { propertyParams: P
 
             <div className={`nav-sidebar ${isOpen ? 'open' : ''}`}>
                 <div className="nav-sidebar-head">
-                    <Logo />
+                    Propiedades
                 </div>
                 <div className="nav-sidebar-body">
                     {renderSidebarContent()}
