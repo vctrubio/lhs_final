@@ -1,5 +1,5 @@
 import { Asset, createClient, Entry } from 'contentful';
-import { Property, Barrio, Photo } from './types';
+import { Property, Barrio, Photo, PhotoGridLayout } from './types';
 import { getPropertiesParams } from './parsing';
 import { PropertyParams } from './parsing';
 
@@ -22,11 +22,27 @@ export function ImageToUrl(entry: any): Photo {
     const url = startsWithHttp(entry.fields.file.url);
     const width = entry.fields.file.details.image.width;
     const height = entry.fields.file.details.image.height;
+    const ratio = width / height; // e.g. 1.6 => wide
+
+    let grid = PhotoGridLayout.One ;
+    if (ratio >= 1.8) {
+        grid = PhotoGridLayout.TwoByOne; // or PhotoGridLayout.ThreeByTwo if you prefer
+    }
+    else if (ratio >= 1.2) {
+        grid = PhotoGridLayout.TwoByThree; // or TwoByOne, if you want
+    }
+    else if (ratio <= 0.7) {
+        grid = PhotoGridLayout.OneByTwo; // or ThreeByTwo
+    }
+    else if (ratio <= 0.89) {
+        grid = PhotoGridLayout.ThreeByTwo; 
+    }
 
     return {
         url,
         width,
         height,
+        grid
     }
 }
 

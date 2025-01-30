@@ -84,35 +84,27 @@ const PdfPageTwo = ({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNo
     );
 }
 
-const PdfRoomPage = ({ room }: { room: PropiedadHabitacion }) => {
-    return (
-        <div className='py-1'>
-            <h1 className="text-4xl font- text-center pt-[1rem]">
-                {room.title}
-            </h1>
-            <p className="text-center max-w-2xl mx-auto">
-                {room.description}
-            </p>
-            <div className="">
-                <PdfBig photosArray={room.photos}/>
-            </div>
-        </div>
-    );
-}
+const PdfRoomPage= ({ room, photos}: { room?: PropiedadHabitacion, photos?: Photo[]}) => {
+    if (photos)
+        return <PdfBig photosArray={photos}/>
 
-
-const PdfRoomPageOld= ({ room }: { room: PropiedadHabitacion }) => {
     return (
         <div className='border py-1'>
-            <h1 className="text-4xl font- text-center pt-[1rem]">
-                {room.title}
-            </h1>
-            <p className="text-center max-w-2xl mx-auto">
-                {room.description}
-            </p>
-            <div className="border">
-                <PdfBig photosArray={room.photos}/>
-            </div>
+            {room?.title && 
+                <h1 className="text-4xl font- text-center pt-[1rem]">
+                    {room.title}
+                </h1>
+            }
+            {room?.description && 
+                <p className="text-center max-w-2xl mx-auto">
+                    {room.description}
+                </p>
+            }
+            {room?.photos && 
+                <div className="border">
+                    <PdfBig photosArray={room.photos}/>
+                </div>
+            }
         </div>
     );
 }
@@ -135,7 +127,7 @@ function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNod
 
     const pdfPhotos = photos.slice(0, 3);
 
-    let leftOverPhotos;
+    let leftOverPhotos = null;
 
     if (pdfPhotos.length >= 3 && photos.length > 3) {
         leftOverPhotos = photos.slice(3);
@@ -146,8 +138,9 @@ function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNod
             <div className="[&>div]:mx-auto  [&>div]:w-a4 [&>div]:h-a4">
                 <PdfPageOne title={pdf.quote} photos={pdf.photos} />
                 <PdfPageTwo pdf={pdf} brochure={brochure} />
+                {leftOverPhotos && <PdfRoomPage photos={leftOverPhotos}/>}
                 {pdf.rooms && pdf.rooms.map((room, index) => (
-                    <PdfRoomPage key={index} room={room} />
+                    <PdfRoomPage key={index} room={room}/>
                 ))}
             </div>
         </div>

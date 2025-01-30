@@ -210,7 +210,7 @@ export const PdfBig = ({ photosArray }: { photosArray: Photo[] }) => {
                     <div>{`Chunk ${idx} (size: ${chunk.length})`}</div>
                     {chunk.map((photo, i) => {
                         const orientation = photo.portrait ? 'P' : 'L';
-                        return <span key={i}>{orientation}</span>;
+                        return <span key={i}>{JSON.stringify(photo, null, 4)}</span>;
                     })}
                 </div>
             ))
@@ -218,11 +218,14 @@ export const PdfBig = ({ photosArray }: { photosArray: Photo[] }) => {
     }
 
     return (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+            {mapChunks(chunks)}
+        </div>
+    )
+
+    return (
         <>
             {chunks.map((c, i) => (<PdfGrid key={i} photosArray={c}/>))}
         </>
     )
 }
-    // <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-    //     {mapChunks(chunks)}
-    // </div>
