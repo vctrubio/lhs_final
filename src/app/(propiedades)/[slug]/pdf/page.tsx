@@ -12,7 +12,8 @@ class PdfParent {
     title: string;
     quote: string;
     barrio: string;
-    photos: Photo[];
+    photosCover: Photo[];
+    photoMain: Photo[] | null;
     description: string;
     characteristics: string | undefined;
     rooms: PropiedadHabitacion[];
@@ -22,10 +23,11 @@ class PdfParent {
         this.title = property.title;
         this.barrio = property.barrioRef.name;
         this.quote = property.quote;
-        this.photos = property.photos_url;
         this.description = property.description;
         this.rooms = property.roomsRef;
         this.planoUrl = property.plano_url;
+        this.photosCover = property.photos_cover_url;
+        this.photoMain = property.photos_main_url;
     }
 }
 
@@ -61,12 +63,12 @@ const PdfPageTwo = ({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNo
             </div>
             <div
                 className="border border-gold w-full h-full"
-                style={{ borderTopLeftRadius: '25px', borderBottomRightRadius: '25px', borderBottomLeftRadius: '25px', backgroundImage: `url(${pdf.photos[1].url})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                style={{ borderTopLeftRadius: '25px', borderBottomRightRadius: '25px', borderBottomLeftRadius: '25px', backgroundImage: `url(${pdf.photosCover[1].url})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
             >
             </div>
             <div
                 className="border border-gold w-full h-full"
-                style={{ borderTopRightRadius: '25px', borderBottomRightRadius: '25px', borderTopLeftRadius: '25px', backgroundImage: `url(${pdf.photos[2].url})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                style={{ borderTopRightRadius: '25px', borderBottomRightRadius: '25px', borderTopLeftRadius: '25px', backgroundImage: `url(${pdf.photosCover[2].url})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
             >
             </div>
             <div className="gold rounded-xl overflow-hidden">
@@ -115,19 +117,12 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
 }
 
 function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNode }) {
-    const photos = pdf.photos;
-    const pdfPhotos = photos.slice(0, 3);
-    let leftOverPhotos = null;
-
-    if (pdfPhotos.length >= 3 && photos.length > 3) {
-        leftOverPhotos = photos.slice(3);
-    }
-
     return (
         <div className="bg-background">
             <div className="[&>div]:mx-auto  [&>div]:w-a4 [&>div]:h-a4">
-                <PdfPageOne title={pdf.quote} photos={pdf.photos} />
+                <PdfPageOne title={pdf.quote} photos={pdf.photosCover} />
                 <PdfPageTwo pdf={pdf} brochure={brochure} />
+                {pdf.photoMain && <PdfRoomPage photos={pdf.photoMain}/>}
                 {pdf.rooms && pdf.rooms.map((room, index) => (
                     <PdfRoomPage key={index} room={room}/>
                 ))}
@@ -136,8 +131,6 @@ function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNod
     );
 }
 // <PdfPlanoPage planoUrl={pdf.planoUrl.url}/> 
-// {leftOverPhotos && <PdfRoomPage photos={leftOverPhotos}/>}
-
 
 type PageParams = {slug: string}
 
