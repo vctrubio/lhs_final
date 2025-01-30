@@ -76,29 +76,29 @@ export const PdfBig = ({ photosArray }: { photosArray: Photo[] }) => {
     const chunks = sortAndChunkPhotos(photosArray);
     // export function sortAndChunkPhotos(photos: Photo[]): Photo[][] {
 
-    return (
-        <>
-            {chunks.map((c, i) => (<PdfGrid key={i} photosArray={c}/>))}
-        </>
-    )
-
     function mapChunks(chunks){
         return (
             chunks.map((chunk, idx) => (
                 <div key={idx}>
                     <div>{`Chunk ${idx} (size: ${chunk.length})`}</div>
                     {chunk.map((photo, i) => {
-                        const orientation = photo.portrait ? 'P' : 'L';
-                        return <span key={i}>{JSON.stringify(photo, null, 4)}</span>;
+                        return <span key={i}>{JSON.stringify(photo.grid, null, 2)}</span>;
                     })}
                 </div>
             ))
         )
     }
 
+
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
             {mapChunks(chunks)}
         </div>
+    )
+
+    return (
+        <>
+            {chunks.map((c, i) => (<PdfGrid key={i} photosArray={c}/>))}
+        </>
     )
 }

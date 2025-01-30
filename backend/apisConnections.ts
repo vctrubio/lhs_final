@@ -121,7 +121,7 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
     const coverUrl = photos ? extractImageUrls(photos)[0] : null;
     const planoUrl = plano ? ImageToUrl(plano) : null;
 
-    const photos_cover_url = photos;
+    const photos_cover_url = extractImageUrls(photos);
 
     return {
         title: title,
@@ -137,7 +137,7 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
         cover_url: coverUrl ? [coverUrl] : [],
         
         photos_cover_url: photos_cover_url,
-        photos_main_url: photos.length > 3 ? photos.slice(3) : null,
+        photos_main_url: photos_cover_url.length > 3 ? photos_cover_url.slice(3) : null,
 
         barrioRef: barrioRef?.fields ?? null,
         amentitiesRef: amentetiesRef?.fields ?? null,
