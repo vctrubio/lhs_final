@@ -203,6 +203,12 @@ export const PdfBig = ({ photosArray }: { photosArray: Photo[] }) => {
     const chunks = sortAndChunkPhotos(photosArray);
 // export function sortAndChunkPhotos(photos: Photo[]): Photo[][] {
 
+    return (
+        <>
+            {chunks.map((c, i) => (<PdfGrid key={i} photosArray={c}/>))}
+        </>
+    )
+
     function mapChunks(chunks){
         return (
             chunks.map((chunk, idx) => (
@@ -221,11 +227,5 @@ export const PdfBig = ({ photosArray }: { photosArray: Photo[] }) => {
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
             {mapChunks(chunks)}
         </div>
-    )
-
-    return (
-        <>
-            {chunks.map((c, i) => (<PdfGrid key={i} photosArray={c}/>))}
-        </>
     )
 }

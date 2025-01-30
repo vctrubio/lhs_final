@@ -8,14 +8,6 @@ import { IconFindUs } from '@/utils/svgs';
 import { PdfBig } from '@/components/PdfPageView';
 import { Photo } from '#/backend/types';
 
-type PageParams = {
-    slug: string;
-}
-
-type Props = {
-    params: Promise<PageParams>;
-}
-
 class PdfParent {
     title: string;
     quote: string;
@@ -124,9 +116,7 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
 
 function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNode }) {
     const photos = pdf.photos;
-
     const pdfPhotos = photos.slice(0, 3);
-
     let leftOverPhotos = null;
 
     if (pdfPhotos.length >= 3 && photos.length > 3) {
@@ -138,7 +128,6 @@ function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNod
             <div className="[&>div]:mx-auto  [&>div]:w-a4 [&>div]:h-a4">
                 <PdfPageOne title={pdf.quote} photos={pdf.photos} />
                 <PdfPageTwo pdf={pdf} brochure={brochure} />
-                {leftOverPhotos && <PdfRoomPage photos={leftOverPhotos}/>}
                 {pdf.rooms && pdf.rooms.map((room, index) => (
                     <PdfRoomPage key={index} room={room}/>
                 ))}
@@ -147,9 +136,12 @@ function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNod
     );
 }
 // <PdfPlanoPage planoUrl={pdf.planoUrl.url}/> 
+// {leftOverPhotos && <PdfRoomPage photos={leftOverPhotos}/>}
 
 
-export default function PdfView({ params }: Props) {
+type PageParams = {slug: string}
+
+export default function PdfView({ params }: { params : Promise<PageParams>;}) {
     const [property, setProperty] = useState<Property | null>(null);
 
     useEffect(() => {

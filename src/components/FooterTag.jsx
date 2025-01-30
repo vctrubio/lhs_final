@@ -8,12 +8,12 @@ export function FooterTagShare({ property }) {
         {
             icon: Phone,
             label: "Llamar",
-            onClick: () => window.open(`https://wa.me/34616746971?text=Hi, I am interested in this flat: ${property.url}`, '_blank'),
+            onClick: () => window.open(`https://wa.me/34616746971?text=Hola, he visto este piso: ${property.title}. Y me gustaria saber mas sobre el... getUrl`, '_blank'),
         },
         {
             icon: Mail,
             label: "Contactar",
-            onClick: () => window.location.href = `mailto:lhsconcept@lhsconcept.com?subject=Interest in flat: ${property.url}`,
+            onClick: () => window.open(`https://wa.me/34616746971?text=Hola, he visto este piso: ${property.title}. Y me gustaria saber mas sobre el... getUrl`, '_blank'),
         },
         {
             icon: Download,
@@ -23,7 +23,7 @@ export function FooterTagShare({ property }) {
         {
             icon: Send,
             label: "Enviar",
-            onClick: () => alert(`Send button clicked for flat: ${property.url}`),
+            onClick: () => alert(`Mira lo que he encontrado MINI FICHA: ${property.url}`),
         },
     ];
 

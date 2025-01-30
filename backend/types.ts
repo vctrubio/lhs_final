@@ -30,6 +30,8 @@ export interface Property {
     plano_url: Photo;
     cover_url: Photo[];
     photos_url: Photo[];
+    photos_cover_url: Photo[]; //max is 3, is it [3] then?
+    photos_main_url: Photo[] | null; //for rendering on pdfPageView
 
     barrioRef: Barrio;
     amentitiesRef: Amentities;
