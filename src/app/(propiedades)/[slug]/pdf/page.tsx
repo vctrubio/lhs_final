@@ -84,24 +84,34 @@ const PdfPageTwo = ({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNo
     );
 }
 
-
 const PdfRoomPage = ({ room }: { room: PropiedadHabitacion }) => {
     return (
-        <div className=''>
+        <div className='py-1'>
             <h1 className="text-4xl font- text-center pt-[1rem]">
                 {room.title}
             </h1>
-            <p className="text-center">
+            <p className="text-center max-w-2xl mx-auto">
                 {room.description}
             </p>
-            <div className="border w-full h-full">
-                helloworld
-                {/* {room.photos.map((photo, index) => (
-                    <div key={index} className="relative w-full h-64">
-                        <Image src={photo.url} alt={`Room photo ${index + 1}`} layout="fill" objectFit="cover" />
-                    </div>
-                ))} */} 
-                {/* change to call --> <PdfBig photosArray={photos} /> */}
+            <div className="">
+                <PdfBig photosArray={room.photos}/>
+            </div>
+        </div>
+    );
+}
+
+
+const PdfRoomPageOld= ({ room }: { room: PropiedadHabitacion }) => {
+    return (
+        <div className='border py-1'>
+            <h1 className="text-4xl font- text-center pt-[1rem]">
+                {room.title}
+            </h1>
+            <p className="text-center max-w-2xl mx-auto">
+                {room.description}
+            </p>
+            <div className="border">
+                <PdfBig photosArray={room.photos}/>
             </div>
         </div>
     );
@@ -139,11 +149,11 @@ function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNod
                 {pdf.rooms && pdf.rooms.map((room, index) => (
                     <PdfRoomPage key={index} room={room} />
                 ))}
-                <PdfPlanoPage planoUrl={pdf.planoUrl.url}/> 
             </div>
         </div>
     );
 }
+// <PdfPlanoPage planoUrl={pdf.planoUrl.url}/> 
 
 
 export default function PdfView({ params }: Props) {
