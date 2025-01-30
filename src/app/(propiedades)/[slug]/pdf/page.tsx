@@ -7,6 +7,7 @@ import { PropertyBroucher } from '@/components/PropertyPageBrochure';
 import { IconFindUs } from '@/utils/svgs';
 import { PdfBig } from '@/components/PdfPageView';
 import { Photo } from '#/backend/types';
+import { sortAndChunkPhotos } from '@/components/PdfPageAlgorithims';
 
 class PdfParent {
     title: string;
@@ -83,7 +84,7 @@ const PdfRoomPage= ({ room, photos}: { room?: PropiedadHabitacion, photos?: Phot
         return <PdfBig photosArray={photos}/>
 
     return (
-        <div className='border py-1'>
+        <div className='py-1'>
             {room?.title && 
                 <h1 className="text-4xl font- text-center pt-[1rem]">
                     {room.title}
