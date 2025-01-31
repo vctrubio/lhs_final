@@ -49,8 +49,8 @@ function RenderGridForChunk({ photos }: { photos: Photo[] }) {
           <div
             key={index}
             style={{
-                gridColumn: position.gridColumn || `span ${position.colSpan}`,
-                gridRow: position.gridRow || `span ${position.rowSpan}`,
+                gridColumn: position.gridColumn,
+                gridRow: position.gridRow,
                 padding: "2px",
 
                 }}
