@@ -32,31 +32,5 @@ export default {
     },
   },
   plugins: [
-    plugin(function ({ addComponents }) {
-      addComponents({
-        '.btn': {
-          width: '100%',
-          padding: '1rem',
-          borderRadius: '0.5rem',
-          transition: 'colors',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '0.5rem',
-          '&:hover': {
-            '--tw-bg-opacity': '0.8',
-          },
-        },
-        '.btn-primary': {
-          '@apply btn bg-slate text-white border border-white': {},
-        },
-        '.btn-secondary': {
-          '@apply btn bg-gold text-white': {},
-          '&:hover': {
-            backgroundColor: '#9a7209',
-          },
-        },
-      })
-    }),
   ],
 } satisfies Config;

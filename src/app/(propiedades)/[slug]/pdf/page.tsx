@@ -7,7 +7,7 @@ import { PropertyBroucher } from '@/components/PropertyPageBrochure';
 import { IconFindUs } from '@/utils/svgs';
 import { Photo } from '#/backend/types';
 import { sortAndChunkPhotos } from '@/components/PdfPageAlgorithims';
-import { RenderGridForChunk } from '@/components/PdfPageView';
+import { RenderGridForChunk, PDFPage } from '@/components/PdfPageView';
 
 class PdfParent {
     title: string;
@@ -34,20 +34,22 @@ class PdfParent {
 
 const PdfPageOne = ({ title, photos }: { title: string, photos: Photo[] }) => {
     return (
-        <div className='pt-8'>
-            <h1 className="text-5xl text-zinc-500 font-ricordi font-light text-center my-4 px-2">
-                &quot;{title}&quot;
-            </h1>
-            <div className="relative w-full h-[960px]">
-                <Image src={photos[0].url} alt="Propiedad" layout="fill" objectFit="cover" />
+        <PDFPage>
+            <div className='pt-8'>
+                <h1 className="text-5xl text-zinc-500 font-ricordi font-light text-center my-4 px-2">
+                    &quot;{title}&quot;
+                </h1>
+                <div className="relative w-full h-[960px]">
+                    <Image src={photos[0].url} alt="Propiedad" layout="fill" objectFit="cover" />
+                </div>
             </div>
-        </div>
+        </PDFPage>
     );
-}
+};
 
 const PdfPageTwo = ({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNode }) => {
     return (
-        <div className="relative grid grid-cols-2 grid-rows-2 gap-2 h-full">
+        <PDFPage className="relative grid grid-cols-2 grid-rows-2 gap-2 h-full">
             <div className="flex flex-col justify-around text-xl font-serif">
                 <div className="ml-4">
                     <h1 className="font-bold text-2xl">
@@ -75,64 +77,92 @@ const PdfPageTwo = ({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNo
             <div className="gold rounded-xl overflow-hidden">
                 {brochure}
             </div>
-        </div>
+        </PDFPage>
     );
-}
-
-
+};
 
 const PdfRoomPage = ({ room, photos }: { room?: PropiedadHabitacion, photos?: Photo[] }) => {
     const chunks = photos ? sortAndChunkPhotos(photos) : (room ? sortAndChunkPhotos(room.photos) : null);
+    const pages = [];
 
-    return (
-        <div className='w-full h-full border border-black'>
-            {room?.title &&
-                <h1 className="text-4xl font- text-center pt-[1rem]">
-                    {room.title}
-                </h1>
-            }
-            {room?.description &&
-                <p className="text-center max-w-2xl mx-auto">
-                    {room.description}
-                </p>
-            }
-            {chunks &&
-                chunks.map((photosArray, index) => (
-                    <RenderGridForChunk key={index} photos={photosArray} />
-                ))
-            }
-        </div>
-    );
-}
+    if (photos) {
+        chunks?.forEach((photosArray, index) => {
+            pages.push(
+                <PDFPage key={`chunk-${index}`}>
+                    <RenderGridForChunk photos={photosArray} />
+                </PDFPage>
+            );
+        });
+    } else if (room) {
+        if (room.title || room.description) {
+            pages.push(
+                <PDFPage key="room-info">
+                    {room.title &&
+                        <h1 className="text-4xl font- text-center pt-[1rem]">
+                            {room.title}
+                        </h1>
+                    }
+                    {room.description &&
+                        <p className="text-center max-w-2xl mx-auto">
+                            {room.description}
+                        </p>
+                    }
+                    {chunks && chunks.length > 0 &&
+                        <RenderGridForChunk photos={chunks[0]} className="h-[70%]" />
+                    }
+                </PDFPage>
+            );
+        }
+
+        if (chunks && chunks.length > 1) {
+            chunks.slice(1).forEach((photosArray, index) => {
+                pages.push(
+                    <PDFPage key={`chunk-${index + 1}`}>
+                        <RenderGridForChunk photos={photosArray} />
+                    </PDFPage>
+                );
+            });
+        }
+    }
+
+    return pages;
+};
 
 const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
     return (
-        <div className='pt-8'>
-            <h1 className="text-5xl text-center my-4 px-2">
-                Plano
-            </h1>
-            <div className="relative w-full h-[920px] mb-4">
-                <Image src={planoUrl} alt="Plano" layout="fill" objectFit="contain" />
+        <PDFPage>
+            <div className='pt-8'>
+                <h1 className="text-5xl text-center my-4 px-2">
+                    Plano
+                </h1>
+                <div className="relative w-full h-[920px] mb-4">
+                    <Image src={planoUrl} alt="Plano" layout="fill" objectFit="contain" />
+                </div>
             </div>
-        </div>
+        </PDFPage>
     );
-}
+};
 
 function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNode }) {
-    return (
-        <div className="bg-background">
-            <div className="[&>div]:w-a4 [&>div]:h-a4">
-                <PdfPageOne title={pdf.quote} photos={pdf.photosCover} />
-                <PdfPageTwo pdf={pdf} brochure={brochure} />
-                {pdf.photoMain && <PdfRoomPage photos={pdf.photoMain} />}
-                {pdf.rooms && pdf.rooms.map((room, index) => (
-                    <PdfRoomPage key={index} room={room} />
-                ))}
-            </div>
-        </div>
-    );
+    const pages = [
+        <PdfPageOne key="page-one" title={pdf.quote} photos={pdf.photosCover} />,
+        <PdfPageTwo key="page-two" pdf={pdf} brochure={brochure} />
+    ];
+
+    if (pdf.photoMain) {
+        pages.push(...PdfRoomPage({ photos: pdf.photoMain }));
+    }
+
+    if (pdf.rooms) {
+        pdf.rooms.forEach((room, index) => {
+            pages.push(...PdfRoomPage({ room }));
+        });
+    }
+
+    pages.push(<PdfPlanoPage key="plano-page" planoUrl={pdf.planoUrl.url} />);
+
+    return <div id='pdf'>{pages}</div>;
 }
-// <PdfPlanoPage planoUrl={pdf.planoUrl.url}/> 
 
 type PageParams = { slug: string }
 export default function PdfView({ params }: { params: Promise<PageParams>; }) {

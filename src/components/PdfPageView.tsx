@@ -1,6 +1,18 @@
 import React from 'react';
 import { Photo, PhotoGridLayout } from '#/backend/types';
-import { sortAndChunkPhotos } from '@/components/PdfPageAlgorithims';
+
+interface PDFPageProps {
+    children: React.ReactNode;
+    className?: string;
+}
+
+export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
+    return (
+        <div className={`w-a4 h-a4 bg-background ${className}`}>
+            {children}
+        </div>
+    );
+};
 
 function showImage(photo: Photo, key?: number) {
     return (
@@ -13,7 +25,7 @@ function showImage(photo: Photo, key?: number) {
     );
 }
 
-export function RenderGridForChunk({ photos }: { photos: Photo[] }) {
+export function RenderGridForChunk({ photos, className = '' }: { photos: Photo[], className?: string }) {
   const predefinedPositions = [
     { id: 1, colSpan: 4, rowSpan: 3, gridColumn: "1 / span 4", gridRow: "1 / span 3" },
     { id: 2, colSpan: 4, rowSpan: 3, gridColumn: "1 / span 4", gridRow: "4 / span 3" },
@@ -21,7 +33,7 @@ export function RenderGridForChunk({ photos }: { photos: Photo[] }) {
   ];
 
   return (
-    <div className="w-full h-full border border-red-500 grid grid-cols-6 grid-rows-6">
+    <div className={`w-full h-full border border-red-500 grid grid-cols-6 grid-rows-6 ${className}`}>
       {photos.map((photo, index) => {
         const position = predefinedPositions[index];
         return (
