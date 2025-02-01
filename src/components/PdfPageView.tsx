@@ -41,19 +41,6 @@ export function RenderGridForChunk({ photos }: { photos: Photo[] }) {
   );
 }
 
-export const PdfBig = ({ photosArray }: { photosArray: Photo[] }) => {
-  const chunks = sortAndChunkPhotos(photosArray);
-    console.log('chunks: ,', chunks);
-
-  return (
-    <>
-      {chunks.map((c, i) => (
-          <RenderGridForChunk key={i} photos={c} />
-      ))}
-    </>
-  );
-};
-
 
 
 // function RenderGridExample() {

@@ -89,7 +89,7 @@ function CharacteristicsSection({ propertyCharacteristics }) {
 
 function FooterSection({ slug, barrio}) {
     return (
-        <div className="p-4">
+        <div className="text-center">
             <div className="text-serif">
                 LHS Concept | {barrio} • Mardid | 2025
             </div>

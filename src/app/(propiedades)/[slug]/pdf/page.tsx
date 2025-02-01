@@ -5,7 +5,6 @@ import { Property, PropiedadHabitacion } from '#/backend/types';
 import Image from 'next/image';
 import { PropertyBroucher } from '@/components/PropertyPageBrochure';
 import { IconFindUs } from '@/utils/svgs';
-
 import { Photo } from '#/backend/types';
 import { sortAndChunkPhotos } from '@/components/PdfPageAlgorithims';
 import { RenderGridForChunk } from '@/components/PdfPageView';
