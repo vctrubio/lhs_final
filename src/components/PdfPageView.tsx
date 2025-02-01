@@ -8,7 +8,7 @@ interface PDFPageProps {
 
 export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
     return (
-        <div className={`w-a4 h-a4 bg-background ${className}`}>
+        <div className={`w-a4 h-a4 border border-black my-2 bg-background ${className}`}>
             {children}
         </div>
     );
@@ -33,7 +33,7 @@ export function RenderGridForChunk({ photos, className = '' }: { photos: Photo[]
   ];
 
   return (
-    <div className={`w-full h-full border border-red-500 grid grid-cols-6 grid-rows-6 ${className}`}>
+    <div className={`w-full h-full grid grid-cols-6 grid-rows-6 ${className}`}>
       {photos.map((photo, index) => {
         const position = predefinedPositions[index];
         return (
