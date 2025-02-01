@@ -5,9 +5,10 @@ import { Property, PropiedadHabitacion } from '#/backend/types';
 import Image from 'next/image';
 import { PropertyBroucher } from '@/components/PropertyPageBrochure';
 import { IconFindUs } from '@/utils/svgs';
-import { PdfBig } from '@/components/PdfPageView';
+
 import { Photo } from '#/backend/types';
 import { sortAndChunkPhotos } from '@/components/PdfPageAlgorithims';
+import { RenderGridForChunk } from '@/components/PdfPageView';
 
 class PdfParent {
     title: string;
@@ -38,7 +39,7 @@ const PdfPageOne = ({ title, photos }: { title: string, photos: Photo[] }) => {
             <h1 className="text-5xl text-zinc-500 font-ricordi font-light text-center my-4 px-2">
                 &quot;{title}&quot;
             </h1>
-            <div className="relative w-full h-[960px]"> 
+            <div className="relative w-full h-[960px]">
                 <Image src={photos[0].url} alt="Propiedad" layout="fill" objectFit="cover" />
             </div>
         </div>
@@ -79,26 +80,27 @@ const PdfPageTwo = ({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNo
     );
 }
 
-const PdfRoomPage= ({ room, photos}: { room?: PropiedadHabitacion, photos?: Photo[]}) => {
-    if (photos)
-        return <PdfBig photosArray={photos}/>
+
+
+const PdfRoomPage = ({ room, photos }: { room?: PropiedadHabitacion, photos?: Photo[] }) => {
+    const chunks = photos ? sortAndChunkPhotos(photos) : (room ? sortAndChunkPhotos(room.photos) : null);
 
     return (
-        <div className='py-1'>
-            {room?.title && 
+        <div className='w-full h-full border border-black'>
+            {room?.title &&
                 <h1 className="text-4xl font- text-center pt-[1rem]">
                     {room.title}
                 </h1>
             }
-            {room?.description && 
+            {room?.description &&
                 <p className="text-center max-w-2xl mx-auto">
                     {room.description}
                 </p>
             }
-            {room?.photos && 
-                <div className="border">
-                    <PdfBig photosArray={room.photos}/>
-                </div>
+            {chunks &&
+                chunks.map((photosArray, index) => (
+                    <RenderGridForChunk key={index} photos={photosArray} />
+                ))
             }
         </div>
     );
@@ -120,12 +122,12 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
 function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNode }) {
     return (
         <div className="bg-background">
-            <div className="[&>div]:mx-auto  [&>div]:w-a4 [&>div]:h-a4">
+            <div className="[&>div]:w-a4 [&>div]:h-a4">
                 <PdfPageOne title={pdf.quote} photos={pdf.photosCover} />
                 <PdfPageTwo pdf={pdf} brochure={brochure} />
-                {pdf.photoMain && <PdfRoomPage photos={pdf.photoMain}/>}
+                {pdf.photoMain && <PdfRoomPage photos={pdf.photoMain} />}
                 {pdf.rooms && pdf.rooms.map((room, index) => (
-                    <PdfRoomPage key={index} room={room}/>
+                    <PdfRoomPage key={index} room={room} />
                 ))}
             </div>
         </div>
@@ -133,9 +135,8 @@ function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNod
 }
 // <PdfPlanoPage planoUrl={pdf.planoUrl.url}/> 
 
-type PageParams = {slug: string}
-
-export default function PdfView({ params }: { params : Promise<PageParams>;}) {
+type PageParams = { slug: string }
+export default function PdfView({ params }: { params: Promise<PageParams>; }) {
     const [property, setProperty] = useState<Property | null>(null);
 
     useEffect(() => {
@@ -155,8 +156,6 @@ export default function PdfView({ params }: { params : Promise<PageParams>;}) {
     const brochure = <PropertyBroucher property={property} flag={true} />;
 
     return (
-        <div id='pdf' className='h-full'>
-            <CreatePdf pdf={pdf} brochure={brochure} />
-        </div>
+        <CreatePdf pdf={pdf} brochure={brochure} />
     );
 }
