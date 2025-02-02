@@ -5,11 +5,7 @@ import { Slider } from "@mui/material"
 import { PropertyParams } from "#/backend/parsing";
 import { INuqs } from "#/backend/nuqsv2";
 import { IconRepeatClassic, IconSearch } from "@/utils/svgs"
-import Footer from "@/components/Footer"
-import { usePathname } from "next/navigation";
 import { Barrio } from "#/backend/types";
-import SideBarProperty from "./SideBarProperty";
-import { LHSBond } from "./lhsbond";
 
 function SearchInput({ reset, queryParams, queryTitle, setQueryTitle }: { reset: () => void, queryParams: boolean, queryTitle: string, setQueryTitle: (value: string) => void }) {
     const Icon = queryParams ? <IconRepeatClassic /> : <IconSearch />;

@@ -1,9 +1,8 @@
-
 import { Property } from "#/backend/types";
 import Image from "next/image";
 import Link from "next/link";
+import Link from "next/link";
 import { motion } from 'framer-motion';
-import { IconPrice } from "@/utils/svgs";
 import { Bed, Bath, Ruler } from 'lucide-react';
 
 

@@ -1,6 +1,5 @@
 import React from "react";
 import { Property } from "#/backend/types";
-import { CardProperty } from '@/components/PropertyCard';
 import { StarIcon, AdjustmentsHorizontalIcon, HomeIcon } from '@heroicons/react/24/outline';
 import { Bed, Bath, Ruler } from "lucide-react";
 

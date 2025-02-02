@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export function LHSBond({ title='lhs', concept='Concept', tag='propiedades selectas', flag=true }) {
+export function LHSBond({ title='lhs', concept='Concept'}) {
     return (
         <div className='flex flex-col [&_*]:flex font-sarif py-1'>
             <div className='h-4/5 justify-center h-[62px] '>
@@ -25,15 +25,7 @@ export function LHSBond({ title='lhs', concept='Concept', tag='propiedades selec
                     {concept}
                 </div>
             </div>
-            {/* {flag && 
-                <div className='flex justify-center w-full
-                    text-[28px] sm:text-[40px] text-center tracking-[8px]
-                    rounded-xl px-4
-                    bg-gold text-background'
-                >
-                    {tag}
-                </div>
-            } */}
+
         </div>
     )
 }

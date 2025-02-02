@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import { CardPropertySearchFilter } from '@/components/CardPropertySearchFilter';
 import { fetchEntriesContentful } from '#/backend/apisConnections';
 import SideBar from '@/components/SideBar';
-import { LHSBond } from '@/components/lhsbond';
 
 export default async function Home() {
   const { properties, propertyParams, filteredBarrios } = await fetchEntriesContentful()
