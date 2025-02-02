@@ -96,7 +96,6 @@ export default function LeftNavBar({ children }: LeftNavBarProps) {
 
             {/* Mobile Navigation */}
             <>
-                {/* Burger Button */}
                 <button
                     onClick={() => setIsOpen(!isOpen)}
                     className="fixed top-4 left-4 z-[60] lg:hidden text-zinc-800"

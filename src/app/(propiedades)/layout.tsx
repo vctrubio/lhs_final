@@ -1,11 +1,16 @@
+import { ChevronLeft } from 'lucide-react'
+
 export default function PropertyLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
     return (
-        <div className="flex flex-col justify-center items-center">
+        <>
+            <button className="burger-button">
+                <ChevronLeft size={44} />
+            </button>
             {children}
-        </div>
+r        </>
     )
 }
