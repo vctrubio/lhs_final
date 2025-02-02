@@ -40,12 +40,6 @@ main {
   margin-bottom: 24px;
 }
 
-@media (max-width: 768px) {
-  main {
-    margin-left: 42px;
-  }
-}
-
 :focus {
   outline: none;
 }
@@ -54,11 +48,18 @@ main {
   color: var(--color-price)
 }
 
+::selection {
+  background-color: var(--color-green-light);
+  /* color: var(--background); */
+}
 
+@media (max-width: 768px) {
+  main {
+    margin-left: 42px;
+  }
+}
 
-/* Add these mobile-first optimizations */
-
-/* Optimize touch targets for mobile */
+/* Optimize touch targets for mobile  NOT WORKING AND NOT TESTED*/
 /* 
 @layer base {
   html {
