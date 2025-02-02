@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { fetchPropertyByID } from '#/backend/apisConnections';
 import PropertyPage from '@/components/PropertyPage';
 import { cache } from 'react';
+import NotFound from '@/app/not-found';
 
 type PageParams = {
     slug: string;
@@ -80,7 +81,7 @@ export default async function Page({ params }: Props) {
     const { property } = await getPropertyData(resolvedParams);
 
     if (!property) {
-        return <></>
+        return <NotFound />;
     }
 
     return (
