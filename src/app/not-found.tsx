@@ -10,7 +10,7 @@ export default function NotFound() {
                     <h1 className="text-4xl font-serif text-[#14213D] mb-2">
                         Bienvenido a
                     </h1>
-                    <LHSBond/>
+                    <LHSBond />
                 </div>
                 <p className="text-xl text-gray-600 mt-2 mb-8">
                     ¿En qué podemos ayudarte?
