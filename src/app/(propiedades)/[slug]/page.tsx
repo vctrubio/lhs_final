@@ -6,7 +6,7 @@ import { getPropertyData, generatePropertyMetadata, Props, PageParams } from '@/
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const resolvedParams = await params;
     const property = await getPropertyData(resolvedParams);
-    return generatePropertyMetadata(property, resolvedParams.slug);
+    return generatePropertyMetadata(property, await resolvedParams.slug);
 }
 
 export default async function Page({ params }: Props) {

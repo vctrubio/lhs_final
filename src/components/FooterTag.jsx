@@ -1,14 +1,16 @@
 'use client'
-
 import { Mail, Send, Download } from "lucide-react";
-import {IconWhatsapp, IconSend} from '@/utils/svgs';
+import { IconWhatsapp, IconSend } from '@/utils/svgs';
+import { generatePropertyMetadata } from '@/utils/metadata';
 
 export function FooterTagShare({ property }) {
+    const metadata = generatePropertyMetadata(property, property.url);
 
     const buttons = [
         {
             icon: IconWhatsapp,
-            label: "Llamar",
+            label: "Whatsapp",
+            onClick: () => window.open(`https://wa.me/+34616746971?text=Hola, he visto este piso: ${property.title}. Y me gustaria saber mas sobre el... ${metadata.openGraph.url}`, '_blank'),
         },
         {
             icon: Mail,
@@ -23,12 +25,12 @@ export function FooterTagShare({ property }) {
         {
             icon: Send,
             label: "Enviar",
-            onClick: () => alert(`Mira lo que he encontrado MINI FICHA: ${property.url}`),
+            onClick: () => alert(`Mira lo que he encontrado MINI FICHA: ${metadata.openGraph.url}`),
         },
     ];
 
     return (
-        <div className="flex justify-around p-2"        >
+        <div className="flex justify-around p-2">
             {buttons.map(({ icon: Icon, label, onClick }) => (
                 <button
                     key={label}
