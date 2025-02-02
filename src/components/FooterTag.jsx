@@ -1,19 +1,19 @@
 'use client'
 
-import { Mail, Send, Download, Phone } from "lucide-react";
+import { Mail, Send, Download } from "lucide-react";
+import {IconWhatsapp, IconSend} from '@/utils/svgs';
 
 export function FooterTagShare({ property }) {
 
     const buttons = [
         {
-            icon: Phone,
+            icon: IconWhatsapp,
             label: "Llamar",
-            onClick: () => window.open(`https://wa.me/34616746971?text=Hola, he visto este piso: ${property.title}. Y me gustaria saber mas sobre el... getUrl`, '_blank'),
         },
         {
             icon: Mail,
             label: "Contactar",
-            onClick: () => window.open(`https://wa.me/34616746971?text=Hola, he visto este piso: ${property.title}. Y me gustaria saber mas sobre el... getUrl`, '_blank'),
+            onClick: () => window.open(`mailto:lourdes.hernansanz@lhsconcept.com?subject=Interesado%20en%20${property.title}&body=Hola, he visto este piso: ${property.title}. Y me gustaria saber mas sobre el...`, '_blank'),
         },
         {
             icon: Download,
