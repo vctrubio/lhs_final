@@ -15,9 +15,8 @@ export default async function Home() {
     return (
         <>
             <Suspense fallback={<div></div>}>
-                <SideBar propertyParams={propertyParams} barrios={filteredBarrios} />
+                {/* <SideBar propertyParams={propertyParams} barrios={filteredBarrios} /> */}
                 <div className='flex flex-col justify-center'>
-                    <LHSBond/>
                     <CardPropertySearchFilter entries={properties} />
                 </div>
             </Suspense>

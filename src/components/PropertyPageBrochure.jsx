@@ -1,4 +1,4 @@
-import {FooterTagShare as FooterShareComponent} from "@/components/FooterTag";
+import { FooterTagShare as FooterShareComponent } from "@/components/FooterTag";
 import { IconPrice } from "@/utils/svgs";
 import {
     Wind, Flame, Building2,
@@ -87,7 +87,7 @@ function CharacteristicsSection({ propertyCharacteristics }) {
     )
 }
 
-function FooterSection({ slug, barrio}) {
+function FooterSection({ slug, barrio }) {
     return (
         <div className="text-center">
             <div className="text-serif">
@@ -100,7 +100,7 @@ function FooterSection({ slug, barrio}) {
     )
 }
 
-export function PropertyBroucher({ property, flag=false }) {
+export function PropertyBroucher({ property, flag = false }) {
     const Head = () => {
         return (
             <div className="[&_span]:text-dark">
@@ -130,13 +130,18 @@ export function PropertyBroucher({ property, flag=false }) {
         );
     }
 
+    // todo is to whatsapp logo
     return (
-        <div className="mx-auto min-w-[380px] min-h-[560px] bg-greenish rounded-xl font-serif px-8 py-4">
+        <div className={`mx-auto min-w-[380px] ${flag ? 'min-h-[560px]' : ''} bg-greenish rounded-xl font-serif px-8 py-4`}>
             <div className="sticky divide-y divide-background [&>*]:py-4 [&_h2]:text-2xl [&_h2]:pb-1 [&_h3]:text-xl">
                 <Head />
-                <CharacteristicsSection propertyCharacteristics={property.charRef} />
-                <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
-                {flag ? <FooterSection slug={property.url} barrio={property.barrioRef.name}/> : <FooterShareComponent property={property}/>}
+                {property.charRef &&
+                    <CharacteristicsSection propertyCharacteristics={property.charRef} />
+                }
+                {property.amentitiesRef &&
+                    <AmenitiesSection amenities={property.amentitiesRef} reformado={property.reformado} />
+                }
+                {flag ? <FooterSection slug={property.url} barrio={property.barrioRef.name} /> : <FooterShareComponent property={property} />}
             </div>
         </div>
     );

@@ -120,7 +120,6 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
     const { barrioRef, amentetiesRef, characteristics, habitacionesPaginas, ibi, maintenanceCostMonthly, photos, plano, title, description, buyOrRent, reformado, precio, url, quote } = entry.fields;
     const coverUrl = photos ? extractImageUrls(photos)[0] : null;
     const planoUrl = plano ? ImageToUrl(plano) : null;
-
     const photos_cover_url = extractImageUrls(photos);
 
     return {

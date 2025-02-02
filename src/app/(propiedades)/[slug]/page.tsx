@@ -86,7 +86,6 @@ export default async function Page({ params }: Props) {
 
     return (
         <>
-            <LHSBond tag={property.title}/>
             <PropertyPage property={property} />
         </>
     )

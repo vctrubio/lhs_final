@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Eczar } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import React from "react";
+import NavBar from "@/components/NavBar";
 
 const eczar = Eczar({
   subsets: ['latin'], // Load only necessary subsets
@@ -110,8 +111,9 @@ export default async function RootLayout({
         />
       </head>
       <NuqsAdapter>
-        <body>
-          <main className="mx-8 pb-8">
+        <body className="flex flex-col">
+          <NavBar/>
+          <main className="pb-8 mx-auto">
             {children}
           </main>
         </body>

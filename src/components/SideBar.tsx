@@ -9,6 +9,7 @@ import Footer from "@/components/Footer"
 import { usePathname } from "next/navigation";
 import { Barrio } from "#/backend/types";
 import SideBarProperty from "./SideBarProperty";
+import { LHSBond } from "./lhsbond";
 
 function SearchInput({ reset, queryParams, queryTitle, setQueryTitle }: { reset: () => void, queryParams: boolean, queryTitle: string, setQueryTitle: (value: string) => void }) {
     const Icon = queryParams ? <IconRepeatClassic /> : <IconSearch />;
@@ -166,6 +167,7 @@ export default function SideBar({ propertyParams, barrios }: { propertyParams: P
             </button>
 
             <div className={`nav-sidebar ${isOpen ? 'open' : ''}`}>
+                <LHSBond/>
                 <div className='nav-sidebar-menu'>
                     <div className="nav-sidebar-head">
                         Propiedades

@@ -34,12 +34,13 @@ export class PdfParent {
 
 export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
     return (
-        <div className={`w-a4 h-a4 border border-black my-2 bg-background ${className}`}>
+        <div className={`w-a4 h-a4 my-2 bg-background ${className}`}>
             {children}
         </div>
     );
 };
 
+/**todo change the object fill and layouts....  */
 function showImage(photo: Photo, key?: number) {
     return (
             <img

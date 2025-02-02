@@ -129,3 +129,10 @@
         transform: translateY(0);
     }
 }
+
+@media screen and (max-width: 768px) {
+   .property{
+    min-width: 300px;
+   }
+    
+}

@@ -257,20 +257,9 @@
         padding: 0px 8px;
     }
 
-    .burger-button {
-        background-color: var(--color-beigh-light-bg);
-    }
-
-}
-
-@media (max-width: 480px) {
-    .barrio-checkbox {
-        min-width: calc(50% - 0.75rem);
-    }
 }
 
 @media (min-width: 769px) {
-
     /* Add styles for desktop layout */
     .nav-sidebar {
         width: 345px;
@@ -292,5 +281,11 @@
     main {
         margin-left: 0;
         transition: margin-left 0.3s ease-in-out;
+    }
+}
+
+@media (max-width: 480px) {
+    .barrio-checkbox {
+        min-width: calc(50% - 0.75rem);
     }
 }

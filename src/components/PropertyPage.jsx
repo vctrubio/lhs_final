@@ -7,7 +7,9 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { PropertyBroucher } from "./PropertyPageBrochure";
 import { PropertyDescription } from "./PropertyDescription";
 import ShareModal from "./ShareModal";
+import { IconFindUs } from "@/utils/svgs";
 
+import { MapPin } from "lucide-react";
 // ------------------------------------
 // Memoized Carousel
 // ------------------------------------
@@ -123,9 +125,9 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
                         onClick={() => setCurrentIndex(index)}
                         className={`flex-shrink-0 w-20 h-14 relative rounded overflow-hidden transition-all duration-300 transform hover:scale-105
 ${currentIndex === index
-? "ring-2 ring-[#B8860B] ring-offset-2 ring-offset-white shadow-lg"
-: "opacity-70 hover:opacity-100 hover:shadow-md"
-}`}
+                                ? "ring-2 ring-[#B8860B] ring-offset-2 ring-offset-white shadow-lg"
+                                : "opacity-70 hover:opacity-100 hover:shadow-md"
+                            }`}
                     >
                         <Image
                             src={image.url}
@@ -200,19 +202,25 @@ ${currentIndex === index
 // ------------------------------------
 export default function PropiedadPage({ property }) {
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[1000px]">
+        <div className="max-w-7xl mx-auto px-4 py-2 sm:px-6 lg:px-8 min-h-[1000px]">
 
-            <h2 className="text-2xl text-center font-eczar mt-4">
-                &quot;{property.quote}&quot;
-            </h2>
+            <div className="flex flex-col items-center w-full gap-1 border border-background">
+                <h1 className="text-5xl text-greener">
+                    {property.title}
+                </h1>
+                <h2 className="flex pr-8 items-center text-xl">
+                    <MapPin className="w-6 h-6" />
+                    <div className="">{property.barrioRef.name}</div>
+                </h2>
+            </div>
 
-          <CarouselComponent property={property} />
+            <CarouselComponent property={property} />
 
-          <div className="flex flex-col xl:flex-row justify-center gap-8">
-            <PropertyDescription property={property} />
-            <PropertyBroucher property={property} />
-          </div>
+            <div className="flex flex-col xl:flex-row justify-center gap-8">
+                <PropertyDescription property={property} />
+                <PropertyBroucher property={property} />
+            </div>
 
-    </div>
-  );
+        </div>
+    );
 }
