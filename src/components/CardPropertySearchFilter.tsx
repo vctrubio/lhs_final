@@ -21,7 +21,8 @@ export const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) =
         if (nuqs.hasParams) {
             if (nuqs.params.title) {
                 updatedProperties = updatedProperties.filter(property =>
-                    property.title.toLowerCase().includes(nuqs.params.title!.toLowerCase())
+                    property.title.toLowerCase().includes(nuqs.params.title!.toLowerCase()) ||
+                    property.barrioRef.name.toLowerCase().includes(nuqs.params.title!.toLowerCase())
                 );
             }
 
