@@ -11,6 +11,6 @@ export default function PropertyLayout({
                 <ChevronLeft size={44} />
             </button>
             {children}
-r        </>
+        </>
     )
 }
