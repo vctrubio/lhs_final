@@ -1,4 +1,4 @@
-import { ChevronLeft } from 'lucide-react'
+import BackButton from "@/components/RouterBack";
 
 export default function PropertyLayout({
     children,
@@ -7,9 +7,7 @@ export default function PropertyLayout({
 }) {
     return (
         <>
-            <button className="burger-button">
-                <ChevronLeft size={44} />
-            </button>
+            <BackButton />
             {children}
         </>
     )

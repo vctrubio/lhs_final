@@ -136,7 +136,7 @@ const PdfRoomPage = ({ room, photos }: { room?: PropiedadHabitacion, photos?: Ph
     if (photos) {
         chunks?.forEach((photosArray, index) => {
             pages.push(
-                <PDFPage key={`chunk-${index}`}>
+                <PDFPage key={`chunku-${index}`}>
                     <RenderGridForChunk photos={photosArray} />
                 </PDFPage>
             );

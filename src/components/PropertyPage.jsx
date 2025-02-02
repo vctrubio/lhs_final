@@ -5,8 +5,8 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { PropertyBroucher } from "./PropertyPageBrochure";
 import { PropertyDescription } from "./PropertyDescription";
-
 import { MapPin } from "lucide-react";
+
 // ------------------------------------
 // Memoized Carousel
 // ------------------------------------

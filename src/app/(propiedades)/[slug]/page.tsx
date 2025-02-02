@@ -8,7 +8,7 @@ type PageParams = {
 }
 
 type Props = {
-    params: Promise<PageParams>; // Changed from PageParams to Promise<PageParams>
+    params: Promise<PageParams>;
 }
 
 const fetchProperty = cache(async (slug: string) => {

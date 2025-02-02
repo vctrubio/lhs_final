@@ -4,7 +4,7 @@ import { PdfParent, CreatePdf } from '@/components/PdfPageView';
 
 type PageParams = { slug: string }
 export default async function PdfView({ params }: { params: Promise<PageParams>; }) {
-    const resolvedParams = await params; 
+    const resolvedParams = await params;
     const fetchedProperty = await fetchPropertyByID(resolvedParams.slug);
 
     if (!fetchedProperty) {
