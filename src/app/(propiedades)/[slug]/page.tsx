@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { fetchPropertyByID } from '#/backend/apisConnections';
 import PropertyPage from '@/components/PropertyPage';
-import {LHSBond} from '@/components/lhsbond';
 import { cache } from 'react';
 
 type PageParams = {
@@ -77,7 +76,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-    const resolvedParams = await params; 
+    const resolvedParams = await params;
     const { property } = await getPropertyData(resolvedParams);
 
     if (!property) {

@@ -113,7 +113,7 @@ export default async function RootLayout({
       <NuqsAdapter>
         <body className="flex flex-col">
           <NavBar/>
-          <main className="pb-8 mx-auto">
+          <main className="pb-8 mt-16 mx-auto">
             {children}
           </main>
         </body>

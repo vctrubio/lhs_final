@@ -167,7 +167,6 @@ export default function SideBar({ propertyParams, barrios }: { propertyParams: P
             </button>
 
             <div className={`nav-sidebar ${isOpen ? 'open' : ''}`}>
-                <LHSBond/>
                 <div className='nav-sidebar-menu'>
                     <div className="nav-sidebar-head">
                         Propiedades
@@ -180,6 +179,8 @@ export default function SideBar({ propertyParams, barrios }: { propertyParams: P
         </>
     );
 }
+
+
 /* <div className="nav-sidebar-footer">
     <Footer />
 </div> */
