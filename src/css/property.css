@@ -4,7 +4,8 @@
     flex-grow: 1;
     justify-content: center;
 
-    margin: 10px auto;
+    margin: 12px auto;
+    padding-top: 2px;
     min-height: 80vh;
     position: relative;
     gap: 16px 20px;
@@ -119,8 +120,11 @@
 }
 
 @media screen and (max-width: 768px) {
+    .property-container{
+        gap: 26px 2px;
+    }
+
     .property {
-        min-width: 100px;
         max-width: 360px;
     }
 
