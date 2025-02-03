@@ -7,7 +7,7 @@ import NotFound from '@/app/not-found';
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const resolvedParams = await params;
     const property = await getPropertyData(resolvedParams);
-    return generatePropertyMetadata(property, `${resolvedParams.slug}/pdf`);
+    return generatePropertyMetadata(property, resolvedParams.slug, true);
 }
 
 export default async function PdfView({ params }: { params: Promise<PageParams>; }) {

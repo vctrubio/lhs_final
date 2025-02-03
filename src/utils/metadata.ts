@@ -20,7 +20,7 @@ export async function getPropertyData(params: { slug: string }) {
     return propertyData.property;
 }
 
-export function generatePropertyMetadata(property: any, slug: string): Metadata {
+export function generatePropertyMetadata(property: any, slug: string, pdf: boolean = false): Metadata {
     if (!property) {
         return {
             title: 'LHS Concept',
@@ -28,7 +28,7 @@ export function generatePropertyMetadata(property: any, slug: string): Metadata 
         };
     }
 
-    const propertyTitle = `${property.title} | LHS Concept`;
+    const propertyTitle = pdf ? `${property.title} | Ficha | LHS Concept` : `${property.title} | LHS Concept`;
     const propertyDescription = `€${property.precio.toLocaleString('es-ES')} 📍${property.barrioRef.name}`;
 
     return {
@@ -37,7 +37,7 @@ export function generatePropertyMetadata(property: any, slug: string): Metadata 
         openGraph: {
             title: propertyTitle,
             description: propertyDescription,
-            url: `https://www.lhsconcept.com/${slug}`,
+            url: `https://www.lhsconcept.com/${slug}${pdf ? '/pdf' : ''}`,
             images: property.photos_cover_url ? [
                 {
                     url: property.photos_cover_url[0].url,
@@ -57,7 +57,7 @@ export function generatePropertyMetadata(property: any, slug: string): Metadata 
             images: property.photos_cover_url ? [property.photos_cover_url[0].url] : [],
         },
         alternates: {
-            canonical: `https://www.lhsconcept.com/${slug}`,
+            canonical: `https://www.lhsconcept.com/${slug}${pdf ? '/pdf' : ''}`,
         },
         robots: {
             index: true,
