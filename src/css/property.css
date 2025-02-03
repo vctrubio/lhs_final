@@ -10,9 +10,6 @@
     position: relative;
     gap: 16px 20px;
     animation: fadeIn 1s ease-in-out;
-    >*{
-        border: 1px solid #f0f0f0;
-    }
 }
 
 .property-title {
@@ -129,7 +126,7 @@
 
 @media screen and (max-width: 768px) {
     .property {
-        margin-top: 22px;
+        margin: 18px 0px;
     }
 
     .property-title {
