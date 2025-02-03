@@ -5,16 +5,14 @@
     text-align: center;
 
     position: fixed;
-    top: 14px;
     left: 0;
     z-index: 10;
-    height: 100vh;
     width: 345px;
 
     background-color: var(--color-beigh-light-bg);
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .nav-sidebar.open {
@@ -245,7 +243,6 @@
 
     .nav-sidebar {
         width: 100vw;
-        max-width: none;
         padding-left: 0;
     }
 
