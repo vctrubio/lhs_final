@@ -97,7 +97,7 @@ function SidebarContentProperties({ nuqs, barrios }: { nuqs: any, barrios: Barri
                         style={{
                             color: 'var(--color-green-dark)',
                             padding: 'inherit',
-                            width: '85%',
+                            width: '82%',
                             margin: '0 auto',
                         }}
                     />
