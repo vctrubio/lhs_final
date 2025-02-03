@@ -8,9 +8,7 @@ import { MapPin } from "lucide-react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-// ------------------------------------
-// A custom Lightbox component
-// ------------------------------------
+
 function Lightbox({ images, currentIndex, onClose, onNext, onPrev }) {
   useEffect(() => {
     // Close or navigate with keyboard
@@ -29,7 +27,6 @@ function Lightbox({ images, currentIndex, onClose, onNext, onPrev }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-2">
-      {/* Close button */}
       <button
         onClick={onClose}
         className="absolute top-4 right-4 text-white text-xl px-3 py-1 bg-black/40 rounded hover:bg-black/60"
@@ -37,7 +34,6 @@ function Lightbox({ images, currentIndex, onClose, onNext, onPrev }) {
         &times;
       </button>
 
-      {/* Prev arrow */}
       <button
         onClick={onPrev}
         className="absolute left-4 sm:left-8 text-white text-xl px-3 py-1 bg-black/40 rounded hover:bg-black/60"
@@ -45,7 +41,6 @@ function Lightbox({ images, currentIndex, onClose, onNext, onPrev }) {
         &larr;
       </button>
 
-      {/* The main lightbox image */}
       <div className="relative w-[80%] h-[80%] flex items-center justify-center">
         <Image
           src={images[currentIndex].url}
@@ -67,9 +62,6 @@ function Lightbox({ images, currentIndex, onClose, onNext, onPrev }) {
   );
 }
 
-// ------------------------------------
-// Carousel Component
-// ------------------------------------
 const CarouselComponent = React.memo(function CarouselComponent({ property }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -97,7 +89,6 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
     setCurrentIndex((prev) => (prev - 1 + property.photos_url.length) % property.photos_url.length);
   };
 
-  // Carousel config
   const carouselConfig = {
     showThumbs: false,
     showStatus: false,
@@ -113,11 +104,9 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
     stopOnHover: true,
     transitionTime: 300,
     animationHandler: "slide",
-    // single click to open the lightbox
     onClickItem: (itemIndex) => openLightbox(itemIndex),
   };
 
-  // Center the current thumbnail
   useEffect(() => {
     if (!thumbnailsRef.current) return;
 
@@ -137,7 +126,6 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
     });
   }, [currentIndex, visibleCount]);
 
-  // Dynamically calculate how many thumbnails can fit
   useEffect(() => {
     if (!containerRef.current) return;
 
@@ -172,7 +160,8 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
 
   // MAIN CAROUSEL (80vw on bigger screens, 100% on mobile)
   const MainCarousel = (
-    <div className="relative mx-auto w-full sm:w-[80vw] h-[300px] sm:h-[500px] group px-4 sm:px-6">
+    // <div className="relative mx-auto w-full sm:w-[80vw] h-[300px] sm:h-[500px] group px-4 sm:px-6 border">
+    <div className="relative mx-auto px-4 sm:px-6">
       <Carousel
         {...carouselConfig}
         selectedItem={currentIndex}
@@ -240,7 +229,6 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
     </div>
   );
 
-  // THUMBNAIL CAROUSEL (like your original)
   const ThumbnailCarousel = (
     <div ref={containerRef} className="relative px-2 sm:px-4 py-2 max-w-7xl mx-auto">
       <div
@@ -292,9 +280,6 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
   );
 });
 
-// ------------------------------------
-// Main Page
-// ------------------------------------
 export default function PropiedadPage({ property }) {
   return (
     <div className="max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:px-6 lg:px-8 min-h-[1000px]">
