@@ -46,7 +46,7 @@ export default function ShareModal({ isOpen, onClose, title, url }) {
     const copyToClipboard = async (text) => {
         try {
             await navigator.clipboard.writeText(text);
-            alert('¡Enlace copiado!');
+            // alert('¡Enlace copiado!');
             onClose();
         } catch (err) {
             console.error('Failed to copy:', err);
