@@ -71,9 +71,9 @@ export const metadata: Metadata = {
     },
   },
 
-  verification: {
-    google: 'your-google-verification-code', // Add your Google Search Console verification code
-  },
+  // verification: {
+  //   google: 'your-google-verification-code', // Add your Google Search Console verification code
+  // },
 };
 
 const jsonLd = {
@@ -91,7 +91,6 @@ const jsonLd = {
   sameAs: [
     'https://www.instagram.com/lhsconcept',
     // Add your social media URLs
-    // 'https://www.facebook.com/lhsconcept',
   ],
 };
 

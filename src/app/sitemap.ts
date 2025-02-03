@@ -5,7 +5,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { properties } = await fetchEntriesContentful()
   
   const propertyUrls = properties?.map((property) => ({
-    url: `https://www.lhsconcept.com/propiedades/${property.url}`,
+    url: `https://www.lhsconcept.com/${property.url}`,
     lastModified: new Date(),
     changeFrequency: 'daily' as const,
     priority: 0.8,
