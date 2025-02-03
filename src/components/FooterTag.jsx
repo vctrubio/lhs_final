@@ -41,7 +41,7 @@ export function FooterTagShare({ property }) {
                         onClick={onClick}
                         className="flex items-center justify-center bg-background rounded-full w-10 h-10 mt-2 sm:w-14 sm:h-14" // mt-2 for brochure centering...
                     >
-                        <Icon className="w-6 h-6 sm:w-4 sm:h-4" />
+                        <Icon className="w-6 h-6" />
                     </button>
                 ))}
             </div>
