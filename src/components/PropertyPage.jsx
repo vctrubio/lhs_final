@@ -65,6 +65,7 @@ function Lightbox({ images, currentIndex, onClose, onNext, onPrev }) {
 const CarouselComponent = React.memo(function CarouselComponent({ property }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [maxWidth, setMaxWidth] = useState("100%");
 
   const thumbnailsRef = useRef(null);
   const containerRef = useRef(null);
@@ -149,6 +150,7 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
       );
 
       setVisibleCount(newCount);
+      setMaxWidth(`${newCount * (thumbnailWidth + gap) - gap}px`);
     };
 
     const observer = new ResizeObserver(calculateVisibleCount);
@@ -235,7 +237,7 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
         ref={thumbnailsRef}
         className="flex gap-1 sm:gap-2 overflow-x-hidden scroll-smooth mx-auto py-2 px-1"
         style={{
-          maxWidth: `${visibleCount * (window.innerWidth < 640 ? 68 : 84) + (visibleCount - 1) * (window.innerWidth < 640 ? 4 : 8)}px`,
+          maxWidth: maxWidth,
         }}
       >
         {property.photos_url.map((image, index) => (
