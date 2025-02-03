@@ -4,6 +4,7 @@ import { Eczar } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import React from "react";
 import NavBar from "@/components/NavBar";
+import { Analytics } from "@vercel/analytics/react"
 
 const eczar = Eczar({
   subsets: ['latin'], // Load only necessary subsets
@@ -99,11 +100,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
+
   return (
     <html lang="es" className={eczar.variable}>
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        {/* <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> */}
+        <meta name="viewport" content="width=device-width" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -111,12 +113,13 @@ export default async function RootLayout({
       </head>
       <NuqsAdapter>
         <body className="flex flex-col">
-          <NavBar/>
+          <NavBar />
           <main className="pb-8 mt-16 mx-auto">
             {children}
           </main>
         </body>
       </NuqsAdapter>
+      <Analytics />
     </html>
   );
 }

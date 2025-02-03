@@ -9,7 +9,6 @@
     min-height: 80vh;
     position: relative;
     gap: 16px 20px;
-    margin: 12px 0px;
     animation: fadeIn 1s ease-in-out;
 }
 
@@ -132,6 +131,7 @@
     .property-title {
         h1 {
             font-size: 24px;
+            color: red;
             font-weight: 600;
         }
     }
