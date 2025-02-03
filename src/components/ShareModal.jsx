@@ -31,22 +31,23 @@ export default function ShareModal({ isOpen, onClose, title, url }) {
 
     if (!isOpen) return null;
 
+    const message = `Mira lo que encontrado en LHS Concept.\n${title}\n${url}`;
     const pdfUrl = `${url}/pdf`;
+    const pdfMessage = `Mira lo que encontrado en LHS Concept.\n${title}\n${pdfUrl}`;
 
     const shareLinks = {
-        whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`,
-        email: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
+        whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`,
+        email: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(message)}`,
     };
 
     const pdfShareLinks = {
-        whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(pdfUrl)}`,
-        email: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(pdfUrl)}`,
+        whatsapp: `https://api.whatsapp.com/send?text=${encodeURIComponent(pdfMessage)}`,
+        email: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(pdfMessage)}`,
     };
 
     const copyToClipboard = async (text) => {
         try {
             await navigator.clipboard.writeText(text);
-            // alert('¡Enlace copiado!');
             onClose();
         } catch (err) {
             console.error('Failed to copy:', err);
@@ -58,7 +59,7 @@ export default function ShareModal({ isOpen, onClose, title, url }) {
         onClose();
     };
 
-    const renderShareButtons = (links, copyText) => (
+    const renderShareButtons = (links, messageText, copyText) => (
         <div className="flex justify-around gap-4">
             <button
                 onClick={() => handleButtonClick(links.whatsapp)}
@@ -99,12 +100,12 @@ export default function ShareModal({ isOpen, onClose, title, url }) {
                 <div className='flex-col justify-around divide-y divide-greener'>
                     <div className='my-4'>
                         <h2 className="font-serif mb-4">Compartir • {title} </h2>
-                        {renderShareButtons(shareLinks, url)}
+                        {renderShareButtons(shareLinks, message, url)}
                     </div>
 
                     <div>
                         <h2 className="font-serif mt-2 mb-4">Compartir Ficha</h2>
-                        {renderShareButtons(pdfShareLinks, pdfUrl)}
+                        {renderShareButtons(pdfShareLinks, pdfMessage, pdfUrl)}
                     </div>
                 </div>
             </div>
