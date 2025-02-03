@@ -3,6 +3,7 @@ import { Photo, Property, PropiedadHabitacion } from '#/backend/types';
 import Image from 'next/image';
 import { IconFindUs } from '@/utils/svgs';
 import { sortAndChunkPhotos } from '@/components/PdfPageAlgorithims';
+import { title } from 'node:process';
 
 interface PDFPageProps {
     children: React.ReactNode;
@@ -43,40 +44,40 @@ export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
 /**todo change the object fill and layouts....  */
 function showImage(photo: Photo, key?: number) {
     return (
-            <img
-                key={key}
-                src={photo.url}
-                alt=""
-                className="w-full h-full object-fill rounded-xl"
-            />
+        <img
+            key={key}
+            src={photo.url}
+            alt=""
+            className="w-full h-full object-fill rounded-xl"
+        />
     );
 }
 
 function RenderGridForChunk({ photos, className = '' }: { photos: Photo[], className?: string }) {
-  const predefinedPositions = [
-    { id: 1, colSpan: 4, rowSpan: 3, gridColumn: "1 / span 4", gridRow: "1 / span 3" },
-    { id: 2, colSpan: 4, rowSpan: 3, gridColumn: "1 / span 4", gridRow: "4 / span 3" },
-    { id: 3, colSpan: 2, rowSpan: 6, gridColumn: "5 / span 2", gridRow: "1 / span 6" },
-  ];
-return (
-  <div className={`w-full h-full ${photos.length === 1 ? 'grid-cols-1 grid-rows-1' : 'grid grid-cols-6 grid-rows-6'} ${className}`}>
-    {photos.map((photo, index) => {
-      const position = predefinedPositions[index];
-      return (
-        <div
-          key={index}
-          style={{
-            gridColumn: photos.length === 1 ? '1 / -1' : position.gridColumn,
-            gridRow: photos.length === 1 ? '1 / -1' : position.gridRow,
-            padding: "2px",
-          }}
-        >
-          {showImage(photo, index)}
+    const predefinedPositions = [
+        { id: 1, colSpan: 4, rowSpan: 3, gridColumn: "1 / span 4", gridRow: "1 / span 3" },
+        { id: 2, colSpan: 4, rowSpan: 3, gridColumn: "1 / span 4", gridRow: "4 / span 3" },
+        { id: 3, colSpan: 2, rowSpan: 6, gridColumn: "5 / span 2", gridRow: "1 / span 6" },
+    ];
+    return (
+        <div className={`w-full h-full ${photos.length === 1 ? 'grid-cols-1 grid-rows-1' : 'grid grid-cols-6 grid-rows-6'} ${className}`}>
+            {photos.map((photo, index) => {
+                const position = predefinedPositions[index];
+                return (
+                    <div
+                        key={index}
+                        style={{
+                            gridColumn: photos.length === 1 ? '1 / -1' : position.gridColumn,
+                            gridRow: photos.length === 1 ? '1 / -1' : position.gridRow,
+                            padding: "2px",
+                        }}
+                    >
+                        {showImage(photo, index)}
+                    </div>
+                );
+            })}
         </div>
-      );
-    })}
-  </div>
-);
+    );
 }
 
 
@@ -126,6 +127,62 @@ const PdfPageTwo = ({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNo
                 {brochure}
             </div>
         </PDFPage>
+    );
+};
+
+
+const TestFt = ({ photos }: { photos: Photo[] }) => {
+    // Group photos into A4 pages based on their layout and dimensions
+    const groupPhotosIntoPages = (photos: Photo[]): Photo[][] => {
+        const pages: Photo[][] = [];
+        let currentPage: Photo[] = [];
+        let currentHeight = 0;
+
+        photos.forEach((photo) => {
+            // Calculate estimated height based on A4 page width (210mm - padding)
+            const pageWidth = 210 - 30; // 15mm padding on both sides
+            const aspectRatio = photo.width / photo.height;
+            const estimatedHeight = pageWidth / aspectRatio;
+
+            // Check if we need a new page (A4 height: 297mm - padding)
+            if (currentHeight + estimatedHeight > 297 - 30) {
+                pages.push(currentPage);
+                currentPage = [];
+                currentHeight = 0;
+            }
+
+            currentPage.push(photo);
+            currentHeight += estimatedHeight;
+        });
+
+        if (currentPage.length > 0) pages.push(currentPage);
+        return pages;
+    };
+
+    // Get grouped photos
+    const photoPages = groupPhotosIntoPages(photos);
+
+    return (
+        <>
+            {photoPages.map((pagePhotos, pageIndex) => (
+                <div key={pageIndex} className="a4-page">
+                    <div className={`layout-${pagePhotos[0].grid.toLowerCase()}`}>
+                        {pagePhotos.map((photo, photoIndex) => (
+                            <div key={`${photo.url}-${photoIndex}`} className="photo-container">
+                                <img
+                                    src={photo.url}
+                                    alt={photo.url}
+                                    style={{
+                                        aspectRatio: `${photo.width}/${photo.height}`,
+                                        objectFit: 'cover'
+                                    }}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </>
     );
 };
 
@@ -193,7 +250,7 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
 
 export function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNode }) {
     const pages = [
-        <PdfPageOne key="page-one" title={pdf.quote} photos={pdf.photosCover} />,
+        <PdfPageOne key={pdf.title} title={pdf.quote} photos={pdf.photosCover} />,
         <PdfPageTwo key="page-two" pdf={pdf} brochure={brochure} />
     ];
 
