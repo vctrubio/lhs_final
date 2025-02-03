@@ -125,7 +125,9 @@
     }
 
     .property {
-        max-width: 360px;
+        min-width: 100px;
+        max-width: 340px;
+        border: 1px sokid green;
     }
 
     .property-title {
