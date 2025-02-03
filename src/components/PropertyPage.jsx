@@ -106,8 +106,9 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
                 ref={thumbnailsRef}
                 className="flex gap-1 sm:gap-2 overflow-x-hidden scroll-smooth mx-auto py-2 px-1"
                 style={{
-                    maxWidth: `${visibleCount * (window.innerWidth < 640 ? 68 : 84) + 
-                            (visibleCount - 1) * (window.innerWidth < 640 ? 4 : 8)}px`,
+                    maxWidth: typeof window !== "undefined" ? 
+                        `${visibleCount * (window.innerWidth < 640 ? 68 : 84) + 
+                        (visibleCount - 1) * (window.innerWidth < 640 ? 4 : 8)}px` : "100%",
                 }}
             >
                 {property.photos_url.map((image, index) => (
@@ -135,7 +136,7 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
     );
 
     useEffect(() => {
-        if (!thumbnailsRef.current) return;
+        if (!thumbnailsRef.current || typeof window === "undefined") return;
 
         const isMobile = window.innerWidth < 640;
         const thumbnailWidth = isMobile ? 68 : 84;
@@ -153,6 +154,8 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
     }, [currentIndex, visibleCount]);
 
     useEffect(() => {
+        if (typeof window === "undefined") return;
+
         const calculateVisibleCount = () => {
             if (!containerRef.current) return;
             const containerWidth = containerRef.current.offsetWidth;
