@@ -87,7 +87,7 @@ const PdfPageOne = ({ title, photos }: { title: string, photos: Photo[] }) => {
                 <h1 className="text-5xl text-zinc-500 font-ricordi font-light text-center my-4 px-2">
                     &quot;{title}&quot;
                 </h1>
-                <div className="relative w-full h-[960px]">
+                <div className="relative w-full h-[964px]">
                     <Image src={photos[0].url} alt="Propiedad" layout="fill" objectFit="cover" />
                 </div>
             </div>
