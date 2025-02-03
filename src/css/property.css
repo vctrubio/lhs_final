@@ -2,7 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     flex-grow: 1;
-    justify-content: start;
+    justify-content: center;
 
     margin: 10px auto;
     min-height: 80vh;
@@ -119,8 +119,15 @@
 }
 
 @media screen and (max-width: 768px) {
-   .property{
-    min-width: 300px;
-   }
-    
+    .property {
+        min-width: 100px;
+        max-width: 360px;
+    }
+
+    .property-title {
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+    }
 }
