@@ -124,10 +124,8 @@
         gap: 42px 24px;
     }
 
-    .property {
-        min-width: 100px;
-        max-width: 340px;
-        border: 1px sokid green;
+    .property{
+        min-width: 320px;
     }
 
     .property-title {
