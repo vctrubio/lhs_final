@@ -6,6 +6,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { PropertyBroucher } from "./PropertyPageBrochure";
 import { PropertyDescription } from "./PropertyDescription";
 import { MapPin } from "lucide-react";
+import Lightbox from "react-image-lightbox";
+import "react-image-lightbox/style.css";
 
 // ------------------------------------
 // Memoized Carousel
@@ -15,6 +17,7 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
     const thumbnailsRef = useRef(null);
     const containerRef = useRef(null);
     const [visibleCount, setVisibleCount] = useState(6);
+    const [isOpen, setIsOpen] = useState(false);
 
     const carouselConfig = {
         showThumbs: false,
@@ -79,6 +82,7 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
                         <div
                             key={index}
                             className="relative h-[300px] sm:h-[500px] flex items-center justify-center"
+                            onClick={() => setIsOpen(true)}
                         >
                             <Image
                                 src={image.url}
@@ -178,6 +182,20 @@ const CarouselComponent = React.memo(function CarouselComponent({ property }) {
         <div className="relative w-full my-2">
             {MainCarousel}
             {ThumbnailCarousel}
+            {isOpen && (
+                <Lightbox
+                    mainSrc={property.photos_url[currentIndex].url}
+                    nextSrc={property.photos_url[(currentIndex + 1) % property.photos_url.length].url}
+                    prevSrc={property.photos_url[(currentIndex + property.photos_url.length - 1) % property.photos_url.length].url}
+                    onCloseRequest={() => setIsOpen(false)}
+                    onMovePrevRequest={() =>
+                        setCurrentIndex((currentIndex + property.photos_url.length - 1) % property.photos_url.length)
+                    }
+                    onMoveNextRequest={() =>
+                        setCurrentIndex((currentIndex + 1) % property.photos_url.length)
+                    }
+                />
+            )}
         </div>
     );
 });
