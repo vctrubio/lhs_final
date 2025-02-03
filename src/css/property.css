@@ -121,7 +121,7 @@
 
 @media screen and (max-width: 768px) {
     .property-container{
-        gap: 42px 2px;
+        gap: 42px 24px;
     }
 
     .property {
