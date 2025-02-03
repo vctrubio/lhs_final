@@ -59,6 +59,15 @@ main {
   }
 }
 
+@keyframes fadeIn {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
 /* Optimize touch targets for mobile  NOT WORKING AND NOT TESTED*/
 /* 
 @layer base {

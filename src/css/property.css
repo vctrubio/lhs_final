@@ -6,10 +6,10 @@
 
     margin: 10px auto;
     min-height: 80vh;
-    transition: all 0.5s ease;
     position: relative;
     gap: 16px 20px;
     margin: 12px 0px;
+    animation: fadeIn 1s ease-in-out;
 }
 
 .property-title {
@@ -116,18 +116,6 @@
 
 .property-container .property {
     transition: all 0.5s ease-in-out;
-}
-
-@keyframes fadeInSlide {
-    0% {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 @media screen and (max-width: 768px) {
