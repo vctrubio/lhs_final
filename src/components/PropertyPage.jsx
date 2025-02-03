@@ -199,21 +199,21 @@ ${currentIndex === index
 // ------------------------------------
 export default function PropiedadPage({ property }) {
     return (
-        <div className="max-w-7xl mx-auto px-4 py-2 sm:px-6 lg:px-8 min-h-[1000px]">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 py-2 sm:px-6 lg:px-8 min-h-[1000px]">
 
-            {/* <div className="flex flex-col items-center w-full gap-1 border border-background">
-                <h1 className="text-5xl text-greener mt-1">
+            <div className="flex flex-col items-center w-full gap-1 text-center border border-background">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl text-greener mt-1">
                     {property.title}
                 </h1>
-                <h2 className="flex pr-8 items-center text-xl">
-                    <MapPin className="w-6 h-6" />
+                <h2 className="flex pr-4 sm:pr-8 items-center text-lg sm:text-xl">
+                    <MapPin className="w-5 h-5 sm:w-6 sm:h-6" />
                     <div className="">{property.barrioRef.name}</div>
                 </h2>
-            </div> */}
+            </div>
 
-            <CarouselComponent property={property} />
+            {/* <CarouselComponent property={property} /> */}
 
-            <div className="flex flex-col xl:flex-row justify-center gap-8">
+            <div className="flex flex-col xl:flex-row justify-center gap-4 sm:gap-8">
                 <PropertyDescription property={property} />
                 <PropertyBroucher property={property} />
             </div>

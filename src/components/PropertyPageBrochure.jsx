@@ -22,7 +22,7 @@ function AmenitiesSection({ amenities, reformado }) {
     ].filter(amenity => amenity.value) : [];
 
     return (
-        <div className="grid grid-cols-2 gap-4 px-8 [&>*]:flex [&>*]:items-center [&>*]:gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 px-4 sm:px-8 [&>*]:flex [&>*]:items-center [&>*]:gap-2">
             {availableAmenities.map(({ icon: Icon, label }) => (
                 <div key={label}>
                     <Icon className="w-5 h-5 text-black" />
@@ -75,12 +75,12 @@ function CharacteristicsSection({ propertyCharacteristics }) {
 
 
     return (
-        <div className="flex flex-wrap gap-4 justify-center">
+        <div className="flex flex-wrap gap-2 sm:gap-4 justify-around">
             {availableCharacteristics.map(({ icon: Icon, label, value }) => (
                 <div key={label} className="flex flex-col items-center gap-2">
-                    <Icon className="w-7 h-7" />
-                    <div className="text-sm">{label}</div>
-                    <div className="font-bold">{value}</div>
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
+                    <div className="text-xs sm:text-sm">{label}</div>
+                    <div className="font-bold text-sm sm:text-base">{value}</div>
                 </div>
             ))}
         </div>
@@ -132,7 +132,7 @@ export function PropertyBroucher({ property, flag = false }) {
 
     // todo is to whatsapp logo
     return (
-        <div className={`mx-auto min-w-[380px] ${flag ? 'min-h-[560px]' : ''} bg-greenish rounded-xl font-serif px-8 py-4`}>
+        <div className={`mx-auto min-w-[180px] sm:min-w[380px] ${flag ? 'min-h-[560px]' : ''} bg-greenish rounded-xl font-serif px-8 py-4`}>
             <div className="sticky divide-y divide-background [&>*]:py-4 [&_h2]:text-2xl [&_h2]:pb-1 [&_h3]:text-xl">
                 <Head />
                 {property.charRef &&

@@ -34,14 +34,14 @@ export function FooterTagShare({ property }) {
 
     return (
         <>
-            <div className="flex justify-around p-2">
+            <div className="flex justify-around gap-1 pt-2">
                 {buttons.map(({ icon: Icon, label, onClick }) => (
                     <button
                         key={label}
                         onClick={onClick}
-                        className="flex items-center justify-center bg-background rounded-full w-14 h-14 mt-2" // mt-2 for brochure centering...
+                        className="flex items-center justify-center bg-background rounded-full w-10 h-10 mt-2 sm:w-14 sm:h-14" // mt-2 for brochure centering...
                     >
-                        <Icon className="w-6 h-6" />
+                        <Icon className="w-6 h-6 sm:w-4 sm:h-4" />
                     </button>
                 ))}
             </div>
