@@ -64,12 +64,12 @@
     color: white;
     opacity: 0;
     transition: transform 0.6s ease, opacity 0.3s ease;
+    
 }
-
 .property-desc-box {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 5px;
     color: white;
     font-size: 1.4rem;
     font-family: 'Times New Roman', Times, serif;
@@ -124,6 +124,8 @@
     }
 }
 
+
+/* styling problem when we have a large text..... it takes up two lines so then the layout is not semetrical.  */
 @media screen and (max-width: 768px) {
     .property {
         margin: 18px 0px;
@@ -138,5 +140,10 @@
         h2 {
             font-size: 16px;
         }
+    }
+    .property-desc{
+        font-size: 1rem;
+        padding: 18px 2px;
+        
     }
 }
