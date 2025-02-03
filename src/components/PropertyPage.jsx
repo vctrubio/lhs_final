@@ -201,7 +201,7 @@ export default function PropiedadPage({ property }) {
     return (
         <div className="max-w-7xl mx-auto px-4 py-2 sm:px-6 lg:px-8 min-h-[1000px]">
 
-            <div className="flex flex-col items-center w-full gap-1 border border-background">
+            {/* <div className="flex flex-col items-center w-full gap-1 border border-background">
                 <h1 className="text-5xl text-greener mt-1">
                     {property.title}
                 </h1>
@@ -209,7 +209,7 @@ export default function PropiedadPage({ property }) {
                     <MapPin className="w-6 h-6" />
                     <div className="">{property.barrioRef.name}</div>
                 </h2>
-            </div>
+            </div> */}
 
             <CarouselComponent property={property} />
 
