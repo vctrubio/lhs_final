@@ -126,6 +126,7 @@
 
     .property{
         min-width: 320px;
+        max-width: 95vw !important;
     }
 
     .property-title {
