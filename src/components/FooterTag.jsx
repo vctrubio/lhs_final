@@ -13,12 +13,12 @@ export function FooterTagShare({ property }) {
         {
             icon: IconWhatsapp,
             label: "Whatsapp",
-            onClick: () => window.open(`https://wa.me/+34616746971?text=Hola, he visto este piso: ${property.title}. Y me gustaria saber mas sobre el... ${metadata.openGraph.url}`, '_blank'),
+            onClick: () => window.open(`https://wa.me/+34616746971?text=Hola, he visto: ${property.title} -- ${metadata.openGraph.url}`),
         },
         {
             icon: Mail,
             label: "Contactar",
-            onClick: () => window.open(`mailto:lourdes.hernansanz@lhsconcept.com?subject=Interesado%20en%20${property.title}&body=Hola, he visto este piso: ${property.title}. Y me gustaria saber mas sobre el... ${metadata.openGraph.url}`, '_blank'),
+            onClick: () => window.open(`mailto:lourdes.hernansanz@lhsconcept.com?subject=Interesado%20en%20${property.title}&body=Hola, he visto: ${property.title} -- ${metadata.openGraph.url}`),
         },
         {
             icon: Download,
@@ -37,7 +37,7 @@ export function FooterTagShare({ property }) {
             <div className="flex justify-around p-2">
                 {buttons.map(({ icon: Icon, label, onClick }) => (
                     <button
-                        key={label} 
+                        key={label}
                         onClick={onClick}
                         className="flex items-center justify-center bg-background rounded-full w-14 h-14 mt-2" // mt-2 for brochure centering...
                     >
