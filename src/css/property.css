@@ -40,7 +40,7 @@
     position: relative;
     opacity: 1;
     transition: opacity 0.5s ease, transform 0.5s ease;
-    margin-top: 8px;
+    margin-top: 12px;
     min-height: 340px;
 }
 
@@ -125,10 +125,6 @@
 }
 
 @media screen and (max-width: 768px) {
-    .property-container {
-        gap: 42px 24px;
-    }
-
     .property-title {
         h1 {
             font-size: 24px;
