@@ -21,18 +21,18 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "LHS Concept",
-  description: "Propiedades de Lujo en Madrid",
+  description: "Con mas de 20 años de experiencia en el mercado inmobiliario de lujo, nos especializamos en ayudar a nuestros clientes comprar y vender propiedades de lujo en las ubicaciones más exclusivas de Madrid.",
   icons: {
     icon: '/icon.svg',
     shortcut: '/icon.svg',
     apple: '/icon.svg',
   },
 
-  keywords: "luxury, lifestyle, Madrid, exclusive, homes, family-oriented, real estate, high-end living, propiedades de lujo en madrid, propiedades seelectas, LHS Concept, LHS Propiedades",
+  keywords: "Inmuebles de lujo, Inmobiliaria Madrid, Apartamentos en venta, Propiedades exclusivas Madrid, Aquilar piso madrid, propiedades seelectas, LHS Concept, LHS Madrid",
 
   openGraph: {
     title: "LHS Concept",
-    description: "Propiedades de Lujo en Madrid",
+    description: "Con mas de 20 años de experiencia en el mercado inmobiliario de lujo, nos especializamos en ayudar a nuestros clientes comprar y vender propiedades de lujo en las ubicaciones más exclusivas de Madrid.",
     type: "website",
     url: "https://www.lhsconcept.com",
     images: [
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
         width: 2546,
         height: 1500,
         type: "image/jpeg",
-        alt: "Propiedades de Lujo en Madrid",
+        alt: "LHS Concept Madrid, propiedades selectas.",
       },
     ],
     siteName: "LHSConcept.com",
@@ -52,9 +52,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image", // summary, summary_large_image, app, player
     site: "@lhsconcept",
-    title: "LHS Concept | Propiedades Selectas en Madrid",
+    title: "LHS Concept Madrid",
     creator: "Lourdes Hernansanz",
-    description: "Propiedades de Lujo en Madrid",
+    description: "Con mas de 20 años de experiencia en el mercado inmobiliario de lujo, nos especializamos en ayudar a nuestros clientes comprar y vender propiedades",
     images: ["/logo-main.jpeg"],
   },
 
@@ -81,7 +81,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'RealEstateAgent',
   name: 'LHS Concept',
-  description: 'Propiedades de Lujo en Madrid',
+  description: 'Propiedades Selectas en Madrid',
   url: 'https://www.lhsconcept.com',
   logo: 'https://www.lhsconcept.com/logo-main.jpeg',
   address: {

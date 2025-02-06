@@ -3,7 +3,6 @@ import { Photo, Property, PropiedadHabitacion } from '#/backend/types';
 import Image from 'next/image';
 import { IconFindUs } from '@/utils/svgs';
 import { sortAndChunkPhotos } from '@/components/PdfPageAlgorithims';
-import { title } from 'node:process';
 
 interface PDFPageProps {
     children: React.ReactNode;

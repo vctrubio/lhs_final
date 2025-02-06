@@ -24,7 +24,21 @@ export function generatePropertyMetadata(property: any, slug: string, pdf: boole
     if (!property) {
         return {
             title: 'LHS Concept',
-            description: 'Propiedades de lujo en Madrid.'
+            description: 'Encontramos propiedades exclusivas en Madrid.',
+            openGraph: {
+                title: 'LHS Concept',
+                description: 'Con ms de 20 años de experiencia en el mercado inmobiliario de lujo, nuestra reputación está garantizada por la satisfacción de nuestros clientes.\nNos especializamos en ayudar a nuestros clientes comprar y vender propiedades de lujo en las ubicaciones más exclusivas de Madrid. Con una experiencia inigualable en el mercado y una pasión por ofrecer un servicio excepcional, estamos dedicados a hacer que su experiencia inmobiliaria sea fluida y gratificante.',
+                url: `https://www.lhsconcept.com/`,
+                images: [
+                    {
+                        url: '/logo-main.jpeg',
+                        width: 800,
+                        height: 600,
+                        alt: 'LHS Concept Madrid',
+                    }
+                ],
+                type: 'website',
+            },
         };
     }
 
