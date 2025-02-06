@@ -20,78 +20,80 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: "LHS Concept",
-  description: "Con mas de 20 años de experiencia en el mercado inmobiliario de lujo, nos especializamos en ayudar a nuestros clientes comprar y vender propiedades de lujo en las ubicaciones más exclusivas de Madrid.",
+  title: "LHS Concept | Inmobiliaria de Lujo en Madrid - Propiedades Exclusivas",
+  description: "Expertos en propiedades de lujo en Madrid. Compra y vende inmuebles exclusivos con asesoramiento personalizado.",
+  keywords: "Inmuebles de lujo, Inmobiliaria Madrid, Propiedades exclusivas, Venta de apartamentos, Alquiler de pisos Madrid, LHS Concept, LHS Madrid",
   icons: {
-    icon: '/icon.svg',
-    shortcut: '/icon.svg',
-    apple: '/icon.svg',
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
   },
-
-  keywords: "Inmuebles de lujo, Inmobiliaria Madrid, Apartamentos en venta, Propiedades exclusivas Madrid, Aquilar piso madrid, propiedades seelectas, LHS Concept, LHS Madrid",
-
   openGraph: {
-    title: "LHS Concept",
-    description: "Con mas de 20 años de experiencia en el mercado inmobiliario de lujo, nos especializamos en ayudar a nuestros clientes comprar y vender propiedades de lujo en las ubicaciones más exclusivas de Madrid.",
+    title: "LHS Concept | Propiedades de Lujo en Madrid",
+    description: "Compra y vende inmuebles exclusivos en Madrid con asesoramiento premium.",
     type: "website",
     url: "https://www.lhsconcept.com",
     images: [
       {
-        url: "/logo-main.jpeg", // Ensure this path is correct
-        width: 2546,
-        height: 1500,
+        url: "https://www.lhsconcept.com/logo-main.jpeg",
+        width: 1200,
+        height: 630,
         type: "image/jpeg",
         alt: "LHS Concept Madrid, propiedades selectas.",
       },
     ],
-    siteName: "LHSConcept.com",
-    locale: 'es_ES',
-    alternateLocale: ['en_US'],
+    siteName: "LHS Concept",
+    locale: "es_ES",
+    alternateLocale: ["en_US"],
   },
-
   twitter: {
-    card: "summary_large_image", // summary, summary_large_image, app, player
+    card: "summary_large_image",
     site: "@lhsconcept",
-    title: "LHS Concept Madrid",
-    creator: "Lourdes Hernansanz",
-    description: "Con mas de 20 años de experiencia en el mercado inmobiliario de lujo, nos especializamos en ayudar a nuestros clientes comprar y vender propiedades",
-    images: ["/logo-main.jpeg"],
+    title: "LHS Concept | Propiedades Exclusivas en Madrid",
+    description: "Compra y vende inmuebles de lujo en Madrid con expertos en propiedades exclusivas.",
+    images: ["https://www.lhsconcept.com/logo-main.jpeg"],
   },
-
-  robots: {
-    index: true,
-    follow: true,
-  },
-
-  metadataBase: new URL('https://www.lhsconcept.com'),
+  robots: { index: true, follow: true },
+  metadataBase: new URL("https://www.lhsconcept.com"),
   alternates: {
-    canonical: '/',
+    canonical: "/",
     languages: {
-      'es-ES': '/es',
-      'en-US': '/en',
+      "es-ES": "/es",
+      "en-US": "/en",
     },
   },
-
-  // verification: {
-  //   google: 'your-google-verification-code', // Add your Google Search Console verification code
-  // },
 };
 
 const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'RealEstateAgent',
-  name: 'LHS Concept',
-  description: 'Propiedades Selectas en Madrid',
-  url: 'https://www.lhsconcept.com',
-  logo: 'https://www.lhsconcept.com/logo-main.jpeg',
+  "@context": "https://schema.org",
+  "@type": "RealEstateAgent",
+  name: "LHS Concept",
+  description: "Propiedades Selectas en Madrid",
+  url: "https://www.lhsconcept.com",
+  logo: "https://www.lhsconcept.com/logo-main.jpeg",
   address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Madrid',
-    addressCountry: 'ES',
+    "@type": "PostalAddress",
+    streetAddress: "Calle de Velázquez, 10",
+    addressLocality: "Madrid",
+    addressCountry: "ES",
+    postalCode: "28001",
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    name: "Lourdes Hernansanz",
+    telephone: "+34 616 74 69 71",
+    contactType: "customer service",
+    areaServed: "ES",
+    availableLanguage: ["Spanish", "English"],
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: "40.4466572",
+    longitude: "-3.7097223",
   },
   sameAs: [
-    'https://www.instagram.com/lhsconcept',
-    // Add your social media URLs
+    "https://www.instagram.com/lhsconcept",
+    "https://www.linkedin.com/company/lhsconcept",
   ],
 };
 
