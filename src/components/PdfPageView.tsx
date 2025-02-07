@@ -100,7 +100,7 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
 
 export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
     return (
-        <div className={`w-a4 h-a4 my-2 bg-background ${className} border border-red-500`}>
+        <div className={`flex flex-col w-a4 h-a4 my-2 bg-background ${className} border border-red-500`}>
             {children}
         </div>
     );
@@ -144,27 +144,10 @@ function RenderGridForChunk({ photos, className = '' }: { photos: Photo[], class
     );
 }
 
-function RenderPhotos({ photos, className = '' }: { photos: Photo[], className?: string }) {
-
+function RenderPhotos({ photos }: { photos: Photo[] }) {
     return (
-        <div className={`border border-blue-500`}>
-       
-        </div>
-    );
-    
-    return (
-        <div className={`border border-blue-500`}>
-            {photos.map((photo, index) => {
-                return (
-                    <div
-                        key={index}
-                        style={{
-                        }}
-                    >
-                        {showImage(photo, index)}
-                    </div>
-                );
-            })}
+        <div className={`flex-grow border border-4`}>
+            hello
         </div>
     );
 }
@@ -197,7 +180,7 @@ const PdfRoomPage = ({ room, photos }: { room?: PropiedadHabitacion, photos?: Ph
                         </p>
                     }
                     {chunks && chunks.length > 0 &&
-                        <RenderGridForChunk photos={chunks[0]} className="h-[70%]" />
+                        <RenderPhotos photos={chunks[0]} />
                     }
                 </PDFPage>
             );
@@ -207,7 +190,7 @@ const PdfRoomPage = ({ room, photos }: { room?: PropiedadHabitacion, photos?: Ph
             chunks.slice(1).forEach((photosArray, index) => {
                 pages.push(
                     <PDFPage key={`chunk-${index + 1}`}>
-                        <RenderGridForChunk photos={photosArray} />
+                        <RenderPhotos photos={photosArray} />
                     </PDFPage>
                 );
             });
