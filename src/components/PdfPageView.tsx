@@ -100,35 +100,21 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
 
 export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
     return (
-        <div className={`flex flex-col w-a4 h-a4 my-2 bg-background ${className}`}>
+        <div className={`flex flex-col w-a4 h-a4 my-2 bg-background ${className} border border-red-500`}>
             {children}
         </div>
     );
 };
 
-function showImage(photo: Photo) {
+function RenderGridForChunk({ photos }: { photos: Photo[] }) {
     return (
-        <img
-            src={photo.url}
-            alt="Foto de la propiedad"
-            style={{ height: '100%', objectFit: 'contain', margin: 'auto', borderRadius: '0.75rem' }}
-        />
-    );
-}
-
-
-function RenderPhotos({ photos, }: { photos: Photo[], }) {
-    return (
-        <div className={'flex flex-col'}>
-            {photos.map((photo, index) => (
-                <div key={index} className="p-2">
-                    {showImage(photo)}
-                </div>
+        <div className="relative w-full h-full flex flex-col gap-2 overflow-hidden">
+            {photos.map((photo) => (
+                <img key={photo.url} src={photo.url} alt={'Propiedad'} className="w-full h-full object-contain p-2 rounded-2xl" />
             ))}
         </div>
     );
 }
-
 
 const PdfRoomPage = ({ room, photos }: { room?: PropiedadHabitacion, photos?: Photo[] }) => {
     const chunks = photos ? sortAndChunkPhotos(photos) : (room ? sortAndChunkPhotos(room.photos) : null);
@@ -138,7 +124,7 @@ const PdfRoomPage = ({ room, photos }: { room?: PropiedadHabitacion, photos?: Ph
         chunks?.forEach((photosArray, index) => {
             pages.push(
                 <PDFPage key={`chunku-${index}`}>
-                    <RenderPhotos photos={photosArray} />
+                    <RenderGridForChunk photos={photosArray} />
                 </PDFPage>
             );
         });
@@ -157,7 +143,7 @@ const PdfRoomPage = ({ room, photos }: { room?: PropiedadHabitacion, photos?: Ph
                         </p>
                     }
                     {chunks && chunks.length > 0 &&
-                        <RenderPhotos photos={chunks[0]} />
+                        <RenderGridForChunk photos={chunks[0]} />
                     }
                 </PDFPage>
             );
@@ -167,7 +153,7 @@ const PdfRoomPage = ({ room, photos }: { room?: PropiedadHabitacion, photos?: Ph
             chunks.slice(1).forEach((photosArray, index) => {
                 pages.push(
                     <PDFPage key={`chunk-${index + 1}`}>
-                        <RenderPhotos photos={photosArray} />
+                        <RenderGridForChunk photos={photosArray} />
                     </PDFPage>
                 );
             });
