@@ -100,7 +100,7 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
 
 export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
     return (
-        <div className={`flex flex-col w-a4 h-a4 my-2 bg-background ${className} border border-red-500`}>
+        <div className={`flex flex-col w-a4 h-a4 my-2 bg-background ${className}`}>
             {children}
         </div>
     );
@@ -108,9 +108,9 @@ export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
 
 function RenderGridForChunk({ photos }: { photos: Photo[] }) {
     return (
-        <div className="relative w-full h-full flex flex-col gap-2 overflow-hidden">
+        <div className="flex flex-col gap-2 overflow-hidden">
             {photos.map((photo) => (
-                <img key={photo.url} src={photo.url} alt={'Propiedad'} className="w-full h-full object-contain p-2 rounded-2xl" />
+                <img key={photo.url} src={photo.url} alt={'Propiedad'} className="w-full h-full object-contain p-2" />
             ))}
         </div>
     );
