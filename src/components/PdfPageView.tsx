@@ -175,7 +175,7 @@ export function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.R
     }
 
     if (pdf.rooms) {
-        pdf.rooms.forEach((room, index) => {
+        pdf.rooms.forEach((room) => {
             pages.push(...PdfRoomPage({ room }));
         });
     }
