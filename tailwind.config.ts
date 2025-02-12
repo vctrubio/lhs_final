@@ -29,6 +29,8 @@ export default {
       fontFamily: {
         ricordi: ['TTRicordi', 'sans-serif'],
         eczar: ['var(--font-eczar)', 'sans-serif'], // Map to --font-eczar
+        ariel: ["Arial"],
+
       },
     },
   },
