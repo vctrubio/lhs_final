@@ -100,54 +100,31 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
 
 export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
     return (
-        <div className={`flex flex-col w-a4 h-a4 my-2 bg-background ${className} border border-red-500`}>
+        <div className={`flex flex-col w-a4 h-a4 my-2 bg-background ${className}`}>
             {children}
         </div>
     );
 };
-/**todo change the object fill and layouts....  */
-function showImage(photo: Photo, key?: number) {
+
+function showImage(photo: Photo) {
     return (
         <img
-            key={key}
             src={photo.url}
-            alt=""
-            className="w-full h-full object-contain rounded-xl border"
+            alt="Foto de la propiedad"
+            style={{ height: '100%', objectFit: 'contain', margin: 'auto', borderRadius: '0.75rem' }}
         />
     );
 }
 
-function RenderGridForChunk({ photos, className = '' }: { photos: Photo[], className?: string }) {
-    const predefinedPositions = [
-        { id: 1, colSpan: 4, rowSpan: 3, gridColumn: "1 / span 4", gridRow: "1 / span 3" },
-        { id: 2, colSpan: 4, rowSpan: 3, gridColumn: "1 / span 4", gridRow: "4 / span 3" },
-        { id: 3, colSpan: 2, rowSpan: 6, gridColumn: "5 / span 2", gridRow: "1 / span 6" },
-    ];
-    return (
-        <div className={`w-full h-full ${photos.length === 1 ? 'grid-cols-1 grid-rows-1' : 'grid grid-cols-6 grid-rows-6'} ${className}`}>
-            {photos.map((photo, index) => {
-                const position = predefinedPositions[index];
-                return (
-                    <div
-                        key={index}
-                        style={{
-                            gridColumn: photos.length === 1 ? '1 / -1' : position.gridColumn,
-                            gridRow: photos.length === 1 ? '1 / -1' : position.gridRow,
-                            padding: "2px",
-                        }}
-                    >
-                        {showImage(photo, index)}
-                    </div>
-                );
-            })}
-        </div>
-    );
-}
 
-function RenderPhotos({ photos }: { photos: Photo[] }) {
+function RenderPhotos({ photos, }: { photos: Photo[], }) {
     return (
-        <div className={`flex-grow border border-4`}>
-            hello
+        <div className={'flex flex-col'}>
+            {photos.map((photo, index) => (
+                <div key={index} className="p-2">
+                    {showImage(photo)}
+                </div>
+            ))}
         </div>
     );
 }
@@ -161,7 +138,7 @@ const PdfRoomPage = ({ room, photos }: { room?: PropiedadHabitacion, photos?: Ph
         chunks?.forEach((photosArray, index) => {
             pages.push(
                 <PDFPage key={`chunku-${index}`}>
-                    <RenderGridForChunk photos={photosArray} />
+                    <RenderPhotos photos={photosArray} />
                 </PDFPage>
             );
         });

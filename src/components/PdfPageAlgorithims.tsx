@@ -1,13 +1,14 @@
 import { Photo } from "#/backend/types";
 
 export function sortAndChunkPhotos(photos: Photo[]): Photo[][] {
-  const result: Photo[][] = [];
-  let i = 0;
-  while (i < photos.length) {
-    const slice = photos.slice(i, i + 3);
-    result.push(slice);
-    i += 4;
-  }
+    const result: Photo[][] = [];
+    const size = 2;
+    let i = 0;
+    while (i < photos.length) {
+        const slice = photos.slice(i, i + size );
+        result.push(slice);
+        i += 4;
+    }
 
-  return result;
+    return result;
 }

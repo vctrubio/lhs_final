@@ -1,9 +1,6 @@
 export enum PhotoGridLayout {
-  One = 'ONE',         // fits a single / square-ish
-  TwoByOne = '2by1',   // wide
-  OneByTwo = '1by2',   // tall
-  TwoByThree = '2by3', // medium-wide
-  ThreeByTwo = '3by2', // medium-tall
+    PORTRAIT,
+    LANDSCAPE,
 }
 
 export interface Photo {
