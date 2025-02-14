@@ -1,3 +1,4 @@
+import React from 'react';
 import { PropertyBroucher } from '@/components/PropertyPageBrochure';
 import { PdfParent, CreatePdf } from '@/components/PdfPageView';
 import { getPropertyData, generatePropertyMetadata, Props, PageParams } from '@/utils/metadata';
