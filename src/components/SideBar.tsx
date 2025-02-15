@@ -1,4 +1,5 @@
 'use client'
+import React from "react";
 import { useState, useEffect } from "react";
 import { Menu } from "lucide-react";
 import { Slider } from "@mui/material"
@@ -134,7 +135,7 @@ export default function SideBar({ propertyParams, barrios }: { propertyParams: P
             if (window.innerWidth < 768) {
                 setIsOpen(false);
             } else {
-                setIsOpen(true); 
+                setIsOpen(true);
             }
         };
 
@@ -170,13 +171,8 @@ export default function SideBar({ propertyParams, barrios }: { propertyParams: P
                     <div className="nav-sidebar-body">
                         <SidebarContentRootPage nuqs={nuqs} barrios={barrios} />
                     </div>
-                </div> 
+                </div>
             </div>
         </>
     );
 }
-
-
-/* <div className="nav-sidebar-footer">
-    <Footer />
-</div> */
