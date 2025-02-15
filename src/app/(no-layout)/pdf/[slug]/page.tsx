@@ -6,9 +6,10 @@ import { Metadata } from 'next';
 import NotFound from '@/app/(main)/not-found';
 
 // 1) Make sure generateMetadata expects a normal params object
-export async function generateMetadata({ params }: { params: PageParams }): Promise<Metadata> {
-    const property = await getPropertyData(params);
-    return generatePropertyMetadata(property, params.slug, true);
+export async function generateMetadata({ params }: { params: Promise<PageParams> }): Promise<Metadata> {
+    const resolvedParams = await params;
+    const property = await getPropertyData(resolvedParams);
+    return generatePropertyMetadata(property, resolvedParams.slug, true);
 }
 
 // 2) Same for the page component: No Promise, no `await params`.

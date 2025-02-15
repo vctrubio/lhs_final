@@ -15,7 +15,8 @@ export const fetchProperty = cache(async (slug: string) => {
     };
 });
 
-export async function getPropertyData(params: { slug: string }) {
+export async function getPropertyData(paramsPromise: Promise<{ slug: string }>) {
+    const params = await paramsPromise;
     const propertyData = await fetchProperty(params.slug);
     return propertyData.property;
 }

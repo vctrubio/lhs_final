@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
 import puppeteer from 'puppeteer';
 
-export async function GET(req: Request, { params }: { params: { slug: string } }) {
+export async function GET(req, { params }) {
     // The "slug" param is from the [slug] segment.
     const { slug } = params;
     console.log('check. ', slug);
-
 
     // We need to figure out the base URL to visit. 
     // In local dev, it might be http://localhost:2998
