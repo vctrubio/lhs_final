@@ -3,7 +3,7 @@ export default async function Home() {
     // fallback tbd
     return (
         <>
-       hellowolrd
+            NOT FOUND .... todo in middleware
         </>
     );
 }

@@ -34,7 +34,7 @@ export class PdfParent {
 
 export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
     return (
-        <div className={`flex flex-col w-a4 h-a4 my-2 bg-background ${className}`}>
+        <div className={`flex flex-col mx-auto w-a4 h-a4 my-2 bg-background ${className}`}>
             {children}
         </div>
     );
