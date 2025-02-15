@@ -3,7 +3,7 @@ import { PropertyBroucher } from '@/components/PropertyPageBrochure';
 import { PdfParent, CreatePdf } from '@/components/PdfPageView';
 import { getPropertyData, generatePropertyMetadata, PageParams } from '@/utils/metadata';
 import { Metadata } from 'next';
-import NotFound from '@/app/not-found';
+import NotFound from '@/app/(main)/not-found';
 
 // 1) Make sure generateMetadata expects a normal params object
 export async function generateMetadata({ params }: { params: PageParams }): Promise<Metadata> {

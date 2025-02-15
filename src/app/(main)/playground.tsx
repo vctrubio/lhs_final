@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Property } from "../../backend/types";
+import { Property } from "../../../backend/types";
 import { FaSort, FaEye, FaEyeSlash, FaDollarSign, FaBed, FaMapMarkerAlt } from 'react-icons/fa';
 import { usePropertyContext } from '#/backend/propertyProviderContext';
 

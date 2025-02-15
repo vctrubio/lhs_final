@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import PropertyPage from '@/components/PropertyPage';
-import NotFound from '@/app/not-found';
+import NotFound from '@/app/(main)/not-found';
 import { getPropertyData, generatePropertyMetadata, Props, PageParams } from '@/utils/metadata';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

@@ -1,4 +1,4 @@
-import "../css/globals.css";
+import "../../css/globals.css";
 import type { Metadata, Viewport } from "next";
 import { Eczar } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
