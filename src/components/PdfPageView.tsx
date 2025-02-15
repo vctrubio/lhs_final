@@ -32,7 +32,13 @@ export class PdfParent {
     }
 }
 
-
+export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
+    return (
+        <div className={`flex flex-col w-a4 h-a4 my-2 bg-background ${className}`}>
+            {children}
+        </div>
+    );
+};
 
 const PdfPageOne = ({ title, photos }: { title: string, photos: Photo[] }) => {
     return (
@@ -95,14 +101,6 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
                 </div>
             </div>
         </PDFPage>
-    );
-};
-
-export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
-    return (
-        <div className={`flex flex-col w-a4 h-a4 my-2 bg-background ${className}`}>
-            {children}
-        </div>
     );
 };
 
