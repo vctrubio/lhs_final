@@ -11,7 +11,7 @@ export async function GET(req: Request, { params }: { params: { slug: string } }
     // In local dev, it might be http://localhost:3000
     // In production on Vercel, you can do process.env.VERCEL_URL
     // const baseUrl = `http://localhost:3000`;
-    const baseUrl = `http://lhsconcept.com`;
+    const baseUrl = `https://www.lhsconcept.com`;
     const targetUrl = `${baseUrl}/pdf/${slug}`;
 
     let browser;
