@@ -1,3 +1,4 @@
+import React from "react";
 import { FooterTagShare as FooterShareComponent } from "@/components/FooterTag";
 import { IconPrice } from "@/utils/svgs";
 import {

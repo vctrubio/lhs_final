@@ -34,7 +34,7 @@ export class PdfParent {
 
 export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
     return (
-        <div className={`flex flex-col mx-auto w-a4 h-a4 my-2 bg-background ${className}`}>
+        <div className={`flex flex-col mx-auto w-a4 h-a4 bg-background ${className}`}>
             {children}
         </div>
     );
@@ -44,10 +44,10 @@ const PdfPageOne = ({ title, photos }: { title: string, photos: Photo[] }) => {
     return (
         <PDFPage>
             <div className='pt-8'>
-                <h1 className="text-5xl text-zinc-500 font-ricordi font-light text-center my-4 px-2">
+                <h1 className="text-5xl text-zinc-500 font-ricordi font-light text-center py-4 px-2">
                     &quot;{title}&quot;
                 </h1>
-                <div className="relative w-full h-[964px]">
+                <div className="relative w-full h-[955px]">
                     <Image src={photos[0].url} alt="Propiedad" layout="fill" objectFit="cover" />
                 </div>
             </div>
