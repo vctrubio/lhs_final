@@ -8,11 +8,16 @@ export async function GET(req: Request, { params }: { params: { slug: string } }
 
 
     // We need to figure out the base URL to visit. 
-    // In local dev, it might be http://localhost:3000
+    // In local dev, it might be http://localhost:2998
     // In production on Vercel, you can do process.env.VERCEL_URL
-    // const baseUrl = `http://localhost:3000`;
+    // const baseUrl = `http://localhost:2998`;
     const baseUrl = `https://www.lhsconcept.com`;
     const targetUrl = `${baseUrl}/pdf/${slug}`;
+
+    /*WARNING: 4later: Determine the base URL based on the environment
+    const baseUrl = process.env.VERCEL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
+    const targetUrl = `${baseUrl}/pdf/${slug}`;
+    */
 
     let browser;
     try {
