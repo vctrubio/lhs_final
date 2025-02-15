@@ -10,8 +10,9 @@ export async function GET(req: Request, { params }: { params: { slug: string } }
     // We need to figure out the base URL to visit. 
     // In local dev, it might be http://localhost:3000
     // In production on Vercel, you can do process.env.VERCEL_URL
-    const baseUrl = `http://localhost:3000`;
-    const targetUrl = `${baseUrl}/${slug}/pdf`;
+    // const baseUrl = `http://localhost:3000`;
+    const baseUrl = `http://lhsconcept.com`;
+    const targetUrl = `${baseUrl}/pdf/${slug}`;
 
     let browser;
     try {
@@ -38,7 +39,7 @@ export async function GET(req: Request, { params }: { params: { slug: string } }
             headers: {
                 'Content-Type': 'application/pdf',
                 // Force download in the browser
-                'Content-Disposition': `attachment; filename="property-${slug}.pdf"`,
+                'Content-Disposition': `attachment; filename="LHS-${slug}.pdf"`,
             },
         });
     } catch (error) {

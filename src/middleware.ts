@@ -6,12 +6,9 @@ export function middleware(request: NextRequest) {
     if (url.pathname === '/pdf') {
         return NextResponse.redirect(new URL('/', request.url));
     }
-    return NextResponse.next(); // Continue request as normal
+    return NextResponse.next();
 }
 
-
-
-// Apply middleware to all routes
 export const config = {
-    matcher: '/:path*', // This applies middleware to all routes
+    matcher: '/:path*',
 };
