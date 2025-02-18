@@ -22,9 +22,9 @@ export const metadata: Metadata = {
     description: "Expertos en propiedades de lujo en Madrid. Compra y vende inmuebles exclusivos con asesoramiento personalizado.",
     keywords: "Inmuebles de lujo, Inmobiliaria Madrid, Propiedades exclusivas, Venta de apartamentos, Alquiler de pisos Madrid, LHS Concept, LHS Madrid",
     icons: {
-        icon: "/icon.svg",
-        shortcut: "/icon.svg",
-        apple: "/icon.svg",
+        icon: "/icon.png",
+        shortcut: "/icon.png",
+        apple: "/icon.png",
     },
     openGraph: {
         title: "LHS Concept | Propiedades de Lujo en Madrid",
