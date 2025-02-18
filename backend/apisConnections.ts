@@ -15,7 +15,7 @@ export function ImageToUrl(entry: any): Photo {
     // details: { size: 274835, image: { width: 1204, height: 1600 } },
 
 
-    function startsWithHttp(url: string): string{
+    function startsWithHttp(url: string): string {
         return url.startsWith('http') ? url : `https:${url}`;
     }
 
@@ -33,6 +33,7 @@ export function ImageToUrl(entry: any): Photo {
 }
 
 export function extractImageUrls(entries: any[]): Photo[] {
+    if (!entries) return [];
     return entries.map(entry => ImageToUrl(entry));
 }
 
@@ -77,7 +78,6 @@ export async function fetchPropertyByID(url: string): Promise<Property | null> {
         });
 
         if (!filteredEntry) {
-            console.log(`No property found for URL: ${url}`);
             return null;
         }
 
@@ -102,11 +102,11 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
     }
 
     const updatedAt = entry.sys.updatedAt
-    // console.log('ENTRY FIELDS: ', entry.fields.photos)
-    const { barrioRef, amentetiesRef, characteristics, habitacionesPaginas, ibi, maintenanceCostMonthly, photos, plano, title, description, buyOrRent, reformado, precio, url, quote } = entry.fields;
-    const coverUrl = photos ? extractImageUrls(photos)[0] : null;
+    const { barrioRef, amentetiesRef, characteristics, habitacionesPaginas, ibi, maintenanceCostMonthly, photos, photosCover, plano, title, description, buyOrRent, reformado, precio, url, quote } = entry.fields;
+
     const planoUrl = plano ? ImageToUrl(plano) : null;
-    const photos_cover_url = extractImageUrls(photos);
+    const photos_cover_url = photosCover && extractImageUrls(photosCover);
+    const photos_main_url = photos ? extractImageUrls(photos) : null;
 
     return {
         title: title,
@@ -118,11 +118,11 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
         precio: precio,
         precioIbi: ibi ?? 0,
         precioComunidad: maintenanceCostMonthly ?? 0,
-        plano_url: planoUrl ?? null,
-        cover_url: coverUrl ? [coverUrl] : [],
-        
+
+        cover_url: photos_cover_url[0],
         photos_cover_url: photos_cover_url,
-        photos_main_url: photos_cover_url.length > 3 ? photos_cover_url.slice(3) : null,
+        photos_main_url: photos_main_url,
+        plano_url: planoUrl ?? null,
 
         barrioRef: barrioRef?.fields ?? null,
         amentitiesRef: amentetiesRef?.fields ?? null,
@@ -133,8 +133,10 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
             photos: (h.fields.photos as Asset<any>[])?.map(photo => ImageToUrl(photo)) ?? []
         })) ?? null,
 
+
         photos_url: [
-            ...(photos ? extractImageUrls(photos) : []),
+            ...(photos_cover_url),
+            ...(photos_main_url ? photos_main_url : []),
             ...(habitacionesPaginas ? getRoomPhotoUrl(habitacionesPaginas) : []),
         ],
 

@@ -24,7 +24,7 @@ function AmenitiesSection({ amenities, reformado }) {
     return (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 px-4 sm:px-8 [&>*]:flex [&>*]:items-center [&>*]:gap-2">
             {availableAmenities.map(({ icon: Icon, label }) => (
-                <div key={label}>
+                <div key={label} className="justify-center">
                     <Icon className="w-5 h-5 text-black" />
                     <span className="text-black">{label}</span>
                 </div>

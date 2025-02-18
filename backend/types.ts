@@ -14,21 +14,19 @@ export interface Photo {
 export interface Property {
     title: string;
     url: string;
+    quote: string;
     description: string;
     buyOrRent: boolean;
     reformado: boolean;
-
-    quote: string;
 
     precio: number;
     precioIbi: number;
     precioComunidad: number;
 
-    plano_url: Photo;
-    cover_url: Photo[];
     photos_url: Photo[];
     photos_cover_url: Photo[]; //max is 3, is it [3] then?
     photos_main_url: Photo[] | null; //for rendering on pdfPageView
+    plano_url: Photo;
 
     barrioRef: Barrio;
     amentitiesRef: Amentities;

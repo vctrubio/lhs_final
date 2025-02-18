@@ -27,7 +27,7 @@ const DescBox: React.FC<DescBoxProps> = ({ text, icon: Icon }) => {
 };
 
 export const CardProperty = ({ property, cssStateHover }: { property: Property, cssStateHover: boolean }) => {
-    const coverPhoto = property.cover_url[0]
+    const coverPhoto = property.photos_cover_url[0];
     const area = property.charRef.metrosCuadradros || 'N/A';
     const bedrooms = getBedrooms(property) || 'N/A';
     const bathrooms = getBathrooms(property) || 'N/A';
