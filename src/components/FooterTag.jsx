@@ -1,6 +1,6 @@
 'use client'
 import { Mail, Send, Download } from "lucide-react";
-import { IconWhatsapp, IconSend } from '@/utils/svgs';
+import { IconWhatsapp } from '@/utils/svgs';
 import { generatePropertyMetadata } from '@/utils/metadata';
 import ShareModal from './ShareModal';
 import { useState } from 'react';

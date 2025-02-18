@@ -33,8 +33,9 @@ export class PdfParent {
 }
 
 export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
+    //NOTE: max width and shadow until dontload btn is installed.
     return (
-        <div className={`flex flex-col mx-auto w-a4 h-a4 my-2 bg-background ${className}`}>
+        <div className={`flex flex-col mx-auto w-a4 max-h-a4 my-2 bg-background ${className} shadow-2xl`}>
             {children}
         </div>
     );
