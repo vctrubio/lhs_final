@@ -73,14 +73,11 @@ const CarouselComponent = React.memo(function CarouselComponent({ property, curr
     useEffect(() => {
         if (!thumbnailsRef.current) return;
 
-        const isMobile = window.innerWidth < 640;
-        const thumbnailWidth = isMobile ? 68 : 84;
-        const gap = isMobile ? 4 : 8;
+        const thumbnailWidth = 84;
+        const gap = 6;
         const centerOffset = Math.floor(6 / 2);
-
         const scrollPosition = Math.max(
-            0,
-            (currentIndex - centerOffset) * (thumbnailWidth + gap)
+            0, (currentIndex - centerOffset) * (thumbnailWidth + gap)
         );
 
         thumbnailsRef.current.scrollTo({
@@ -120,7 +117,7 @@ const CarouselComponent = React.memo(function CarouselComponent({ property, curr
                 ))}
             </Carousel>
 
-            <div ref={containerRef} className="relative px-2 sm:px-4 py-2 max-w-7xl mx-auto">
+            <div ref={containerRef} className="relative px-2 sm:px-4 py-2 mx-auto">
                 <div ref={thumbnailsRef} className="flex gap-1 sm:gap-2 overflow-x-hidden scroll-smooth mx-auto py-2 px-1 border"
                     style={{ width: '50%' }}
                 >
