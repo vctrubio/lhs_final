@@ -27,7 +27,6 @@ function BarriosChecklist({ barrios, selectedBarrios, onChange }: {
     const [selected, setSelected] = useState<Set<string>>(new Set())
 
     useEffect(() => {
-        // Initialize from URL params
         if (selectedBarrios) {
             setSelected(new Set(selectedBarrios.split(',')))
         } else {
@@ -44,7 +43,6 @@ function BarriosChecklist({ barrios, selectedBarrios, onChange }: {
         }
         setSelected(newSelected)
 
-        // If none selected, set param to null. Otherwise join with commas
         if (newSelected.size === 0) {
             onChange(null)
         } else {
@@ -126,11 +124,10 @@ const SidebarContentRootPage = ({ nuqs, barrios }: { nuqs: any, barrios: Barrio[
 }
 
 export default function SideBar({ propertyParams, barrios }: { propertyParams: PropertyParams, barrios: Barrio[] }) {
-    const [isOpen, setIsOpen] = useState(false); // Set initial state to false
+    const [isOpen, setIsOpen] = useState(false);
     const nuqs = INuqs(propertyParams);
 
     useEffect(() => {
-        // check-up4-prod
         const handleResize = () => {
             if (window.innerWidth < 768) {
                 setIsOpen(false);
