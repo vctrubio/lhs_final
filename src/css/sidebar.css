@@ -3,12 +3,10 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-
     position: fixed;
     left: 0;
     z-index: 10;
     width: 345px;
-
     background-color: var(--color-beigh-light-bg);
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
@@ -24,16 +22,14 @@
     color: var(--color-beigh-light-bg);
     font-size: 1.8rem;
     font-weight: 700;
-    
     letter-spacing: 2px;
     border: 1px solid var(--color-green-dark);
-    border-radius: 12px 12px 0px 0px;
-
+    border-radius: 12px 12px 0 0;
     position: relative;
     top: -1.4px;
 }
 
-.nav-sidebar-menu{
+.nav-sidebar-menu {
     border: 2px solid var(--color-green-dark);
     border-radius: 12px;
 }
@@ -56,60 +52,53 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     width: 94%;
     margin: 0 auto;
-
     text-align: center;
     font-size: 1.5rem;
-
     margin-top: 6px;
-
     border-bottom: 1px solid var(--color-green-dark-opec);
-
-    >* {
-        padding: 0px 6px;
-    }
-
-    input {
-        background-color: var(--color-light-bg);
-        width: 100%;
-    }
-
-    input::placeholder {
-        color: rgb(113, 113, 113);
-    }
 }
 
-/*sidebar content*/
+.sidebar-search > * {
+    padding: 0 6px;
+}
+
+.sidebar-search input {
+    background-color: var(--color-light-bg);
+    width: 100%;
+}
+
+.sidebar-search input::placeholder {
+    color: rgb(113 113 113);
+}
+
+/* Sidebar content */
 .sidebar-content {
     display: flex;
     flex-direction: column;
     gap: 12px;
     padding: 10px;
+}
 
-    >* {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        padding-top: 6px;
-        padding-bottom: 24px; /* changeable */
-
-        border-radius: 10px;
-        border: 1px solid var(--color-green-dark-opec);
-        box-shadow: 0 4px 8px var(--color-green-dark-opec);
-    }
+.sidebar-content > * {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 6px;
+    padding-bottom: 24px;
+    border-radius: 10px;
+    border: 1px solid var(--color-green-dark-opec);
+    box-shadow: 0 4px 8px var(--color-green-dark-opec);
 }
 
 .sidebar-content-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    padding: 0px 16px;
+    padding: 0 16px;
     font-size: 1.6rem;
 }
-
 
 .sidebar-content-icon {
     display: flex;
@@ -117,11 +106,11 @@
     align-items: center;
     width: 32px;
     height: 32px;
+}
 
-    svg {
-        width: 68px;
-        height: 68px;
-    }
+.sidebar-content-icon svg {
+    width: 68px;
+    height: 68px;
 }
 
 .barrios-checklist h2 {
@@ -141,30 +130,29 @@
     padding: 0.5rem;
 }
 
+/* Barrio checkboxes */
 .barrio-checkbox {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
     padding: 0.4rem 0.6rem;
-    /* background: white; */
     border-radius: 20px;
     border: 1px solid var(--color-green-dark-opec);
     transition: all 0.2s ease;
     min-width: calc(50% - 0.75rem);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 5%);
     font-size: 0.9rem;
 }
 
 .barrio-checkbox:hover {
     background: var(--color-beigh-light-bg-hover);
     transform: translateY(-1px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
 }
 
 .barrio-checkbox input[type="checkbox"] {
     appearance: none;
-    -webkit-appearance: none;
     width: 1.2rem;
     height: 1.2rem;
     border: 2px solid var(--color-green-dark);
@@ -208,8 +196,7 @@
     background: var(--color-green-dark);
 }
 
-
-/* Add new burger button styles */
+/* Burger button */
 .burger-button {
     position: fixed;
     top: 8px;
@@ -225,7 +212,8 @@
     color: var(--color-green-dark);
 }
 
-@media (max-width: 768px) {
+/* Responsive fixes */
+@media (width <= 768px) {
     .barrio-checkbox {
         min-width: calc(33.33% - 0.75rem);
         padding: 0.35rem 0.5rem;
@@ -246,43 +234,37 @@
         padding-left: 0;
     }
 
-
     .nav-sidebar.open {
         transform: translateX(0);
     }
 
     .nav-sidebar-body {
-        padding: 0px 8px;
+        padding: 0 8px;
     }
-
 }
 
-@media (min-width: 769px) {
-    /* Add styles for desktop layout */
+@media (width > 768px) {
     .nav-sidebar {
         width: 345px;
     }
 
-    /* Remove the transform on desktop when open */
     .nav-sidebar.open {
         transform: none;
         position: fixed;
     }
 
-    /* Add a class for the main content transition */
-    body.sidebar-open main {
-        margin-left: 345px;
-        transition: margin-left 0.3s ease-in-out;
-    }
-
-    /* Add default state for main to ensure smooth transition */
     main {
         margin-left: 0;
         transition: margin-left 0.3s ease-in-out;
     }
+
+    body.sidebar-open main {
+        margin-left: 345px;
+        transition: margin-left 0.3s ease-in-out;
+    }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
     .barrio-checkbox {
         min-width: calc(50% - 0.75rem);
     }

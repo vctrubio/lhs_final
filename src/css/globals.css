@@ -1,13 +1,12 @@
+@import url('../css/property.css');
+@import url('../css/svgs.css');
+@import url('../css/logo.css');
+@import url('../css/sidebar.css');
+@import url('../css/footer.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import '../css/property.css';
-@import '../css/svgs.css';
-@import '../css/logo.css';
-@import '../css/playground.css';
-@import '../css/sidebar.css';
-@import '../css/footer.css';
 
 :root {
   --color-green-original: #91AC8F;
@@ -151,12 +150,6 @@ figure, blockquote, dl, dd {
 ul[role='list'],
 ol[role='list'] {
   list-style: none;
-}
-
-/* Set core body defaults */
-body {
-  min-height: 100vh;
-  line-height: 1.5;
 }
 
 /* Set shorter line heights on headings and interactive elements */

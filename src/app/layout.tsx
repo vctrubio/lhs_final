@@ -1,13 +1,7 @@
 import "../css/globals.css";
 import type { Metadata, Viewport } from "next";
-import { Eczar } from 'next/font/google';
 import React from "react";
 import { Analytics } from "@vercel/analytics/react"
-
-const eczar = Eczar({
-    subsets: ['latin'], // Load only necessary subsets
-    variable: '--font-eczar', // Define a CSS variable for Tailwind
-});
 
 export const viewport: Viewport = {
     width: 'device-width',
@@ -106,7 +100,7 @@ export default async function RootLayout({
         .join(", ");
 
     return (
-        <html lang="es" className={eczar.variable}>
+        <html lang="es">
             <head>
                 <meta name="viewport" content={viewportContent} />
                 <script
