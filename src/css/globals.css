@@ -194,7 +194,7 @@ textarea:not([rows]) {
   scroll-margin-block: 5ex;
 }
 
-@media (max-width: 1366px) {
+@media (max-width: 1111px) {
     body {
         zoom: 0.9;
     }
