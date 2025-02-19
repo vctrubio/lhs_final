@@ -9,6 +9,7 @@ export const viewport: Viewport = {
     maximumScale: 1,
     userScalable: false,
     viewportFit: 'cover',
+    interactiveWidget: "resizes-content", // Fixes iOS keyboard pushing content
 }
 
 export const metadata: Metadata = {
@@ -95,14 +96,9 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
 
-    const viewportContent = Object.entries(viewport)
-        .map(([key, value]) => `${key}=${value}`)
-        .join(", ");
-
     return (
         <html lang="es">
             <head>
-                <meta name="viewport" content={viewportContent} />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
