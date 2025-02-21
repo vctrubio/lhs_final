@@ -11,13 +11,16 @@ export default async function Home() {
     return <div>No properties available.... TBD</div>;
   }
 
+  const sortedEntries = properties.sort((a, b) =>
+    a.title.localeCompare(b.title),
+  );
   // fallback tbd
   return (
     <>
       <Suspense fallback={<div></div>}>
         <SideBar propertyParams={propertyParams} barrios={filteredBarrios} />
         <div className="flex flex-col justify-center bg-color-red">
-          <CardPropertySearchFilter entries={properties} />
+          <CardPropertySearchFilter entries={sortedEntries} />
         </div>
         <div></div>
       </Suspense>
