@@ -1,8 +1,8 @@
-import React from 'react';
-import { Photo, Property, PropiedadHabitacion } from '#/backend/types';
-import Image from 'next/image';
-import { IconFindUs } from '@/utils/svgs';
-import { sortAndChunkPhotos } from '@/components/PdfPageAlgorithims';
+import React from "react";
+import { Photo, Property, PropiedadHabitacion } from "#/backend/types";
+import Image from "next/image";
+import { IconFindUs } from "@/utils/svgs";
+import { sortAndChunkPhotos } from "@/components/PdfPageAlgorithims";
 
 interface PDFPageProps {
     children: React.ReactNode;
@@ -32,38 +32,49 @@ export class PdfParent {
     }
 }
 
-export const PDFPage = ({ children, className = '' }: PDFPageProps) => {
+export const PDFPage = ({ children, className = "" }: PDFPageProps) => {
     //NOTE: max width and shadow until dontload btn is installed.
     return (
-        <div className={`flex flex-col mx-auto w-a4 max-h-a4 my-2 bg-background ${className} shadow-2xl`}>
+        <div
+            className={`flex flex-col mx-auto w-a4 max-h-a4 my-2 bg-background ${className} shadow-2xl`}
+        >
             {children}
         </div>
     );
 };
 
-const PdfPageOne = ({ title, photos }: { title: string, photos: Photo[] }) => {
+const PdfPageOne = ({ title, photos }: { title: string; photos: Photo[] }) => {
     return (
         <PDFPage>
-            <div className='pt-8'>
+            <div className="pt-8">
                 <h1 className="text-5xl text-zinc-500 font-ricordi font-light text-center my-4 px-2">
                     &quot;{title}&quot;
                 </h1>
                 <div className="relative w-full h-[964px]">
-                    <Image src={photos[0].url} alt="Propiedad" layout="fill" objectFit="cover" />
+                    <Image
+                        src={photos[0].url}
+                        alt="Propiedad"
+                        layout="fill"
+                        objectFit="cover"
+                    />
                 </div>
             </div>
         </PDFPage>
     );
 };
 
-const PdfPageTwo = ({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNode }) => {
+const PdfPageTwo = ({
+    pdf,
+    brochure,
+}: {
+    pdf: PdfParent;
+    brochure: React.ReactNode;
+}) => {
     return (
         <PDFPage className="relative grid grid-cols-2 grid-rows-2 gap-2 h-full">
             <div className="flex flex-col justify-around text-xl font-serif">
                 <div className="ml-4">
-                    <h1 className="font-bold text-2xl">
-                        {pdf.title}
-                    </h1>
+                    <h1 className="font-bold text-2xl">{pdf.title}</h1>
                     <h2 className="flex items-center text-xl">
                         <IconFindUs fill="#15423b" />
                         <div className="pl-1">{pdf.barrio}</div>
@@ -75,17 +86,27 @@ const PdfPageTwo = ({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNo
             </div>
             <div
                 className="border border-gold w-full h-full"
-                style={{ borderTopLeftRadius: '25px', borderBottomRightRadius: '25px', borderBottomLeftRadius: '25px', backgroundImage: `url(${pdf.photosCover[1].url})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-            >
-            </div>
+                style={{
+                    borderTopLeftRadius: "25px",
+                    borderBottomRightRadius: "25px",
+                    borderBottomLeftRadius: "25px",
+                    backgroundImage: `url(${pdf.photosCover[1].url})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                }}
+            ></div>
             <div
                 className="border border-gold w-full h-full"
-                style={{ borderTopRightRadius: '25px', borderBottomRightRadius: '25px', borderTopLeftRadius: '25px', backgroundImage: `url(${pdf.photosCover[2].url})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-            >
-            </div>
-            <div className="gold rounded-xl overflow-hidden">
-                {brochure}
-            </div>
+                style={{
+                    borderTopRightRadius: "25px",
+                    borderBottomRightRadius: "25px",
+                    borderTopLeftRadius: "25px",
+                    backgroundImage: `url(${pdf.photosCover[2].url})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                }}
+            ></div>
+            <div className="gold rounded-xl overflow-hidden">{brochure}</div>
         </PDFPage>
     );
 };
@@ -93,11 +114,9 @@ const PdfPageTwo = ({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNo
 const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
     return (
         <PDFPage>
-            <div className='pt-8'>
-                <h1 className="text-5xl text-center my-4 px-2">
-                    Plano
-                </h1>
-                <div className="relative w-full h-[920px] mb-4">
+            <div className="pt-8">
+                <h1 className="text-5xl text-center my-4 px-2">Plano</h1>
+                <div className="relative w-full h-[920px]">
                     <Image src={planoUrl} alt="Plano" layout="fill" objectFit="contain" />
                 </div>
             </div>
@@ -109,14 +128,29 @@ function RenderGridForChunk({ photos }: { photos: Photo[] }) {
     return (
         <div className="flex flex-col gap-2 overflow-hidden">
             {photos.map((photo) => (
-                <img key={photo.url} src={photo.url} alt={'Propiedad'} className="w-full h-full object-contain p-2" />
+                <img
+                    key={photo.url}
+                    src={photo.url}
+                    alt={"Propiedad"}
+                    className="w-full h-full object-contain p-2"
+                />
             ))}
         </div>
     );
 }
 
-const PdfRoomPage = ({ room, photos }: { room?: PropiedadHabitacion, photos?: Photo[] }) => {
-    const chunks = photos ? sortAndChunkPhotos(photos) : (room ? sortAndChunkPhotos(room.photos) : null);
+const PdfRoomPage = ({
+    room,
+    photos,
+}: {
+    room?: PropiedadHabitacion;
+    photos?: Photo[];
+}) => {
+    const chunks = photos
+        ? sortAndChunkPhotos(photos)
+        : room
+            ? sortAndChunkPhotos(room.photos)
+            : null;
     const pages = [];
 
     if (photos) {
@@ -124,27 +158,25 @@ const PdfRoomPage = ({ room, photos }: { room?: PropiedadHabitacion, photos?: Ph
             pages.push(
                 <PDFPage key={`chunku-${index}`}>
                     <RenderGridForChunk photos={photosArray} />
-                </PDFPage>
+                </PDFPage>,
             );
         });
     } else if (room) {
         if (room.title || room.description) {
             pages.push(
                 <PDFPage key="room-info">
-                    {room.title &&
+                    {room.title && (
                         <h1 className="text-4xl font- text-center pt-[1rem]">
                             {room.title}
                         </h1>
-                    }
-                    {room.description &&
-                        <p className="text-center max-w-2xl mx-auto">
-                            {room.description}
-                        </p>
-                    }
-                    {chunks && chunks.length > 0 &&
+                    )}
+                    {room.description && (
+                        <p className="text-center max-w-2xl mx-auto">{room.description}</p>
+                    )}
+                    {chunks && chunks.length > 0 && (
                         <RenderGridForChunk photos={chunks[0]} />
-                    }
-                </PDFPage>
+                    )}
+                </PDFPage>,
             );
         }
 
@@ -153,7 +185,7 @@ const PdfRoomPage = ({ room, photos }: { room?: PropiedadHabitacion, photos?: Ph
                 pages.push(
                     <PDFPage key={`chunk-${index + 1}`}>
                         <RenderGridForChunk photos={photosArray} />
-                    </PDFPage>
+                    </PDFPage>,
                 );
             });
         }
@@ -162,11 +194,16 @@ const PdfRoomPage = ({ room, photos }: { room?: PropiedadHabitacion, photos?: Ph
     return pages;
 };
 
-
-export function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.ReactNode }) {
+export function CreatePdf({
+    pdf,
+    brochure,
+}: {
+    pdf: PdfParent;
+    brochure: React.ReactNode;
+}) {
     const pages = [
         <PdfPageOne key={pdf.title} title={pdf.quote} photos={pdf.photosCover} />,
-        <PdfPageTwo key="page-two" pdf={pdf} brochure={brochure} />
+        <PdfPageTwo key="page-two" pdf={pdf} brochure={brochure} />,
     ];
 
     if (pdf.photoMain) {
@@ -181,6 +218,5 @@ export function CreatePdf({ pdf, brochure }: { pdf: PdfParent, brochure: React.R
 
     pages.push(<PdfPlanoPage key="plano-page" planoUrl={pdf.planoUrl.url} />);
 
-    return <div id='pdf'>{pages}</div>;
+    return <div id="pdf">{pages}</div>;
 }
-

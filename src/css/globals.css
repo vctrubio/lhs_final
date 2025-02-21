@@ -1,27 +1,27 @@
-@import url('../css/property.css');
-@import url('../css/svgs.css');
-@import url('../css/logo.css');
-@import url('../css/sidebar.css');
-@import url('../css/footer.css');
+@import url("../css/property.css");
+@import url("../css/svgs.css");
+@import url("../css/logo.css");
+@import url("../css/sidebar.css");
+@import url("../css/footer.css");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --color-green-original: #91AC8F;
-  --color-green-dark: #15423B;
+  --color-green-original: #91ac8f;
+  --color-green-dark: #15423b;
   --color-green-dark-opec: #15423bb6;
-  --color-green-light: #6A9B89;
-  --color-blue: #285F98;
+  --color-green-light: #6a9b89;
+  --color-blue: #285f98;
   --color-blue-light: #285e9887;
-  --color-beigh-darkish: #CDC2A6;
-  --color-beigh-light-bg: #E1D8C6;
-  --color-beigh: #EAE4DC;
-  --color-danger: #C7253E;
+  --color-beigh-darkish: #cdc2a6;
+  --color-beigh-light-bg: #e1d8c6;
+  --color-beigh: #eae4dc;
+  --color-danger: #c7253e;
   --color-backup: #821131;
-  --color-info: #CD5C08;
-  --color-love: #F05A7E;
+  --color-info: #cd5c08;
+  --color-love: #f05a7e;
   --color-price: #303030;
 
   --background: var(--color-beigh-light-bg);
@@ -31,7 +31,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
 }
 
 main {
@@ -42,7 +42,6 @@ main {
 :focus {
   outline: none;
 }
-
 
 /* ONE: Single photo (full container) */
 .layout-one {
@@ -72,13 +71,11 @@ main {
   gap: 8px;
 }
 
-
 .photo-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
-
 
 .photo-container img {
   width: 100%;
@@ -93,7 +90,7 @@ main {
   margin: 0 auto;
   padding: 15mm; /* Print-safe area */
   background: white;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   page-break-after: always; /* Ensures PDF pages break correctly */
 }
 
@@ -104,7 +101,7 @@ main {
 }
 
 #price-color {
-  color: var(--color-price)
+  color: var(--color-price);
 }
 
 ::selection {
@@ -119,10 +116,10 @@ main {
 
 @keyframes fadeIn {
   0% {
-      opacity: 0;
+    opacity: 0;
   }
   100% {
-      opacity: 1;
+    opacity: 1;
   }
 }
 
@@ -140,27 +137,46 @@ html {
   text-size-adjust: none;
 }
 
+body {
+  zoom: 0.9;
+}
+
 /* Remove default margin in favour of better control in authored CSS */
-body, h1, h2, h3, h4, p,
-figure, blockquote, dl, dd {
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
   margin-block-end: 0;
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
-ul[role='list'],
-ol[role='list'] {
+ul[role="list"],
+ol[role="list"] {
   list-style: none;
 }
 
 /* Set shorter line heights on headings and interactive elements */
-h1, h2, h3, h4,
-button, input, label {
+h1,
+h2,
+h3,
+h4,
+button,
+input,
+label {
   line-height: 1.1;
 }
 
 /* Balance text wrapping on headings */
-h1, h2,
-h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   text-wrap: balance;
 }
 
@@ -178,8 +194,10 @@ picture {
 }
 
 /* Inherit fonts for inputs and buttons */
-input, button,
-textarea, select {
+input,
+button,
+textarea,
+select {
   font-family: inherit;
   font-size: inherit;
 }
@@ -192,10 +210,4 @@ textarea:not([rows]) {
 /* Anything that has been anchored to should have extra scroll margin */
 :target {
   scroll-margin-block: 5ex;
-}
-
-@media (max-width: 1111px) {
-    body {
-        zoom: 0.9;
-    }
 }
