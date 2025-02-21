@@ -5,8 +5,8 @@ import { Analytics } from "@vercel/analytics/react";
 
 export const viewport: Viewport = {
     width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
+    // initialScale: 1,
+    // maximumScale: 1,
     userScalable: true,
     viewportFit: "cover",
     interactiveWidget: "resizes-content", // Fixes iOS keyboard pushing content
@@ -102,6 +102,20 @@ export default async function RootLayout({
     return (
         <html lang="es">
             <head>
+                <script
+                    async
+                    src="https://www.googletagmanager.com/gtag/js?id=G-TC5ZKQRWEK"
+                ></script>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            window.dataLayer = window.dataLayer || [];
+                            function gtag(){dataLayer.push(arguments);}
+                            gtag('js', new Date());
+                            gtag('config', 'G-TC5ZKQRWEK');
+                        `,
+                    }}
+                />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
