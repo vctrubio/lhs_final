@@ -137,10 +137,11 @@ html {
   text-size-adjust: none;
 }
 
-body {
-  zoom: 0.8;
+@media (max-width: 1024px) {
+  body {
+    zoom: 0.8;
+  }
 }
-
 /* Remove default margin in favour of better control in authored CSS */
 body,
 h1,

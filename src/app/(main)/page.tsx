@@ -22,7 +22,6 @@ export default async function Home() {
         <div className="flex flex-col justify-center bg-color-red">
           <CardPropertySearchFilter entries={sortedEntries} />
         </div>
-        <div></div>
       </Suspense>
     </>
   );
