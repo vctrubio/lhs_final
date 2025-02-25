@@ -133,10 +133,10 @@ function parsePropertyFromContentful({ entry }: { entry: any }): Property {
     const photos_cover_url = photosCover && extractImageUrls(photosCover);
     const photos_main_url = photos ? extractImageUrls(photos) : null;
 
-    console.log("url phhotos for", title);
-    console.log("imgages", photos_cover_url);
-    console.log("imgages URL.", planoUrl?.url);
-
+    // console.log("url phhotos for", title);
+    // console.log("imgages", photos_cover_url);
+    // console.log("imgages URL.", planoUrl?.url);
+    //
     return {
         title: title,
         url: url,

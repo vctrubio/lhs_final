@@ -4,11 +4,12 @@ import { PdfParent, CreatePdf } from "@/components/PdfPageView";
 import NotFound from "@/app/(main)/not-found";
 import { fetchPropertyByID } from "#/backend/apisConnections";
 
-type PageParams = {
-    slug: string;
-};
-export default async function PdfView({ params }: { params: PageParams }) {
-    const { slug } = params;
+export default async function PdfView({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}) {
+    const slug = (await params).slug;
     const propertyData = await fetchPropertyByID(slug);
     const property = propertyData;
 
