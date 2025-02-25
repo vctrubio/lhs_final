@@ -1,0 +1,44 @@
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.image-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 2rem;
+  font-weight: bold;
+  overflow: hidden;
+}
+
+.image-placeholder span {
+  animation: bounce 1s infinite;
+}
+
+.image-placeholder.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+.property-banner {
+  position: relative;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease-in;
+}
+
+.property-banner.loading {
+  border-color: #ccc;
+}

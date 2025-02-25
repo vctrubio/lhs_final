@@ -20,10 +20,17 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "#/*": ["./*"]     // Root alias
-    },
+      "#/*": ["./*"] // Root alias
+    }
     // "noImplicitAny": false
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "backend/propertyProviderContext.js", "backend/caching.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "backend/propertyProviderContext.js",
+    "backend/caching.ts"
+  ],
   "exclude": ["node_modules"]
 }
