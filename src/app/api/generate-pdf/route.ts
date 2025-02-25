@@ -1,6 +1,8 @@
 import { chromium } from "playwright-core";
 import { NextRequest, NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+
 export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams;
@@ -32,19 +34,19 @@ export async function GET(req: NextRequest) {
 
     await browser.close();
 
-    console.log("✅ PDF Successfully Generated");
+    console.log("PDF Successfully Generated");
 
     return new NextResponse(pdfBuffer, {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": `attachment; filename="LHS-${slug}.pdf"`,
-        "Access-Control-Allow-Origin": "*", // ✅ Fix CORS for client-side calls
+        "Access-Control-Allow-Origin": "*", //Fix CORS for client-side calls
         "Access-Control-Allow-Methods": "GET",
       },
     });
   } catch (err) {
-    console.error("❌ PDF Generation Error:", err);
+    console.error("PDF Generation Error:", err);
     return new NextResponse("PDF Generation Failed", { status: 500 });
   }
 }
