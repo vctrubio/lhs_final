@@ -46,7 +46,7 @@ export const PDFPage = ({ children, className = "" }: PDFPageProps) => {
 const PdfPageOne = ({ title, photos }: { title: string; photos: Photo[] }) => {
     return (
         <PDFPage>
-            <div className="pt-8">
+            <div className="pt-9">
                 <h1 className="text-5xl text-zinc-500 font-ricordi font-light text-center my-4 px-2">
                     &quot;{title}&quot;
                 </h1>
@@ -216,7 +216,8 @@ export function CreatePdf({
         });
     }
 
-    pages.push(<PdfPlanoPage key="plano-page" planoUrl={pdf.planoUrl.url} />);
+    if (pdf.planoUrl && pdf.planoUrl.url)
+        pages.push(<PdfPlanoPage key="plano-page" planoUrl={pdf.planoUrl.url} />);
 
     return <div id="pdf">{pages}</div>;
 }

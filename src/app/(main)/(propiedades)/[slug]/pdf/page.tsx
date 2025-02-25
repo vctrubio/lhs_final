@@ -8,7 +8,6 @@ import {
 } from "@/utils/metadata";
 import { Metadata } from "next";
 import NotFound from "@/app/(main)/not-found";
-import DownloadPdfButton from "@/components/PropertyDownload";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const resolvedParams = await params;
@@ -30,7 +29,6 @@ export default async function PdfView({ params }: Props) {
     return (
         <div>
             <div>{property.url}</div>
-            <DownloadPdfButton slug={property.url} />
             <CreatePdf pdf={pdf} brochure={brochure} />;
         </div>
     );
