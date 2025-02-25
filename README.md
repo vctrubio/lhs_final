@@ -8,4 +8,3 @@ Pagina web para la empresa LHS Concept, dedicada a la venta de propiedades de lu
 
 - Next.js
 - Tailwind CSS
-<!-- - Framer Motion -->
