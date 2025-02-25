@@ -1,6 +1,5 @@
 import React from "react";
 import { Photo, Property, PropiedadHabitacion } from "#/backend/types";
-import Image from "next/image";
 import { IconFindUs } from "@/utils/svgs";
 import { sortAndChunkPhotos } from "@/components/PdfPageAlgorithims";
 
@@ -33,7 +32,6 @@ export class PdfParent {
 }
 
 export const PDFPage = ({ children, className = "" }: PDFPageProps) => {
-    //NOTE: max width and shadow until dontload btn is installed.
     return (
         <div
             className={`flex flex-col mx-auto w-a4 h-a4 bg-background page-break ${className}`}
@@ -50,12 +48,12 @@ const PdfPageOne = ({ title, photos }: { title: string; photos: Photo[] }) => {
                 <h1 className="text-5xl text-zinc-500 font-ricordi font-light text-center my-4 px-2">
                     &quot;{title}&quot;
                 </h1>
-                <div className="relative w-full h-[1220px]">
-                    <Image
+                {/* Plain <img> instead of <Image /> */}
+                <div className="w-full h-[1220px] overflow-hidden relative">
+                    <img
                         src={photos[0].url}
                         alt="Propiedad"
-                        layout="fill"
-                        objectFit="cover"
+                        className="w-full h-full object-cover"
                     />
                 </div>
             </div>
@@ -94,7 +92,7 @@ const PdfPageTwo = ({
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                 }}
-            ></div>
+            />
             <div
                 className="border border-gold w-full h-full"
                 style={{
@@ -105,7 +103,7 @@ const PdfPageTwo = ({
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                 }}
-            ></div>
+            />
             <div className="gold rounded-xl overflow-hidden">{brochure}</div>
         </PDFPage>
     );
@@ -116,8 +114,13 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
         <PDFPage>
             <div className="pt-8">
                 <h1 className="text-5xl text-center my-4 px-2">Plano</h1>
-                <div className="relative w-full h-[920px]">
-                    <Image src={planoUrl} alt="Plano" layout="fill" objectFit="contain" />
+                {/* Plain <img> instead of <Image /> */}
+                <div className="w-full h-[920px] overflow-hidden relative">
+                    <img
+                        src={planoUrl}
+                        alt="Plano"
+                        className="w-full h-full object-contain"
+                    />
                 </div>
             </div>
         </PDFPage>
@@ -131,7 +134,7 @@ function RenderGridForChunk({ photos }: { photos: Photo[] }) {
                 <img
                     key={photo.url}
                     src={photo.url}
-                    alt={"Propiedad"}
+                    alt="Propiedad"
                     className="w-full h-full object-contain p-2"
                 />
             ))}
@@ -166,9 +169,7 @@ const PdfRoomPage = ({
             pages.push(
                 <PDFPage key="room-info">
                     {room.title && (
-                        <h1 className="text-4xl text-4xl text-center pt-[1rem]">
-                            {room.title}
-                        </h1>
+                        <h1 className="text-4xl text-center pt-[1rem]">{room.title}</h1>
                     )}
                     {room.description && (
                         <p className="text-center text-2xl mx-auto">{room.description}</p>
@@ -216,8 +217,9 @@ export function CreatePdf({
         });
     }
 
-    if (pdf.planoUrl && pdf.planoUrl.url)
+    if (pdf.planoUrl && pdf.planoUrl.url) {
         pages.push(<PdfPlanoPage key="plano-page" planoUrl={pdf.planoUrl.url} />);
+    }
 
     return <div id="pdf">{pages}</div>;
 }
