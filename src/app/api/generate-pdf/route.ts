@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer";
+import { chromium } from "playwright-core";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -9,64 +9,42 @@ export async function GET(req: NextRequest) {
             return new NextResponse("Missing 'slug' param", { status: 400 });
         }
 
-        // Build the URL to your /pdf/<slug> page
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
         const url = `${baseUrl}/pdf/${slug}`;
 
-        console.log("Generating PDF from:", url);
+        console.log("🔹 Generating PDF from:", url);
 
-        // 1) Launch Puppeteer
-        const browser = await puppeteer.launch({
-            headless: true,
+        const browser = await chromium.launch({
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
+            headless: true,
         });
 
-        // 2) Open the page
         const page = await browser.newPage();
         await page.goto(url, { waitUntil: "networkidle0" });
 
-        // 3) Ensure fonts load
-        await page.evaluate(() => {
-            return new Promise<void>((resolve) => {
-                if (document.fonts) {
-                    document.fonts.ready.then(() => resolve());
-                } else {
-                    resolve();
-                }
-            });
-        });
+        await page.waitForLoadState("load");
+        await page.waitForSelector("img", { timeout: 10000 });
 
-        // 4) Wait for any images
-        await page.waitForSelector("img", { timeout: 5000 });
-
-        // 5) Force an A4 viewport in pixels:
-        //    210mm ~= 795px, 297mm ~= 1123px at 96 DPI,
-        //    We'll add deviceScaleFactor to improve clarity
-        await page.setViewport({
-            width: 795,
-            height: 1123,
-            deviceScaleFactor: 3,
-        });
-
-        // 6) Print the PDF
         const pdfBuffer = await page.pdf({
-            width: "210mm",
-            height: "297mm",
+            format: "A4",
             printBackground: true,
-            scale: 1,
         });
 
         await browser.close();
+
+        console.log("✅ PDF Successfully Generated");
 
         return new NextResponse(pdfBuffer, {
             status: 200,
             headers: {
                 "Content-Type": "application/pdf",
                 "Content-Disposition": `attachment; filename="LHS-${slug}.pdf"`,
+                "Access-Control-Allow-Origin": "*", // ✅ Fix CORS for client-side calls
+                "Access-Control-Allow-Methods": "GET",
             },
         });
     } catch (err) {
-        console.error("PDF Generation Error:", err);
+        console.error("❌ PDF Generation Error:", err);
         return new NextResponse("PDF Generation Failed", { status: 500 });
     }
 }

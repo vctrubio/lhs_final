@@ -13,16 +13,24 @@ export function FooterTagShare({ property }) {
     const handleDownloadPdf = async () => {
         setLoading(true);
         try {
-            console.log("Downloading PDF for slug:", property.url);
+            // ✅ Use `window.location.origin` if running in the browser
+            const apiBaseUrl =
+                typeof window !== "undefined"
+                    ? window.location.origin
+                    : "http://localhost:3000"; // Fallback for server-side
 
-            const response = await fetch(`/api/generate-pdf?slug=${property.url}`);
+            const apiUrl = `${apiBaseUrl}/api/generate-pdf?slug=${property.url}`;
+
+            console.log("🔹 Fetching PDF from:", apiUrl);
+
+            const response = await fetch(apiUrl);
             if (!response.ok) {
                 const errorText = await response.text();
-                console.error("PDF API Error:", errorText);
+                console.error("❌ PDF API Error:", errorText);
                 throw new Error("Failed to generate PDF");
             }
 
-            console.log("PDF Download Success");
+            console.log("✅ PDF Download Success");
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
@@ -32,7 +40,7 @@ export function FooterTagShare({ property }) {
             a.click();
             window.URL.revokeObjectURL(url);
         } catch (error) {
-            console.error("Error downloading PDF:", error);
+            console.error("❌ Error downloading PDF:", error);
         }
         setLoading(false);
     };
