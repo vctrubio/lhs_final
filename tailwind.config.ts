@@ -19,19 +19,17 @@ export default {
                 greenish: "#91AC8F",
                 dark: "#14213D",
             },
-            spacing: {
-                a4: '297mm', // Height of an A4 page
-            },
             width: {
-                a4: '210mm', // Width of an A4 page
+                a4: "268mm", // A4 Width
+            },
+            height: {
+                a4: "379mm", // A4 Height (fix to puppeeter route gaynes)
             },
             fontFamily: {
-                ricordi: ['TTRicordi', 'sans-serif'],
+                ricordi: ["TTRicordi", "sans-serif"],
                 ariel: ["Arial"],
-
             },
         },
     },
-    plugins: [
-    ],
+    plugins: [],
 } satisfies Config;

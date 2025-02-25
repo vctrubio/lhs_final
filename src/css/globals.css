@@ -8,6 +8,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .page-break {
+    page-break-before: always;
+  }
+}
+
 :root {
   --color-green-original: #91ac8f;
   --color-green-dark: #15423b;

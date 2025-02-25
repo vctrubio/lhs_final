@@ -8,7 +8,8 @@ type PageParams = {
     slug: string;
 };
 export default async function PdfView({ params }: { params: PageParams }) {
-    const propertyData = await fetchPropertyByID(params.slug);
+    const { slug } = params;
+    const propertyData = await fetchPropertyByID(slug);
     const property = propertyData;
 
     if (!property) {

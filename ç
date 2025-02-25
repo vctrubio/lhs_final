@@ -36,7 +36,7 @@ export const PDFPage = ({ children, className = "" }: PDFPageProps) => {
     //NOTE: max width and shadow until dontload btn is installed.
     return (
         <div
-            className={`flex flex-col mx-auto w-a4 h-a4 bg-background page-break ${className}`}
+            className={`flex flex-col mx-auto w-a4 h-a4 bg-background page-break ${className} border`}
         >
             {children}
         </div>
@@ -126,7 +126,7 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
 
 function RenderGridForChunk({ photos }: { photos: Photo[] }) {
     return (
-        <div className="flex flex-col h-full gap-2 overflow-hidden">
+        <div className="flex flex-col gap-2 overflow-hidden border">
             {photos.map((photo) => (
                 <img
                     key={photo.url}
@@ -166,12 +166,12 @@ const PdfRoomPage = ({
             pages.push(
                 <PDFPage key="room-info">
                     {room.title && (
-                        <h1 className="text-4xl text-4xl text-center pt-[1rem]">
+                        <h1 className="text-4xl font- text-center pt-[1rem]">
                             {room.title}
                         </h1>
                     )}
                     {room.description && (
-                        <p className="text-center text-2xl mx-auto">{room.description}</p>
+                        <p className="text-center max-w-2xl mx-auto">{room.description}</p>
                     )}
                     {chunks && chunks.length > 0 && (
                         <RenderGridForChunk photos={chunks[0]} />
