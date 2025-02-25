@@ -7,8 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "lint:css": "stylelint 'src/**/*.css'",
-        "postinstall": "npx playwright install chromium"
+        "lint:css": "stylelint 'src/**/*.css'"
     },
     "dependencies": {
         "@emotion/react": "^11.14.0",
