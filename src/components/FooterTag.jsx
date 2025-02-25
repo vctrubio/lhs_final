@@ -81,9 +81,7 @@ export function FooterTagShare({ property }) {
                 ))}
             </div>
             {loading && (
-                <p className="text-center text-sm text-gray-500">
-                    Descargando Ficha...
-                </p>
+                <p className="text-center text-gray-500">Descargando Ficha...</p>
             )}
             <ShareModal
                 isOpen={isShareModalOpen}

@@ -28,7 +28,6 @@ export default async function PdfView({ params }: Props) {
 
     return (
         <div>
-            <div>{property.url}</div>
             <CreatePdf pdf={pdf} brochure={brochure} />;
         </div>
     );
