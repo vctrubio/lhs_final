@@ -2,15 +2,19 @@ import type { Config } from "tailwindcss";
 
 export default {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        greenOriginal: "#91ac8f",
+        greenDark: "#15423b",
+        greenDarkOpec: "#15423bb6",
+        greenLight: "#91CEB8",
+        beighDarkish: "#cdc2a6",
+        backgroundBeigh: "#e1d8c6",
+        beigh: "#eae4dc",
+        price: "#303030",
       },
     },
   },
