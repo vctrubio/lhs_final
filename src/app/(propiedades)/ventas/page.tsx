@@ -4,7 +4,7 @@ import { fetchProperties } from "#/backend/CRM/fetch";
 import { ContentController } from "#/backend/CRM/debugger";
 
 export default async function Ventas() {
-    const { properties } = await ContentController({ id: null });
+    const { properties } = await ContentController({ id: undefined });
 
     return (
         <div className="my-2">

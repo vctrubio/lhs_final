@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        greenOriginal: "#91ac8f",
+        greenish: "#91ac8f",
         greenDark: "#15423b",
         greenDarkOpec: "#15423bb6",
         greenLight: "#91CEB8",

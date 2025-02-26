@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className="bg-backgroundBeigh border-4">
+      <body className="bg-backgroundBeigh">
         <Navbar />
         <main className="flex flex-col p-4 justify-start" style={{ height: "calc(100vh - 8rem)" }}>
           {children}

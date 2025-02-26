@@ -59,7 +59,7 @@ export async function ContentController({ id }: { id?: string }): Promise<
         let selectedProperty = cache.properties.find(property => property.url === id);
         if (!selectedProperty) {
             console.log('Property not found in cache, fetching by ID...');
-            selectedProperty = await fetchPropertyByID(id);
+            selectedProperty = (await fetchPropertyByID(id)) ?? undefined; // Changed to convert null to undefined.
             if (selectedProperty) {
                 console.log('Property found by ID, adding to cache:');
                 cache.properties.push(selectedProperty);
