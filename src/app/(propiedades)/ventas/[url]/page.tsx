@@ -1,10 +1,9 @@
 import React from "react";
 import { ContentController } from "#/backend/CRM/debugger";
+import PropertyPage from "@/pages/propiedadView";
 
-export default async function PropertyDetails({ params }: { params: Promise<{ url: string }> | { url: string } }) {
-    const resolvedParams = await params;
-    const { url } = resolvedParams;
-
+export default async function PropertyDetails({ params }: { params: { url: string } }) {
+    const { url } = params;
     const content = await ContentController({ id: url });
     if (!("selectedProperty" in content)) {
         throw new Error("Property not found");
@@ -12,10 +11,5 @@ export default async function PropertyDetails({ params }: { params: Promise<{ ur
 
     const selectedProperty = content.selectedProperty;
 
-    return (
-        <div>
-            <h1>Property Details</h1>
-            <p>You are at the right space: {selectedProperty.title}</p>
-        </div>
-    );
+    return <PropertyPage property={selectedProperty}/>
 }

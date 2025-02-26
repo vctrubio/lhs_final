@@ -1,8 +1,9 @@
+import { Property } from "#/backend/types";
 
-export default function Propiedad() {
+export default function PropertyPage({property}: {property: Property}) {
     return (
         <>
-            div
+         {property.title}
         </>
     )
 }
