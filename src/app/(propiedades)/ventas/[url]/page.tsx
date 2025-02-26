@@ -1,3 +1,4 @@
+import React from "react";
 import { ContentController } from "#/backend/CRM/debugger";
 
 export default async function PropertyDetails({ params }: { params: Promise<{ url: string }> | { url: string } }) {
