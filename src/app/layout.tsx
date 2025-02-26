@@ -5,7 +5,6 @@ import Navbar from "@/components/Navbar";
 export const metadata: Metadata = {
   title: "LHS Concept",
   description: "Propiedades Selectas en Madrid",
-  
 };
 
 export default function RootLayout({
@@ -15,11 +14,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body
-        className="bg-backgroundBeigh"
-      >
-        <Navbar/>
-        {children}
+      <body className="bg-backgroundBeigh border-4">
+        <Navbar />
+        <main className="flex flex-col p-4 justify-start" style={{ height: "calc(100vh - 8rem)" }}>
+          {children}
+        </main>
       </body>
     </html>
   );
