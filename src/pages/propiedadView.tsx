@@ -69,7 +69,6 @@ const PropertyInfo = ({ property, togglePlano }) => {
 const PropertyPage = ({ property }: { property: Property }) => {
     if (!property || !property.photos_url) return <>no photos_url found</>;
 
-    // If user clicks "Plano", open the lightbox with only the plano
     const togglePlano = () => {
         if (property.plano_url?.url) {
         }
@@ -78,12 +77,8 @@ const PropertyPage = ({ property }: { property: Property }) => {
     return (
         <div className="mx-auto p-2 sm:px-6 lg:px-8 max-w-7xl mb-8">
             length..... {property.photos_url.length}
-            {/* Title */}
             <PropertyTitle property={property} />
-            {/* Description + Brochure + Plano */}
             <PropertyInfo property={property} togglePlano={togglePlano} />
-            {/* Lightbox */}
-            {lightboxOpen && lightboxImages.length > 0 && <div>openBox</div>}
         </div>
     );
 };

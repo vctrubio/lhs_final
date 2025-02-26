@@ -1,3 +1,6 @@
+import InfoPanel from '../components/InfoPanel';
+import Map from '../components/Map';
+
 export default function Home() {
     return (
         <div className="flex flex-col border border-red-500">
@@ -6,13 +9,11 @@ export default function Home() {
                     Cover
                 </div>
                 <div className="flex justify-between border border-black">
-                    <div className="w-3/4 min-h-[420px]" id="tmp-foto">
-                        MAP
+                    <div className="flex-1 min-h-[420px]" id="tmp-map">
+                        <Map />
                     </div>
-                    <div className="flex flex-col justify-center gap-2 mx-auto [&>*]:border [&>*]:rounded-xl [&>*]:p-2">
-                        <div>Guia de Barrios</div>
-                        <div>Servicios</div>
-                        <div>Contacta con Nosotros</div>
+                    <div className="flex-1 flex flex-col justify-center gap-2 px-4 [&>*]:border [&>*]:rounded-xl [&>*]:p-2">
+                        <InfoPanel />
                     </div>
                 </div>
             </div>
