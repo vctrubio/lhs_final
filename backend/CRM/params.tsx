@@ -1,13 +1,14 @@
-import { Property, PropertyParams } from "@/types/Property"
-import { getBedrooms, getMetersSquare, getBathrooms, formatPrice } from "@/utils/utils"
-import { IconPrice } from "@/utils/svgs"
+import React from "react";
+import { Property, PropertyParams } from "#/backend/types";
+import { getBedrooms, getMetersSquare, getBathrooms, formatPrice } from "@/utils/utils";
+import { IconPrice } from "@/utils/svgs"; // Ensure IconPrice is imported correctly
 import { Bed, Bath, Ruler } from "lucide-react";
 
 export function getPropertiesParams(properties: Property[]): PropertyParams {
-    const prices = properties.map(property => formatPrice(property.precio))
-    const bathrooms = properties.map(property => getBathrooms(property))
-    const bedrooms = properties.map(property => getBedrooms(property))
-    const metersSquare = properties.map(property => getMetersSquare(property))
+    const prices = properties.map(property => formatPrice(property.precio));
+    const bathrooms = properties.map(property => getBathrooms(property));
+    const bedrooms = properties.map(property => getBedrooms(property));
+    const metersSquare = properties.map(property => getMetersSquare(property));
 
     const propertyParams: PropertyParams = {
         prices: {

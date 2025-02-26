@@ -1,12 +1,10 @@
+import React from "react";
 import { JSX } from "react";
-
 export interface Photo {
     url: string;
     width: number;
     height: number;
 }
-
-// PRIMARY //
 export interface Property {
     title: string;
     url: string;
@@ -39,7 +37,6 @@ export interface Barrio {
     longDescription: string;
 }
 
-// SECONDARY //
 export interface Amentities {
     AC: boolean;
     Heating: boolean;
@@ -69,7 +66,7 @@ export interface PropiedadHabitacion {
     photos: Photo[];
 }
 
-interface PropertyParamsProps {
+export interface PropertyParamsProps {
     title: string,
     min: number,
     max: number,

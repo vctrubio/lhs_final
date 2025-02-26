@@ -8,7 +8,7 @@ import { Menu, X } from 'lucide-react';
 const NavItem: React.FC<{ label: string; href: string }> = ({ label, href }) => {
   return (
     <Link href={href}>
-      <div className="hover:text-black transition-colors duration-300 cursor-pointer align-right border">
+      <div className="hover:text-black transition-colors duration-300 cursor-pointer align-right">
         {label}
       </div>
     </Link>
