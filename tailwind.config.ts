@@ -15,6 +15,12 @@ export default {
         price: "#303030",
       },
     },
+    width: {
+      a4: "268mm", // A4 Width
+    },
+    height: {
+      a4: "379mm", // A4 Height (fix to puppeeter route gaynes)
+    },
   },
   plugins: [],
 } satisfies Config;

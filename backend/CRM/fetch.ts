@@ -29,6 +29,7 @@ export async function fetchProperties(): Promise<{
 
     const propertyParams = getPropertiesParams(properties);
 
+  
     const uniqueBarriosInProperties = [
         ...new Set(properties.map((property) => property.barrioRef.name)),
     ];
@@ -36,6 +37,11 @@ export async function fetchProperties(): Promise<{
         uniqueBarriosInProperties.includes(barrio.name),
     );
 
+    properties.forEach((property) => {
+      if (!property.photos_url || property.photos_url.length === 0) {
+      console.log(`Property ID: ${property.title} has no photos.`);
+      }
+    });
     return { properties, filteredBarrios, propertyParams };
 }
 

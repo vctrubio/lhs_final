@@ -259,6 +259,8 @@ const CarouselComponent = React.memo(function CarouselComponent({ property, curr
 });
 
 const PropertyPage= ({ property }) => {
+    if (!property || !property.photos_url) return <>no photos_url found</>;
+    
     const [currentIndex, setCurrentIndex] = useState(0);
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [lightboxImages, setLightboxImages] = useState(property.photos_url); // Default: only normal photos
