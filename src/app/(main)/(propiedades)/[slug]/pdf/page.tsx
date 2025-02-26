@@ -8,6 +8,7 @@ import {
 } from "@/utils/metadata";
 import { Metadata } from "next";
 import NotFound from "@/app/(main)/not-found";
+import { DownloadPdfButton } from "@/components/DownloadPdfButton";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const resolvedParams = await params;
@@ -27,7 +28,8 @@ export default async function PdfView({ params }: Props) {
     const brochure = <PropertyBroucher property={property} flag={true} />;
 
     return (
-        <div>
+        <div className="flex flex-col items-center">
+            <DownloadPdfButton title={pdf.title} />
             <CreatePdf pdf={pdf} brochure={brochure} />;
         </div>
     );

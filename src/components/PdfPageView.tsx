@@ -142,13 +142,11 @@ function RenderGridForChunk({ photos }: { photos: Photo[] }) {
     );
 }
 
-const PdfRoomPage = ({
-    room,
-    photos,
-}: {
-    room?: PropiedadHabitacion;
-    photos?: Photo[];
-}) => {
+// Update PdfRoomPage to accept an optional keyPrefix for unique keys
+const PdfRoomPage = (
+    { room, photos }: { room?: PropiedadHabitacion; photos?: Photo[] },
+    keyPrefix: string = ""
+) => {
     const chunks = photos
         ? sortAndChunkPhotos(photos)
         : room
@@ -159,15 +157,15 @@ const PdfRoomPage = ({
     if (photos) {
         chunks?.forEach((photosArray, index) => {
             pages.push(
-                <PDFPage key={`chunku-${index}`}>
+                <PDFPage key={`${keyPrefix}-chunku-${index}`}>
                     <RenderGridForChunk photos={photosArray} />
-                </PDFPage>,
+                </PDFPage>
             );
         });
     } else if (room) {
         if (room.title || room.description) {
             pages.push(
-                <PDFPage key="room-info">
+                <PDFPage key={`${keyPrefix}-info`}>
                     {room.title && (
                         <h1 className="text-4xl text-center pt-[1rem]">{room.title}</h1>
                     )}
@@ -177,16 +175,16 @@ const PdfRoomPage = ({
                     {chunks && chunks.length > 0 && (
                         <RenderGridForChunk photos={chunks[0]} />
                     )}
-                </PDFPage>,
+                </PDFPage>
             );
         }
 
         if (chunks && chunks.length > 1) {
             chunks.slice(1).forEach((photosArray, index) => {
                 pages.push(
-                    <PDFPage key={`chunk-${index + 1}`}>
+                    <PDFPage key={`${keyPrefix}-chunk-${index + 1}`}>
                         <RenderGridForChunk photos={photosArray} />
-                    </PDFPage>,
+                    </PDFPage>
                 );
             });
         }
@@ -208,12 +206,12 @@ export function CreatePdf({
     ];
 
     if (pdf.photoMain) {
-        pages.push(...PdfRoomPage({ photos: pdf.photoMain }));
+        pages.push(...PdfRoomPage({ photos: pdf.photoMain }, "photoMain"));
     }
 
     if (pdf.rooms) {
-        pdf.rooms.forEach((room) => {
-            pages.push(...PdfRoomPage({ room }));
+        pdf.rooms.forEach((room, index) => {
+            pages.push(...PdfRoomPage({ room }, `room-${index}`));
         });
     }
 
