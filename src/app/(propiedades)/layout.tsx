@@ -8,7 +8,7 @@ export default function PLayout({
 }) {
     return (
         <div>
-            <SearchBar />
+            {/* <SearchBar /> */}
             {children}
         </div>
     );

@@ -39,3 +39,24 @@ export async function fetchProperties(): Promise<{
     return { properties, filteredBarrios, propertyParams };
 }
 
+export async function fetchPropertyByID(url: string): Promise<Property | null> {
+    console.log("calling fetchbyID, url: ", url);
+  
+    try {
+      const entries = await client.getEntries();
+      const filteredEntry = entries.items.find((entry: Entry<any>) => {
+        return (
+          entry.sys.contentType.sys.id === "propiedad" && entry.fields.url === url
+        );
+      });
+  
+      if (!filteredEntry) {
+        return null;
+      }
+  
+      return parsePropertyFromContentful({ entry: filteredEntry });
+    } catch (error) {
+      console.error("Error fetching property by ID:", error);
+      return null;
+    }
+  }
