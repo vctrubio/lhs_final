@@ -10,10 +10,6 @@ import { IconPlano } from "@/utils/svgs";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Property } from "#/backend/types";
 
-interface PropertyPageProps {
-    property: Property;
-}
-
 function Lightbox({ images, currentIndex, onClose, onNext, onPrev }) {
     useEffect(() => {
         function handleKeyDown(e) {
@@ -262,7 +258,7 @@ const CarouselComponent = React.memo(function CarouselComponent({ property, curr
     );
 });
 
-const PropertyPage: React.FC<PropertyPageProps> = ({ property }) => {
+const PropertyPage= ({ property }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [lightboxImages, setLightboxImages] = useState(property.photos_url); // Default: only normal photos

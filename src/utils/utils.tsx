@@ -1,4 +1,5 @@
 import { Property } from "#/backend/types";
+import { JSX } from "react";
 import { IconPrice } from "./svgs";
 
 export function getBathrooms(property: Property) {
