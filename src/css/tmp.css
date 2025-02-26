@@ -1,0 +1,6 @@
+#tmp-foto {
+    background: rgb(172, 153, 153);
+    position: relative;
+    overflow: hidden;
+    object-fit: fill;
+}
