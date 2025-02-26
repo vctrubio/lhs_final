@@ -4,9 +4,6 @@ export default {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
-      fontSize: {
-        base: "18px", // Set root font size to 14px
-      },
       colors: {
         greenOriginal: "#91ac8f",
         greenDark: "#15423b",
