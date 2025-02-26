@@ -39,40 +39,46 @@ export const DownloadPdfButton = ({ title }: DownloadPdfButtonProps) => {
       return;
     }
 
-    const pdf = new jsPDF("p", "mm", "a4");
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const pdf = new jsPDF("p", "mm"); // No fixed A4 size, we will set dynamically
 
     for (let i = 0; i < pageElements.length; i++) {
       const page = pageElements[i];
       await waitForImages(page);
-      
-      // Capture the page content into a canvas
+
+      // Capture page at full resolution
       const canvas = await html2canvas(page, {
-        useCORS: true, // Ensure CORS is handled
+        useCORS: true,
         allowTaint: false,
-        scale: 2, // Increase scale for better quality
-        logging: true, // Enable logging for debugging
+        scale: 2, // Higher scale for better quality
       });
-      
+
       const imgData = canvas.toDataURL("image/png");
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
 
-      const scaleFactor = Math.min(pdfWidth / canvasWidth, pdfHeight / canvasHeight);
-      const imgWidth = canvasWidth * scaleFactor;
-      const imgHeight = canvasHeight * scaleFactor;
-      const offsetX = (pdfWidth - imgWidth) / 2;
-      const offsetY = (pdfHeight - imgHeight) / 2;
+      // Convert px to mm
+      const pxToMm = 0.264583;
+      const imgWidthMm = canvasWidth * pxToMm;
+      const imgHeightMm = canvasHeight * pxToMm;
 
-      if (i === 0) {
-        pdf.addImage(imgData, "PNG", offsetX, offsetY, imgWidth, imgHeight);
-      } else {
-        pdf.addPage();
-        pdf.addImage(imgData, "PNG", offsetX, offsetY, imgWidth, imgHeight);
-      }
+      // Define PDF page size
+      const pdfWidth = imgWidthMm;
+      const pdfHeight = imgHeightMm;
+      pdf.addPage([pdfWidth, pdfHeight]);
+
+      // Calculate aspect ratio scaling (object-contain)
+      const scaleFactor = Math.min(pdfWidth / imgWidthMm, pdfHeight / imgHeightMm);
+      const finalWidth = imgWidthMm * scaleFactor;
+      const finalHeight = imgHeightMm * scaleFactor;
+
+      // Centering the image like object-contain
+      const offsetX = (pdfWidth - finalWidth) / 2;
+      const offsetY = (pdfHeight - finalHeight) / 2;
+
+      pdf.addImage(imgData, "PNG", offsetX, offsetY, finalWidth, finalHeight);
     }
 
+    pdf.deletePage(1); // Remove first empty default page
     pdf.save(`${title}.pdf`);
     setLoading(false);
   };
@@ -81,7 +87,7 @@ export const DownloadPdfButton = ({ title }: DownloadPdfButtonProps) => {
     <button
       onClick={handleDownload}
       disabled={loading}
-      className="mt-2 p-2 bg-greenish text-white rounded p-6 mx-auto"
+      className="mt-2 p-2 bg-greenish text-white rounded p-4"
     >
       {loading ? "Descargando..." : "Descargar PDF"}
     </button>
