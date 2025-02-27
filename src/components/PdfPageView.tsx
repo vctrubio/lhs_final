@@ -57,7 +57,7 @@ const PdfPageOne = ({ title, photos }: { title: string; photos: Photo }) => {
           <img
             src={photos.url}
             alt={photos.title}
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "cover", width: "100%", height: "100%" }}
           />
 
         </div>

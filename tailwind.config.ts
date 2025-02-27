@@ -9,6 +9,7 @@ export default {
         greenDark: "#15423b",
         greenDarkOpec: "#15423bb6",
         greenLight: "#91CEB8",
+        gold: "#B8860B",
         beighDarkish: "#cdc2a6",
         backgroundBeigh: "#e1d8c6",
         beigh: "#eae4dc",
