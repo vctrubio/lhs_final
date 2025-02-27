@@ -21,6 +21,9 @@ export default {
     height: {
       a4: "379mm", // A4 Height (fix to puppeeter route gaynes)
     },
+    fontFamily: {
+      ricordi: ["TTRicordi", "sans-serif"],
+    }
   },
   plugins: [],
 } satisfies Config;

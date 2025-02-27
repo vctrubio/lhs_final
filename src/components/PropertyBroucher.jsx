@@ -111,7 +111,7 @@ function FooterSection({ slug, barrio }) {
             </div>
             <div className="font-bold mx-auto">
                 <img
-                    src="/logo-main.jpeg"
+                    src="/LHS_logo.jpeg"
                     alt="LHS Concept Madrid"
                     width={365}
                     height={400}

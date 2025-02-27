@@ -374,11 +374,3 @@ export default function PropiedadPage({ property }) {
     </div>
   );
 }
-
-/*
-
-           // -------------------- TITLE --------------------
-// -------------------- INFO SECTION --------------------
-
-
-            */

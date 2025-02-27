@@ -31,6 +31,8 @@ export class PdfParent {
   }
 }
 
+
+
 export const PDFPage = ({ children, className = "" }: PDFPageProps) => {
   return (
     <div
@@ -44,17 +46,17 @@ export const PDFPage = ({ children, className = "" }: PDFPageProps) => {
 const PdfPageOne = ({ title, photos }: { title: string; photos: Photo }) => {
   return (
     <PDFPage>
-      <div className="pt-9">
-        <h1 className="text-5xl text-zinc-500 font-ricordi font-light text-center my-4 px-2">
+      <div className="pt-9 flex flex-col" style={{ height: "100%" }}>
+        <h1 className="flex text-5xl text-zinc-500 font-ricordi font-light text-center my-4 px-2">
           &quot;{title}&quot;
         </h1>
-        {/* Plain <img> instead of <Image /> */}
-        <div className="w-full h-[1220px] overflow-hidden relative">
+        <div className="flex-grow flex border border-backgroundBeigh rounded-xl overflow-hidden">
           <img
             src={photos.url}
-            alt="Propiedad"
-            className="w-full h-full object-cover"
+            alt={photos.title}
+            style={{ objectFit: "cover" }}
           />
+
         </div>
       </div>
     </PDFPage>
@@ -112,14 +114,13 @@ const PdfPageTwo = ({
 const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
   return (
     <PDFPage>
-      <div className="pt-8">
+      <div className="pt-8 flex flex-col h-full">
         <h1 className="text-5xl text-center my-4 px-2">Plano</h1>
-        {/* Plain <img> instead of <Image /> */}
-        <div className="w-full h-[920px] overflow-hidden relative">
+        <div style={{ flexGrow: 1, width: '100%', overflow: 'hidden', position: 'relative', display: 'flex', padding: '0.5rem' }}>
           <img
             src={planoUrl}
             alt="Plano"
-            className="w-full h-full object-contain"
+            style={{ flexGrow: 1, objectFit: 'contain', width: '100%', height: '100%' }}
           />
         </div>
       </div>
@@ -129,14 +130,14 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
 
 function RenderGridForChunk({ photos }: { photos: Photo[] }) {
   return (
-    <div className="flex flex-col h-full gap-2 overflow-hidden">
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '0.5rem', overflow: 'hidden' }}>
       {photos.map((photo) => (
-        <img
-          key={photo.url}
-          src={photo.url}
-          alt="Propiedad"
-          className="w-full h-full object-contain p-2"
-        />
+      <img
+        key={photo.url}
+        src={photo.url}
+        alt="Propiedad"
+        style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '0.5rem' }}
+      />
       ))}
     </div>
   );

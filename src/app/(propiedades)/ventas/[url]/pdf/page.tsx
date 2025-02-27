@@ -1,5 +1,5 @@
 import React from "react";
-import { PropertyBroucher } from "@/components/PropertyPageBrochure";
+import { PropertyBroucher } from "@/components/PropertyBroucher";
 import { PdfParent, CreatePdf } from "@/components/PdfPageView";
 import { fetchPropertyByID } from "#/backend/CRM/fetch";
 
