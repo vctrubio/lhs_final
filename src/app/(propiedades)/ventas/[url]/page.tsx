@@ -10,6 +10,7 @@ export type Props = {
 export default async function PropertyDetails({ params }: Props) {
     const { url } = await params;
     const property = await fetchPropertyByID(url);
+
     // const content = await ContentController({ id: url });
 
     // if (!("selectedProperty" in content)) {
@@ -17,6 +18,9 @@ export default async function PropertyDetails({ params }: Props) {
     // }
 
     // const selectedProperty = content.selectedProperty;
+
+    if (!property) 
+        return ;
 
     return <PropertyPage property={property}/>
 }

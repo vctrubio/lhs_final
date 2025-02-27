@@ -130,7 +130,7 @@ export function PropertyBroucher({ property, flag = false }) {
                 <h2>Precio</h2>
                 <div className="text-3xl flex" style={{ letterSpacing: "1px" }}>
                     <IconPrice />
-                    {property.precio.toLocaleString("es-ES")}
+                    {property.precio ? property.precio.toLocaleString("es-ES") : "N/A"}
                 </div>
 
                 {(property.precioAntes > 0 || property.precioComunidad > 0) && (

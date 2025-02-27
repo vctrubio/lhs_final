@@ -309,8 +309,11 @@ const PropertyInfo = ({ property, togglePlano }) => {
   );
 };
 
-//NOTE: when open toggleUrl, the index goes to 0 without respecting what it once was...
 export default function PropiedadPage({ property }) {
+  // Added fallback to avoid undefined errors during pre-render
+  property = property || {};
+  property.photos_url = property.photos_url || [];
+  
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState(property.photos_url); // Default: only normal photos
@@ -374,3 +377,4 @@ export default function PropiedadPage({ property }) {
     </div>
   );
 }
+

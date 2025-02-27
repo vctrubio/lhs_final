@@ -56,7 +56,7 @@ const PdfPageOne = ({ title, photos }: { title: string; photos: Photo }) => {
         <div className="flex-grow flex border border-backgroundBeigh rounded-xl overflow-hidden">
           <img
             src={photos.url}
-            alt={photos.title}
+            alt='Portada [IMG]'
             style={{ objectFit: "cover", width: "100%", height: "100%" }}
           />
 
@@ -158,7 +158,7 @@ function RenderGridForChunk({ photos }: { photos: Photo[] }) {
         >
           <img
             src={photo.url}
-            alt={photo.title}
+            alt="Foto [IMG]"
             style={{
               maxWidth: "100%", // Ensures image scales within container
               maxHeight: "100%", // Keeps it from overflowing
