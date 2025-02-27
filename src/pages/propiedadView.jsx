@@ -92,7 +92,7 @@ const CarouselComponent = React.memo(function CarouselComponent({
     autoPlay: autoPlayEnabled,
     interval: 6000,
     stopOnHover: true,
-    transitionTime: 300,
+    transitionTime: 500,
     animationHandler: "slide",
     onClickItem: openLightbox,
   };
