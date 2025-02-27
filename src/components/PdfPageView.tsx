@@ -36,7 +36,10 @@ export class PdfParent {
 export const PDFPage = ({ children, className = "" }: PDFPageProps) => {
   return (
     <div
-      className={`flex flex-col mx-auto w-a4 h-a4 bg-background page-break border ${className}`}
+      className={`flex flex-col mx-auto w-a4 h-a4 page-break ${className}`}
+      style={{
+        backgroundColor: "#e1d8c6",
+        boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",}}
     >
       {children}
     </div>
@@ -128,16 +131,43 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
   );
 };
 
+
 function RenderGridForChunk({ photos }: { photos: Photo[] }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '0.5rem', overflow: 'hidden' }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        overflow: "hidden",
+        padding: "1rem 0",
+        gap: "6px",
+      }}
+    >
       {photos.map((photo) => (
-      <img
-        key={photo.url}
-        src={photo.url}
-        alt="Propiedad"
-        style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '0.5rem' }}
-      />
+        <div
+          key={photo.url}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "100%",
+            overflow: "hidden",
+          }}
+        >
+          <img
+            src={photo.url}
+            alt={photo.title}
+            style={{
+              maxWidth: "100%", // Ensures image scales within container
+              maxHeight: "100%", // Keeps it from overflowing
+              objectFit: "contain",
+              alignSelf: "center", // Fixes Firefox’s stretch behavior
+              flexShrink: 0, // Prevents Chromium from shrinking images
+            }}
+          />
+        </div>
       ))}
     </div>
   );

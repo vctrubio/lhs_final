@@ -11,7 +11,7 @@ const NavItem: React.FC<{ label: string; href: string }> = ({
 }) => {
   return (
     <Link href={href}>
-      <div className="hover:text-black transition-colors duration-300 cursor-pointer align-right">
+      <div className="hover:text-black transition-colors duration-300 cursor-pointer align-right text-xl border-b-2 border-transparent hover:border-black">
         {label}
       </div>
     </Link>
