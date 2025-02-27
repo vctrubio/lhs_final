@@ -197,20 +197,15 @@ const CarouselComponent = React.memo(function CarouselComponent({
   const Thumbnail = ({ image, title, index, isActive, onClick }) => (
     <button
       onClick={onClick}
-      className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 relative rounded overflow-hidden transition-all duration-300 transform hover:scale-105 ${isActive ? "ring-2 ring-[#B8860B] ring-offset-1 sm:ring-offset-2 shadow-md" : "opacity-70 hover:opacity-100"}`}
+      className={`flex-shrink-0 w-16 h-12 sm:w-20 sm:h-14 relative rounded overflow-hidden transition-all duration-300 transform hover:scale-105 ${isActive ? "ring-2 ring-[#B8860B] ring-offset-1 sm:ring-offset-2 shadow-md" : "opacity-70 hover:opacity-100"}`}
     >
       <Image
         src={image.url}
         alt={`${title} sm-${index + 1}`}
         width={80}
-        height={80}
+        height={60}
+        style={{ objectFit: "cover", height: "100%" }}
         loading="lazy"
-        style={{
-          objectFit: "cover",
-          objectPosition: "center",
-          width: "100%",
-          height: "100%",
-        }}
       />
     </button>
   );
@@ -313,7 +308,7 @@ export default function PropiedadPage({ property }) {
   // Added fallback to avoid undefined errors during pre-render
   property = property || {};
   property.photos_url = property.photos_url || [];
-  
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState(property.photos_url); // Default: only normal photos
