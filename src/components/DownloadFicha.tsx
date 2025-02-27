@@ -21,7 +21,11 @@ const waitForImages = async (container: HTMLElement) => {
   );
 };
 
-const DownloadPdfButton: React.FC = () => {
+interface DownloadPdfButtonProps {
+  title: string;
+}
+
+const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({ title }) => {
   const [loading, setLoading] = useState(false);
 
   const handleDownload = async () => {
@@ -36,7 +40,7 @@ const DownloadPdfButton: React.FC = () => {
     try {
       // Wait for images to fully load
       await waitForImages(pdfContainer);
-      console.log("✅ All images loaded!");
+      console.log("-- All images loaded!");
 
       // Capture the full content as an image
       const canvas = await html2canvas(pdfContainer, {
@@ -75,7 +79,7 @@ const DownloadPdfButton: React.FC = () => {
         }
       }
 
-      pdf.save("helloworld.pdf");
+      pdf.save(`${title}.pdf`);
     } catch (error) {
       console.error("❌ Error generating PDF:", error);
     } finally {
