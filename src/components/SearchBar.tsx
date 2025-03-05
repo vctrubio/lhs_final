@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PropertyParams } from "#/backend/nuqs_functions";
 import { INuqs } from "#/backend/nuqs";
 import { Barrio } from "#/backend/types";
@@ -10,7 +10,7 @@ interface SearchBarProps {
   barrios: Barrio[];
 }
 
-const TitleFilter: React.FC<{ query: { value: string | null, setValue: (value: string | null) => void } }> = ({ query }) => {
+const TitleFilter = ({ query }: { query: { value: string | null, setValue: (value: string | null) => void } }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     query.setValue(e.target.value || null);
   };
@@ -42,39 +42,122 @@ const TitleFilter: React.FC<{ query: { value: string | null, setValue: (value: s
   );
 };
 
-const BarriosFilter: React.FC<{ 
-  barrios: Barrio[], 
-  value: string | null, 
-  setValue: (value: string | null) => void 
-}> = ({ barrios, value, setValue }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setValue(e.target.value || null);
+const MinMaxInputs = ({ title, slider, icon, isPriceField = false }) => {
+  const [minValue, setMinValue] = useState('');
+  const [maxValue, setMaxValue] = useState('');
+
+  // Update local state when query params change
+  useEffect(() => {
+    setMinValue(slider.values[0] === slider.params.min ? '' : slider.values[0].toString());
+    setMaxValue(slider.values[1] === slider.params.max ? '' : slider.values[1].toString());
+  }, [slider.values]);
+
+  const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setMinValue(value);
+    
+    const numValue = parseFloat(value);
+    if (value === '' || isNaN(numValue)) {
+      slider.valueSet([slider.params.min, slider.values[1]]);
+    } else {
+      const validValue = Math.max(slider.params.min, Math.min(slider.values[1], numValue));
+      slider.valueSet([validValue, slider.values[1]]);
+    }
+  };
+
+  const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setMaxValue(value);
+    
+    const numValue = parseFloat(value);
+    if (value === '' || isNaN(numValue)) {
+      slider.valueSet([slider.values[0], slider.params.max]);
+    } else {
+      const validValue = Math.max(slider.values[0], Math.min(slider.params.max, numValue));
+      slider.valueSet([slider.values[0], validValue]);
+    }
   };
 
   return (
-    <div className="w-full">
-      <select 
-        className="w-full p-2 border rounded-md"
-        value={value || ''}
-        onChange={handleChange}
-      >
-        <option value="">Seleccionar barrio</option>
-        {barrios.map((barrio, index) => (
-          <option key={index} value={barrio.name}>
-            {barrio.name}
-          </option>
-        ))}
-      </select>
+    <div className="mb-4">
+      <div className="flex items-center justify-between mb-2">
+        <div className="font-medium">{title}</div>
+        <div>{icon}</div>
+      </div>
+      <div className="flex items-center gap-2">
+        <input
+          type="text"
+          placeholder={slider.params.min.toString()}
+          className="w-full p-2 border rounded-md"
+          value={minValue}
+          onChange={handleMinChange}
+        />
+        <span className="text-gray-400">-</span>
+        <input
+          type="text"
+          placeholder={slider.params.max.toString()}
+          className="w-full p-2 border rounded-md"
+          value={maxValue}
+          onChange={handleMaxChange}
+        />
+      </div>
+      {isPriceField && (
+        <div className="text-xs text-gray-500 mt-1">Valores en millones</div>
+      )}
     </div>
   );
 };
 
-const Filters = () => {
+const BarriosChecklist = ({ 
+  barrios, 
+  selectedBarrios, 
+  onChange 
+}: {
+  barrios: Barrio[],
+  selectedBarrios: string | null,
+  onChange: (value: string | null) => void
+}) => {
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (selectedBarrios) {
+      setSelected(new Set(selectedBarrios.split(',')));
+    } else {
+      setSelected(new Set());
+    }
+  }, [selectedBarrios]);
+
+  const handleToggle = (barrioName: string) => {
+    const newSelected = new Set(selected);
+    if (newSelected.has(barrioName)) {
+      newSelected.delete(barrioName);
+    } else {
+      newSelected.add(barrioName);
+    }
+    setSelected(newSelected);
+
+    if (newSelected.size === 0) {
+      onChange(null);
+    } else {
+      onChange(Array.from(newSelected).join(','));
+    }
+  };
+
   return (
-    <div className="w-full flex flex-col gap-2">
-      <p className="font-medium">Filtros</p>
-      <div className="text-sm text-gray-500">
-        Implementación pendiente de filtros adicionales
+    <div className="mt-4">
+      <h2 className="font-medium mb-2">Barrios</h2>
+      <div className="grid grid-cols-2 gap-1">
+        {barrios.map((barrio) => (
+          <label key={barrio.name} className="flex items-center gap-1 text-sm">
+            <input
+              type="checkbox"
+              checked={selected.has(barrio.name)}
+              onChange={() => handleToggle(barrio.name)}
+              className="rounded"
+            />
+            {barrio.name}
+          </label>
+        ))}
       </div>
     </div>
   );
@@ -84,25 +167,48 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
   const nuqs = INuqs(propertyParams);
   
   return (
-    <div className="flex flex-col justify-start mx-auto border rounded-lg p-4 w-full max-w-md shadow-sm items-center gap-4 divide-y divide-gray-200">
+    <div className="flex flex-col mx-auto border rounded-lg p-4 w-full shadow-sm gap-4">
       <div className="w-full">
         <TitleFilter query={nuqs.query} />
       </div>
       
-      <div className="w-full pt-4">
-        <BarriosFilter 
-          barrios={barrios} 
-          value={nuqs.barrios.value} 
-          setValue={nuqs.barrios.setValue} 
+      <div className="w-full">
+        <MinMaxInputs 
+          title="Precio"
+          slider={nuqs.sliders.price}
+          icon={nuqs.sliders.price.params.icon}
+          isPriceField={true}
+        />
+        
+        <MinMaxInputs 
+          title="Baños"
+          slider={nuqs.sliders.bathroom}
+          icon={nuqs.sliders.bathroom.params.icon}
+        />
+        
+        <MinMaxInputs 
+          title="Dormitorios"
+          slider={nuqs.sliders.bedroom}
+          icon={nuqs.sliders.bedroom.params.icon}
+        />
+        
+        <MinMaxInputs 
+          title="Metros Cuadrados"
+          slider={nuqs.sliders.metersSquare}
+          icon={nuqs.sliders.metersSquare.params.icon}
         />
       </div>
       
-      <div className="w-full pt-4">
-        <Filters />
+      <div className="w-full">
+        <BarriosChecklist 
+          barrios={barrios}
+          selectedBarrios={nuqs.barrios.value}
+          onChange={nuqs.barrios.setValue}
+        />
       </div>
       
       {nuqs.hasQueryParams && (
-        <div className="w-full pt-4 flex justify-center">
+        <div className="w-full flex justify-center mt-2">
           <button 
             onClick={nuqs.handleReset}
             className="px-4 py-2 border rounded-md text-sm hover:bg-gray-100"
