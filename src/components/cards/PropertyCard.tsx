@@ -53,7 +53,7 @@ export const PropertyCard = ({
             priority
             title={property.title}
             placeholder="blur"
-            blurDataURL={coverPhoto.url}
+            blurDataURL="/public/LHS_logo.jpeg"
           />
           <div className="property-desc">
             <DescBox text={area} icon={Ruler} />
