@@ -1,0 +1,150 @@
+.property-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  justify-content: center;
+  margin: 12px auto;
+  padding-top: 2px;
+  min-height: 80vh;
+  position: relative;
+  gap: 16px 20px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.property-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-family: "Times New Roman", Times, serif;
+  padding: 0 8px;
+  align-items: center;
+}
+
+.property-title h1 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.property-title h2 {
+  font-size: 18px;
+  font-weight: 400;
+  opacity: 0.6;
+}
+
+/* Property Card with fade-in, fade-out, and slide effect */
+.property {
+  flex-grow: 1;
+  position: relative;
+  opacity: 1;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+  margin-top: 12px;
+  min-height: 340px;
+}
+
+/* Image and property banner hover effect */
+.property-banner {
+  position: relative;
+  height: 90%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.property-desc {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  justify-content: space-around;
+  padding: 18px 32px;
+  background-color: rgb(0 0 0 / 60%);
+  border-radius: 0 0 12px 12px;
+  color: white;
+  opacity: 0;
+  transition:
+    transform 0.6s ease,
+    opacity 0.3s ease;
+}
+
+.property-desc-box {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: white;
+  font-size: 1.4rem;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.property-desc-box span {
+  display: flex;
+  align-items: center;
+}
+
+.property-banner img {
+  transition: transform 0.4s ease;
+}
+
+/* Hover effect: subtle tilt and shadow */
+.property:hover {
+  transform: perspective(1000px) rotateX(3deg) rotateY(3deg);
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.property-desc.highlight {
+  opacity: 1;
+}
+
+/* Property that will disappear */
+.property.fade-out {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+.property[css-state="on"] .property-desc {
+  opacity: 1;
+}
+
+.property-container .property {
+  transition: all 0.5s ease-in-out;
+}
+
+.property-container[last-man-standing="on"] .property:hover {
+  transform: none;
+  transition: none;
+}
+
+.property:hover .property-desc {
+  opacity: 1;
+}
+
+@media (min-width: 768px) {
+  .property {
+    min-width: 420px;
+  }
+}
+
+/* styling problem when we have a large text..... it takes up two lines so then the layout is not symmetrical. */
+@media (max-width: 768px) {
+  .property {
+    margin: 18px 0;
+  }
+
+  .property-title h1 {
+    font-size: 24px;
+    font-weight: 400;
+  }
+
+  .property-title h2 {
+    font-size: 16px;
+  }
+
+  .property-desc {
+    font-size: 1rem;
+    padding: 18px 2px;
+  }
+}

@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url("./tmp.css");
+@import url("./property.css");
 /* Custom Navigation Arrows */
 .swiper-button-next,
 .swiper-button-prev {

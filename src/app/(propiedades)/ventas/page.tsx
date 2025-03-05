@@ -1,9 +1,9 @@
 import React from "react";
-import Link from "next/link";
 import { fetchProperties } from "#/backend/CRM/fetch";
 import { ContentController } from "#/backend/CRM/debugger";
+import Ventas from "@/pages/ventasView";
 
-const PropertyCard = ({ property }) => {
+const PropertySideCard = ({ property }) => {
     return (
         <div>
             <h3 className="text-xl font-semibold mb-2">{property.title}</h3>
@@ -13,22 +13,12 @@ const PropertyCard = ({ property }) => {
     );
 };
 
-export default async function Ventas() {
+export default async function VentasPage() {
     const { properties } = await ContentController({ id: undefined });
 
     return (
-        <div className="my-2">
-            <div className="properties-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {properties.map((property) => (
-                    <Link
-                        key={property.url}
-                        href={`/ventas/${property.url}`}
-                        className="property-item block p-4 border rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
-                    >
-                        <PropertyCard property={property} />
-                    </Link>
-                ))}
-            </div>
+        <div className="container mx-auto">
+            <Ventas entries={properties} />
         </div>
     );
 }
