@@ -5,6 +5,14 @@
 @import url("./tmp.css");
 @import url("./property.css");
 @import url("./buttons.css");
+
+/* Add this at the top of your file, before other styles */
+:root {
+  --color-macbook-grey: #1e1e1e;
+  --color-macbook-grey-light: #2d2d2d;
+  --color-macbook-grey-dark: #141414;
+}
+
 /* Custom Navigation Arrows */
 .swiper-button-next,
 .swiper-button-prev {

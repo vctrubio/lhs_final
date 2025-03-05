@@ -33,19 +33,21 @@ const TitleSearch = ({ query, reset, hasQueryParams}) => {
         <input
           type="text"
           placeholder="Propiedades"
-          className="w-full p-2 border-none outline-none"
+          className="w-full p-2 border-none outline-none bg-transparent"
           value={query.value || ''}
           style={{fontFamily: 'New Times Roman',
             fontSize: '1.1rem',
             letterSpacing: '1px',
             fontWeight: 'bold',
             width: '100%',
-
+            backgroundColor: 'transparent',
+            WebkitAppearance: 'none',
+            appearance: 'none'
           }}
           onChange={(e) => query.setValue(e.target.value || null)}
         />
         <div
-          className="cursor-pointer w-10 h-10 flex items-center justify-center"
+          className="cursor-pointer w-10 h-10 flex items-center justify-center bg-transparent"
           onClick={reset}
         >
           {Icon}
@@ -239,9 +241,10 @@ const FilterPair = ({ slider, sort }) => {
           <input
             type="text"
             placeholder={minPlaceholder}
-            className="w-[80px] py-1 px-2 pr-6 border rounded text-sm"
+            className="w-[80px] py-1 px-2 pr-6 border rounded text-sm bg-transparent"
             value={minDisplay}
             onChange={handleMinChange}
+            style={{ WebkitAppearance: 'none', appearance: 'none' }}
           />
           <div className="absolute right-1 top-0 bottom-0 flex flex-col justify-center">
             <button
@@ -270,9 +273,10 @@ const FilterPair = ({ slider, sort }) => {
           <input
             type="text"
             placeholder={maxPlaceholder}
-            className="w-[80px] py-1 px-2 pr-6 border rounded text-sm"
+            className="w-[80px] py-1 px-2 pr-6 border rounded text-sm bg-transparent"
             value={maxDisplay}
             onChange={handleMaxChange}
+            style={{ WebkitAppearance: 'none', appearance: 'none' }}
           />
           <div className="absolute right-1 top-0 bottom-0 flex flex-col justify-center">
             <button
@@ -368,7 +372,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
   `;
 
   return (
-    <div className="border mt-4 rounded-lg p-3 mx-auto max-w-5xl bg-white shadow-md">
+    <div className="border mt-4 rounded-lg p-3 mx-auto max-w-5xl bg-white dark:bg-macbookGreyLight shadow-md">
       <div className="flex items-center gap-2">
         <TitleSearch
           query={nuqs.query}
@@ -378,30 +382,30 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
 
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center gap-1 px-3 py-2 text-sm border rounded-md bg-white hover:bg-gray-50 transition-colors"
+          className="flex items-center gap-1 px-3 py-2 text-sm border rounded-md bg-transparent hover:bg-gray-50 dark:hover:bg-macbookGrey dark:border-gray-600 transition-colors"
           aria-expanded={showFilters}
         >
-          <SlidersHorizontal size={16} className="text-green-700" />
+          <SlidersHorizontal size={16} className="text-green-700 dark:text-green-400" />
         </button>
 
         <button
           onClick={() => setShowBarrios(!showBarrios)}
-          className="flex items-center gap-1 px-3 py-2 text-sm border rounded-md bg-white hover:bg-gray-50 transition-colors"
+          className="flex items-center gap-1 px-3 py-2 text-sm border rounded-md bg-transparent hover:bg-gray-50 dark:hover:bg-macbookGrey dark:border-gray-600 transition-colors"
           aria-expanded={showBarrios}
         >
-          <MapPinned size={16} className="text-green-700" />
+          <MapPinned size={16} className="text-green-700 dark:text-green-400" />
         </button>
 
         {/* Sort dropdown button */}
         <button
           onClick={() => setShowSort(!showSort)}
           className={`flex items-center gap-1 px-3 py-2 text-sm border rounded-md
-            ${nuqs.sort.value ? 'border-green-500 bg-green-50' : 'bg-white hover:bg-gray-50'} 
+            ${nuqs.sort.value ? 'border-green-500 bg-green-50 dark:bg-macbookGreyDark dark:border-green-700' : 'bg-transparent hover:bg-gray-50 dark:hover:bg-macbookGrey dark:border-gray-600'} 
             transition-colors`}
           aria-expanded={showSort}
         >
-          <ArrowUpDown size={16} className={`${nuqs.sort.value ? 'text-green-700' : 'text-gray-500'}`} />
-          <span>Ordenar</span>
+          <ArrowUpDown size={16} className={`${nuqs.sort.value ? 'text-green-700 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`} />
+          <span className="dark:text-gray-300">Ordenar</span>
         </button>
       </div>
 

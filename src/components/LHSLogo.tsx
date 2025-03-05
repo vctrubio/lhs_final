@@ -8,8 +8,8 @@ export default function LHSBond({ title = "lhs", concept = "Concept" }) {
                     <div
                         className="justify-center items-center mx-auto 
                         text-center tracking-wide uppercase w-[62px] h-[62px]
-                        bg-black rounded-[100%] text-white
-                        cursor-pointer
+                        bg-black dark:bg-white rounded-[100%] text-white
+                        cursor-pointer dark:text-black transition-colors duration-300
                         "
                     >
                         {title}

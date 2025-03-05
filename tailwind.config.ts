@@ -2,6 +2,7 @@ import type { Config } from "tailwindcss";
 
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  darkMode: "class", // Enable class-based dark mode
   theme: {
     extend: {
       colors: {
@@ -18,6 +19,11 @@ export default {
         navRed: "#aa0000",
         navGreen: "#15423b",
         navBlue: "#0000aa",
+        
+        // Dark mode colors
+        macbookGrey: "#1e1e1e", // Dark space grey color similar to MacBook
+        macbookGreyLight: "#2d2d2d", // Lighter variant for UI elements
+        macbookGreyDark: "#141414", // Darker variant for shadows/backgrounds
       },
     },
     width: {

@@ -14,11 +14,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body className="bg-backgroundBeigh">
+    <html lang="es" suppressHydrationWarning>
+      <head>
+        <style>
+          {`
+            button, input, select, textarea {
+              background-color: transparent;
+              -webkit-appearance: none;
+              appearance: none;
+            }
+            
+            @media (hover: hover) {
+              button:hover {
+                background-color: rgba(0,0,0,0.05);
+              }
+            }
+            
+            .dark button:hover {
+              background-color: rgba(255,255,255,0.1);
+            }
+          `}
+        </style>
+      </head>
+      <body className="bg-backgroundBeigh transition-colors duration-300">
         <Navbar />
-          {/* <TrainNav /> */}
-          {children}
+        {/* <TrainNav /> */}
+        {children}
       </body>
     </html>
   );
