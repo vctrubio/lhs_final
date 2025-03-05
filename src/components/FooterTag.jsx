@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Mail, Send, Download } from "lucide-react";
 import { IconWhatsapp } from "@/utils/svgs";
+import ButtonIcon from "./ButtonIcon";
 
 export function FooterTagShare({ property }) {
   const [isShareModalOpen, setShareModalOpen] = useState(false);
@@ -10,6 +11,7 @@ export function FooterTagShare({ property }) {
     {
       icon: IconWhatsapp,
       label: "Whatsapp",
+      variant: "whatsapp",
       onClick: () =>
         window.open(
           `https://wa.me/+34616746971?text=Hola, he visto: ${property.title} -- ${metadata.openGraph.url}`,
@@ -18,6 +20,7 @@ export function FooterTagShare({ property }) {
     {
       icon: Mail,
       label: "Contactar",
+      variant: "mail",
       onClick: () =>
         window.open(
           `mailto:lourdes.hernansanz@lhsconcept.com?subject=Interesado%20en%20${property.title}&body=Hola, he visto: ${property.title} -- ${metadata.openGraph.url}`,
@@ -26,29 +29,30 @@ export function FooterTagShare({ property }) {
     {
       icon: Download,
       label: "Ficha",
+      variant: "download",
       onClick: () => window.open(`/ventas/${property.url}/pdf`),
     },
     {
       icon: Send,
       label: "Enviar",
+      variant: "send",
       onClick: () => setShareModalOpen(true),
     },
   ];
 
   return (
     <>
-      <div className="flex justify-around gap-1 pt-2">
-        {buttons.map(({ icon: Icon, label, onClick }) => (
-          <button
+      <div style={{ display: "flex", justifyContent: "space-around", gap: "0.25rem", paddingTop: "0.5rem" }}>
+        {buttons.map(({ icon, label, onClick, variant }) => (
+          <ButtonIcon
             key={label}
+            icon={icon}
+            label={label}
             onClick={onClick}
-            className="flex items-center justify-center bg-background rounded-full w-10 h-10 mt-2 sm:w-14 sm:h-14"
-          >
-            <Icon className="w-6 h-6" />
-          </button>
+            variant={variant}
+          />
         ))}
       </div>
-
     </>
   );
 }

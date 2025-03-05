@@ -37,7 +37,7 @@ export const PropertyCard = ({
 
   return (
     <div className="property" css-state={cssStateHover ? "on" : ""}>
-      <Link href={`/${property.url}`} title={property.title}>
+      <Link href={`/ventas/${property.url}`} title={property.title}>
         <div className="property-title">
           <h1>{property.title}</h1>
           <h2>{formatCurrency(property.precio, property.buyOrRent)}</h2>

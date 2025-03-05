@@ -4,6 +4,7 @@
 
 @import url("./tmp.css");
 @import url("./property.css");
+@import url("./buttons.css");
 /* Custom Navigation Arrows */
 .swiper-button-next,
 .swiper-button-prev {

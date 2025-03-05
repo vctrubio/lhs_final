@@ -348,7 +348,7 @@ export default function PropiedadPage({ property }) {
   };
 
   return (
-    <div className="mx-auto p-2 sm:px-6 lg:px-8 flex flex-col">
+    <div className="mx-auto px-2 pb-[58px] sm:px-6 lg:px-8 flex flex-col">
       <PropertyTitle property={property} />
       <CarouselComponent
         property={property}

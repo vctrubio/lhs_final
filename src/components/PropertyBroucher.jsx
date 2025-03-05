@@ -160,7 +160,7 @@ export function PropertyBroucher({ property, flag = false }) {
         <div
             className={`mx-auto min-w-[180px] sm:min-w[380px] ${flag ? "min-h-[720px]" : ""} bg-greenish rounded-xl font-serif px-8 py-4`}
         >
-            <div className="sticky divide-y divide-background [&>*]:py-4 [&_h2]:text-2xl [&_h2]:pb-1 [&_h3]:text-xl">
+            <div className="sticky divide-y divide-backgroundBeigh [&>*]:py-4 [&_h2]:text-2xl [&_h2]:pb-1 [&_h3]:text-xl">
                 <Head />
                 {property.charRef && (
                     <CharacteristicsSection propertyCharacteristics={property.charRef} />
