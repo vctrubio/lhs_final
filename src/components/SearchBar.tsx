@@ -11,7 +11,6 @@ interface SearchBarProps {
   barrios: Barrio[];
 }
 
-// Updated search component with icon that changes based on query params
 const TitleSearch = ({ query, reset, hasQueryParams }) => {
   const Icon = hasQueryParams ? <IconRepeatClassic /> : <IconSearch />;
 
@@ -34,65 +33,82 @@ const TitleSearch = ({ query, reset, hasQueryParams }) => {
   );
 };
 
-// Simplified min/max filter component
-const FilterPair = ({ title, slider, icon, isPriceField = false }) => {
-  const [minValue, setMinValue] = useState('');
-  const [maxValue, setMaxValue] = useState('');
+// Updated FilterPair component to work with nuqs properly
+const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
+  // We'll use a direct approach instead of trying to maintain separate local state
+  const min = filter.valueQueryMin._state || '';
+  const max = filter.valueQueryMax._state || '';
 
-  useEffect(() => {
-    setMinValue(slider.values[0] === slider.params.min ? '' : slider.values[0].toString());
-    setMaxValue(slider.values[1] === slider.params.max ? '' : slider.values[1].toString());
-  }, [slider.values]);
-
+  // Handle min value changes
   const handleMinChange = (e) => {
     const value = e.target.value;
-    setMinValue(value);
     
-    const numValue = parseFloat(value);
-    if (value === '' || isNaN(numValue)) {
-      slider.valueSet([slider.params.min, slider.values[1]]);
+    if (value === '') {
+      // Reset to default min
+      const newValues = [filter.params.min, filter.values[1]];
+      filter.valueSet(newValues);
+      // The useEffect in nuqs will handle clearing the query parameter
     } else {
-      const validValue = Math.max(slider.params.min, Math.min(slider.values[1], numValue));
-      slider.valueSet([validValue, slider.values[1]]);
+      const numValue = parseFloat(value);
+      if (!isNaN(numValue)) {
+        const validValue = Math.max(filter.params.min, Math.min(filter.params.max, numValue));
+        // Update slider values which will then update query params through nuqs's useEffect
+        const newValues = [validValue, filter.values[1]];
+        filter.valueSet(newValues);
+      }
     }
   };
 
+  // Handle max value changes
   const handleMaxChange = (e) => {
     const value = e.target.value;
-    setMaxValue(value);
     
-    const numValue = parseFloat(value);
-    if (value === '' || isNaN(numValue)) {
-      slider.valueSet([slider.values[0], slider.params.max]);
+    if (value === '') {
+      // Reset to default max
+      const newValues = [filter.values[0], filter.params.max];
+      filter.valueSet(newValues);
+      // The useEffect in nuqs will handle clearing the query parameter
     } else {
-      const validValue = Math.max(slider.values[0], Math.min(slider.params.max, numValue));
-      slider.valueSet([slider.values[0], validValue]);
+      const numValue = parseFloat(value);
+      if (!isNaN(numValue)) {
+        const validValue = Math.max(filter.params.min, Math.min(filter.params.max, numValue));
+        // Update slider values which will then update query params through nuqs's useEffect
+        const newValues = [filter.values[0], validValue];
+        filter.valueSet(newValues);
+      }
     }
   };
 
+  // Get display values based on slider values and min/max
+  const minDisplay = filter.values[0] === filter.params.min ? '' : filter.values[0].toString();
+  const maxDisplay = filter.values[1] === filter.params.max ? '' : filter.values[1].toString();
+
   return (
-    <div className="flex gap-2 border">
-      <div className="flex items-center gap-2 mb-2">
+    <div className="mb-3 p-3 border rounded-lg">
+      <div className="flex items-center gap-2 mb-3">
         <span className="text-green-700">{icon}</span>
-        <span>{title}</span>
+        <span className="font-medium">{title}</span>
       </div>
       <div className="flex items-center gap-2">
         <input
           type="text"
-          placeholder={`Min (${slider.params.min})`}
+          placeholder={filter.params.min.toString()}
           className="w-full p-2 border rounded"
-          value={minValue}
+          value={minDisplay}
           onChange={handleMinChange}
         />
         <span>-</span>
         <input
           type="text"
-          placeholder={`Max (${slider.params.max})`}
+          placeholder={filter.params.max.toString()}
           className="w-full p-2 border rounded"
-          value={maxValue}
+          value={maxDisplay}
           onChange={handleMaxChange}
         />
       </div>
+      {isPriceField && (
+        <div className="text-xs text-gray-500 mt-2">Valores en millones</div>
+      )}
     </div>
   );
 };
@@ -144,6 +160,7 @@ const BarriosFilter = ({ barrios, selectedBarrios, onChange }) => {
   );
 };
 
+// Add an effect in the main SearchBar component to sync from query params to values
 const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
   const nuqs = INuqs(propertyParams);
   const filters = [
@@ -152,23 +169,70 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
     { key: 'bedroom', title: 'Dormitorios' },
     { key: 'metersSquare', title: 'Metros Cuadrados' }
   ];
+
+  // This effect syncs query params to slider values
+  useEffect(() => {
+    // Price values
+    const minPrice = nuqs.sliders.price.valueQueryMin._state ? 
+      parseFloat(nuqs.sliders.price.valueQueryMin._state) : 
+      propertyParams.prices.min;
+    const maxPrice = nuqs.sliders.price.valueQueryMax._state ? 
+      parseFloat(nuqs.sliders.price.valueQueryMax._state) : 
+      propertyParams.prices.max;
+    nuqs.sliders.price.valueSet([minPrice, maxPrice]);
+
+    // Bathroom values
+    const minBath = nuqs.sliders.bathroom.valueQueryMin._state ? 
+      parseFloat(nuqs.sliders.bathroom.valueQueryMin._state) : 
+      propertyParams.bathrooms.min;
+    const maxBath = nuqs.sliders.bathroom.valueQueryMax._state ? 
+      parseFloat(nuqs.sliders.bathroom.valueQueryMax._state) : 
+      propertyParams.bathrooms.max;
+    nuqs.sliders.bathroom.valueSet([minBath, maxBath]);
+
+    // Bedroom values
+    const minBed = nuqs.sliders.bedroom.valueQueryMin._state ? 
+      parseFloat(nuqs.sliders.bedroom.valueQueryMin._state) : 
+      propertyParams.bedrooms.min;
+    const maxBed = nuqs.sliders.bedroom.valueQueryMax._state ? 
+      parseFloat(nuqs.sliders.bedroom.valueQueryMax._state) : 
+      propertyParams.bedrooms.max;
+    nuqs.sliders.bedroom.valueSet([minBed, maxBed]);
+
+    // Meters square values
+    const minMeters = nuqs.sliders.metersSquare.valueQueryMin._state ? 
+      parseFloat(nuqs.sliders.metersSquare.valueQueryMin._state) : 
+      propertyParams.metersSquare.min;
+    const maxMeters = nuqs.sliders.metersSquare.valueQueryMax._state ? 
+      parseFloat(nuqs.sliders.metersSquare.valueQueryMax._state) : 
+      propertyParams.metersSquare.max;
+    nuqs.sliders.metersSquare.valueSet([minMeters, maxMeters]);
+  }, [
+    nuqs.sliders.price.valueQueryMin._state, 
+    nuqs.sliders.price.valueQueryMax._state,
+    nuqs.sliders.bathroom.valueQueryMin._state, 
+    nuqs.sliders.bathroom.valueQueryMax._state,
+    nuqs.sliders.bedroom.valueQueryMin._state, 
+    nuqs.sliders.bedroom.valueQueryMax._state,
+    nuqs.sliders.metersSquare.valueQueryMin._state, 
+    nuqs.sliders.metersSquare.valueQueryMax._state,
+    propertyParams
+  ]);
   
   return (
-    <div className="border mx-auto min-w-24 flex flex-col justify-center items-center">
-      {/* Updated Title search with reset functionality */}
+    <div className="border rounded-lg p-4 mx-auto w-full max-w-md bg-white shadow-sm">
       <TitleSearch 
         query={nuqs.query} 
         reset={nuqs.handleReset}
         hasQueryParams={nuqs.hasQueryParams}
       />
       
-      {/* Map over filters */}
-      <div className="space-y-4">
+      <div className="space-y-2">
         {filters.map(filter => (
           <FilterPair
             key={filter.key}
             title={filter.title}
-            slider={nuqs.sliders[filter.key]}
+            filter={nuqs.sliders[filter.key]}
             icon={nuqs.sliders[filter.key].params.icon}
             isPriceField={filter.isPriceField}
           />

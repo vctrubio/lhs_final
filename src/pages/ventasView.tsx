@@ -82,18 +82,18 @@ const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
     }, [entries, nuqs.stateChanged, nuqs.hasParams, nuqs.params.title, nuqs.params.prices.min, nuqs.params.prices.max, nuqs.params.bathrooms.min, nuqs.params.bathrooms.max, nuqs.params.bedrooms.min, nuqs.params.bedrooms.max, nuqs.params.m2.min, nuqs.params.m2.max, nuqs.params.barrios]);
 
     return (
-         <div className="flex flex-wrap">
-             {isLoading ? (
+        <div className="flex flex-wrap">
+            {isLoading ? (
                 <div></div>
             ) : (
                 <div className="property-container" last-man-standing={cssUniqueBoy ? 'on' : ''}>
-                    {filterProperties.length === 0 && isLoading? (
+                    {filterProperties.length === 0 ?
                         <>nada amigo...</>
-                    ) : (
-                        filterProperties.map((entry: Property) => (
-                            <PropertyCard property={entry} key={entry.title} cssStateHover={cssStateHover} />
-                        ))
-                    )}
+                        : (
+                            filterProperties.map((entry: Property) => (
+                                <PropertyCard property={entry} key={entry.title} cssStateHover={cssStateHover} />
+                            ))
+                        )}
                 </div>
             )}
         </div>
