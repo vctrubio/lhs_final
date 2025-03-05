@@ -2,7 +2,7 @@ import { Property, Barrio, PropertyParams } from "../types";
 import { Entry } from "contentful";
 import { client } from "./setup";
 import { parseBarrioFromContentful, parsePropertyFromContentful } from "./parse";
-import { getPropertiesParams } from "./params";
+import { getPropertiesParams } from "../nuqs_functions";
 
 export async function fetchProperties(): Promise<{
     properties: Property[];
