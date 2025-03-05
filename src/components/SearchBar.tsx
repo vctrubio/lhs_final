@@ -5,6 +5,7 @@ import { PropertyParams } from "#/backend/nuqs_functions";
 import { INuqs } from "#/backend/nuqs";
 import { Barrio } from "#/backend/types";
 import { IconRepeatClassic, IconSearch } from "@/utils/svgs";
+import { ChevronUp, ChevronDown } from "lucide-react"; // Import icons for increment/decrement buttons
 
 interface SearchBarProps {
   propertyParams: PropertyParams;
@@ -33,12 +34,15 @@ const TitleSearch = ({ query, reset, hasQueryParams }) => {
   );
 };
 
-// Updated FilterPair component to work with nuqs properly
+// Updated FilterPair component with increment/decrement buttons
 const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
-  // We'll use a direct approach instead of trying to maintain separate local state
-  const min = filter.valueQueryMin._state || '';
-  const max = filter.valueQueryMax._state || '';
-
+  // Get display values based on slider values and min/max
+  const minDisplay = filter.values[0] === filter.params.min ? '' : filter.values[0].toString();
+  const maxDisplay = filter.values[1] === filter.params.max ? '' : filter.values[1].toString();
+  
+  // Get step value based on filter type
+  const step = isPriceField ? 0.1 : 1;
+  
   // Handle min value changes
   const handleMinChange = (e) => {
     const value = e.target.value;
@@ -47,12 +51,10 @@ const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
       // Reset to default min
       const newValues = [filter.params.min, filter.values[1]];
       filter.valueSet(newValues);
-      // The useEffect in nuqs will handle clearing the query parameter
     } else {
       const numValue = parseFloat(value);
       if (!isNaN(numValue)) {
         const validValue = Math.max(filter.params.min, Math.min(filter.params.max, numValue));
-        // Update slider values which will then update query params through nuqs's useEffect
         const newValues = [validValue, filter.values[1]];
         filter.valueSet(newValues);
       }
@@ -67,21 +69,53 @@ const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
       // Reset to default max
       const newValues = [filter.values[0], filter.params.max];
       filter.valueSet(newValues);
-      // The useEffect in nuqs will handle clearing the query parameter
     } else {
       const numValue = parseFloat(value);
       if (!isNaN(numValue)) {
         const validValue = Math.max(filter.params.min, Math.min(filter.params.max, numValue));
-        // Update slider values which will then update query params through nuqs's useEffect
         const newValues = [filter.values[0], validValue];
         filter.valueSet(newValues);
       }
     }
   };
+  
+  // Handle increment/decrement for min value
+  const incrementMin = () => {
+    const current = filter.values[0];
+    const newValue = current + step;
+    if (newValue <= filter.values[1]) {
+      filter.valueSet([newValue, filter.values[1]]);
+    }
+  };
+  
+  const decrementMin = () => {
+    const current = filter.values[0];
+    const newValue = current - step;
+    if (newValue >= filter.params.min) {
+      filter.valueSet([newValue, filter.values[1]]);
+    }
+  };
+  
+  // Handle increment/decrement for max value
+  const incrementMax = () => {
+    const current = filter.values[1];
+    const newValue = current + step;
+    if (newValue <= filter.params.max) {
+      filter.valueSet([filter.values[0], newValue]);
+    }
+  };
+  
+  const decrementMax = () => {
+    const current = filter.values[1];
+    const newValue = current - step;
+    if (newValue >= filter.values[0]) {
+      filter.valueSet([filter.values[0], newValue]);
+    }
+  };
 
-  // Get display values based on slider values and min/max
-  const minDisplay = filter.values[0] === filter.params.min ? '' : filter.values[0].toString();
-  const maxDisplay = filter.values[1] === filter.params.max ? '' : filter.values[1].toString();
+  // Set placeholders with 'M' suffix for price fields
+  const minPlaceholder = isPriceField ? `${filter.params.min}M` : filter.params.min.toString();
+  const maxPlaceholder = isPriceField ? `${filter.params.max}M` : filter.params.max.toString();
 
   return (
     <div className="mb-3 p-3 border rounded-lg">
@@ -90,25 +124,66 @@ const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
         <span className="font-medium">{title}</span>
       </div>
       <div className="flex items-center gap-2">
-        <input
-          type="text"
-          placeholder={filter.params.min.toString()}
-          className="w-full p-2 border rounded"
-          value={minDisplay}
-          onChange={handleMinChange}
-        />
-        <span>-</span>
-        <input
-          type="text"
-          placeholder={filter.params.max.toString()}
-          className="w-full p-2 border rounded"
-          value={maxDisplay}
-          onChange={handleMaxChange}
-        />
+        {/* Min value input with buttons */}
+        <div className="relative flex-1">
+          <input
+            type="text"
+            placeholder={minPlaceholder}
+            className="w-full p-2 pr-8 border rounded"
+            value={minDisplay}
+            onChange={handleMinChange}
+          />
+          <div className="absolute right-1 top-0 bottom-0 flex flex-col justify-center">
+            <button 
+              onClick={incrementMin}
+              className="text-gray-500 hover:text-green-700 focus:outline-none h-5"
+              type="button"
+              aria-label="Increment"
+            >
+              <ChevronUp size={16} />
+            </button>
+            <button 
+              onClick={decrementMin}
+              className="text-gray-500 hover:text-green-700 focus:outline-none h-5"
+              type="button"
+              aria-label="Decrement"
+            >
+              <ChevronDown size={16} />
+            </button>
+          </div>
+        </div>
+        
+        <span className="text-gray-400">-</span>
+        
+        {/* Max value input with buttons */}
+        <div className="relative flex-1">
+          <input
+            type="text"
+            placeholder={maxPlaceholder}
+            className="w-full p-2 pr-8 border rounded"
+            value={maxDisplay}
+            onChange={handleMaxChange}
+          />
+          <div className="absolute right-1 top-0 bottom-0 flex flex-col justify-center">
+            <button 
+              onClick={incrementMax}
+              className="text-gray-500 hover:text-green-700 focus:outline-none h-5"
+              type="button"
+              aria-label="Increment"
+            >
+              <ChevronUp size={16} />
+            </button>
+            <button 
+              onClick={decrementMax}
+              className="text-gray-500 hover:text-green-700 focus:outline-none h-5"
+              type="button"
+              aria-label="Decrement"
+            >
+              <ChevronDown size={16} />
+            </button>
+          </div>
+        </div>
       </div>
-      {isPriceField && (
-        <div className="text-xs text-gray-500 mt-2">Valores en millones</div>
-      )}
     </div>
   );
 };
