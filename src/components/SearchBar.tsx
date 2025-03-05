@@ -4,8 +4,7 @@ import React, { useState, useEffect } from "react";
 import { PropertyParams } from "#/backend/nuqs_functions";
 import { INuqs } from "#/backend/nuqs";
 import { Barrio } from "#/backend/types";
-import { IconRepeatClassic, IconSearch } from "@/utils/svgs";
-import { ChevronUp, ChevronDown, Filter, ChevronRight, MapPin, MapPinned, SlidersHorizontal } from "lucide-react"; // Import icons for increment/decrement buttons
+import { ChevronUp, ChevronDown, Search, ChevronRight, PencilOff, MapPinned, SlidersHorizontal } from "lucide-react"; // Import icons for increment/decrement buttons
 
 interface SearchBarProps {
   propertyParams: PropertyParams;
@@ -13,46 +12,33 @@ interface SearchBarProps {
 }
 
 // Updated TitleSearch component with filter buttons integrated in same row
-const TitleSearch = ({ query, reset, hasQueryParams, showFilters, setShowFilters, showBarrios, setShowBarrios, filtersCount, barriosCount }) => {
-  const Icon = hasQueryParams ? <IconRepeatClassic /> : <IconSearch />;
+const TitleSearch = ({ query, reset, hasQueryParams}) => {
+  const Icon = hasQueryParams ? <PencilOff /> : <Search />;
 
   return (
-    <div className="flex items-center gap-2">
-      <div className="relative flex-grow">
-        <div className="relative sidebar-search flex items-center border rounded-md overflow-hidden">
-          <input
-            type="text"
-            placeholder="Buscador"
-            className="w-full p-2.5 border-none outline-none"
-            value={query.value || ''}
-            onChange={(e) => query.setValue(e.target.value || null)}
-          />
-          <div
-            className="cursor-pointer w-10 h-10 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors"
-            onClick={reset}
-          >
-            {Icon}
-          </div>
+    <div className="relative flex-grow">
+      <div className="flex justify-between mx-2 items-center border-b-2 border-backgroundBeigh overflow-hidden">
+        <input
+          type="text"
+          placeholder="Propiedades"
+          className="w-full p-2 border-none outline-none"
+          value={query.value || ''}
+          style={{fontFamily: 'New Times Roman',
+            fontSize: '1.1rem',
+            letterSpacing: '1px',
+            fontWeight: 'bold',
+            width: '100%',
+
+          }}
+          onChange={(e) => query.setValue(e.target.value || null)}
+        />
+        <div
+          className="cursor-pointer w-10 h-10 flex items-center justify-center"
+          onClick={reset}
+        >
+          {Icon}
         </div>
       </div>
-
-      {/* Filter toggle button */}
-      <button
-        onClick={() => setShowFilters(!showFilters)}
-        className="flex items-center gap-1 px-3 py-2 text-sm border rounded-md bg-white hover:bg-gray-50 transition-colors"
-        aria-expanded={showFilters}
-      >
-        <SlidersHorizontal size={16} className="text-green-700" />
-      </button>
-
-      {/* Barrios toggle button */}
-      <button
-        onClick={() => setShowBarrios(!showBarrios)}
-        className="flex items-center gap-1 px-3 py-2 text-sm border rounded-md bg-white hover:bg-gray-50 transition-colors"
-        aria-expanded={showBarrios}
-      >
-        <MapPinned size={16} className="text-green-700" />
-      </button>
     </div>
   );
 };
@@ -189,7 +175,7 @@ const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
   const maxPlaceholder = isPriceField ? `${filter.params.max}M` : filter.params.max.toString();
 
   return (
-    <div className="h-full p-2 border rounded-lg">
+    <div className="p-2 border rounded-lg">
       <div className="flex items-center gap-1 mb-2">
         <span className="text-green-700">{icon}</span>
         <span className="font-medium text-sm">{title}</span>
@@ -322,18 +308,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
   const [showFilters, setShowFilters] = useState(false);
   const [showBarrios, setShowBarrios] = useState(false);
 
-  // Count active filters
-  const activeFiltersCount = (() => {
-    let count = 0;
-    if (nuqs.sliders.price.values[0] !== propertyParams.prices.min || nuqs.sliders.price.values[1] !== propertyParams.prices.max) count++;
-    if (nuqs.sliders.bathroom.values[0] !== propertyParams.bathrooms.min || nuqs.sliders.bathroom.values[1] !== propertyParams.bathrooms.max) count++;
-    if (nuqs.sliders.bedroom.values[0] !== propertyParams.bedrooms.min || nuqs.sliders.bedroom.values[1] !== propertyParams.bedrooms.max) count++;
-    if (nuqs.sliders.metersSquare.values[0] !== propertyParams.metersSquare.min || nuqs.sliders.metersSquare.values[1] !== propertyParams.metersSquare.max) count++;
-    return count;
-  })();
-
-  // Get barrios count
-  const barriosCount = nuqs.barrios.value ? nuqs.barrios.value.split(',').length : 0;
 
   // Animation classes for filters section
   const filterClasses = `
@@ -370,10 +344,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
 
     const hasActiveFilters = !isDefaultPrice || !isDefaultBathroom || !isDefaultBedroom || !isDefaultMetersSquare;
 
-    // Check if barrios query param exists
     const hasBarriosParam = nuqs.barrios.value !== null && nuqs.barrios.value !== '';
 
-    // Auto-expand sections if they have active filters
     if (hasActiveFilters) setShowFilters(true);
     if (hasBarriosParam) setShowBarrios(true);
   }, [
@@ -386,19 +358,30 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
   ]);
 
   return (
-    <div className="border rounded-lg p-3 mx-auto w-full max-w-5xl bg-white shadow-sm">
-      {/* Title search and filter toggles in the same line */}
-      <TitleSearch
-        query={nuqs.query}
-        reset={nuqs.handleReset}
-        hasQueryParams={nuqs.hasQueryParams}
-        showFilters={showFilters}
-        setShowFilters={setShowFilters}
-        showBarrios={showBarrios}
-        setShowBarrios={setShowBarrios}
-        filtersCount={activeFiltersCount}
-        barriosCount={barriosCount}
-      />
+    <div className="border mt-4 rounded-lg p-3 mx-auto max-w-5xl bg-white shadow-md">
+
+      <div className="flex items-center gap-2">
+        <TitleSearch
+          query={nuqs.query}
+          reset={nuqs.handleReset}
+          hasQueryParams={nuqs.hasQueryParams}
+        />
+
+        <button
+          onClick={() => setShowFilters(!showFilters)}
+          className="flex items-center gap-1 px-3 py-2 text-sm border rounded-md bg-white hover:bg-gray-50 transition-colors"
+          aria-expanded={showFilters}
+        >
+          <SlidersHorizontal size={16} className="text-green-700" />
+        </button>
+        <button
+          onClick={() => setShowBarrios(!showBarrios)}
+          className="flex items-center gap-1 px-3 py-2 text-sm border rounded-md bg-white hover:bg-gray-50 transition-colors"
+          aria-expanded={showBarrios}
+        >
+          <MapPinned size={16} className="text-green-700" />
+        </button>
+      </div>
 
       {/* Collapsible filters section */}
       <div className={filterClasses}>
