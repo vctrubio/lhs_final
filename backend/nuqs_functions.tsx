@@ -4,9 +4,9 @@ import { getBedrooms } from "@/utils/utils"
 import { getBathrooms } from "@/utils/utils"
 import { Property } from "./types"
 import { formatPrice } from "@/utils/utils"
-import { IconPrice } from "@/utils/svgs"
 import {
     Bed,
+    Euro,
     Bath,
     Ruler,
 } from "lucide-react";
@@ -36,7 +36,7 @@ export function getPropertiesParams(properties: Property[]): PropertyParams {
             title: 'Precio',
             min: Math.min(...prices),
             max: Math.max(...prices),
-            icon: <IconPrice />
+            icon: <Euro />
         },
         bathrooms: {
             title: 'Baños',

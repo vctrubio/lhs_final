@@ -43,11 +43,9 @@ export function formatCurrency(
   }
 
   return (
-    <div className="flex items-center">
-      <div className="text-xl">{formattedValue}</div>
-      <div>
+    <div className="flex items-center mb-1">
+      <div className="text-xl mr-1">{formattedValue}</div>
         <IconPrice />
-      </div>
       <span className="italic">{rent ? "" : "/mes"}</span>
     </div>
   );

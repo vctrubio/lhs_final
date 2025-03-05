@@ -14,6 +14,10 @@ export default {
         backgroundBeigh: "#e1d8c6",
         beigh: "#eae4dc",
         price: "#303030",
+        
+        navRed: "#aa0000",
+        navGreen: "#15423b",
+        navBlue: "#0000aa",
       },
     },
     width: {
