@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../css/globals.css";
 import Navbar from "@/components/Navbar";
+import TrainNav from "@/components/TrainNav";
 
 export const metadata: Metadata = {
   title: "LHS Concept",
@@ -16,9 +17,8 @@ export default function RootLayout({
     <html lang="es">
       <body className="bg-backgroundBeigh">
         <Navbar />
-        <main className="flex flex-col p-4 justify-start" style={{ height: "calc(100vh - 8rem)" }}>
+          <TrainNav />
           {children}
-        </main>
       </body>
     </html>
   );
