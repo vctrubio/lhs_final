@@ -4,55 +4,47 @@ import React, { useState, useEffect } from "react";
 import { PropertyParams } from "#/backend/nuqs_functions";
 import { INuqs } from "#/backend/nuqs";
 import { Barrio } from "#/backend/types";
+import { IconRepeatClassic, IconSearch } from "@/utils/svgs";
 
 interface SearchBarProps {
   propertyParams: PropertyParams;
   barrios: Barrio[];
 }
 
-const TitleFilter = ({ query }: { query: { value: string | null, setValue: (value: string | null) => void } }) => {
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    query.setValue(e.target.value || null);
-  };
-
-  const clearSearch = () => {
-    query.setValue(null);
-  };
+// Updated search component with icon that changes based on query params
+const TitleSearch = ({ query, reset, hasQueryParams }) => {
+  const Icon = hasQueryParams ? <IconRepeatClassic /> : <IconSearch />;
 
   return (
-    <div className="relative w-full">
-      <div className="flex items-center">
-        <input
-          type="text"
-          placeholder="Buscar propiedades..."
-          className="w-full p-2 border rounded-md"
-          value={query.value || ''}
-          onChange={handleInputChange}
-        />
-        {query.value && (
-          <button
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            onClick={clearSearch}
-          >
-            ✕
-          </button>
-        )}
+    <div className="mb-4 relative sidebar-search flex items-center border rounded-md overflow-hidden">
+      <input
+        type="text"
+        placeholder="Buscador"
+        className="w-full p-3 border-none outline-none"
+        value={query.value || ''}
+        onChange={(e) => query.setValue(e.target.value || null)}
+      />
+      <div 
+        className="cursor-pointer w-12 h-12 flex items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors" 
+        onClick={reset}
+      >
+        {Icon}
       </div>
     </div>
   );
 };
 
-const MinMaxInputs = ({ title, slider, icon, isPriceField = false }) => {
+// Simplified min/max filter component
+const FilterPair = ({ title, slider, icon, isPriceField = false }) => {
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
 
-  // Update local state when query params change
   useEffect(() => {
     setMinValue(slider.values[0] === slider.params.min ? '' : slider.values[0].toString());
     setMaxValue(slider.values[1] === slider.params.max ? '' : slider.values[1].toString());
   }, [slider.values]);
 
-  const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMinChange = (e) => {
     const value = e.target.value;
     setMinValue(value);
     
@@ -65,7 +57,7 @@ const MinMaxInputs = ({ title, slider, icon, isPriceField = false }) => {
     }
   };
 
-  const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMaxChange = (e) => {
     const value = e.target.value;
     setMaxValue(value);
     
@@ -79,45 +71,35 @@ const MinMaxInputs = ({ title, slider, icon, isPriceField = false }) => {
   };
 
   return (
-    <div className="mb-4">
-      <div className="flex items-center justify-between mb-2">
-        <div className="font-medium">{title}</div>
-        <div>{icon}</div>
+    <div className="flex gap-2 border">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-green-700">{icon}</span>
+        <span>{title}</span>
       </div>
       <div className="flex items-center gap-2">
         <input
           type="text"
-          placeholder={slider.params.min.toString()}
-          className="w-full p-2 border rounded-md"
+          placeholder={`Min (${slider.params.min})`}
+          className="w-full p-2 border rounded"
           value={minValue}
           onChange={handleMinChange}
         />
-        <span className="text-gray-400">-</span>
+        <span>-</span>
         <input
           type="text"
-          placeholder={slider.params.max.toString()}
-          className="w-full p-2 border rounded-md"
+          placeholder={`Max (${slider.params.max})`}
+          className="w-full p-2 border rounded"
           value={maxValue}
           onChange={handleMaxChange}
         />
       </div>
-      {isPriceField && (
-        <div className="text-xs text-gray-500 mt-1">Valores en millones</div>
-      )}
     </div>
   );
 };
 
-const BarriosChecklist = ({ 
-  barrios, 
-  selectedBarrios, 
-  onChange 
-}: {
-  barrios: Barrio[],
-  selectedBarrios: string | null,
-  onChange: (value: string | null) => void
-}) => {
-  const [selected, setSelected] = useState<Set<string>>(new Set());
+// Simple barrios checklist
+const BarriosFilter = ({ barrios, selectedBarrios, onChange }) => {
+  const [selected, setSelected] = useState(new Set());
 
   useEffect(() => {
     if (selectedBarrios) {
@@ -127,7 +109,7 @@ const BarriosChecklist = ({
     }
   }, [selectedBarrios]);
 
-  const handleToggle = (barrioName: string) => {
+  const handleToggle = (barrioName) => {
     const newSelected = new Set(selected);
     if (newSelected.has(barrioName)) {
       newSelected.delete(barrioName);
@@ -144,16 +126,15 @@ const BarriosChecklist = ({
   };
 
   return (
-    <div className="mt-4">
-      <h2 className="font-medium mb-2">Barrios</h2>
-      <div className="grid grid-cols-2 gap-1">
+    <div className="border">
+      <h3 className="mb-2 font-medium">Barrios</h3>
+      <div className="flex flex-wrap gap-1">
         {barrios.map((barrio) => (
-          <label key={barrio.name} className="flex items-center gap-1 text-sm">
+          <label key={barrio.name} className="flex items-center gap-1 p-1">
             <input
               type="checkbox"
               checked={selected.has(barrio.name)}
               onChange={() => handleToggle(barrio.name)}
-              className="rounded"
             />
             {barrio.name}
           </label>
@@ -165,58 +146,42 @@ const BarriosChecklist = ({
 
 const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
   const nuqs = INuqs(propertyParams);
+  const filters = [
+    { key: 'price', title: 'Precio', isPriceField: true },
+    { key: 'bathroom', title: 'Baños' },
+    { key: 'bedroom', title: 'Dormitorios' },
+    { key: 'metersSquare', title: 'Metros Cuadrados' }
+  ];
   
   return (
-    <div className="flex flex-col mx-auto border rounded-lg p-4 w-full shadow-sm gap-4">
-      <div className="w-full">
-        <TitleFilter query={nuqs.query} />
+    <div className="border mx-auto min-w-24 flex flex-col justify-center items-center">
+      {/* Updated Title search with reset functionality */}
+      <TitleSearch 
+        query={nuqs.query} 
+        reset={nuqs.handleReset}
+        hasQueryParams={nuqs.hasQueryParams}
+      />
+      
+      {/* Map over filters */}
+      <div className="space-y-4">
+        {filters.map(filter => (
+          <FilterPair
+            key={filter.key}
+            title={filter.title}
+            slider={nuqs.sliders[filter.key]}
+            icon={nuqs.sliders[filter.key].params.icon}
+            isPriceField={filter.isPriceField}
+          />
+        ))}
       </div>
       
-      <div className="w-full">
-        <MinMaxInputs 
-          title="Precio"
-          slider={nuqs.sliders.price}
-          icon={nuqs.sliders.price.params.icon}
-          isPriceField={true}
-        />
-        
-        <MinMaxInputs 
-          title="Baños"
-          slider={nuqs.sliders.bathroom}
-          icon={nuqs.sliders.bathroom.params.icon}
-        />
-        
-        <MinMaxInputs 
-          title="Dormitorios"
-          slider={nuqs.sliders.bedroom}
-          icon={nuqs.sliders.bedroom.params.icon}
-        />
-        
-        <MinMaxInputs 
-          title="Metros Cuadrados"
-          slider={nuqs.sliders.metersSquare}
-          icon={nuqs.sliders.metersSquare.params.icon}
-        />
-      </div>
-      
-      <div className="w-full">
-        <BarriosChecklist 
+      <div className="mt-4">
+        <BarriosFilter
           barrios={barrios}
           selectedBarrios={nuqs.barrios.value}
           onChange={nuqs.barrios.setValue}
         />
       </div>
-      
-      {nuqs.hasQueryParams && (
-        <div className="w-full flex justify-center mt-2">
-          <button 
-            onClick={nuqs.handleReset}
-            className="px-4 py-2 border rounded-md text-sm hover:bg-gray-100"
-          >
-            Limpiar filtros
-          </button>
-        </div>
-      )}
     </div>
   );
 };
