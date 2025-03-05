@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="es">
       <body className="bg-backgroundBeigh">
         <Navbar />
-          <TrainNav />
+          {/* <TrainNav /> */}
           {children}
       </body>
     </html>

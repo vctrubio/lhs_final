@@ -1,6 +1,7 @@
 import React from "react";
 import { fetchProperties } from "#/backend/CRM/fetch";
 import { ContentController } from "#/backend/CRM/debugger";
+import SearchBar  from "@/components/SearchBar";
 import Ventas from "@/pages/ventasView";
 
 const PropertySideCard = ({ property }) => {
@@ -14,10 +15,11 @@ const PropertySideCard = ({ property }) => {
 };
 
 export default async function VentasPage() {
-    const { properties } = await ContentController({ id: undefined });
+    const { properties, filteredBarrios, propertyParams } = await ContentController({ id: undefined });
 
     return (
         <div className="container mx-auto">
+            <SearchBar  propertyParams={propertyParams} barrios={filteredBarrios}/>
             <Ventas entries={properties} />
         </div>
     );
