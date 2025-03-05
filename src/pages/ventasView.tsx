@@ -13,6 +13,34 @@ const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
 
     const nuqs = NuqsManager();
 
+    // Function to sort properties based on sort option
+    const sortProperties = (properties: Property[], sortOption: string | null) => {
+        if (!sortOption) return properties; // No sorting needed
+
+        const clonedProperties = [...properties]; // Create a copy to avoid mutating original
+        
+        switch (sortOption) {
+            case 'priceAsc':
+                return clonedProperties.sort((a, b) => a.precio - b.precio);
+            case 'priceDesc':
+                return clonedProperties.sort((a, b) => b.precio - a.precio);
+            case 'bedroomsAsc':
+                return clonedProperties.sort((a, b) => getBedrooms(a) - getBedrooms(b));
+            case 'bedroomsDesc':
+                return clonedProperties.sort((a, b) => getBedrooms(b) - getBedrooms(a));
+            case 'bathroomsAsc':
+                return clonedProperties.sort((a, b) => getBathrooms(a) - getBathrooms(b));
+            case 'bathroomsDesc':
+                return clonedProperties.sort((a, b) => getBathrooms(b) - getBathrooms(a));
+            case 'metersSquareAsc':
+                return clonedProperties.sort((a, b) => getMetersSquare(a) - getMetersSquare(b));
+            case 'metersSquareDesc':
+                return clonedProperties.sort((a, b) => getMetersSquare(b) - getMetersSquare(a));
+            default:
+                return clonedProperties; // Default - no sorting
+        }
+    };
+
     useEffect(() => {
         setIsLoading(true);
         let updatedProperties = [...entries];
@@ -75,11 +103,20 @@ const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
             setCssStateHover(false);
         }
 
-        setFilterProperties(updatedProperties);
-        setUniqueBoy(updatedProperties.length <= 1);
+        // Apply sorting after filtering
+        const querySort = new URLSearchParams(window.location.search).get('sort');
+        const sortedProperties = sortProperties(updatedProperties, querySort);
+
+        setFilterProperties(sortedProperties);
+        setUniqueBoy(sortedProperties.length <= 1);
         setIsLoading(false);
 
-    }, [entries, nuqs.stateChanged, nuqs.hasParams, nuqs.params.title, nuqs.params.prices.min, nuqs.params.prices.max, nuqs.params.bathrooms.min, nuqs.params.bathrooms.max, nuqs.params.bedrooms.min, nuqs.params.bedrooms.max, nuqs.params.m2.min, nuqs.params.m2.max, nuqs.params.barrios]);
+    }, [entries, nuqs.stateChanged, nuqs.hasParams, nuqs.params.title, 
+        nuqs.params.prices.min, nuqs.params.prices.max, 
+        nuqs.params.bathrooms.min, nuqs.params.bathrooms.max, 
+        nuqs.params.bedrooms.min, nuqs.params.bedrooms.max, 
+        nuqs.params.m2.min, nuqs.params.m2.max, 
+        nuqs.params.barrios]);
 
     return (
         <div className="flex flex-wrap">

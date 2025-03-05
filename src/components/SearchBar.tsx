@@ -4,7 +4,19 @@ import React, { useState, useEffect } from "react";
 import { PropertyParams } from "#/backend/nuqs_functions";
 import { INuqs } from "#/backend/nuqs";
 import { Barrio } from "#/backend/types";
-import { ChevronUp, ChevronDown, Search, ChevronRight, PencilOff, MapPinned, SlidersHorizontal } from "lucide-react"; // Import icons for increment/decrement buttons
+import { 
+  ChevronUp, 
+  ChevronDown, 
+  Search, 
+  PencilOff, 
+  MapPinned, 
+  SlidersHorizontal,
+  MapPinPlus,
+  ArrowUpNarrowWide,
+  ArrowDownNarrowWide,
+  ArrowUpDown 
+} from "lucide-react";
+import SortFilter from "./SortFilter";
 
 interface SearchBarProps {
   propertyParams: PropertyParams;
@@ -43,13 +55,36 @@ const TitleSearch = ({ query, reset, hasQueryParams}) => {
   );
 };
 
-// Update FilterPair to work with setter functions instead of state values
-const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
+// Update FilterPair to work with the full slider object
+const FilterPair = ({ slider, sort }) => {
+  const isPriceField = slider.params.title === 'Precio';
+  const fieldKey = slider.params.title === 'Precio' ? 'price' :
+                   slider.params.title === 'Baños' ? 'bathrooms' :
+                   slider.params.title === 'Dormitorios' ? 'bedrooms' : 'metersSquare';
+
+  // Check if this field is being sorted
+  const getSortStatus = (): null | 'asc' | 'desc' => {
+    if (sort.value === `${fieldKey}Asc`) return 'asc';
+    if (sort.value === `${fieldKey}Desc`) return 'desc';
+    return null;
+  };
+
+  // Handle sort button click
+  const handleSort = (direction: 'asc' | 'desc') => {
+    if (sort.value === `${fieldKey}${direction === 'asc' ? 'Asc' : 'Desc'}`) {
+      // If already sorting in this direction, clear sort
+      sort.setValue(null);
+    } else {
+      // Set to this sort direction
+      sort.setValue(`${fieldKey}${direction === 'asc' ? 'Asc' : 'Desc'}`);
+    }
+  };
+
   // Format display values properly, limiting decimals for price
   const formatValue = (value, isMin) => {
     // If it's at min/max defaults, show empty string
-    if ((isMin && value === filter.params.min) ||
-      (!isMin && value === filter.params.max)) {
+    if ((isMin && value === slider.params.min) ||
+      (!isMin && value === slider.params.max)) {
       return '';
     }
 
@@ -62,8 +97,8 @@ const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
     return value.toString();
   };
 
-  const minDisplay = formatValue(filter.values[0], true);
-  const maxDisplay = formatValue(filter.values[1], false);
+  const minDisplay = formatValue(slider.values[0], true);
+  const maxDisplay = formatValue(slider.values[1], false);
 
   // Get step value based on filter type
   const step = isPriceField ? 0.1 : 1;
@@ -74,18 +109,18 @@ const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
 
     if (value === '') {
       // Reset to default min
-      const newValues = [filter.params.min, filter.values[1]];
-      filter.valueSet(newValues);
+      const newValues = [slider.params.min, slider.values[1]];
+      slider.valueSet(newValues);
     } else {
       const numValue = parseFloat(value);
       if (!isNaN(numValue)) {
         // Limit decimals for price fields
         const validValue = isPriceField ?
-          Math.round(Math.max(filter.params.min, Math.min(filter.params.max, numValue)) * 100) / 100 :
-          Math.max(filter.params.min, Math.min(filter.params.max, numValue));
+          Math.round(Math.max(slider.params.min, Math.min(slider.params.max, numValue)) * 100) / 100 :
+          Math.max(slider.params.min, Math.min(slider.params.max, numValue));
 
-        const newValues = [validValue, filter.values[1]];
-        filter.valueSet(newValues);
+        const newValues = [validValue, slider.values[1]];
+        slider.valueSet(newValues);
       }
     }
   };
@@ -96,25 +131,25 @@ const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
 
     if (value === '') {
       // Reset to default max
-      const newValues = [filter.values[0], filter.params.max];
-      filter.valueSet(newValues);
+      const newValues = [slider.values[0], slider.params.max];
+      slider.valueSet(newValues);
     } else {
       const numValue = parseFloat(value);
       if (!isNaN(numValue)) {
         // Limit decimals for price fields
         const validValue = isPriceField ?
-          Math.round(Math.max(filter.params.min, Math.min(filter.params.max, numValue)) * 100) / 100 :
-          Math.max(filter.params.min, Math.min(filter.params.max, numValue));
+          Math.round(Math.max(slider.params.min, Math.min(slider.params.max, numValue)) * 100) / 100 :
+          Math.max(slider.params.min, Math.min(slider.params.max, numValue));
 
-        const newValues = [filter.values[0], validValue];
-        filter.valueSet(newValues);
+        const newValues = [slider.values[0], validValue];
+        slider.valueSet(newValues);
       }
     }
   };
 
   // Handle increment/decrement for min value with proper decimal handling
   const incrementMin = () => {
-    const current = filter.values[0];
+    const current = slider.values[0];
     let newValue = current + step;
 
     // Limit to 2 decimal places for price fields
@@ -122,13 +157,13 @@ const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
       newValue = Math.round(newValue * 100) / 100;
     }
 
-    if (newValue <= filter.values[1]) {
-      filter.valueSet([newValue, filter.values[1]]);
+    if (newValue <= slider.values[1]) {
+      slider.valueSet([newValue, slider.values[1]]);
     }
   };
 
   const decrementMin = () => {
-    const current = filter.values[0];
+    const current = slider.values[0];
     let newValue = current - step;
 
     // Limit to 2 decimal places for price fields
@@ -136,14 +171,14 @@ const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
       newValue = Math.round(newValue * 100) / 100;
     }
 
-    if (newValue >= filter.params.min) {
-      filter.valueSet([newValue, filter.values[1]]);
+    if (newValue >= slider.params.min) {
+      slider.valueSet([newValue, slider.values[1]]);
     }
   };
 
   // Handle increment/decrement for max value with proper decimal handling
   const incrementMax = () => {
-    const current = filter.values[1];
+    const current = slider.values[1];
     let newValue = current + step;
 
     // Limit to 2 decimal places for price fields
@@ -151,13 +186,13 @@ const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
       newValue = Math.round(newValue * 100) / 100;
     }
 
-    if (newValue <= filter.params.max) {
-      filter.valueSet([filter.values[0], newValue]);
+    if (newValue <= slider.params.max) {
+      slider.valueSet([slider.values[0], newValue]);
     }
   };
 
   const decrementMax = () => {
-    const current = filter.values[1];
+    const current = slider.values[1];
     let newValue = current - step;
 
     // Limit to 2 decimal places for price fields
@@ -165,29 +200,46 @@ const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
       newValue = Math.round(newValue * 100) / 100;
     }
 
-    if (newValue >= filter.values[0]) {
-      filter.valueSet([filter.values[0], newValue]);
+    if (newValue >= slider.values[0]) {
+      slider.valueSet([slider.values[0], newValue]);
     }
   };
 
   // Set placeholders with 'M' suffix for price fields
-  const minPlaceholder = isPriceField ? `${filter.params.min}M` : filter.params.min.toString();
-  const maxPlaceholder = isPriceField ? `${filter.params.max}M` : filter.params.max.toString();
+  const minPlaceholder = isPriceField ? `${slider.params.min}M` : slider.params.min.toString();
+  const maxPlaceholder = isPriceField ? `${slider.params.max}M` : slider.params.max.toString();
 
   return (
-    <div className="p-2 border rounded-lg">
-      <div className="flex items-center gap-1 mb-2">
-        <span className="text-green-700">{icon}</span>
-        <span className="font-medium text-sm">{title}</span>
+    <div className="p-2 border rounded-lg flex sm:flex-col justify-evenly">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-green-700">{slider.params.icon}</span>
+        <span className="font-medium text-sm">{slider.params.title}</span>
+        
+        {/* Sort controls */}
+        <div className="ml-auto flex gap-1">
+          <button
+            onClick={() => handleSort('asc')}
+            className={`p-1 rounded ${getSortStatus() === 'asc' ? 'bg-green-50 text-green-700' : 'text-gray-400 hover:text-green-700'}`}
+            title={`Ordenar por ${slider.params.title} ascendente`}
+          >
+            <ArrowUpNarrowWide size={14} />
+          </button>
+          <button
+            onClick={() => handleSort('desc')}
+            className={`p-1 rounded ${getSortStatus() === 'desc' ? 'bg-green-50 text-green-700' : 'text-gray-400 hover:text-green-700'}`}
+            title={`Ordenar por ${slider.params.title} descendente`}
+          >
+            <ArrowDownNarrowWide size={14} />
+          </button>
+        </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
-        {/* Smaller min value input */}
-        <div className="relative flex-1 w-full">
+      <div className="flex justify-center items-center gap-2">
+        <div className="relative">
           <input
             type="text"
             placeholder={minPlaceholder}
-            className="w-full py-1 px-2 pr-6 border rounded text-sm"
+            className="w-[80px] py-1 px-2 pr-6 border rounded text-sm"
             value={minDisplay}
             onChange={handleMinChange}
           />
@@ -198,7 +250,7 @@ const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
               type="button"
               aria-label="Increment"
             >
-              <ChevronUp size={12} />
+              <ChevronUp size={14} />
             </button>
             <button
               onClick={decrementMin}
@@ -206,19 +258,19 @@ const FilterPair = ({ title, filter, icon, isPriceField = false }) => {
               type="button"
               aria-label="Decrement"
             >
-              <ChevronDown size={12} />
+              <ChevronDown size={14} />
             </button>
           </div>
         </div>
 
         <span className="text-gray-400 hidden sm:block">-</span>
 
-        {/* Smaller max value input */}
-        <div className="relative flex-1 w-full">
+        {/* Smaller max value input with fixed width */}
+        <div className="relative">
           <input
             type="text"
             placeholder={maxPlaceholder}
-            className="w-full py-1 px-2 pr-6 border rounded text-sm"
+            className="w-[80px] py-1 px-2 pr-6 border rounded text-sm"
             value={maxDisplay}
             onChange={handleMaxChange}
           />
@@ -297,69 +349,26 @@ const BarriosFilter = ({ barrios, selectedBarrios, onChange }) => {
 // Updated SearchBar component
 const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
   const nuqs = INuqs(propertyParams);
-  const filters = [
-    { key: 'price', title: 'Precio', isPriceField: true },
-    { key: 'bathroom', title: 'Baños' },
-    { key: 'bedroom', title: 'Dormitorios' },
-    { key: 'metersSquare', title: 'Metros Cuadrados' }
-  ];
-
-  // States for toggle functionality
   const [showFilters, setShowFilters] = useState(false);
   const [showBarrios, setShowBarrios] = useState(false);
+  const [showSort, setShowSort] = useState(false); // Added state for sort toggle
 
-
-  // Animation classes for filters section
   const filterClasses = `
-    grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 
+    grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 
     transition-all duration-300 ease-in-out overflow-hidden
     ${showFilters ? 'max-h-[1000px] opacity-100 my-4' : 'max-h-0 opacity-0 my-0'}
   `;
-
-  // Animation classes for barrios section
   const barriosClasses = `
     transition-all duration-300 ease-in-out overflow-hidden
     ${showBarrios ? 'max-h-[400px] opacity-100 my-4' : 'max-h-0 opacity-0 my-0'}
   `;
-
-  // Auto-expand sections when query parameters are present
-  useEffect(() => {
-    // ... existing logic for auto-expansion ...
-    // Check if any filter-related values are different from default
-    const isDefaultPrice =
-      nuqs.sliders.price.values[0] === propertyParams.prices.min &&
-      nuqs.sliders.price.values[1] === propertyParams.prices.max;
-
-    const isDefaultBathroom =
-      nuqs.sliders.bathroom.values[0] === propertyParams.bathrooms.min &&
-      nuqs.sliders.bathroom.values[1] === propertyParams.bathrooms.max;
-
-    const isDefaultBedroom =
-      nuqs.sliders.bedroom.values[0] === propertyParams.bedrooms.min &&
-      nuqs.sliders.bedroom.values[1] === propertyParams.bedrooms.max;
-
-    const isDefaultMetersSquare =
-      nuqs.sliders.metersSquare.values[0] === propertyParams.metersSquare.min &&
-      nuqs.sliders.metersSquare.values[1] === propertyParams.metersSquare.max;
-
-    const hasActiveFilters = !isDefaultPrice || !isDefaultBathroom || !isDefaultBedroom || !isDefaultMetersSquare;
-
-    const hasBarriosParam = nuqs.barrios.value !== null && nuqs.barrios.value !== '';
-
-    if (hasActiveFilters) setShowFilters(true);
-    if (hasBarriosParam) setShowBarrios(true);
-  }, [
-    nuqs.sliders.price.values,
-    nuqs.sliders.bathroom.values,
-    nuqs.sliders.bedroom.values,
-    nuqs.sliders.metersSquare.values,
-    nuqs.barrios.value,
-    propertyParams
-  ]);
+  const sortClasses = `
+    transition-all duration-300 ease-in-out overflow-hidden
+    ${showSort ? 'max-h-[400px] opacity-100 my-4' : 'max-h-0 opacity-0 my-0'}
+  `;
 
   return (
     <div className="border mt-4 rounded-lg p-3 mx-auto max-w-5xl bg-white shadow-md">
-
       <div className="flex items-center gap-2">
         <TitleSearch
           query={nuqs.query}
@@ -374,6 +383,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
         >
           <SlidersHorizontal size={16} className="text-green-700" />
         </button>
+
         <button
           onClick={() => setShowBarrios(!showBarrios)}
           className="flex items-center gap-1 px-3 py-2 text-sm border rounded-md bg-white hover:bg-gray-50 transition-colors"
@@ -381,17 +391,27 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
         >
           <MapPinned size={16} className="text-green-700" />
         </button>
+
+        {/* Sort dropdown button */}
+        <button
+          onClick={() => setShowSort(!showSort)}
+          className={`flex items-center gap-1 px-3 py-2 text-sm border rounded-md
+            ${nuqs.sort.value ? 'border-green-500 bg-green-50' : 'bg-white hover:bg-gray-50'} 
+            transition-colors`}
+          aria-expanded={showSort}
+        >
+          <ArrowUpDown size={16} className={`${nuqs.sort.value ? 'text-green-700' : 'text-gray-500'}`} />
+          <span>Ordenar</span>
+        </button>
       </div>
 
       {/* Collapsible filters section */}
       <div className={filterClasses}>
-        {showFilters && filters.map(filter => (
+        {showFilters && Object.keys(nuqs.sliders).map((key) => (
           <FilterPair
-            key={filter.key}
-            title={filter.title}
-            filter={nuqs.sliders[filter.key]}
-            icon={nuqs.sliders[filter.key].params.icon}
-            isPriceField={filter.isPriceField}
+            key={key}
+            slider={nuqs.sliders[key]}
+            sort={nuqs.sort}
           />
         ))}
       </div>
@@ -407,6 +427,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
         )}
       </div>
 
+      {/* Collapsible sort section */}
+      <div className={sortClasses}>
+        {showSort && (
+          <SortFilter sort={nuqs.sort} />
+        )}
+      </div>
     </div>
   );
 };

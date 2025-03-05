@@ -15,6 +15,7 @@ export function NuqsManager() {
     const [queryMetersSquareMin] = useQueryState('metrosMin');
     const [queryMetersSquareMax] = useQueryState('metrosMax');
     const [queryBarrios] = useQueryState('barrios');
+    const [querySort] = useQueryState('sort');
 
     const [stateChanged, setStateChanged] = useState(false);
 
@@ -22,12 +23,12 @@ export function NuqsManager() {
         setStateChanged(prev => !prev);
     }, [queryTitle, queryPriceMin, queryPriceMax, queryBathroomMin,
         queryBathroomMax, queryBedroomMin, queryBedroomMax,
-        queryMetersSquareMin, queryMetersSquareMax, queryBarrios]);
+        queryMetersSquareMin, queryMetersSquareMax, queryBarrios, querySort]);
 
     return {
         hasParams: [queryTitle, queryPriceMin, queryPriceMax, queryBathroomMin,
             queryBathroomMax, queryBedroomMin, queryBedroomMax,
-            queryMetersSquareMin, queryMetersSquareMax, queryBarrios]
+            queryMetersSquareMin, queryMetersSquareMax, queryBarrios, querySort]
             .some(param => param !== null && param !== ''),
         stateChanged,
         params: {
@@ -48,7 +49,8 @@ export function NuqsManager() {
                 min: queryMetersSquareMin,
                 max: queryMetersSquareMax
             },
-            barrios: queryBarrios
+            barrios: queryBarrios,
+            sort: querySort
         }
     }
 }
@@ -72,6 +74,27 @@ export function INuqs(propertyParams: PropertyParams) {
 
     const [queryTitle, setQueryTitle] = useQueryState('title', { defaultValue: '' });
     const [barrios, setBarrios] = useQueryState('barrios');
+
+    const [sortOption, setSortOption] = useQueryState('sort', { defaultValue: '' });
+    const sortProperties = (properties, sortOption: string) => {
+        switch (sortOption) {
+            case 'priceAsc':
+                return properties.sort((a, b) => a.precio - b.precio);
+            case 'priceDesc':
+                return properties.sort((a, b) => b.precio - a.precio);
+            case 'bedroomsAsc':
+                return properties.sort((a, b) => a.charRef.dormitorios - b.charRef.dormitorios);
+            case 'bedroomsDesc':
+                return properties.sort((a, b) => b.charRef.dormitorios - a.charRef.dormitorios);
+            case 'bathroomsAsc':
+                return properties.sort((a, b) => a.charRef.banos - b.charRef.banos);
+            case 'bathroomsDesc':
+                return properties.sort((a, b) => b.charRef.banos - a.charRef.banos);
+            default:
+                return properties; // Default sorting logic
+        }
+    };
+
 
     useEffect(() => {
         setPriceValue([propertyParams.prices.min, propertyParams.prices.max]);
@@ -155,7 +178,7 @@ export function INuqs(propertyParams: PropertyParams) {
         setMetrosCuadradosMaximo(null);
         setBarrios(null);
         setQueryTitle('');
-
+        setSortOption(null);
         setPriceValue([propertyParams.prices.min, propertyParams.prices.max]);
         setBathroomValue([propertyParams.bathrooms.min, propertyParams.bathrooms.max]);
         setBedroomValue([propertyParams.bedrooms.min, propertyParams.bedrooms.max]);
@@ -213,6 +236,10 @@ export function INuqs(propertyParams: PropertyParams) {
         barrios: {
             value: barrios,
             setValue: setBarrios
+        },
+        sort: {
+            value: sortOption,
+            setValue: setSortOption
         }
     }
 }
