@@ -1,6 +1,6 @@
 import React from "react";
 import { ContentController } from "#/backend/CRM/debugger";
-import PropertyPage from "@/pages/propiedadView";
+import PropertyPage from "@/view/propiedadView";
 import { fetchPropertyByID } from "#/backend/CRM/fetch";
 
 export type Props = {

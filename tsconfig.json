@@ -24,6 +24,6 @@
     },
     "noImplicitAny": false
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/pages/propiedadView.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/view/propiedadView.jsx"],
   "exclude": ["node_modules"]
 }

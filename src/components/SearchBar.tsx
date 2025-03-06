@@ -193,10 +193,9 @@ const FilterPair = ({ sliderKey, slider, sort }) => {
           <input
             type="text"
             placeholder={minPlaceholder}
-            className="w-[75px] py-1 px-2 pr-6 border rounded text-sm bg-transparent"
+            className={`w-[75px] py-1 px-2 pr-6 border rounded focus:outline-none text-sm bg-transparent ${slider.values[0] !== slider.params.min ? 'border-green-700' : ''}`}
             value={minDisplay}
             onChange={(e) => handleValueChange(e, true)}
-            style={{ WebkitAppearance: 'none', appearance: 'none' }}
           />
           <div className="absolute right-1 top-0 bottom-0 flex flex-col justify-center">
             <button
@@ -220,15 +219,13 @@ const FilterPair = ({ sliderKey, slider, sort }) => {
 
         <span className="text-gray-400 hidden sm:block">-</span>
 
-        {/* Smaller max value input with fixed width */}
         <div className="relative">
           <input
             type="text"
             placeholder={maxPlaceholder}
-            className="w-[75px] py-1 px-2 pr-6 border rounded text-sm bg-transparent"
+            className="w-[75px] py-1 px-2 pr-6 border focus:outline-none rounded text-sm bg-transparent"
             value={maxDisplay}
             onChange={(e) => handleValueChange(e, false)}
-            style={{ WebkitAppearance: 'none', appearance: 'none' }}
           />
           <div className="absolute right-1 top-0 bottom-0 flex flex-col justify-center">
             <button
@@ -237,7 +234,7 @@ const FilterPair = ({ sliderKey, slider, sort }) => {
               type="button"
               aria-label="Increment"
             >
-              <ChevronUp size={12} />
+              <ChevronUp size={14} />
             </button>
             <button
               onClick={() => adjustValue(false, false)}
@@ -245,9 +242,10 @@ const FilterPair = ({ sliderKey, slider, sort }) => {
               type="button"
               aria-label="Decrement"
             >
-              <ChevronDown size={12} />
+              <ChevronDown size={14} />
             </button>
           </div>
+          
         </div>
       </div>
       <div className="sm:hidden">
@@ -344,7 +342,7 @@ const SortFilter = ({ sliders, sort }) => {
   return (
     <div className="border rounded-lg p-3">
       <div className="flex items-center gap-1 mb-2">
-        <span className="font-medium text-sm">Ordenar por</span>
+        <span className="">Ordenar por</span>
       </div>
       <div className="grid grid-cols-4 gap-2">
         {Object.keys(sliders).map((key) => (
@@ -399,7 +397,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
   };
 
   return (
-    <div className="border mt-4 rounded-lg p-3 mx-auto max-w-5xl bg-white shadow-md">
+    <div className="border rounded-lg p-3 mx-auto max-w-5xl bg-white bg-opacity-60 shadow-md">
       <div className="flex items-center gap-2">
         <TitleSearch
           query={nuqs.query}

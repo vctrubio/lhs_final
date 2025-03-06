@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../css/globals.css";
 import Navbar from "@/components/Navbar";
 import TrainNav from "@/components/TrainNav";
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 export const metadata: Metadata = {
   title: "LHS Concept",
@@ -17,29 +18,27 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <head>
         <style>
-          {`
+            {`
             button, input, select, textarea {
               background-color: transparent;
               -webkit-appearance: none;
               appearance: none;
             }
             
-            @media (hover: hover) {
-              button:hover {
-                background-color: rgba(0,0,0,0.05);
-              }
+            ::selection {
+              background-color: none;
+              color: #B8860B;
             }
-            
-            .dark button:hover {
-              background-color: rgba(255,255,255,0.1);
-            }
-          `}
+            `}
         </style>
       </head>
       <body className="bg-backgroundBeigh transition-colors duration-300">
         <Navbar />
-        {/* <TrainNav /> */}
-        {children}
+        <div className="px-4 pb-8 pt-4">
+          <NuqsAdapter>
+          {children}
+          </NuqsAdapter>
+        </div>
       </body>
     </html>
   );

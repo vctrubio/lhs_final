@@ -1,5 +1,4 @@
 import React from "react";
-import SearchBar from "@/components/SearchBar";
 
 export default function PLayout({
     children,
@@ -12,8 +11,3 @@ export default function PLayout({
         </div>
     );
 }
-
-
-/*
-If SearchBar fetches data on the client but PLayout is server-rendered, you might run into hydration errors. Ensure that SearchBar properly handles any async operations.
-*/

@@ -78,9 +78,9 @@ const PdfPageTwo = ({
       <div className="flex flex-col justify-around text-xl font-serif">
         <div className="ml-4">
           <h1 className="font-bold text-2xl">{pdf.title}</h1>
-          <h2 className="flex items-center text-xl">
+          <h2 className="flex items-center text-xl mt-1">
             <IconFindUs fill="#15423b" />
-            <div className="pl-1">{pdf.barrio}</div>
+            <div className="pl-1 text-[#15423b]">{pdf.barrio}</div>
           </h2>
         </div>
         <div className="flex items-center justify-center overflow-hidden text-ellipsis text-2xl text-center px-2">
@@ -88,7 +88,7 @@ const PdfPageTwo = ({
         </div>
       </div>
       <div
-        className="border border-gold w-full h-full"
+        className="border-2 border-gold w-full h-full"
         style={{
           borderTopLeftRadius: "25px",
           borderBottomRightRadius: "25px",
@@ -99,7 +99,7 @@ const PdfPageTwo = ({
         }}
       />
       <div
-        className="border border-gold w-full h-full"
+        className="border-2 border-gold w-full h-full"
         style={{
           borderTopRightRadius: "25px",
           borderBottomRightRadius: "25px",
