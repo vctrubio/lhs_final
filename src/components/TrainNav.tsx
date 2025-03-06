@@ -8,8 +8,10 @@ export default function TrainNav() {
   const router = useRouter();
   
   const pathSegments = useMemo(() => {
+    // Handle potential null pathname
+    const path = pathname || '/';
     // Skip empty first segment
-    const segments = pathname.split('/').filter(segment => segment);
+    const segments = path.split('/').filter(segment => segment);
     
     return segments.map((segment, index) => {
       // Build the path up to this segment
@@ -25,7 +27,7 @@ export default function TrainNav() {
   // Add home as first segment if we're not at root
   const stations = useMemo(() => {
     const result = [{ name: 'Home', path: '/' }];
-    return pathname === '/' ? result : [...result, ...pathSegments];
+    return (pathname === '/' || pathname === null) ? result : [...result, ...pathSegments];
   }, [pathname, pathSegments]);
   
   const navigateToStation = (path: string) => {
