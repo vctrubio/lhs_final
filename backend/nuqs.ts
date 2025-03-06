@@ -82,19 +82,22 @@ export function INuqs(propertyParams: PropertyParams) {
                 return properties.sort((a, b) => a.precio - b.precio);
             case 'priceDesc':
                 return properties.sort((a, b) => b.precio - a.precio);
-            case 'bedroomsAsc':
+            case 'bedroomAsc': // Updated to match FilterPair keys
                 return properties.sort((a, b) => a.charRef.dormitorios - b.charRef.dormitorios);
-            case 'bedroomsDesc':
+            case 'bedroomDesc': // Updated to match FilterPair keys
                 return properties.sort((a, b) => b.charRef.dormitorios - a.charRef.dormitorios);
-            case 'bathroomsAsc':
+            case 'bathroomAsc': // Updated to match FilterPair keys
                 return properties.sort((a, b) => a.charRef.banos - b.charRef.banos);
-            case 'bathroomsDesc':
+            case 'bathroomDesc': // Updated to match FilterPair keys
                 return properties.sort((a, b) => b.charRef.banos - a.charRef.banos);
+            case 'metersSquareAsc':
+                return properties.sort((a, b) => a.charRef.metrosCuadradros - b.charRef.metrosCuadradros);
+            case 'metersSquareDesc':
+                return properties.sort((a, b) => b.charRef.metrosCuadradros - a.charRef.metrosCuadradros);
             default:
                 return properties; // Default sorting logic
         }
     };
-
 
     useEffect(() => {
         setPriceValue([propertyParams.prices.min, propertyParams.prices.max]);

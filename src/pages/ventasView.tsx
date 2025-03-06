@@ -13,7 +13,8 @@ const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
 
     const nuqs = NuqsManager();
 
-    // Function to sort properties based on sort option
+    // Updated function to sort properties based on sort option
+    // This now matches the exact sort keys used in SearchBar.tsx
     const sortProperties = (properties: Property[], sortOption: string | null) => {
         if (!sortOption) return properties; // No sorting needed
 
@@ -24,13 +25,13 @@ const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
                 return clonedProperties.sort((a, b) => a.precio - b.precio);
             case 'priceDesc':
                 return clonedProperties.sort((a, b) => b.precio - a.precio);
-            case 'bedroomsAsc':
+            case 'bedroomAsc':  // Changed from bedroomsAsc to match SearchBar keys
                 return clonedProperties.sort((a, b) => getBedrooms(a) - getBedrooms(b));
-            case 'bedroomsDesc':
+            case 'bedroomDesc': // Changed from bedroomsDesc to match SearchBar keys
                 return clonedProperties.sort((a, b) => getBedrooms(b) - getBedrooms(a));
-            case 'bathroomsAsc':
+            case 'bathroomAsc': // Changed from bathroomsAsc to match SearchBar keys
                 return clonedProperties.sort((a, b) => getBathrooms(a) - getBathrooms(b));
-            case 'bathroomsDesc':
+            case 'bathroomDesc': // Changed from bathroomsDesc to match SearchBar keys
                 return clonedProperties.sort((a, b) => getBathrooms(b) - getBathrooms(a));
             case 'metersSquareAsc':
                 return clonedProperties.sort((a, b) => getMetersSquare(a) - getMetersSquare(b));
@@ -103,9 +104,9 @@ const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
             setCssStateHover(false);
         }
 
-        // Apply sorting after filtering
-        const querySort = new URLSearchParams(window.location.search).get('sort');
-        const sortedProperties = sortProperties(updatedProperties, querySort);
+        // Use the sort value directly from nuqs instead of from URLSearchParams
+        // This ensures we're using the same sort value that's in the URL
+        const sortedProperties = sortProperties(updatedProperties, nuqs.params.sort);
 
         setFilterProperties(sortedProperties);
         setUniqueBoy(sortedProperties.length <= 1);
@@ -116,7 +117,7 @@ const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
         nuqs.params.bathrooms.min, nuqs.params.bathrooms.max, 
         nuqs.params.bedrooms.min, nuqs.params.bedrooms.max, 
         nuqs.params.m2.min, nuqs.params.m2.max, 
-        nuqs.params.barrios]);
+        nuqs.params.barrios, nuqs.params.sort]); // Added sort to dependency array
 
     return (
         <div className="flex flex-wrap">

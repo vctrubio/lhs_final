@@ -4,16 +4,16 @@ import React, { useState, useEffect } from "react";
 import { PropertyParams } from "#/backend/nuqs_functions";
 import { INuqs } from "#/backend/nuqs";
 import { Barrio } from "#/backend/types";
-import { 
-  ChevronUp, 
-  ChevronDown, 
-  Search, 
-  PencilOff, 
-  MapPinned, 
+import {
+  ChevronUp,
+  ChevronDown,
+  Search,
+  PencilOff,
+  MapPinned,
   SlidersHorizontal,
   ArrowUpNarrowWide,
   ArrowDownNarrowWide,
-  ArrowUpDown 
+  ArrowUpDown
 } from "lucide-react";
 
 interface SearchBarProps {
@@ -22,7 +22,7 @@ interface SearchBarProps {
 }
 
 // Updated TitleSearch component with filter buttons integrated in same row
-const TitleSearch = ({ query, reset, hasQueryParams}) => {
+const TitleSearch = ({ query, reset, hasQueryParams }) => {
   const Icon = hasQueryParams ? <PencilOff /> : <Search />;
 
   return (
@@ -33,7 +33,8 @@ const TitleSearch = ({ query, reset, hasQueryParams}) => {
           placeholder="Propiedades"
           className="w-full p-2 border-none outline-none bg-transparent"
           value={query.value || ''}
-          style={{fontFamily: 'New Times Roman',
+          style={{
+            fontFamily: 'New Times Roman',
             fontSize: '1.1rem',
             letterSpacing: '1px',
             fontWeight: 'bold',
@@ -57,7 +58,7 @@ const TitleSearch = ({ query, reset, hasQueryParams}) => {
 
 const FilterPair = ({ sliderKey, slider, sort }) => {
   const isPriceField = sliderKey === 'price';
-  
+
   // Check if this field is being sorted
   const getSortStatus = (): null | 'asc' | 'desc' => {
     if (sort.value === `${sliderKey}Asc`) return 'asc';
@@ -68,7 +69,7 @@ const FilterPair = ({ sliderKey, slider, sort }) => {
   // Handle sort button click
   const handleSort = (direction: 'asc' | 'desc') => {
     const sortValue = `${sliderKey}${direction === 'asc' ? 'Asc' : 'Desc'}`;
-    
+
     if (sort.value === sortValue) {
       // If already sorting in this direction, clear sort
       sort.setValue(null);
@@ -100,11 +101,11 @@ const FilterPair = ({ sliderKey, slider, sort }) => {
   const handleValueChange = (e, isMin) => {
     const value = e.target.value;
     const defaultValue = isMin ? slider.params.min : slider.params.max;
-    
+
     if (value === '') {
       // Reset to default min/max
-      const newValues = isMin 
-        ? [defaultValue, slider.values[1]] 
+      const newValues = isMin
+        ? [defaultValue, slider.values[1]]
         : [slider.values[0], defaultValue];
       slider.valueSet(newValues);
     } else {
@@ -153,19 +154,25 @@ const FilterPair = ({ sliderKey, slider, sort }) => {
       <div className="flex items-center gap-2 mb-2">
         <span className="text-green-700">{slider.params.icon}</span>
         <span className="font-medium text-sm">{slider.params.title}</span>
-        
-        {/* Sort controls */}
+
+        {/* Sort controls with updated colors */}
         <div className="ml-auto flex gap-1">
           <button
             onClick={() => handleSort('asc')}
-            className={`p-1 rounded ${getSortStatus() === 'asc' ? 'bg-green-50 text-green-700' : 'text-gray-400 hover:text-green-700'}`}
+            className={`p-1 rounded transition-colors ${getSortStatus() === 'asc'
+              ? 'bg-green-50 text-green-800'
+              : 'text-gray-400 hover:text-green-700'
+              }`}
             title={`Ordenar por ${slider.params.title} ascendente`}
           >
             <ArrowUpNarrowWide size={14} />
           </button>
           <button
             onClick={() => handleSort('desc')}
-            className={`p-1 rounded ${getSortStatus() === 'desc' ? 'bg-green-50 text-green-700' : 'text-gray-400 hover:text-green-700'}`}
+            className={`p-1 rounded transition-colors ${getSortStatus() === 'desc'
+              ? 'bg-amber-50 text-amber-600'
+              : 'text-gray-400 hover:text-amber-500'
+              }`}
             title={`Ordenar por ${slider.params.title} descendente`}
           >
             <ArrowDownNarrowWide size={14} />
@@ -272,10 +279,15 @@ const BarriosFilter = ({ barrios, selectedBarrios, onChange }) => {
       <h3 className="mb-2 font-medium text-sm">Barrios</h3>
       <div className="flex flex-wrap gap-1">
         {barrios.map((barrio) => (
-          <label key={barrio.name} className="flex items-center gap-1 py-0.5 px-2 text-xs bg-gray-50 rounded hover:bg-gray-100 transition-colors">
+          <label
+            key={barrio.name}
+            className={
+              `flex px-2 py-1 gap-4 text-center bg-gray-50 rounded hover:bg-gray-100 transition-colors 
+              ${selected.has(barrio.name) ? 'border border-gold' : ''}`
+            }
+          >
             <input
               type="checkbox"
-              className="w-3 h-3"
               checked={selected.has(barrio.name)}
               onChange={() => handleToggle(barrio.name)}
             />
@@ -293,10 +305,6 @@ const SortFilter = ({ sliders, sort }) => {
     // If current sort is already this key with 'Asc', switch to 'Desc'
     if (sort.value === `${key}Asc`) {
       sort.setValue(`${key}Desc`);
-    } 
-    // If current sort is already this key with 'Desc', clear sorting
-    else if (sort.value === `${key}Desc`) {
-      sort.setValue(null);
     }
     // Otherwise set to this key with 'Asc'
     else {
@@ -311,25 +319,37 @@ const SortFilter = ({ sliders, sort }) => {
     return null;
   };
 
+  // Helper function to get button styling based on sort status
+  const getButtonStyle = (key: string) => {
+    const status = isSortActive(key);
+    if (status === 'asc') {
+      return 'bg-green-50 border-greenDark text-greenDark';
+    } else if (status === 'desc') {
+      return 'bg-amber-50 border-gold text-gold';
+    } else {
+      return 'bg-white hover:bg-gray-200';
+    }
+  };
+
   return (
     <div className="border rounded-lg p-3">
       <div className="flex items-center gap-1 mb-2">
         <span className="font-medium text-sm">Ordenar por</span>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <div className="grid grid-cols-4 gap-2">
         {Object.keys(sliders).map((key) => (
           <button
             key={key}
             onClick={() => handleSort(key)}
             className={`flex justify-between items-center px-3 py-2 text-sm border rounded-md
-              ${isSortActive(key) ? 'bg-green-50 border-green-200' : 'bg-white hover:bg-gray-50'}`}
+              ${getButtonStyle(key)}`}
           >
             <span>{sliders[key].params.title}</span>
             {isSortActive(key) === 'asc' && (
-              <ArrowUpNarrowWide size={16} className="text-green-700" />
+              <ArrowUpNarrowWide size={16} className="text-green-800" />
             )}
             {isSortActive(key) === 'desc' && (
-              <ArrowDownNarrowWide size={16} className="text-green-700" />
+              <ArrowDownNarrowWide size={16} className="text-amber-600" />
             )}
           </button>
         ))}
@@ -358,6 +378,16 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
     ${showSort ? 'max-h-[400px] opacity-100 my-4' : 'max-h-0 opacity-0 my-0'}
   `;
 
+  // Helper function to determine sort button styling
+  const getSortButtonStyle = () => {
+    if (!nuqs.sort.value) {
+      return 'bg-transparent hover:bg-gray-50';
+    }
+    else {
+      return 'border-dark';
+    }
+  };
+
   return (
     <div className="border mt-4 rounded-lg p-3 mx-auto max-w-5xl bg-white shadow-md">
       <div className="flex items-center gap-2">
@@ -380,18 +410,21 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
           className="flex items-center gap-1 px-3 py-2 text-sm border rounded-md bg-transparent hover:bg-gray-50  transition-colors"
           aria-expanded={showBarrios}
         >
-          <MapPinned size={16} className="text-green-700"/>
+          <MapPinned size={16} className="text-green-700" />
         </button>
 
-        {/* Sort dropdown button */}
+        {/* Sort dropdown button with updated styles */}
         <button
           onClick={() => setShowSort(!showSort)}
           className={`flex items-center gap-1 px-3 py-2 text-sm border rounded-md
-            ${nuqs.sort.value ? 'border-green-500 bg-green-50 ' : 'bg-transparent hover:bg-gray-50 '} 
+            ${getSortButtonStyle()} 
             transition-colors`}
           aria-expanded={showSort}
         >
-          <ArrowUpDown size={16} className={`${nuqs.sort.value ? 'text-green-700 ' : 'text-gray-500'}`} />
+          <ArrowUpDown size={16} className={`${nuqs.sort.value
+            ? (nuqs.sort.value.endsWith('Asc') ? 'text-green-700' : 'text-amber-600')
+            : 'text-gray-500'
+            }`} />
           <span>Ordenar</span>
         </button>
       </div>
@@ -401,7 +434,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
         {showFilters && Object.keys(nuqs.sliders).map((key) => (
           <FilterPair
             key={key}
-            sliderKey={key}
+            sliderKey={key} // This correctly passes 'price', 'bedroom', 'bathroom', 'metersSquare'
             slider={nuqs.sliders[key]}
             sort={nuqs.sort}
           />
@@ -422,9 +455,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
       {/* Collapsible sort section */}
       <div className={sortClasses}>
         {showSort && (
-          <SortFilter 
-            sliders={nuqs.sliders} 
-            sort={nuqs.sort} 
+          <SortFilter
+            sliders={nuqs.sliders}
+            sort={nuqs.sort}
           />
         )}
       </div>
