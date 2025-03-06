@@ -11,12 +11,10 @@ import {
   PencilOff, 
   MapPinned, 
   SlidersHorizontal,
-  MapPinPlus,
   ArrowUpNarrowWide,
   ArrowDownNarrowWide,
   ArrowUpDown 
 } from "lucide-react";
-import SortFilter from "./SortFilter";
 
 interface SearchBarProps {
   propertyParams: PropertyParams;
@@ -57,27 +55,26 @@ const TitleSearch = ({ query, reset, hasQueryParams}) => {
   );
 };
 
-const FilterPair = ({ slider, sort }) => {
-  const isPriceField = slider.params.title === 'Precio';
-  const fieldKey = slider.params.title === 'Precio' ? 'price' :
-                   slider.params.title === 'Baños' ? 'bathrooms' :
-                   slider.params.title === 'Dormitorios' ? 'bedrooms' : 'metersSquare';
-
+const FilterPair = ({ sliderKey, slider, sort }) => {
+  const isPriceField = sliderKey === 'price';
+  
   // Check if this field is being sorted
   const getSortStatus = (): null | 'asc' | 'desc' => {
-    if (sort.value === `${fieldKey}Asc`) return 'asc';
-    if (sort.value === `${fieldKey}Desc`) return 'desc';
+    if (sort.value === `${sliderKey}Asc`) return 'asc';
+    if (sort.value === `${sliderKey}Desc`) return 'desc';
     return null;
   };
 
   // Handle sort button click
   const handleSort = (direction: 'asc' | 'desc') => {
-    if (sort.value === `${fieldKey}${direction === 'asc' ? 'Asc' : 'Desc'}`) {
+    const sortValue = `${sliderKey}${direction === 'asc' ? 'Asc' : 'Desc'}`;
+    
+    if (sort.value === sortValue) {
       // If already sorting in this direction, clear sort
       sort.setValue(null);
     } else {
       // Set to this sort direction
-      sort.setValue(`${fieldKey}${direction === 'asc' ? 'Asc' : 'Desc'}`);
+      sort.setValue(sortValue);
     }
   };
 
@@ -90,12 +87,7 @@ const FilterPair = ({ slider, sort }) => {
     }
 
     // For price fields, limit to 2 decimal places
-    if (isPriceField) {
-      return Number(value).toFixed(2);
-    }
-
-    // For other fields, return as is
-    return value.toString();
+    return isPriceField ? Number(value).toFixed(2) : value.toString();
   };
 
   const minDisplay = formatValue(slider.values[0], true);
@@ -104,105 +96,51 @@ const FilterPair = ({ slider, sort }) => {
   // Get step value based on filter type
   const step = isPriceField ? 0.1 : 1;
 
-  // Handle min value changes
-  const handleMinChange = (e) => {
+  // Handle value changes with reusable function
+  const handleValueChange = (e, isMin) => {
     const value = e.target.value;
-
+    const defaultValue = isMin ? slider.params.min : slider.params.max;
+    
     if (value === '') {
-      // Reset to default min
-      const newValues = [slider.params.min, slider.values[1]];
+      // Reset to default min/max
+      const newValues = isMin 
+        ? [defaultValue, slider.values[1]] 
+        : [slider.values[0], defaultValue];
       slider.valueSet(newValues);
     } else {
       const numValue = parseFloat(value);
       if (!isNaN(numValue)) {
         // Limit decimals for price fields
-        const validValue = isPriceField ?
-          Math.round(Math.max(slider.params.min, Math.min(slider.params.max, numValue)) * 100) / 100 :
-          Math.max(slider.params.min, Math.min(slider.params.max, numValue));
+        const validValue = isPriceField
+          ? Math.round(Math.max(slider.params.min, Math.min(slider.params.max, numValue)) * 100) / 100
+          : Math.max(slider.params.min, Math.min(slider.params.max, numValue));
 
-        const newValues = [validValue, slider.values[1]];
+        const newValues = isMin
+          ? [validValue, slider.values[1]]
+          : [slider.values[0], validValue];
         slider.valueSet(newValues);
       }
     }
   };
 
-  // Handle max value changes
-  const handleMaxChange = (e) => {
-    const value = e.target.value;
+  // Handle increment/decrement with reusable function
+  const adjustValue = (isMin, increment) => {
+    const current = isMin ? slider.values[0] : slider.values[1];
+    let newValue = current + (increment ? step : -step);
 
-    if (value === '') {
-      // Reset to default max
-      const newValues = [slider.values[0], slider.params.max];
-      slider.valueSet(newValues);
+    // Limit to 2 decimal places for price fields
+    if (isPriceField) {
+      newValue = Math.round(newValue * 100) / 100;
+    }
+
+    if (isMin) {
+      if ((increment && newValue <= slider.values[1]) || (!increment && newValue >= slider.params.min)) {
+        slider.valueSet([newValue, slider.values[1]]);
+      }
     } else {
-      const numValue = parseFloat(value);
-      if (!isNaN(numValue)) {
-        // Limit decimals for price fields
-        const validValue = isPriceField ?
-          Math.round(Math.max(slider.params.min, Math.min(slider.params.max, numValue)) * 100) / 100 :
-          Math.max(slider.params.min, Math.min(slider.params.max, numValue));
-
-        const newValues = [slider.values[0], validValue];
-        slider.valueSet(newValues);
+      if ((increment && newValue <= slider.params.max) || (!increment && newValue >= slider.values[0])) {
+        slider.valueSet([slider.values[0], newValue]);
       }
-    }
-  };
-
-  // Handle increment/decrement for min value with proper decimal handling
-  const incrementMin = () => {
-    const current = slider.values[0];
-    let newValue = current + step;
-
-    // Limit to 2 decimal places for price fields
-    if (isPriceField) {
-      newValue = Math.round(newValue * 100) / 100;
-    }
-
-    if (newValue <= slider.values[1]) {
-      slider.valueSet([newValue, slider.values[1]]);
-    }
-  };
-
-  const decrementMin = () => {
-    const current = slider.values[0];
-    let newValue = current - step;
-
-    // Limit to 2 decimal places for price fields
-    if (isPriceField) {
-      newValue = Math.round(newValue * 100) / 100;
-    }
-
-    if (newValue >= slider.params.min) {
-      slider.valueSet([newValue, slider.values[1]]);
-    }
-  };
-
-  // Handle increment/decrement for max value with proper decimal handling
-  const incrementMax = () => {
-    const current = slider.values[1];
-    let newValue = current + step;
-
-    // Limit to 2 decimal places for price fields
-    if (isPriceField) {
-      newValue = Math.round(newValue * 100) / 100;
-    }
-
-    if (newValue <= slider.params.max) {
-      slider.valueSet([slider.values[0], newValue]);
-    }
-  };
-
-  const decrementMax = () => {
-    const current = slider.values[1];
-    let newValue = current - step;
-
-    // Limit to 2 decimal places for price fields
-    if (isPriceField) {
-      newValue = Math.round(newValue * 100) / 100;
-    }
-
-    if (newValue >= slider.values[0]) {
-      slider.valueSet([slider.values[0], newValue]);
     }
   };
 
@@ -242,12 +180,12 @@ const FilterPair = ({ slider, sort }) => {
             placeholder={minPlaceholder}
             className="w-[80px] py-1 px-2 pr-6 border rounded text-sm bg-transparent"
             value={minDisplay}
-            onChange={handleMinChange}
+            onChange={(e) => handleValueChange(e, true)}
             style={{ WebkitAppearance: 'none', appearance: 'none' }}
           />
           <div className="absolute right-1 top-0 bottom-0 flex flex-col justify-center">
             <button
-              onClick={incrementMin}
+              onClick={() => adjustValue(true, true)}
               className="text-gray-500 hover:text-green-700 focus:outline-none h-4"
               type="button"
               aria-label="Increment"
@@ -255,7 +193,7 @@ const FilterPair = ({ slider, sort }) => {
               <ChevronUp size={14} />
             </button>
             <button
-              onClick={decrementMin}
+              onClick={() => adjustValue(true, false)}
               className="text-gray-500 hover:text-green-700 focus:outline-none h-4"
               type="button"
               aria-label="Decrement"
@@ -274,12 +212,12 @@ const FilterPair = ({ slider, sort }) => {
             placeholder={maxPlaceholder}
             className="w-[80px] py-1 px-2 pr-6 border rounded text-sm bg-transparent"
             value={maxDisplay}
-            onChange={handleMaxChange}
+            onChange={(e) => handleValueChange(e, false)}
             style={{ WebkitAppearance: 'none', appearance: 'none' }}
           />
           <div className="absolute right-1 top-0 bottom-0 flex flex-col justify-center">
             <button
-              onClick={incrementMax}
+              onClick={() => adjustValue(false, true)}
               className="text-gray-500 hover:text-green-700 focus:outline-none h-4"
               type="button"
               aria-label="Increment"
@@ -287,7 +225,7 @@ const FilterPair = ({ slider, sort }) => {
               <ChevronUp size={12} />
             </button>
             <button
-              onClick={decrementMax}
+              onClick={() => adjustValue(false, false)}
               className="text-gray-500 hover:text-green-700 focus:outline-none h-4"
               type="button"
               aria-label="Decrement"
@@ -349,35 +287,19 @@ const BarriosFilter = ({ barrios, selectedBarrios, onChange }) => {
   );
 };
 
-interface SortFilterProps {
-  sort: {
-    value: string;
-    setValue: (value: string | null) => void;
-  };
-}
-
-const SortFilter: React.FC<SortFilterProps> = ({ sort }) => {
-  const sortOptions = [
-    { key: 'price', label: 'Precio' },
-    { key: 'bedrooms', label: 'Dormitorios' },
-    { key: 'bathrooms', label: 'Baños' },
-    { key: 'metersSquare', label: 'Metros Cuadrados' }
-  ];
-
+const SortFilter = ({ sliders, sort }) => {
+  // Use existing slider data to build sort options
   const handleSort = (key: string) => {
     // If current sort is already this key with 'Asc', switch to 'Desc'
     if (sort.value === `${key}Asc`) {
-      console.log(`Sorting by ${key} descending`);
       sort.setValue(`${key}Desc`);
     } 
     // If current sort is already this key with 'Desc', clear sorting
     else if (sort.value === `${key}Desc`) {
-      console.log(`Clearing sort`);
       sort.setValue(null);
     }
     // Otherwise set to this key with 'Asc'
     else {
-      console.log(`Sorting by ${key} ascending`);
       sort.setValue(`${key}Asc`);
     }
   };
@@ -395,18 +317,18 @@ const SortFilter: React.FC<SortFilterProps> = ({ sort }) => {
         <span className="font-medium text-sm">Ordenar por</span>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        {sortOptions.map((option) => (
+        {Object.keys(sliders).map((key) => (
           <button
-            key={option.key}
-            onClick={() => handleSort(option.key)}
+            key={key}
+            onClick={() => handleSort(key)}
             className={`flex justify-between items-center px-3 py-2 text-sm border rounded-md
-              ${isSortActive(option.key) ? 'bg-green-50 border-green-200' : 'bg-white hover:bg-gray-50'}`}
+              ${isSortActive(key) ? 'bg-green-50 border-green-200' : 'bg-white hover:bg-gray-50'}`}
           >
-            <span>{option.label}</span>
-            {isSortActive(option.key) === 'asc' && (
+            <span>{sliders[key].params.title}</span>
+            {isSortActive(key) === 'asc' && (
               <ArrowUpNarrowWide size={16} className="text-green-700" />
             )}
-            {isSortActive(option.key) === 'desc' && (
+            {isSortActive(key) === 'desc' && (
               <ArrowDownNarrowWide size={16} className="text-green-700" />
             )}
           </button>
@@ -415,7 +337,6 @@ const SortFilter: React.FC<SortFilterProps> = ({ sort }) => {
     </div>
   );
 };
-
 
 const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
   const nuqs = INuqs(propertyParams);
@@ -471,7 +392,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
           aria-expanded={showSort}
         >
           <ArrowUpDown size={16} className={`${nuqs.sort.value ? 'text-green-700 ' : 'text-gray-500'}`} />
-          <span >Ordenar</span>
+          <span>Ordenar</span>
         </button>
       </div>
 
@@ -480,6 +401,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
         {showFilters && Object.keys(nuqs.sliders).map((key) => (
           <FilterPair
             key={key}
+            sliderKey={key}
             slider={nuqs.sliders[key]}
             sort={nuqs.sort}
           />
@@ -500,7 +422,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
       {/* Collapsible sort section */}
       <div className={sortClasses}>
         {showSort && (
-          <SortFilter sort={nuqs.sort} />
+          <SortFilter 
+            sliders={nuqs.sliders} 
+            sort={nuqs.sort} 
+          />
         )}
       </div>
     </div>
