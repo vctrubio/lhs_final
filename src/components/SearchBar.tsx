@@ -149,34 +149,42 @@ const FilterPair = ({ sliderKey, slider, sort }) => {
   const minPlaceholder = isPriceField ? `${slider.params.min}M` : slider.params.min.toString();
   const maxPlaceholder = isPriceField ? `${slider.params.max}M` : slider.params.max.toString();
 
+
+  const sortBtn = () => {
+    return (
+      <div className="ml-auto flex gap-1">
+        <button
+          onClick={() => handleSort('asc')}
+          className={`p-1 rounded transition-colors ${getSortStatus() === 'asc'
+            ? 'bg-green-50 text-green-800'
+            : 'text-gray-400 hover:text-green-700'
+            }`}
+          title={`Ordenar por ${slider.params.title} ascendente`}
+        >
+          <ArrowUpNarrowWide size={14} />
+        </button>
+        <button
+          onClick={() => handleSort('desc')}
+          className={`p-1 rounded transition-colors ${getSortStatus() === 'desc'
+            ? 'bg-amber-50 text-amber-600'
+            : 'text-gray-400 hover:text-amber-500'
+            }`}
+          title={`Ordenar por ${slider.params.title} descendente`}
+        >
+          <ArrowDownNarrowWide size={14} />
+        </button>
+      </div>
+    )
+  }
+
   return (
     <div className="p-2 border rounded-lg flex sm:flex-col justify-evenly">
-      <div className="flex items-center gap-2 mb-2">
+      <div className="flex items-center gap-2 mb-2 w-full">
         <span className="text-green-700">{slider.params.icon}</span>
         <span className="font-medium text-sm">{slider.params.title}</span>
 
-        {/* Sort controls with updated colors */}
-        <div className="ml-auto flex gap-1">
-          <button
-            onClick={() => handleSort('asc')}
-            className={`p-1 rounded transition-colors ${getSortStatus() === 'asc'
-              ? 'bg-green-50 text-green-800'
-              : 'text-gray-400 hover:text-green-700'
-              }`}
-            title={`Ordenar por ${slider.params.title} ascendente`}
-          >
-            <ArrowUpNarrowWide size={14} />
-          </button>
-          <button
-            onClick={() => handleSort('desc')}
-            className={`p-1 rounded transition-colors ${getSortStatus() === 'desc'
-              ? 'bg-amber-50 text-amber-600'
-              : 'text-gray-400 hover:text-amber-500'
-              }`}
-            title={`Ordenar por ${slider.params.title} descendente`}
-          >
-            <ArrowDownNarrowWide size={14} />
-          </button>
+        <div className="ml-auto hidden sm:flex">
+          {sortBtn()}
         </div>
       </div>
 
@@ -185,7 +193,7 @@ const FilterPair = ({ sliderKey, slider, sort }) => {
           <input
             type="text"
             placeholder={minPlaceholder}
-            className="w-[80px] py-1 px-2 pr-6 border rounded text-sm bg-transparent"
+            className="w-[75px] py-1 px-2 pr-6 border rounded text-sm bg-transparent"
             value={minDisplay}
             onChange={(e) => handleValueChange(e, true)}
             style={{ WebkitAppearance: 'none', appearance: 'none' }}
@@ -217,7 +225,7 @@ const FilterPair = ({ sliderKey, slider, sort }) => {
           <input
             type="text"
             placeholder={maxPlaceholder}
-            className="w-[80px] py-1 px-2 pr-6 border rounded text-sm bg-transparent"
+            className="w-[75px] py-1 px-2 pr-6 border rounded text-sm bg-transparent"
             value={maxDisplay}
             onChange={(e) => handleValueChange(e, false)}
             style={{ WebkitAppearance: 'none', appearance: 'none' }}
@@ -242,11 +250,13 @@ const FilterPair = ({ sliderKey, slider, sort }) => {
           </div>
         </div>
       </div>
+      <div className="sm:hidden">
+        {sortBtn()}
+      </div>
     </div>
   );
 };
 
-// Simple barrios checklist
 const BarriosFilter = ({ barrios, selectedBarrios, onChange }) => {
   const [selected, setSelected] = useState(new Set());
 
