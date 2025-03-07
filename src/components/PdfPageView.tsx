@@ -49,7 +49,7 @@ const PdfPageOne = ({ title, photos }: { title: string; photos: Photo }) => {
   return (
     <PDFPage>
       <div className="pt-9 flex flex-col" style={{ height: "100%" }}>
-        <h1 className="flex text-5xl text-zinc-500 font-ricordi font-light text-center mb-5 px-2">
+        <h1 className="flex text-5xl text-zinc-500 font-ricordi font-light text-center mb-5 p-2 border">
           &quot;{title}&quot;
         </h1>
         <div className="flex-grow flex border border-backgroundBeigh rounded-xl overflow-hidden">
@@ -81,7 +81,7 @@ const PdfPageTwo = ({
             <div className="pl-1 text-[#15423b]">{pdf.barrio}</div>
           </h2>
         </div>
-        <div className="flex items-center justify-center overflow-hidden text-ellipsis text-2xl text-center px-2">
+        <div className="flex items-center justify-center overflow-hidden text-ellipsis text-2xl text-center p-2">
           {pdf.description}
         </div>
       </div>
