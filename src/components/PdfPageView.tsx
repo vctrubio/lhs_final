@@ -49,7 +49,7 @@ const PdfPageOne = ({ title, photos }: { title: string; photos: Photo }) => {
   return (
     <PDFPage>
       <div className="pt-9 flex flex-col" style={{ height: "100%" }}>
-        <h1 className="flex text-5xl text-zinc-500 font-ricordi font-light text-center mb-5 p-2 border">
+        <h1 className="flex text-5xl text-zinc-500 font-ricordi font-light text-center mx-auto mb-5 p-2">
           &quot;{title}&quot;
         </h1>
         <div className="flex-grow flex border border-backgroundBeigh rounded-xl overflow-hidden">
