@@ -72,7 +72,7 @@ export async function fetchEntriesContentful(): Promise<{
   const propertyParams = getPropertiesParams(properties);
 
   const uniqueBarriosInProperties = [
-    ...new Set(properties.map((property) => property.barrioRef.name)),
+    ...new Set(properties.map((property) => property?.barrioRef.name)),
   ];
   const filteredBarrios = barrios.filter((barrio) =>
     uniqueBarriosInProperties.includes(barrio.name),
