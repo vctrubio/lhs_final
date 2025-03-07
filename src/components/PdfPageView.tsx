@@ -31,15 +31,14 @@ export class PdfParent {
   }
 }
 
-
-
 export const PDFPage = ({ children, className = "" }: PDFPageProps) => {
   return (
     <div
       className={`flex flex-col mx-auto w-a4 h-a4 page-break ${className}`}
       style={{
         backgroundColor: "#e1d8c6",
-        boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",}}
+        boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+      }}
     >
       {children}
     </div>
@@ -50,16 +49,15 @@ const PdfPageOne = ({ title, photos }: { title: string; photos: Photo }) => {
   return (
     <PDFPage>
       <div className="pt-9 flex flex-col" style={{ height: "100%" }}>
-        <h1 className="flex text-5xl text-zinc-500 font-ricordi font-light text-center my-4 px-2">
+        <h1 className="flex text-5xl text-zinc-500 font-ricordi font-light text-center mb-5 px-2">
           &quot;{title}&quot;
         </h1>
         <div className="flex-grow flex border border-backgroundBeigh rounded-xl overflow-hidden">
           <img
             src={photos.url}
-            alt='Portada [IMG]'
+            alt="Portada [IMG]"
             style={{ objectFit: "cover", width: "100%", height: "100%" }}
           />
-
         </div>
       </div>
     </PDFPage>
@@ -119,18 +117,31 @@ const PdfPlanoPage = ({ planoUrl }: { planoUrl: string }) => {
     <PDFPage>
       <div className="pt-8 flex flex-col h-full">
         <h1 className="text-5xl text-center my-4 px-2">Plano</h1>
-        <div style={{ flexGrow: 1, width: '100%', overflow: 'hidden', position: 'relative', display: 'flex', padding: '0.5rem' }}>
+        <div
+          style={{
+            flexGrow: 1,
+            width: "100%",
+            overflow: "hidden",
+            position: "relative",
+            display: "flex",
+            padding: "0.5rem",
+          }}
+        >
           <img
             src={planoUrl}
             alt="Plano"
-            style={{ flexGrow: 1, objectFit: 'contain', width: '100%', height: '100%' }}
+            style={{
+              flexGrow: 1,
+              objectFit: "contain",
+              width: "100%",
+              height: "100%",
+            }}
           />
         </div>
       </div>
     </PDFPage>
   );
 };
-
 
 function RenderGridForChunk({ photos }: { photos: Photo[] }) {
   return (

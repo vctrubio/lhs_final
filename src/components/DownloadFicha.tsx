@@ -1,23 +1,26 @@
-'use client'
+"use client";
+
 import React, { useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
+const MAX_PDF_SIZE_MB = 20;
+const JPEG_QUALITY = 0.8;
+
 const waitForImages = async (container: HTMLElement) => {
   const images = Array.from(container.querySelectorAll("img"));
   await Promise.all(
-    images.map(
-      (img) =>
-        img.complete
-          ? Promise.resolve()
-          : new Promise<void>((resolve) => {
-              img.onload = () => resolve();
-              img.onerror = () => {
-                console.error("Image failed to load:", img.src);
-                resolve();
-              };
-            })
-    )
+    images.map((img) =>
+      img.complete
+        ? Promise.resolve()
+        : new Promise<void>((resolve) => {
+          img.onload = () => resolve();
+          img.onerror = () => {
+            console.error("Image failed to load:", img.src);
+            resolve();
+          };
+        }),
+    ),
   );
 };
 
@@ -38,46 +41,43 @@ const DownloadPdfButton: React.FC<DownloadPdfButtonProps> = ({ title }) => {
     }
 
     try {
-      // Wait for images to fully load
       await waitForImages(pdfContainer);
       console.log("-- All images loaded!");
 
-      // Capture the full content as an image
       const canvas = await html2canvas(pdfContainer, {
-        scale: 2, // Higher scale for better resolution
+        scale: 2,
         useCORS: true,
         allowTaint: true,
       });
 
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: "a4",
-      });
+      let quality = JPEG_QUALITY;
+      let pdfBlobSize = Infinity;
+      let imgData = "";
+      let pdf;
 
-      const imgWidth = 210; // A4 width in mm
-      const pageHeight = 297; // A4 height in mm
-      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Scale height to fit width
+      do {
+        imgData = canvas.toDataURL("image/jpeg", quality);
+        pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
 
-      let yPosition = 0;
+        const imgWidth = 210; // A4 width in mm
+        const pageHeight = 297; // A4 height in mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let yPosition = 0;
 
-      while (yPosition < imgHeight) {
-        pdf.addImage(
-          imgData,
-          "PNG",
-          0,
-          -yPosition, // Shift image up for the next page
-          imgWidth,
-          imgHeight
-        );
-
-        yPosition += pageHeight;
-
-        if (yPosition < imgHeight) {
-          pdf.addPage();
+        while (yPosition < imgHeight) {
+          pdf.addImage(imgData, "JPEG", 0, -yPosition, imgWidth, imgHeight);
+          yPosition += pageHeight;
+          if (yPosition < imgHeight) pdf.addPage();
         }
-      }
+
+        const pdfBlob = pdf.output("blob");
+        pdfBlobSize = pdfBlob.size / (1024 * 1024); // Convert bytes to MB
+        console.log(`PDF Size: ${pdfBlobSize.toFixed(2)} MB`);
+
+        if (pdfBlobSize > MAX_PDF_SIZE_MB) {
+          quality -= 0.05; // Reduce quality and retry
+        }
+      } while (pdfBlobSize > MAX_PDF_SIZE_MB && quality > 0.3);
 
       pdf.save(`${title}.pdf`);
     } catch (error) {
