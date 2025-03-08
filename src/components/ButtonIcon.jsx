@@ -1,16 +1,14 @@
 "use client";
 import React from "react";
 
-const ButtonIcon = ({ icon: Icon, label, onClick, variant = "default" }) => {
+const ButtonIcon = ({ icon: Icon, label, onClick }) => {
   return (
     <button
-      className={`button-icon ${variant}`}
       onClick={onClick}
       aria-label={label}
+      className="bg-backgroundBeigh w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-md"
     >
-      <span className="button-icon-inner">
-        <Icon className="button-icon-svg" />
-      </span>
+        <Icon />
     </button>
   );
 };

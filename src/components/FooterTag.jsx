@@ -49,7 +49,6 @@ export function FooterTagShare({ property }) {
             icon={icon}
             label={label}
             onClick={onClick}
-            variant={variant}
           />
         ))}
       </div>
