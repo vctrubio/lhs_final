@@ -2,12 +2,10 @@
 import React, { useEffect, useRef } from "react";
 import { Mail, X, Copy } from "lucide-react";
 import { IconWhatsapp } from "@/utils/svgs";
-import { contactData } from "@/utils/contactData";
 
 export default function ShareModal({ isOpen, onClose, property, url }) {
     const modalRef = useRef(null);
 
-    // Handle escape key press
     useEffect(() => {
         const handleEsc = (event) => {
             if (event.key === "Escape") {
@@ -22,7 +20,6 @@ export default function ShareModal({ isOpen, onClose, property, url }) {
         return () => window.removeEventListener("keydown", handleEsc);
     }, [isOpen, onClose]);
 
-    // Format price as euros
     const formatPrice = (price) => {
         return new Intl.NumberFormat('es-ES', {
             style: 'currency',
@@ -31,33 +28,35 @@ export default function ShareModal({ isOpen, onClose, property, url }) {
         }).format(price);
     };
 
-    // Create a formatted message with property details
-    const createPropertyMessage = () => {
+    const createPropertyMessage = (includeLineBreaks = true) => {
         const priceText = property.precio ? formatPrice(property.precio) : "";
         const sqmText = property.charRef?.metrosCuadradros ? `${property.charRef.metrosCuadradros}m²` : "";
-        const locationText = property.barrioRef?.name ? `en ${property.barrioRef.name}` : "";
-        const roomsText = property.charRef?.dormitorios ? `${property.charRef.dormitorios} hab` : "";
+        const locationText = property.barrioRef?.name ? `📍 ${property.barrioRef.name}` : "";
 
-        return `Hola, he visto: ${property.title} ${locationText} - ${priceText} ${sqmText} ${roomsText} -- ${url}`;
+        const lineBreak = includeLineBreaks ? '\n' : ' ';
+
+        const titleLine = property.title;
+        const detailsLine = [locationText, priceText, sqmText].filter(Boolean).join(' - ');
+
+        return `Hola, mira lo que he visto en LHS Concept Madrid:${lineBreak}${titleLine}${lineBreak}${detailsLine}${lineBreak}${url}`;
     };
 
-    // Copy URL to clipboard
     const copyToClipboard = () => {
-        navigator.clipboard.writeText(`${property.title} - ${url}`);
-        alert("URL copiada al portapapeles");
+        const formattedText = createPropertyMessage(true);
+        navigator.clipboard.writeText(formattedText);
         onClose();
     };
 
     if (!isOpen) return null;
 
-    const propertyMessage = createPropertyMessage();
+    const propertyMessage = createPropertyMessage(true);
 
     const shareButtons = [
         {
             name: "WhatsApp",
             icon: IconWhatsapp,
             onClick: () => {
-                window.open(`${contactData.whatsappUrl}?text=${encodeURIComponent(propertyMessage)}`);
+                window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(propertyMessage)}`);
                 onClose();
             },
         },
@@ -65,8 +64,8 @@ export default function ShareModal({ isOpen, onClose, property, url }) {
             name: "Email",
             icon: Mail,
             onClick: () => {
-                window.open(`mailto:?subject=${encodeURIComponent(`Propiedad: ${property.title}`)}
-                &body=${encodeURIComponent(propertyMessage)}`);
+                const emailBody = propertyMessage.replace(/\n/g, '%0D%0A');
+                window.open(`mailto:?subject=${encodeURIComponent(`Propiedad: ${property.title}`)}&body=${emailBody}`);
                 onClose();
             },
         },
@@ -77,6 +76,29 @@ export default function ShareModal({ isOpen, onClose, property, url }) {
         },
     ];
 
+    const formattedDisplayText = () => {
+        const priceText = property.precio ? formatPrice(property.precio) : "";
+        const sqmText = property.charRef?.metrosCuadradros ? `${property.charRef.metrosCuadradros}m²` : "";
+        const roomsText = property.charRef?.dormitorios ? `${property.charRef.dormitorios} hab` : "";
+        const detailsText = [priceText, sqmText, roomsText].filter(Boolean).join(' · ');
+
+        return (
+            <div className="px-2">
+                <div className="mb-1 text-sm font-montserrat font-medium">
+                    {property.title}
+                </div>
+                <div className="mb-1 text-sm text-madrid-darker font-montserrat">
+                    📍 {property.barrioRef?.name || ""}
+                </div>
+                {detailsText && (
+                    <div className="mb-2 text-sm font-medium font-montserrat">
+                        {detailsText}
+                    </div>
+                )}
+            </div>
+        );
+    };
+
     return (
         <div
             ref={modalRef}
@@ -84,28 +106,18 @@ export default function ShareModal({ isOpen, onClose, property, url }) {
         >
             <div className="p-4">
                 <div className="flex justify-between items-center mb-3">
-                    <h3 className="text-lg font-semibold text-greenDark font-montserrat">Compartir</h3>
+                    <h3 className="text-lg font-semibold font-montserrat">Compartir</h3>
                     <button
                         onClick={onClose}
                         className="p-1 rounded-full hover:bg-backgroundBeigh transition-colors duration-200"
                         aria-label="Cerrar"
                     >
-                        <X size={18} className="text-greenDark" />
+                        <X size={18} />
                     </button>
                 </div>
 
                 <div className="mb-4">
-                    <div className="text-sm text-greenDark font-montserrat mb-1 px-2">
-                        {property.title}
-                    </div>
-                    {property.precio && (
-                        <div className="text-sm font-medium text-greenDark font-montserrat mb-1 px-2">
-                            {formatPrice(property.precio)}
-                            {property.charRef?.metrosCuadradros &&
-                                <span> · {property.charRef.metrosCuadradros}m²</span>
-                            }
-                        </div>
-                    )}
+                    {formattedDisplayText()}
                     <div className="p-2 bg-backgroundBeigh rounded text-xs text-greenDark line-clamp-1 font-montserrat">{url}</div>
                 </div>
 
@@ -114,7 +126,7 @@ export default function ShareModal({ isOpen, onClose, property, url }) {
                         <button
                             key={button.name}
                             onClick={button.onClick}
-                            className="flex items-center justify-center bg-backgroundBeigh rounded-full p-4 border border-gray-300 overflow-hidden hover:bg-greenish transition-colors duration-300 shadow-sm"
+                            className="flex items-center justify-center bg-backgroundBeigh rounded-full p-4 border border-gold overflow-hidden hover:bg-greenish transition-colors duration-300 shadow-sm"
                             style={{ width: "55px", height: "55px" }}
                             title={button.name}
                             aria-label={button.name}
@@ -129,7 +141,7 @@ export default function ShareModal({ isOpen, onClose, property, url }) {
 
             <div className="bg-backgroundBeigh px-4 py-2 border-t border-beighDarkish">
                 <p className="text-xs text-center text-greenDark font-montserrat">
-                    Gracias por compartir nuestra propiedad
+                    Gracias por compartir nuestra propiedad en <span className="font-bold">LHS Concept</span>
                 </p>
             </div>
         </div>
