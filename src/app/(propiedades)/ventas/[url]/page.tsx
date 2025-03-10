@@ -1,7 +1,8 @@
 import React from "react";
-import { ContentController } from "#/backend/CRM/debugger";
 import PropertyPage from "@/view/propiedadView";
 import { fetchPropertyByID } from "#/backend/CRM/fetch";
+import { PdfParent, CreatePdf } from "@/components/PdfPageView";
+import { PropertyBroucher } from "@/components/PropertyBroucher";
 
 export type Props = {
     params: Promise<{ url: string }>;
@@ -11,16 +12,34 @@ export default async function PropertyDetails({ params }: Props) {
     const { url } = await params;
     const property = await fetchPropertyByID(url);
 
-    // const content = await ContentController({ id: url });
-
-    // if (!("selectedProperty" in content)) {
-    //     throw new Error("Property not found");
-    // }
-
-    // const selectedProperty = content.selectedProperty;
+    // ...existing code...
 
     if (!property) 
-        return ;
+        return;
 
-    return <PropertyPage property={property}/>
+    // Create PDF content but completely hide it
+    const pdf = new PdfParent(property);
+    const brochure = <PropertyBroucher property={property} flag={true} />;
+
+    return (
+        <>
+            <PropertyPage property={property} />
+            <div 
+                id="pdf" 
+                aria-hidden="true"
+                style={{ 
+                    position: 'absolute', 
+                    left: '-99999px', 
+                    top: '-99999px',
+                    visibility: 'hidden', 
+                    opacity: '0',
+                    overflow: 'hidden',
+                    pointerEvents: 'none',
+                    userSelect: 'none'
+                }}
+            >
+                <CreatePdf pdf={pdf} brochure={brochure} />
+            </div>
+        </>
+    );
 }
