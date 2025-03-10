@@ -23,7 +23,7 @@ export default {
         beigh: "#eae4dc",
         price: "#303030",
         
-        navRed: "#aa0000",
+        navRed: "#D84040",
         navGreen: "#15423b",
         navBlue: "#0000aa",
         
