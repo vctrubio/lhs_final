@@ -6,7 +6,7 @@ import { Globe } from 'lucide-react';
 const TextContent = () => {
     return (
         <div>
-            <h2 className="font-montserrat text-sm uppercase tracking-widest text-madrid-accent mb-8">Discubre Madrid</h2>
+            <h2 className="font-montserrat text-sm uppercase tracking-widest text-madrid-accent mb-8">Descubre Madrid</h2>
             <h3 className="font-cormorant text-3xl md:text-4xl lg:text-5xl font-light text-neutral-800 mb-8">Vive La Autenticidad Que Ofrece Nuestra Cuidad</h3>
             <div className='mt-4'>
                 <p className="font-montserrat text-neutral-600 mb-6 leading-relaxed">
@@ -19,7 +19,7 @@ const TextContent = () => {
                 </p>
             </div>
             <button className="px-6 py-3 bg-neutral-800/90 hover:bg-neutral-800 text-white border border-madrid-accent/20 hover:border-madrid-accent/40 rounded-none transition-all duration-300 font-montserrat uppercase tracking-wider font-light flex items-center">
-                <Globe className="mr-2" size={20} />
+                <Globe className="mr-2 text-madrid-accent" size={20} />
                 Nuestro Blog
             </button>
         </div>

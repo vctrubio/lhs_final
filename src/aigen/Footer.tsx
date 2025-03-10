@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, MapPin, Instagram, Facebook, Linkedin } from 'lucide-react';
+import { Phone, Mail, MapPin, Instagram, Facebook, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 // Interfaces for column structures
 interface SocialLink {
@@ -40,9 +40,9 @@ const aboutData: AboutColumnProps = {
   title: "Madrid Luxury Estates",
   description: "Especialistas en propiedades de lujo para clientes exigentes. Ayudamos a expatriados y locales a encontrar hogares excepcionales en los barrios más prestigiosos de Madrid.",
   socialLinks: [
-    { icon: <Instagram size={20} />, url: "#" },
+    { icon: <Instagram size={20} />, url: "https://www.instagram.com/lhsconcept" },
     { icon: <Facebook size={20} />, url: "#" },
-    { icon: <Linkedin size={20} />, url: "#" }
+    { icon: <MessageSquare size={20} />, url: "https://wa.me/+34616746971" }
   ]
 };
 
@@ -101,13 +101,15 @@ const AboutColumn: React.FC<AboutColumnProps> = ({ title, description, socialLin
     </p>
     <div className="flex space-x-4">
       {socialLinks.map((link, index) => (
-        <Link
-          key={index}
-          href={link.url}
-          className="text-white hover:text-madrid-light transition-colors duration-300"
-        >
-          {link.icon}
-        </Link>
+      <Link
+        key={index}
+        href={link.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-white hover:text-madrid-light transition-colors duration-300"
+      >
+        {link.icon}
+      </Link>
       ))}
     </div>
   </div>
