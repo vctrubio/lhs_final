@@ -37,10 +37,17 @@ const Index = () => {
       <HeroSection />
       <ServicesSection isVisible={isVisible} />
       <DiscoverMadrid />
+      <ExpatSection />
       <TestimonialSection />
-      {/* <CTASection /> */}
-      {/* <ExpatSection /> */}
-      {/* <Footer /> */}
+      <div 
+      style={{
+        position: 'absolute',
+        left: 0,
+        width: '100vw'
+      }}>
+        <CTASection />
+        <Footer />
+      </div>
     </div>
   );
 };

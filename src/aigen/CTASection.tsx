@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const CTASection = () => {
   return (
@@ -21,15 +22,16 @@ const CTASection = () => {
       </div>
       <div className="max-w-5xl mx-auto text-center relative z-10">
         <h2 className="font-cormorant text-4xl md:text-5xl lg:text-6xl font-light mb-6">
-          Start Your Madrid Luxury Journey
+          Comienza Tu Viaje
         </h2>
-        <p className="font-montserrat text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
-          Whether you're relocating to Madrid or seeking the perfect investment property,
-          our team is ready to guide you through every step of the process.
+        <p className="font-montserrat text-white/80 max-w-2xl text-lg mx-auto mb-10 leading-relaxed px-8 sm:px-2">
+          Ya sea que te mudes a Madrid o busques la propiedad de inversión perfecta,
+          nuestro equipo está listo para guiarte en cada paso del proceso.
         </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <button className="btn-luxury">Schedule a Consultation</button>
-          <button className="btn-luxury-dark">View Properties</button>
+        <div className="flex flex-col sm:flex-row px-8 sm:px-2 justify-center gap-4">
+          <Link href="/schedule-consultation"
+            className='bg-gold text-black py-3 px-6 rounded-md text-lg font-semibold hover:bg-white transition-colors duration-300'>Consulta una Visita</Link>
+          <Link href="/ventas" className="bg-greenish text-black py-3 px-6 rounded-md hover:bg-white text-lg font-semibold hover:bg-gold-dark transition-colors duration-300">Ver Propiedades</Link>
         </div>
       </div>
     </section>

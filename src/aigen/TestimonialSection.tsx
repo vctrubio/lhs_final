@@ -63,7 +63,6 @@ const TestimonialSection = () => {
     <section
       id="testimonials"
       className="py-24 px-6 relative overflow-hidden "
-      style={{ backgroundColor: '#cdc2a6' }}
     >
 
       <div className="max-w-5xl mx-auto relative rounded-xl shadow-lg bg-white/90 p-8">
