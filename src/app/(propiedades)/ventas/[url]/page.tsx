@@ -12,9 +12,7 @@ export default async function PropertyDetails({ params }: Props) {
     const { url } = await params;
     const property = await fetchPropertyByID(url);
 
-    // ...existing code...
-
-    if (!property) 
+    if (!property)
         return;
 
     // Create PDF content but completely hide it
@@ -24,14 +22,13 @@ export default async function PropertyDetails({ params }: Props) {
     return (
         <>
             <PropertyPage property={property} />
-            <div 
-                id="pdf" 
+            <div
                 aria-hidden="true"
-                style={{ 
-                    position: 'absolute', 
-                    left: '-99999px', 
+                style={{
+                    position: 'absolute',
+                    left: '-99999px',
                     top: '-99999px',
-                    visibility: 'hidden', 
+                    visibility: 'hidden',
                     opacity: '0',
                     overflow: 'hidden',
                     pointerEvents: 'none',
