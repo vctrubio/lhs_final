@@ -1,11 +1,10 @@
 import React from "react";
-import MapApp from "@/components/Map";
-import Index from "@/view/indexView";
+import Landing from '@/view/landingView';
 
 export default function DevelopmentMode() {
     return (
         <>
-            <Index />
+            <Landing />
         </>
     );
 }

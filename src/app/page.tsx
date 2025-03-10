@@ -1,10 +1,8 @@
-import Landing from '@/view/landingView';
-
+import Index from '@/view/indexView';
 export default function Home() {
-  console.log('ººHome');
   return (
     <>
-      <Landing />
+      <Index />
     </>
   )
 }
