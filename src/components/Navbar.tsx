@@ -40,8 +40,8 @@ const Navbar: React.FC = () => {
           id="nav-content"
           className={`flex-col sm:flex-row sm:flex space-x-4 items-center text-gray-700 dark:text-gray-300 ${isOpen ? "flex" : "hidden"} sm:flex text-right`}
         >
-          {/* <NavItem label="Ventas" href="/ventas" /> */}
-          <NavItem label="Alquiler" href="/alquiler" />
+          <NavItem label="Ventas" href="/ventas" />
+          {/* <NavItem label="Alquiler" href="/alquiler" /> */}
           <NavItem label="Contacto" href="/contacto" />
           {/* <ThemeToggle /> */}
         </div>

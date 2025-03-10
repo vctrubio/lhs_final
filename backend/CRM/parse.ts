@@ -1,4 +1,4 @@
-import { Barrio, Photo, Property } from '../types';
+import { Barrio, Photo, Property, PropertyBanner } from '../types';
 import { Asset, Entry } from "contentful";
 
 export function ImageToUrl(entry: any): Photo {
@@ -93,6 +93,28 @@ export function parsePropertyFromContentful({ entry }: { entry: any }): Property
 
         updatedAt: updatedAt,
     } as Property;
+}
+
+export function parsePropertyBannerFromContentful({ entry }: { entry: any }): PropertyBanner[] {
+    if (!entry.fields.listings || !Array.isArray(entry.fields.listings)) {
+        return [];
+    }
+
+    return entry.fields.listings.map((listing: any) => {
+        // Check if listing has required fields
+        if (!listing.fields || !listing.fields.url || !listing.fields.photosCover || !listing.fields.photosCover.length) {
+            return null;
+        }
+
+        // Extract the first cover photo
+        const photo = listing.fields.photosCover[0];
+        const photo_url = photo ? ImageToUrl(photo) : null;
+        
+        return {
+            url: listing.fields.url,
+            photo_url: photo_url
+        } as PropertyBanner;
+    }).filter(Boolean); // Remove any null entries
 }
 
 export function parseBarrioFromContentful({ entry }: { entry: any }): Barrio {

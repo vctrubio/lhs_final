@@ -3,9 +3,18 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { fetchProperties } from '#/backend/CRM/fetch';
 
+const HelloWorlBackground = (properties) => {
+  return (
+    <div className='absolute border border-red-500'
+      style={{ height: '100%', width: '100%', zIndex: 2 }}>
+      hellman
+    </div>
+  )
+}
 const HeroSection = () => {
   const [loaded, setLoaded] = useState(false);
   const [propertiesBanner, setPropertiesBanner] = useState(null);
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,11 +31,13 @@ const HeroSection = () => {
     });
   }, []);
 
+  window.property = propertiesBanner;
   return (
-    <section className="flex relative h-screen w-full overflow-hidden p-8 bg-neutral-900/30">
+    <section className="relative h-screen w-full overflow-hidden bg-neutral-900/30">
+      <HelloWorlBackground />
 
-      <div className="h-full flex flex-col justify-center px-6 pt-24">
-        <div className="max-w-2xl">
+      <div className="h-full flex flex-col justify-center px-6 py-24">
+        <div className="max-w-2xl mx-auto">
           <div className={`opacity-0 ${loaded ? 'animate-fade-in' : ''}`} style={{ animationDelay: '300ms' }}>
             <h2 className="font-montserrat text-white text-sm md:text-base uppercase tracking-[0.2em] mb-4">Propiedades de <span className='text-backgroundBeigh'>Lujo</span> Exclusivas</h2>
           </div>
@@ -62,12 +73,6 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-
-      <div className='border'
-      >
-        image rotation banner....
-      </div>
-
     </section>
   );
 };

@@ -4,6 +4,7 @@ import { client } from "./setup";
 import {
     parseBarrioFromContentful,
     parsePropertyFromContentful,
+    parsePropertyBannerFromContentful,
 } from "./parse";
 import { getPropertiesParams } from "../nuqs_functions";
 
@@ -41,9 +42,9 @@ export async function fetchProperties(): Promise<{
                 properties.push(parsePropertyFromContentful({ entry }));
         }
         if (entry.sys.contentType.sys.id === "homePageBanner") {
-            // console.log("found propiedadesBanner entry", entry);
-            propertiesBanner.push(entry)
-            // propertiesBanner.push(parsePropertyFromContentful({ entry }));
+            // Parse banner entries into PropertyBanner objects
+            const banners = parsePropertyBannerFromContentful({ entry });
+            propertiesBanner.push(...banners);
         }
     });
 
@@ -57,6 +58,7 @@ export async function fetchProperties(): Promise<{
         uniqueBarriosInProperties.includes(barrio.name),
     );
 
+    
     properties.forEach((property) => {
         if (!property.photos_url || property.photos_url.length === 0) {
             console.log(`Property ID: ${property.title} has no photos.`);
