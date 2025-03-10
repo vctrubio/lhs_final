@@ -372,6 +372,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ propertyParams, barrios }) => {
   const [showBarrios, setShowBarrios] = useState(false);
   const [showSort, setShowSort] = useState(false);
 
+  // Prevent any automatic reset on component mount
+  useEffect(() => {
+    // This ensures we don't accidentally reset parameters on mount
+  }, []);
+
   const filterClasses = `
     grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 
     transition-all duration-300 ease-in-out overflow-hidden

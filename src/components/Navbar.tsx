@@ -79,7 +79,7 @@ const Navbar: React.FC = () => {
         </div>
         <div
           id="nav-content"
-          className={`flex-col sm:flex-row sm:flex space-x-4 items-center text-gray-700 dark:text-gray-300 -md ${isOpen ? "flex" : "hidden"} sm:flex text-right`}
+          className={`flex-col sm:flex-row sm:flex space-x-6 items-center text-gray-700 dark:text-gray-300 -md ${isOpen ? "flex" : "hidden"} sm:flex text-right`}
         >
           {navigationItems.map((item) => (
             <NavItem 
@@ -88,7 +88,7 @@ const Navbar: React.FC = () => {
               isActive={pathname === item.href || pathname.startsWith(`${item.href}/`)} 
             />
           ))}
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
         </div>
       </div>
     </div>

@@ -2,7 +2,21 @@
 import React, { useState } from "react";
 import { Mail, Send, Download } from "lucide-react";
 import { IconWhatsapp } from "@/utils/svgs";
-import ButtonIcon from "./ButtonIcon";
+
+const ButtonIcon = ({ icon: Icon, label, onClick }) => {
+  return (
+    <button
+      onClick={onClick}
+      aria-label={label}
+      className="flex items-center justify-center bg-backgroundBeigh rounded-full m-2 p-5 overflow-hidden hover:bg-gray-200 transition-colors duration-300"
+      style={{ width: "60px", height: "60px" }}
+    >
+      <div className={label !== "Whatsapp" ? "transform scale-105" : ""}>
+        <Icon />
+      </div>
+    </button>
+  );
+};
 
 export function FooterTagShare({ property }) {
   const [isShareModalOpen, setShareModalOpen] = useState(false);

@@ -8,16 +8,6 @@ import {
 } from "./parse";
 import { getPropertiesParams } from "../nuqs_functions";
 
-
-export async function fetchPropertiesBanner(): Promise<{
-    properties: Property[] | null;
-}> {
-    const entries = await client.getEntries();
-    console.log('entries = ', entries);
-
-    return { properties: null };
-}
-
 export async function fetchProperties(): Promise<{
     properties: Property[];
     filteredBarrios: Barrio[];
@@ -58,14 +48,13 @@ export async function fetchProperties(): Promise<{
         uniqueBarriosInProperties.includes(barrio.name),
     );
 
-    
+
     properties.forEach((property) => {
         if (!property.photos_url || property.photos_url.length === 0) {
             console.log(`Property ID: ${property.title} has no photos.`);
         }
     });
 
-    console.log('pBanner: ', propertiesBanner)
     return { properties, filteredBarrios, propertyParams, propertiesBanner };
 }
 

@@ -12,7 +12,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const BackgroundSlider = ({ propertiesBanner }) => {
+interface BackgroundSliderProps {
+  propertiesBanner: PropertyBanner[];
+}
+
+const BackgroundSlider = ({ propertiesBanner }: BackgroundSliderProps) => {
   if (!propertiesBanner || propertiesBanner.length === 0) {
     return (
       <div className='absolute bg-backgroundBeigh'
@@ -59,7 +63,11 @@ const BackgroundSlider = ({ propertiesBanner }) => {
   );
 };
 
-const HelloWorldComponent = ({ loaded }) => {
+interface HelloWorldComponentProps {
+  loaded: boolean;
+}
+
+const HelloWorldComponent = ({ loaded }: HelloWorldComponentProps) => {
   return (
     <div className="h-full flex flex-col justify-center px-6 py-24">
       <div className="max-w-2xl mx-auto">
@@ -95,7 +103,7 @@ const HelloWorldComponent = ({ loaded }) => {
 
 const HeroSection = () => {
   const [loaded, setLoaded] = useState(false);
-  const [propertiesBanner, setPropertiesBanner] = useState([]);
+  const [propertiesBanner, setPropertiesBanner] = useState<PropertyBanner[]>([]);
 
   useEffect(() => {
     const timer = setTimeout(() => {

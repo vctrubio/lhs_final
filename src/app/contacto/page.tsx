@@ -1,7 +1,8 @@
 import React from "react";
+import Contacto from "@/view/contactoView";
 
-export default function Contacto() {
+export default function ContactPage() {
     return (
-                <h1>Contacto</h1>
+        <Contacto />
     );
 }

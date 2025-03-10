@@ -292,7 +292,7 @@ const PropertyInfo = ({ property, togglePlano }) => {
         {property.plano_url?.url && (
           <button
             onClick={togglePlano}
-            className="flex items-center gap-2 border border-greenish rounded-2xl mx-auto p-4 w-28 cursor-pointer hover:bg-greenish hover:border-background"
+            className="flex items-center gap-2 border-2 border-greenish rounded-2xl mx-auto p-4 w-28 cursor-pointer hover:bg-greenish hover:border-backgroundBeigh transition-all duration-300"
           >
             <IconPlano />
             <span>Plano</span>
