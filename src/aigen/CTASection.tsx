@@ -29,7 +29,7 @@ const CTASection = () => {
           nuestro equipo está listo para guiarte en cada paso del proceso.
         </p>
         <div className="flex flex-col sm:flex-row px-8 sm:px-2 justify-center gap-4">
-          <Link href="/schedule-consultation"
+          <Link href="/contacto"
             className='bg-gold text-black py-3 px-6 rounded-md text-lg font-semibold hover:bg-white transition-colors duration-300'>Consulta una Visita</Link>
           <Link href="/ventas" className="bg-greenish text-black py-3 px-6 rounded-md hover:bg-white text-lg font-semibold hover:bg-gold-dark transition-colors duration-300">Ver Propiedades</Link>
         </div>

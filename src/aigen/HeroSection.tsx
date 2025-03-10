@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { fetchProperties } from '#/backend/CRM/fetch';
 
 const HeroSection = () => {
   const [loaded, setLoaded] = useState(false);
+  const [propertiesBanner, setPropertiesBanner] = useState(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -11,16 +14,18 @@ const HeroSection = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    fetchProperties().then((data) => {
+      if (data && data.propertiesBanner) {
+        setPropertiesBanner(data.propertiesBanner);
+      }
+    });
+  }, []);
+
   return (
-    <section className="relative h-screen w-full overflow-hidden p-8">
+    <section className="flex relative h-screen w-full overflow-hidden p-8 bg-neutral-900/30">
 
-      <div className="absolute inset-0">
-        <div className={`h-full w-full bg-cover bg-center ${loaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-1000`}
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1540882071686-f75956b44854?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')" }}></div>
-        <div className="absolute inset-0 bg-neutral-900/30"></div>
-      </div>
-
-      <div className="relative h-full flex flex-col justify-center max-w-7xl mx-auto px-6 pt-24">
+      <div className="h-full flex flex-col justify-center px-6 pt-24">
         <div className="max-w-2xl">
           <div className={`opacity-0 ${loaded ? 'animate-fade-in' : ''}`} style={{ animationDelay: '300ms' }}>
             <h2 className="font-montserrat text-white text-sm md:text-base uppercase tracking-[0.2em] mb-4">Propiedades de <span className='text-backgroundBeigh'>Lujo</span> Exclusivas</h2>
@@ -46,17 +51,23 @@ const HeroSection = () => {
           <div className={`opacity-0 ${loaded ? 'animate-fade-in' : ''}`} style={{ animationDelay: '900ms' }}>
             <div className="flex flex-col sm:flex-row gap-4 font-montserrat">
               <Link href="/ventas"
-              className='px-8 py-3 bg-madrid-accent text-white  text-sm uppercase tracking-wider hover:bg-madrid-dark transition-colors duration-300'>
-              Explorar Propiedades
+                className='px-8 py-3 bg-madrid-accent text-white  text-sm uppercase tracking-wider hover:bg-madrid-dark transition-colors duration-300'>
+                Explorar Propiedades
               </Link>
               <Link href="/contacto"
-              className="px-8 py-3 bg-transparent border border-white text-white text-sm uppercase tracking-wider hover:bg-white/10 transition-colors duration-300">
-              Contáctanos
+                className="px-8 py-3 bg-transparent border border-white text-white text-sm uppercase tracking-wider hover:bg-white/10 transition-colors duration-300">
+                Contáctanos
               </Link>
             </div>
           </div>
         </div>
       </div>
+
+      <div className='border'
+      >
+        image rotation banner....
+      </div>
+
     </section>
   );
 };

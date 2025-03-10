@@ -29,6 +29,10 @@ export interface Property {
     updatedAt: string;
 }
 
+export interface PropertyBanner {
+    photo_url: Photo;
+    url: string;
+}
 export interface Barrio {
     name: string;
     rating: number;

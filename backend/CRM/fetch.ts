@@ -1,4 +1,4 @@
-import { Property, Barrio, PropertyParams } from "../types";
+import { Property, Barrio, PropertyParams, PropertyBanner } from "../types";
 import { Entry } from "contentful";
 import { client } from "./setup";
 import {
@@ -7,10 +7,21 @@ import {
 } from "./parse";
 import { getPropertiesParams } from "../nuqs_functions";
 
+
+export async function fetchPropertiesBanner(): Promise<{
+    properties: Property[] | null;
+}> {
+    const entries = await client.getEntries();
+    console.log('entries = ', entries);
+
+    return { properties: null };
+}
+
 export async function fetchProperties(): Promise<{
     properties: Property[];
     filteredBarrios: Barrio[];
     propertyParams: PropertyParams;
+    propertiesBanner: PropertyBanner[] | null;
 }> {
     console.log("calling fetchEntriesContentful: ");
 
@@ -18,6 +29,7 @@ export async function fetchProperties(): Promise<{
 
     const barrios: Barrio[] = [];
     const properties: Property[] = [];
+    const propertiesBanner: PropertyBanner[] = [];
 
     entries.items.map((entry: Entry<any>) => {
         if (entry.sys.contentType.sys.id === "barrio") {
@@ -27,6 +39,11 @@ export async function fetchProperties(): Promise<{
             if (entry.fields.buyOrRent)
                 //buy is true -- only parsing buy properties for now
                 properties.push(parsePropertyFromContentful({ entry }));
+        }
+        if (entry.sys.contentType.sys.id === "homePageBanner") {
+            // console.log("found propiedadesBanner entry", entry);
+            propertiesBanner.push(entry)
+            // propertiesBanner.push(parsePropertyFromContentful({ entry }));
         }
     });
 
@@ -45,7 +62,9 @@ export async function fetchProperties(): Promise<{
             console.log(`Property ID: ${property.title} has no photos.`);
         }
     });
-    return { properties, filteredBarrios, propertyParams };
+
+    console.log('pBanner: ', propertiesBanner)
+    return { properties, filteredBarrios, propertyParams, propertiesBanner };
 }
 
 export async function fetchPropertyByID(url: string): Promise<Property | null> {
