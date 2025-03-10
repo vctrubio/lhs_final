@@ -15,19 +15,19 @@ const More = () => {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="section-subtitle">Discover Madrid</h2>
-            <h3 className="section-title mb-8">Experience the Essence of Spanish Luxury</h3>
-            <p className="font-montserrat text-neutral-600 mb-6 leading-relaxed">
-              Madrid combines rich history with modern sophistication. As Spain's vibrant capital,
-              it offers an unparalleled quality of life with world-class cultural institutions,
-              exquisite cuisine, and beautiful architecture.
-            </p>
-            <p className="font-montserrat text-neutral-600 mb-8 leading-relaxed">
-              From the elegant boulevards of Salamanca to the artistic energy of Malasaña,
-              each neighborhood has its unique character and charm. Our expertise helps you
-              navigate these distinct areas to find the perfect property that matches your lifestyle.
-            </p>
-            <button className="btn-luxury-dark">Explore Neighborhoods</button>
+            <h2 className="font-montserrat text-sm uppercase tracking-widest text-madrid-accent mb-8">Discubre Madrid</h2>
+            <h3 className="font-cormorant text-3xl md:text-4xl lg:text-5xl font-light text-neutral-800 mb-8">Vive La Autenticidad Que Ofrece Nuestra Cuidad</h3>
+            <div className='mt-4'>
+              <p className="font-montserrat text-neutral-600 mb-6 leading-relaxed">
+              Madrid combina una rica historia con una sofisticación moderna. Como la vibrante capital de España, ofrece una calidad de vida inigualable, con instituciones culturales de primer nivel, una gastronomía exquisita y una arquitectura impresionante.
+              </p>
+              <p className="font-montserrat text-neutral-600 mb-8 leading-relaxed">
+                Desde los elegantes bulevares de Salamanca hasta la energía artística de Malasaña,
+                cada barrio tiene su propio carácter y encanto. Nuestra experiencia te ayuda a navegar
+                por estas zonas únicas para encontrar la propiedad perfecta que se adapte a tu estilo de vida.
+              </p>
+            </div>
+            <button className="px-6 py-3 bg-neutral-800/90 hover:bg-neutral-800 text-white border border-madrid-accent/20 hover:border-madrid-accent/40 rounded-none transition-all duration-300 font-montserrat text-sm uppercase tracking-wider font-light">Explore Neighborhoods</button>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -95,8 +95,8 @@ const Index = () => {
     <div>
       <HeroSection />
       <ServicesSection isVisible={isVisible} />
+      <More />
       {/* <TestimonialSection /> */}
-      {/* <More /> */}
       {/* <CTASection /> */}
       {/* <ExpatSection /> */}
       {/* <Footer /> */}
