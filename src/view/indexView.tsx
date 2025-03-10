@@ -37,7 +37,7 @@ const Index = () => {
       <HeroSection />
       <ServicesSection isVisible={isVisible} />
       <DiscoverMadrid />
-      {/* <TestimonialSection /> */}
+      <TestimonialSection />
       {/* <CTASection /> */}
       {/* <ExpatSection /> */}
       {/* <Footer /> */}
