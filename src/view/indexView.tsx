@@ -7,66 +7,7 @@ import Footer from "@/aigen/Footer";
 import ExpatSection from '@/aigen/ExpatSection';
 import CTASection from '@/aigen/CTASection';
 import { Building, Globe, Key, Users } from 'lucide-react';
-
-const ServicesSection = ({ isVisible }) => {
-  return (
-    <section id="services" className="py-24 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className={`text-center opacity-0 ${isVisible ? 'animate-fade-in' : ''}`}>
-          <h2 className="section-subtitle">How We Help</h2>
-          <h3 className="section-title">Our Services</h3>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
-          {/* Service 1 */}
-          <div className={`glass-card p-8 rounded-sm opacity-0 ${isVisible ? 'animate-fade-in' : ''}`} style={{ animationDelay: '100ms' }}>
-            <div className="w-16 h-16 bg-white rounded-sm shadow-sm flex items-center justify-center mb-6">
-              <Building size={32} className="text-madrid-accent" />
-            </div>
-            <h4 className="font-cormorant text-2xl font-normal mb-4">Property Curation</h4>
-            <p className="font-montserrat text-sm text-neutral-600 leading-relaxed">
-              We carefully select the finest properties in Madrid's most prestigious neighborhoods, ensuring they meet our exacting standards.
-            </p>
-          </div>
-
-          {/* Service 2 */}
-          <div className={`glass-card p-8 rounded-sm opacity-0 ${isVisible ? 'animate-fade-in' : ''}`} style={{ animationDelay: '200ms' }}>
-            <div className="w-16 h-16 bg-white rounded-sm shadow-sm flex items-center justify-center mb-6">
-              <Globe size={32} className="text-madrid-accent" />
-            </div>
-            <h4 className="font-cormorant text-2xl font-normal mb-4">Expat Services</h4>
-            <p className="font-montserrat text-sm text-neutral-600 leading-relaxed">
-              Specialized assistance for international clients, including language support, cultural orientation, and bureaucratic guidance.
-            </p>
-          </div>
-
-          {/* Service 3 */}
-          <div className={`glass-card p-8 rounded-sm opacity-0 ${isVisible ? 'animate-fade-in' : ''}`} style={{ animationDelay: '300ms' }}>
-            <div className="w-16 h-16 bg-white rounded-sm shadow-sm flex items-center justify-center mb-6">
-              <Key size={32} className="text-madrid-accent" />
-            </div>
-            <h4 className="font-cormorant text-2xl font-normal mb-4">Personalized Search</h4>
-            <p className="font-montserrat text-sm text-neutral-600 leading-relaxed">
-              Our team will conduct a detailed assessment of your needs and preferences to find your perfect Madrid home.
-            </p>
-          </div>
-
-          {/* Service 4 */}
-          <div className={`glass-card p-8 rounded-sm opacity-0 ${isVisible ? 'animate-fade-in' : ''}`} style={{ animationDelay: '400ms' }}>
-            <div className="w-16 h-16 bg-white rounded-sm shadow-sm flex items-center justify-center mb-6">
-              <Users size={32} className="text-madrid-accent" />
-            </div>
-            <h4 className="font-cormorant text-2xl font-normal mb-4">Concierge Support</h4>
-            <p className="font-montserrat text-sm text-neutral-600 leading-relaxed">
-              From legal assistance to interior design services, we provide comprehensive support throughout your property journey.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
+import ServicesSection from '@/aigen/ServiceSection';
 
 const More = () => {
   return (
@@ -153,12 +94,12 @@ const Index = () => {
   return (
     <div>
       <HeroSection />
-      {/* <ServicesSection isVisible={isVisible} />
-      <TestimonialSection />
-      <More />
-      <CTASection />
-      <ExpatSection />
-      <Footer /> */}
+      <ServicesSection isVisible={isVisible} />
+      {/* <TestimonialSection /> */}
+      {/* <More /> */}
+      {/* <CTASection /> */}
+      {/* <ExpatSection /> */}
+      {/* <Footer /> */}
     </div>
   );
 };

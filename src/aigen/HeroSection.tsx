@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const HeroSection = () => {
   const [loaded, setLoaded] = useState(false);
@@ -11,7 +12,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative h-screen w-full overflow-hidden p-4">
+    <section className="relative h-screen w-full overflow-hidden p-8">
 
       <div className="absolute inset-0">
         <div className={`h-full w-full bg-cover bg-center ${loaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-1000`}
@@ -19,11 +20,10 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-neutral-900/30"></div>
       </div>
 
-      {/* Content Overlay */}
       <div className="relative h-full flex flex-col justify-center max-w-7xl mx-auto px-6 pt-24">
         <div className="max-w-2xl">
           <div className={`opacity-0 ${loaded ? 'animate-fade-in' : ''}`} style={{ animationDelay: '300ms' }}>
-            <h2 className="font-montserrat text-white text-sm md:text-base uppercase tracking-[0.2em] mb-4">Propiedades de Lujo Exclusivas</h2>
+            <h2 className="font-montserrat text-white text-sm md:text-base uppercase tracking-[0.2em] mb-4">Propiedades de <span className='text-backgroundBeigh'>Lujo</span> Exclusivas</h2>
           </div>
           <div className={`opacity-0 ${loaded ? 'animate-fade-in' : ''}`} style={{ animationDelay: '500ms' }}>
             <h1 className="font-cormorant text-4xl md:text-6xl lg:text-7xl font-light text-white leading-tight mb-6">
@@ -44,9 +44,15 @@ const HeroSection = () => {
             </div>
           </div>
           <div className={`opacity-0 ${loaded ? 'animate-fade-in' : ''}`} style={{ animationDelay: '900ms' }}>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button className="px-8 py-3 bg-madrid-accent text-white font-montserrat text-sm uppercase tracking-wider hover:bg-madrid-dark transition-colors duration-300">Explorar Propiedades</button>
-              <button className="px-8 py-3 bg-transparent border border-white text-white font-montserrat text-sm uppercase tracking-wider hover:bg-white/10 transition-colors duration-300">Contáctanos</button>
+            <div className="flex flex-col sm:flex-row gap-4 font-montserrat">
+              <Link href="/ventas"
+              className='px-8 py-3 bg-madrid-accent text-white  text-sm uppercase tracking-wider hover:bg-madrid-dark transition-colors duration-300'>
+              Explorar Propiedades
+              </Link>
+              <Link href="/contacto"
+              className="px-8 py-3 bg-transparent border border-white text-white text-sm uppercase tracking-wider hover:bg-white/10 transition-colors duration-300">
+              Contáctanos
+              </Link>
             </div>
           </div>
         </div>
