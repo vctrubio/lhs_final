@@ -155,7 +155,6 @@ export function PropertyBroucher({ property, flag = false }) {
         );
     };
 
-    // todo is to whatsapp logo
     return (
         <div
             className={`mx-auto min-w-[180px] sm:min-w[380px] ${flag ? "min-h-[720px]" : ""} bg-greenish rounded-xl font-serif px-8 py-4`}

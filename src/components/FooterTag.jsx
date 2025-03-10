@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { Mail, Send, Download } from "lucide-react";
 import { IconWhatsapp } from "@/utils/svgs";
+import { contactData } from "@/utils/contactData";
+import ShareModal from "./ShareModal";
 
 const ButtonIcon = ({ icon: Icon, label, onClick }) => {
   return (
@@ -21,6 +23,10 @@ const ButtonIcon = ({ icon: Icon, label, onClick }) => {
 export function FooterTagShare({ property }) {
   const [isShareModalOpen, setShareModalOpen] = useState(false);
   
+  const toggleShareModal = () => {
+    setShareModalOpen(prevState => !prevState);
+  };
+  
   const buttons = [
     {
       icon: IconWhatsapp,
@@ -28,7 +34,7 @@ export function FooterTagShare({ property }) {
       variant: "whatsapp",
       onClick: () =>
         window.open(
-          `https://wa.me/+34616746971?text=Hola, he visto: ${property.title} -- ${metadata.openGraph.url}`,
+          `${contactData.whatsappUrl}?text=Hola, he visto: ${property.title} -- ${metadata.openGraph.url}`,
         ),
     },
     {
@@ -37,7 +43,7 @@ export function FooterTagShare({ property }) {
       variant: "mail",
       onClick: () =>
         window.open(
-          `mailto:lourdes.hernansanz@lhsconcept.com?subject=Interesado%20en%20${property.title}&body=Hola, he visto: ${property.title} -- ${metadata.openGraph.url}`,
+          `mailto:${contactData.email}?subject=Interesado%20en%20${property.title}&body=Hola, he visto: ${property.title} -- ${metadata.openGraph.url}`,
         ),
     },
     {
@@ -50,12 +56,12 @@ export function FooterTagShare({ property }) {
       icon: Send,
       label: "Enviar",
       variant: "send",
-      onClick: () => setShareModalOpen(true),
+      onClick: toggleShareModal,
     },
   ];
 
   return (
-    <>
+    <div>
       <div style={{ display: "flex", justifyContent: "space-around", gap: "0.25rem", paddingTop: "0.5rem" }}>
         {buttons.map(({ icon, label, onClick, variant }) => (
           <ButtonIcon
@@ -66,6 +72,15 @@ export function FooterTagShare({ property }) {
           />
         ))}
       </div>
-    </>
+      
+      {isShareModalOpen && (
+        <ShareModal 
+          isOpen={isShareModalOpen} 
+          onClose={toggleShareModal}
+          property={property}
+          url={typeof window !== 'undefined' ? window.location.href : ''}
+        />
+      )}
+    </div>
   );
 }

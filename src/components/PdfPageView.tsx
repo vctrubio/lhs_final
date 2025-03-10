@@ -209,7 +209,7 @@ const PdfRoomPage = ({
   } else if (room) {
     if (room.title || room.description) {
       pages.push(
-        <PDFPage key="room-info">
+        <PDFPage key={`room-info-${room.title}`}>
           {room.title && (
             <h1 className="text-4xl text-center pt-[1rem]">{room.title}</h1>
           )}
@@ -228,7 +228,7 @@ const PdfRoomPage = ({
     if (chunks && chunks.length > 1) {
       chunks.slice(1).forEach((photosArray, index) => {
         pages.push(
-          <PDFPage key={`chunk-${index + 1}`}>
+          <PDFPage key={`chunk-${room?.title || 'photos'}-${index + 1}`}>
             <RenderGridForChunk photos={photosArray} />
           </PDFPage>,
         );

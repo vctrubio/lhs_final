@@ -23,9 +23,9 @@ const ContactCard: React.FC<ContactCardProps> = ({ icon, title, content, url, ex
     <div className="bg-backgroundBeigh p-3 rounded-full">
       {icon}
     </div>
-    <div>
-      <p className="font-medium text-black">{title}</p>
-      <p className="text-sm text-gray-600">{content}</p>
+    <div className='flex flex-col flex-wrap'>
+      <div className="text-black">{title}</div>
+      <div className="text-gray-600 flex-wrap overflow-hidden text-ellipsis">{content}</div>
     </div>
   </Link>
 );
@@ -42,7 +42,7 @@ const Contacto = () => {
     {
       icon: <MessageSquare className="w-6 h-6 text-gray-700" />,
       title: "WhatsApp",
-      content: "Chatea con nosotros",
+      content: "Habla directament con nosotros",
       url: contactData.whatsappUrl,
       external: true
     },
@@ -87,7 +87,7 @@ const Contacto = () => {
           {/* Contacto directo */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {contactCards.map((card, index) => (
-              <ContactCard 
+              <ContactCard
                 key={index}
                 icon={card.icon}
                 title={card.title}
