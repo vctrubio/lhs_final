@@ -27,12 +27,12 @@ const ServicesSection = ({ isVisible }) => {
     {
       icon: <Users size={32} className="text-madrid-accent" />,
       title: "Búsqueda Personalizada",
-      description: "Nuestro equipo realizará una evaluación detallada de tus necesidades y preferencias para encontrar tu hogar perfecto en Madrid."
+      description: "Con una experiencia inigualable en el mercado y una pasión por ofrecer un servicio excepcional, estamos dedicados a hacer que su experiencia inmobiliaria sea fluida y gratificante."
     }
   ];
 
   return (
-    <section id="services" className="py-24 px-6">
+    <section id="services" className="py-16 px-6">
       <div className="max-w-7xl mx-auto">
         <div className={`text-center opacity-0 ${isVisible ? 'animate-fade-in' : ''}`}>
           <h2 className="font-montserrat text-4xl text-madrid-accent">¿Como Podemos Ayudarte?</h2>
