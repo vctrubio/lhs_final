@@ -69,7 +69,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <div className="w-full p-4 bg-white dark:bg-macbookGreyLight shadow-md transition-colors duration-300">
+    <nav className="w-full px-6 py-2 bg-white dark:bg-macbookGreyLight shadow-md transition-colors duration-300">
       <div className="flex justify-between items-center max-w-[1400px] mx-auto">
         <LHSLogo title="LHS" concept="Concept" />
         <div className="block sm:hidden">
@@ -91,7 +91,7 @@ const Navbar: React.FC = () => {
           {/* <ThemeToggle /> */}
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 

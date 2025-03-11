@@ -63,11 +63,7 @@ const BackgroundSlider = ({ propertiesBanner }: BackgroundSliderProps) => {
   );
 };
 
-interface HelloWorldComponentProps {
-  loaded: boolean;
-}
-
-const HelloWorldComponent = ({ loaded }: HelloWorldComponentProps) => {
+const FrontGroundText = ({ loaded }: {loaded: boolean}) => {
   return (
     <div className="h-full flex flex-col justify-center px-6 py-24">
       <div className="max-w-2xl mx-auto">
@@ -75,15 +71,15 @@ const HelloWorldComponent = ({ loaded }: HelloWorldComponentProps) => {
           <h2 className="font-montserrat text-white text-sm md:text-base uppercase tracking-[0.2em] mb-4">Propiedades de <span className='text-backgroundBeigh'>Lujo</span> Exclusivas</h2>
         </div>
         <div className={`opacity-0 ${loaded ? 'animate-fade-in' : ''}`} style={{ animationDelay: '500ms' }}>
-          <h1 className="font-cormorant text-4xl md:text-6xl lg:text-7xl font-light text-white leading-tight mb-6">
+          <h1 className="font-cormorant text-4xl md:text-6xl lg:text-7xl font-light text-white leading-tight mb-">
             Descubre Viviendas Excepcionales en Madrid
           </h1>
         </div>
-        <div className={`opacity-0 ${loaded ? 'animate-fade-in' : ''}`} style={{ animationDelay: '700ms' }}>
+        {/* <div className={`opacity-0 ${loaded ? 'animate-fade-in' : ''}`} style={{ animationDelay: '700ms' }}>
           <div className="font-montserrat text-white font-light max-w-xl mb-8 bg-black bg-opacity-60 p-4 rounded">
             Con más de 20 años de experiencia en el mercado inmobiliario de lujo, nuestra reputación está garantizada por la satisfacción de nuestros clientes.
           </div>
-        </div>
+        </div> */}
         <div className={`opacity-0 ${loaded ? 'animate-fade-in' : ''}`} style={{ animationDelay: '900ms' }}>
           <div className="flex flex-col sm:flex-row gap-4 font-montserrat">
             <Link href="/ventas"
@@ -123,7 +119,7 @@ const HeroSection = () => {
   return (
     <section className="relative h-screen w-full overflow-hidden">
       <BackgroundSlider propertiesBanner={propertiesBanner} />
-      <HelloWorldComponent loaded={loaded} />
+      <FrontGroundText loaded={loaded} />
     </section>
   );
 };
