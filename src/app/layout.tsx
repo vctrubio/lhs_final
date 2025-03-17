@@ -3,6 +3,7 @@ import "../css/globals.css";
 import Navbar from "@/components/Navbar";
 import TrainNav from "@/components/TrainNav";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "LHS Concept",
@@ -40,6 +41,7 @@ export default function RootLayout({
           </NuqsAdapter>
         </div>
       </body>
+      <Analytics />
     </html>
   );
 }
