@@ -3,6 +3,7 @@ import { PropertyBroucher } from "@/components/PropertyBroucher";
 import { PdfParent, CreatePdf } from "@/components/PdfPageView";
 import { fetchPropertyByID } from "#/backend/CRM/fetch";
 import  DownloadPdfButton from "@/components/DownloadFicha";
+import Custom404 from "@/app/not-found";
 
 export default async function PdfView({
     params,
@@ -14,7 +15,7 @@ export default async function PdfView({
     const property = propertyData;
 
     if (!property) {
-        return;
+        return<Custom404 />;
     }
 
     const pdf = new PdfParent(property);
