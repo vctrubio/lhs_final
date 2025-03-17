@@ -5,3 +5,17 @@
 @import url("./tmp.css");
 @import url("./property.css");
 @import url("./swipers.css");
+
+button,
+input,
+select,
+textarea {
+    background-color: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+::selection {
+    background-color: none;
+    color: #B8860B;
+}

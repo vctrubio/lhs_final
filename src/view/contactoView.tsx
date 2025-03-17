@@ -23,9 +23,15 @@ const ContactCard: React.FC<ContactCardProps> = ({ icon, title, content, url, ex
     <div className="bg-backgroundBeigh p-3 rounded-full">
       {icon}
     </div>
-    <div className='flex flex-col flex-wrap'>
-      <div className="text-black">{title}</div>
-      <div className="text-gray-600 flex-wrap overflow-hidden text-ellipsis">{content}</div>
+    <div className="flex flex-col flex-grow overflow-hidden">
+      <div className="text-black font-medium">{title}</div>
+      <div className="text-gray-600">
+        {title === 'Email' ? (
+          <span className="break-all">{content}</span>
+        ) : (
+          content
+        )}
+      </div>
     </div>
   </Link>
 );

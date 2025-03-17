@@ -95,7 +95,7 @@ function CharacteristicsSection({ propertyCharacteristics }) {
             {availableCharacteristics.map(({ icon: Icon, label, value }) => (
                 <div key={label} className="flex flex-col items-center gap-2">
                     <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
-                    <div className="text-xs sm:text-sm">{label}</div>
+                    <div className="text-xs sm:text-sm break-all text-center">{label}</div>
                     <div className="font-bold text-sm sm:text-base">{value}</div>
                 </div>
             ))}

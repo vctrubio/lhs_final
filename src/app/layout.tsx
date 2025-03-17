@@ -18,26 +18,12 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        <style>
-            {`
-            button, input, select, textarea {
-              background-color: transparent;
-              -webkit-appearance: none;
-              appearance: none;
-            }
-            
-            ::selection {
-              background-color: none;
-              color: #B8860B;
-            }
-            `}
-        </style>
       </head>
       <body className="bg-backgroundBeigh transition-colors duration-300">
         <Navbar />
         <div className="px-4 pb-8 pt-4">
           <NuqsAdapter>
-          {children}
+            {children}
           </NuqsAdapter>
         </div>
       </body>

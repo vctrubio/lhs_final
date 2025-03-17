@@ -38,10 +38,10 @@ interface ContactColumnProps {
 // Data for columns
 const aboutData: AboutColumnProps = {
   title: "Madrid Luxury Estates",
-  description: "Especialistas en propiedades de lujo para clientes exigentes. Ayudamos a expatriados y locales a encontrar hogares excepcionales en los barrios más prestigiosos de Madrid.",
+  description: "Con más de 20 años de experiencia en el mercado inmobiliario de lujo, nuestra reputación está garantizada por la satisfacción de nuestros clientes. Con una experiencia inigualable en el mercado y una pasión por ofrecer un servicio excepcional, estamos dedicados a hacer que su experiencia inmobiliaria sea fluida y gratificante.",
   socialLinks: [
     { icon: <Instagram size={20} />, url: "https://www.instagram.com/lhsconcept" },
-    { icon: <Facebook size={20} />, url: "#" },
+    // { icon: <Facebook size={20} />, url: "#" },
     { icon: <MessageSquare size={20} />, url: "https://wa.me/+34616746971" }
   ]
 };

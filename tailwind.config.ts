@@ -31,7 +31,7 @@ export default {
         macbookGrey: "#1e1e1e", // Dark space grey color similar to MacBook
         macbookGreyLight: "#2d2d2d", // Lighter variant for UI elements
         macbookGreyDark: "#141414", // Darker variant for shadows/backgrounds
-
+        backgroundDark: "#CABFAA",
         // Madrid luxury theme
         madrid: {
           background: '#cdc2a6',
