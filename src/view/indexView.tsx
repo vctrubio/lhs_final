@@ -38,12 +38,12 @@ const Index = () => {
       <ServicesSection isVisible={isVisible} />
       <DiscoverMadrid />
       <ExpatSection />
-      <TestimonialSection />
+      {/* <TestimonialSection /> */}
       <div
         style={{
           position: 'absolute',
           left: 0,
-          width: '100vw'
+          width: '100vw',
         }}>
         <CTASection />
         <Footer />

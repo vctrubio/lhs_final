@@ -30,13 +30,12 @@ const ImageGrid = () => {
     return (
         <div className="grid grid-cols-2 gap-4">
             <div className="space-y-4">
-                <ImageCard src="https://images.unsplash.com/photo-1543783207-ec64e4d95325?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Madrid Royal Palace" />
-                <ImageCard src="https://images.unsplash.com/photo-1570698473651-b2de99bae12f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Madrid Street" />
+                <ImageCard src="/madCoverPage/a.jpg" alt="Parque el Retiro" />
+                <ImageCard src="/madCoverPage/c.jpg" alt="RM Bernabeu" />
             </div>
             <div className="space-y-2">
-                <ImageCard src="https://images.unsplash.com/photo-1573455494060-c5595004fb6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Plaza Mayor" />
-                <ImageCard src="https://images.unsplash.com/photo-1573455494060-c5595004fb6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Plaza Mayor" />
-                <ImageCard src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Madrid Cuisine" />
+                <ImageCard src="/madCoverPage/b.jpg" alt="Calle Salamanca" />
+                <ImageCard src="/madCoverPage/d.jpg" alt="Atocha" />
             </div>
         </div>
     );
