@@ -18,10 +18,10 @@ const TextContent = () => {
                     por estas zonas únicas para encontrar la propiedad perfecta que se adapte a tu estilo de vida.
                 </p>
             </div>
-            <button className="px-6 py-3 bg-neutral-800/90 hover:bg-neutral-800 text-white border border-madrid-accent/20 hover:border-madrid-accent/40 rounded-none transition-all duration-300 font-montserrat uppercase tracking-wider font-light flex items-center">
+            {/* <button className="px-6 py-3 bg-neutral-800/90 hover:bg-neutral-800 text-white border border-madrid-accent/20 hover:border-madrid-accent/40 rounded-none transition-all duration-300 font-montserrat uppercase tracking-wider font-light flex items-center">
                 <Globe className="mr-2 text-madrid-accent" size={20} />
                 Nuestro Blog
-            </button>
+            </button> */}
         </div>
     );
 };

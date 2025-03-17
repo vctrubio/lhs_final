@@ -93,9 +93,9 @@ const ExpatSection = () => {
             </ul>
 
             <div className={`mt-10 opacity-0 ${isVisible ? 'animate-fade-in' : ''}`} style={{ animationDelay: '1200ms' }}>
-                <button className="px-6 py-3 bg-neutral-800/90 hover:bg-neutral-800 text-white border border-madrid-accent/20 hover:border-madrid-accent/40 rounded-none transition-all duration-300 font-montserrat uppercase tracking-wider font-light flex items-center">
+                {/* <button className="px-6 py-3 bg-neutral-800/90 hover:bg-neutral-800 text-white border border-madrid-accent/20 hover:border-madrid-accent/40 rounded-none transition-all duration-300 font-montserrat uppercase tracking-wider font-light flex items-center">
                 <FileDownIcon className='mr-2 text-madrid-accent' size={20}/> Nuestra Guia
-                </button>
+                </button> */}
             </div>
           </div>
         </div>
