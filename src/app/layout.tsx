@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "LHS Concept | Propiedades de Lujo en Madrid",
     description:
-      "Compra y vende inmuebles exclusivos en Madrid con asesoramiento premium.",
+      "Compra y vende inmuebles exclusivos en Madrid con asesoramiento personalizado.",
     type: "website",
     url: "https://www.lhsconcept.com",
     images: [

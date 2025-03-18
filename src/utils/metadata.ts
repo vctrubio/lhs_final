@@ -3,18 +3,18 @@ import { fetchPropertyByID } from '#/backend/CRM/fetch';
 import { cache } from 'react';
 
 export type Props = {
-    params: Promise<{ slug: string }>;
+    params: Promise<{ url: string }>;
 };
 
-export const fetchProperty = cache(async (slug: string) => {
+export const fetchProperty = cache(async (url: string) => {
     return {
-        slug,
-        property: await fetchPropertyByID(slug)
+        url,
+        property: await fetchPropertyByID(url)
     };
 });
 
-export async function getPropertyData({ slug }: { slug: string }) {
-    const propertyData = await fetchProperty(slug);
+export async function getPropertyData({ url }: { url: string }) {
+    const propertyData = await fetchProperty(url);
     return propertyData.property;
 }
 

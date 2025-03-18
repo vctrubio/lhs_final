@@ -10,13 +10,15 @@ import { getPropertyData, generatePropertyMetadata, Props } from '@/utils/metada
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const resolvedParams = await params;
     const property = await getPropertyData(resolvedParams);
-    return generatePropertyMetadata(property, resolvedParams.slug);
+    return generatePropertyMetadata(property, resolvedParams.url);
 }
 
 
 export default async function PropertyDetails({ params }: Props) {
-    const { slug } = await params;
-    const property = await fetchPropertyByID(slug);
+    console.log('view params', params);
+    const { url } = await params;
+    console.log('i ceee.,', url);
+    const property = await fetchPropertyByID(url);
 
     if (!property)
         return <Custom404 />;

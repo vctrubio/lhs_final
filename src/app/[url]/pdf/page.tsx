@@ -10,12 +10,12 @@ import { getPropertyData, generatePropertyMetadata, Props } from "@/utils/metada
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const resolvedParams = await params;
     const property = await getPropertyData(resolvedParams);
-    return generatePropertyMetadata(property, resolvedParams.slug, true);
+    return generatePropertyMetadata(property, resolvedParams.url, true);
 }
 
 export default async function PdfView({ params }: Props) {
-    const { slug } = await params
-    const propertyData = await fetchPropertyByID(slug);
+    const { url } = await params
+    const propertyData = await fetchPropertyByID(url);
     const property = propertyData;
 
     if (!property) {
