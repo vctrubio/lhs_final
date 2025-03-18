@@ -1,17 +1,22 @@
 import React from "react";
+import type { Metadata } from 'next';
 import PropertyPage from "@/view/propiedadView";
 import { fetchPropertyByID } from "#/backend/CRM/fetch";
 import { PdfParent, CreatePdf } from "@/components/PdfPageView";
 import { PropertyBroucher } from "@/components/PropertyBroucher";
 import Custom404 from "../not-found";
+import { getPropertyData, generatePropertyMetadata, Props } from '@/utils/metadata';
 
-export type Props = {
-    params: Promise<{ url: string }>;
-};
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const resolvedParams = await params;
+    const property = await getPropertyData(resolvedParams);
+    return generatePropertyMetadata(property, resolvedParams.slug);
+}
+
 
 export default async function PropertyDetails({ params }: Props) {
-    const { url } = await params;
-    const property = await fetchPropertyByID(url);
+    const { slug } = await params;
+    const property = await fetchPropertyByID(slug);
 
     if (!property)
         return <Custom404 />;
