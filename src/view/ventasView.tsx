@@ -4,6 +4,7 @@ import { PropertyCard } from '@/components/cards/PropertyCard';
 import { Property } from "#/backend/types";
 import { formatPrice, getBathrooms, getBedrooms, getMetersSquare } from "@/utils/utils";
 import { NuqsManager } from "#/backend/nuqs";
+import NoPropertiesFound from "@/components/NoPropertiesFound";
 
 const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
     const [filterProperties, setFilterProperties] = useState<Property[]>([]);
@@ -48,10 +49,14 @@ const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
 
         if (nuqs.hasParams) {
             if (nuqs.params.title) {
-            updatedProperties = updatedProperties.filter(property =>
-                property.title.toLowerCase().includes(nuqs.params.title!.toLowerCase()) ||
-                property.barrioRef.name.toLowerCase().includes(nuqs.params.title!.toLowerCase())
-            );
+                const searchTerms = nuqs.params.title.toLowerCase().split(' ');
+                updatedProperties = updatedProperties.filter(property => 
+                    searchTerms.every(term => {
+                        const propertyTitle = property.title.toLowerCase();
+                        const barrioName = property.barrioRef?.name?.toLowerCase() || '';
+                        return propertyTitle.includes(term) || barrioName.includes(term);
+                    })
+                );
             }
 
             if (nuqs.params.prices.min || nuqs.params.prices.max) {
@@ -125,13 +130,13 @@ const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
                 <div></div>
             ) : (
                 <div className="property-container" last-man-standing={cssUniqueBoy ? 'on' : ''}>
-                    {filterProperties.length === 0 ?
-                        <>nada amigo...</>
-                        : (
-                            filterProperties.map((entry: Property) => (
-                                <PropertyCard property={entry} key={entry.title} cssStateHover={cssStateHover} />
-                            ))
-                        )}
+                    {filterProperties.length === 0 ? (
+                        <NoPropertiesFound allProperties={entries} params={nuqs.params} />
+                    ) : (
+                        filterProperties.map((entry: Property) => (
+                            <PropertyCard property={entry} key={entry.title} cssStateHover={cssStateHover} />
+                        ))
+                    )}
                 </div>
             )}
         </div>

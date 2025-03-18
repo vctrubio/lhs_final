@@ -15,9 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 
 export default async function PropertyDetails({ params }: Props) {
-    console.log('view params', params);
     const { url } = await params;
-    console.log('i ceee.,', url);
     const property = await fetchPropertyByID(url);
 
     if (!property)
