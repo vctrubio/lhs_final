@@ -54,12 +54,10 @@ const ExpatSection = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
-          {/* Left column - Image and tabs */}
           <div className={`relative opacity-0 ${isVisible ? 'animate-fade-in' : ''}`} style={{ animationDelay: '200ms' }}>
-            {/* Using Next.js Image for optimization */}
-            <div className="relative w-full h-[540px]">
+            <div className="relative w-full h-[640px]">
               <Image
-                src="https://images.unsplash.com/photo-1570698473651-b2de99bae12f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="/madCoverPage/g.jpg"
                 alt="Madrid landscape"
                 fill
                 priority
@@ -68,10 +66,9 @@ const ExpatSection = () => {
             </div>
           </div>
 
-          {/* Right column - Content */}
           <div className={`opacity-0 ${isVisible ? 'animate-fade-in' : ''}`} style={{ animationDelay: '400ms' }}>
             <h3 className="font-cormorant text-3xl md:text-4xl text-madrid-darker mb-6">
-              Descubre Por Qué Los Expatriados Eligen Madrid
+              Descubre Por Que Los Expatriados Eligen Madrid
             </h3>
 
             <ul className="space-y-6">

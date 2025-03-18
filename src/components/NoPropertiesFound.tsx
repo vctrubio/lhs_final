@@ -107,8 +107,8 @@ const NoPropertiesFound: React.FC<NoPropertiesFoundProps> = ({ allProperties, pa
     let description = "Propiedades que podrían interesarte";
     
     // Keep track of which filters were applied and which ones we're relaxing
-    const appliedFilters = [];
-    const relaxedFilters = [];
+    const appliedFilters: string[] = [];
+    const relaxedFilters: string[] = [];
     
     // Start with a copy of all properties
     let filteredProperties = [...allProperties];
