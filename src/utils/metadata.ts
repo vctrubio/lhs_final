@@ -23,6 +23,9 @@ export function generatePropertyMetadata(property: any, slug: string, pdf: boole
         return {
             title: 'LHS Concept',
             description: 'Encontramos propiedades exclusivas en Madrid.',
+            icons: {
+                icon: '/icon.png'
+            },
             openGraph: {
                 title: 'LHS Concept',
                 description: 'Con más de 20 años de experiencia en el mercado inmobiliario de lujo, nuestra reputación está garantizada por la satisfacción de nuestros clientes.\nNos especializamos en ayudar a nuestros clientes a comprar y vender propiedades de lujo en las ubicaciones más exclusivas de Madrid. Con una experiencia inigualable en el mercado y una pasión por ofrecer un servicio excepcional, estamos dedicados a hacer que su experiencia inmobiliaria sea fluida y gratificante.',
@@ -46,6 +49,9 @@ export function generatePropertyMetadata(property: any, slug: string, pdf: boole
     return {
         title: propertyTitle,
         description: propertyDescription,
+        icons: {
+            icon: '/icon.png'
+        },
         openGraph: {
             title: propertyTitle,
             description: propertyDescription,

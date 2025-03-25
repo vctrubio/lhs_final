@@ -5,6 +5,7 @@ import { IconWhatsapp } from "@/utils/svgs";
 import { contactData } from "@/utils/contactData";
 import ShareModal from "./ShareModal";
 import { generatePdfFromDom } from "./PdfGenerator";
+import { generatePropertyMetadata } from "@/utils/metadata";
 
 const ButtonIcon = ({ icon: Icon, label, onClick, isLoading }) => {
   return (
@@ -25,11 +26,12 @@ const ButtonIcon = ({ icon: Icon, label, onClick, isLoading }) => {
 export function FooterTagShare({ property }) {
   const [isShareModalOpen, setShareModalOpen] = useState(false);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
-  
+  const metadata = generatePropertyMetadata(property, property.url);
+
   const toggleShareModal = () => {
     setShareModalOpen(prevState => !prevState);
   };
-  
+
   const handlePdfGeneration = async () => {
     setIsGeneratingPdf(true);
     try {
@@ -38,7 +40,7 @@ export function FooterTagShare({ property }) {
       setIsGeneratingPdf(false);
     }
   };
-  
+
   const buttons = [
     {
       icon: IconWhatsapp,
@@ -86,10 +88,10 @@ export function FooterTagShare({ property }) {
           />
         ))}
       </div>
-      
+
       {isShareModalOpen && (
-        <ShareModal 
-          isOpen={isShareModalOpen} 
+        <ShareModal
+          isOpen={isShareModalOpen}
           onClose={toggleShareModal}
           property={property}
           url={typeof window !== 'undefined' ? window.location.href : ''}

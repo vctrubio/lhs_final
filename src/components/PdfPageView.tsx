@@ -219,5 +219,5 @@ export function CreatePdf({
         pages.push(<PdfPlanoPage key="plano-page" planoUrl={pdf.planoUrl.url} />);
     }
 
-    return <div id="pdf">{pages}</div>;
+    return <div id="pdf" className="bg-backgroundBeigh">{pages}</div>;
 }
