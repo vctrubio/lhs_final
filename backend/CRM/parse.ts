@@ -8,8 +8,9 @@ export function ImageToUrl(entry: any): Photo {
     }
 
     const url = startsWithHttp(entry.fields.file.url);
-    const width = entry.fields.file.details.image.width;
-    const height = entry.fields.file.details.image.height;
+    const width = entry.fields.file.details.image?.width ?? 800;
+    const height = entry.fields.file.details.image?.height ?? 800;
+
 
     return {
         url,
