@@ -76,7 +76,6 @@ const Contacto = () => {
           </h1>
         </div>
 
-        {/* Events Section
         <div className="bg-white/60 backdrop-blur-sm p-8 rounded-2xl shadow-lg mb-8 animate-fade-in">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Organizamos Eventos</h2>
@@ -108,7 +107,7 @@ const Contacto = () => {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
 
         {/* Información de contacto */}
         <div className="space-y-6">
