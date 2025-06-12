@@ -72,9 +72,43 @@ const Contacto = () => {
       <div className="container mx-auto px-4 py-16 max-w-7xl">
         <div className="text-center mb-16 animate-fade-in">
           <h1 className="font-montserrat mt-6 font-bold text-gray-600 text-4xl sm:text-5xl">
-            Estamos aquí para ayudarte
+            Conecta con nosotros
           </h1>
         </div>
+
+        {/* Events Section
+        <div className="bg-white/60 backdrop-blur-sm p-8 rounded-2xl shadow-lg mb-8 animate-fade-in">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Organizamos Eventos</h2>
+            <p className="text-gray-600 text-lg mb-6 max-w-3xl mx-auto">
+              Descubre las mejores propiedades en nuestros eventos exclusivos. 
+              Ofrecemos presentaciones de inmuebles, seminarios de inversión y encuentros con desarrolladores.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+              <div className="p-4">
+                <div className="bg-greenish/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+                  <span className="text-2xl">🏠</span>
+                </div>
+                <h3 className="font-semibold text-gray-800">Open Houses</h3>
+                <p className="text-gray-600 text-sm">Visitas guiadas exclusivas</p>
+              </div>
+              <div className="p-4">
+                <div className="bg-greenish/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+                  <span className="text-2xl">💼</span>
+                </div>
+                <h3 className="font-semibold text-gray-800">Seminarios</h3>
+                <p className="text-gray-600 text-sm">Inversión inmobiliaria</p>
+              </div>
+              <div className="p-4">
+                <div className="bg-greenish/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+                  <span className="text-2xl">🤝</span>
+                </div>
+                <h3 className="font-semibold text-gray-800">Networking</h3>
+                <p className="text-gray-600 text-sm">Conecta con expertos</p>
+              </div>
+            </div>
+          </div>
+        </div> */}
 
         {/* Información de contacto */}
         <div className="space-y-6">

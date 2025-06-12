@@ -90,7 +90,7 @@ const NoPropertiesFound: React.FC<NoPropertiesFoundProps> = ({ allProperties, pa
       // Neighborhoods match
       if (params.barrios) {
         const selectedBarrios = params.barrios.split(',');
-        if (selectedBarrios.includes(property.barrioRef.name)) {
+        if (property.barrioRef?.name && selectedBarrios.includes(property.barrioRef.name)) {
           counts.barrios++;
         }
       }

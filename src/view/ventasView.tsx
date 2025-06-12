@@ -99,7 +99,7 @@ const CardPropertySearchFilter = ({ entries }: { entries: Property[] }) => {
             if (nuqs.params.barrios) {
                 const selectedBarrios = nuqs.params.barrios.split(',');
                 updatedProperties = updatedProperties.filter(property =>
-                    selectedBarrios.includes(property.barrioRef.name)
+                    property.barrioRef?.name && selectedBarrios.includes(property.barrioRef.name)
                 );
             }
 
