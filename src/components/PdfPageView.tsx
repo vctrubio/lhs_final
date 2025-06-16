@@ -45,7 +45,7 @@ const PdfPageOne = ({ title, photos }: { title: string; photos: Photo[] }) => {
     return (
         <PDFPage>
             <div className="pt-9">
-                <h1 className="text-5xl text-zinc-500 font-ricordi font-light text-center my-4 px-2">
+                <h1 className="text-5xl text-zinc-500 font-ricordi font-light text-center my-4 p-2">
                     &quot;{title}&quot;
                 </h1>
                 {/* Plain <img> instead of <Image /> */}
@@ -73,12 +73,12 @@ const PdfPageTwo = ({
             <div className="flex flex-col justify-around text-xl font-serif">
                 <div className="ml-4">
                     <h1 className="font-bold text-2xl">{pdf.title}</h1>
-                    <h2 className="flex items-center text-xl">
+                    <h2 className="flex items-center text-xl mt-2">
                         <IconFindUs fill="#15423b" />
                         <div className="pl-1">{pdf.barrio}</div>
                     </h2>
                 </div>
-                <div className="flex items-center justify-center overflow-hidden text-ellipsis text-2xl text-center px-2">
+                <div className="flex items-center justify-center overflow-hidden text-ellipsis text-2xl text-center p-2">
                     {pdf.description}
                 </div>
             </div>
@@ -167,7 +167,7 @@ const PdfRoomPage = (
             pages.push(
                 <PDFPage key={`${keyPrefix}-info`}>
                     {room.title && (
-                        <h1 className="text-4xl text-center pt-[1rem]">{room.title}</h1>
+                        <h1 className="text-4xl text-center py-[1rem]">{room.title}</h1>
                     )}
                     {room.description && (
                         <p className="text-center text-2xl mx-auto">{room.description}</p>
