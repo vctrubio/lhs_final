@@ -8,14 +8,18 @@ let cache: {
 } | null = null;
 
 function printCache() {
-    console.log("Cache content lengths:", {
+    const env = process.env.NODE_ENV || 'development';
+    const isLocal = env === 'development' || process.env.VERCEL_ENV !== 'production';
+    
+    console.log(`[${env.toUpperCase()}${isLocal ? ' - LOCAL' : ' - PRODUCTION'}] Cache content lengths:`, {
         properties: cache?.properties.length,
         filteredBarrios: cache?.filteredBarrios.length,
         propertyParams: cache?.propertyParams ? Object.keys(cache.propertyParams).length : 0
     });
     
     if (cache?.properties.length) {
-        console.log("Property names:", cache.properties.map(p => p.name || p.url || 'unnamed'));
+        console.log(`[${env.toUpperCase()}] Property names:`, cache.properties.map(p => p.title || p.url || 'unnamed'));
+        console.log(`[${env.toUpperCase()}] Property URLs:`, cache.properties.map(p => p.url));
     }
 }
 
