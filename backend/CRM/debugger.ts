@@ -13,6 +13,10 @@ function printCache() {
         filteredBarrios: cache?.filteredBarrios.length,
         propertyParams: cache?.propertyParams ? Object.keys(cache.propertyParams).length : 0
     });
+    
+    if (cache?.properties.length) {
+        console.log("Property names:", cache.properties.map(p => p.name || p.url || 'unnamed'));
+    }
 }
 
 export async function ContentController({ id }: { id?: string }): Promise<
