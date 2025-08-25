@@ -4,8 +4,22 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   
-  // Redirect everything to home page except home itself
-  if (url.pathname !== '/') {
+  // Allow legitimate routes
+  const validPaths = [
+    '/',
+    '/ventas',
+    '/alquiler', 
+    '/contacto',
+    '/development'
+  ];
+  
+  // Check if it's a dynamic property route (single segment, not a valid path)
+  const segments = url.pathname.split('/').filter(Boolean);
+  const isDynamicRoute = segments.length === 1 && !validPaths.includes(url.pathname);
+  const isPdfRoute = segments.length === 2 && segments[1] === 'pdf';
+  
+  // Redirect invalid routes to home
+  if (!validPaths.includes(url.pathname) && !isDynamicRoute && !isPdfRoute) {
     url.pathname = '/';
     return NextResponse.redirect(url);
   }
