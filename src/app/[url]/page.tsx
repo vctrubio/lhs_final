@@ -4,7 +4,7 @@ import PropertyPage from "@/view/propiedadView";
 import { fetchPropertyByID } from "#/backend/CRM/fetch";
 import { PdfParent, CreatePdf } from "@/components/PdfPageView";
 import { PropertyBroucher } from "@/components/PropertyBroucher";
-import Custom404 from "../not-found";
+import { redirect } from 'next/navigation';
 import { getPropertyData, generatePropertyMetadata, Props } from '@/utils/metadata';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -19,7 +19,7 @@ export default async function PropertyDetails({ params }: Props) {
     const property = await fetchPropertyByID(url);
 
     if (!property)
-        return <Custom404 />;
+        redirect('/');
 
     // Create PDF content but completely hide it
     const pdf = new PdfParent(property);

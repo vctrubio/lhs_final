@@ -3,10 +3,27 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
-  if (url.pathname !== '/404-not-found') {
-    url.pathname = '/404-not-found';
+  
+  // Allow legitimate routes
+  const validPaths = [
+    '/',
+    '/ventas',
+    '/alquiler', 
+    '/contacto',
+    '/development'
+  ];
+  
+  // Check if it's a dynamic property route (single segment, not a valid path)
+  const segments = url.pathname.split('/').filter(Boolean);
+  const isDynamicRoute = segments.length === 1 && !validPaths.includes(url.pathname);
+  const isPdfRoute = segments.length === 2 && segments[1] === 'pdf';
+  
+  // Redirect invalid routes to home
+  if (!validPaths.includes(url.pathname) && !isDynamicRoute && !isPdfRoute) {
+    url.pathname = '/';
     return NextResponse.redirect(url);
   }
+  
   return NextResponse.next();
 }
 
@@ -18,8 +35,7 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * - 404-not-found (the destination page)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|404-not-found).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };
