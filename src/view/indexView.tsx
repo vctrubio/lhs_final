@@ -1,14 +1,14 @@
-'use client';
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import HeroSection from '@/aigen/HeroSection';
+"use client";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import HeroSection from "@/aigen/HeroSection";
 import TestimonialSection from "@/aigen/TestimonialSection";
 import Footer from "@/aigen/Footer";
-import ExpatSection from '@/aigen/ExpatSection';
-import CTASection from '@/aigen/CTASection';
-import { Building, Globe, Key, Users } from 'lucide-react';
-import ServicesSection from '@/aigen/ServiceSection';
-import DiscoverMadrid from '@/aigen/DiscoverMadrid';
+import ExpatSection from "@/aigen/ExpatSection";
+import CTASection from "@/aigen/CTASection";
+import { Building, Globe, Key, Users } from "lucide-react";
+import ServicesSection from "@/aigen/ServiceSection";
+import DiscoverMadrid from "@/aigen/DiscoverMadrid";
 
 const Index = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -21,10 +21,10 @@ const Index = () => {
           observer.disconnect();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
-    const element = document.getElementById('services');
+    const element = document.getElementById("services");
     if (element) observer.observe(element);
 
     return () => {
@@ -36,15 +36,16 @@ const Index = () => {
     <div>
       <HeroSection />
       <ServicesSection isVisible={isVisible} />
-      <DiscoverMadrid />
-      <ExpatSection />
+      {/* <DiscoverMadrid /> */}
+      {/* <ExpatSection /> */}
       {/* <TestimonialSection /> */}
       <div
         style={{
-          position: 'absolute',
+          position: "absolute",
           left: 0,
-          width: '100vw',
-        }}>
+          width: "100vw",
+        }}
+      >
         <CTASection />
         <Footer />
       </div>
